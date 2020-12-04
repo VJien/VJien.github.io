@@ -5505,7 +5505,7 @@
 
 <p>初始化后在文件内会生成若干文件和文件夹,大致如下</p>
 <p><img src="https://img.supervj.top//img/image-20201204095336780.png" alt="image-20201204095336780"></p>
-<!-- ReadMore -->
+<a id="more"></a>
 
 <h3 id="部署Hexo"><a href="#部署Hexo" class="headerlink" title="部署Hexo"></a>部署Hexo</h3><p>部署需要安装部署插件<code>deployer</code></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
