@@ -25,18 +25,31 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="走过的叫足迹 走不到的叫憧憬">
-<meta property="og:type" content="website">
-<meta property="og:title" content="V&amp;J&#39;s Blog">
-<meta property="og:url" content="http://supervj.top/archives/page/2/index.html">
+<meta name="description" content="This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR  InstructionsPCTypeAYou need use BP UW_RIM_Main to  CreateWidget ,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RuntimeInputMappingDocumentation">
+<meta property="og:url" content="http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/index.html">
 <meta property="og:site_name" content="V&amp;J&#39;s Blog">
-<meta property="og:description" content="走过的叫足迹 走不到的叫憧憬">
+<meta property="og:description" content="This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR  InstructionsPCTypeAYou need use BP UW_RIM_Main to  CreateWidget ,">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201212114227270.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201212114648400.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201212122513308.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201212122528465.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879.gif">
+<meta property="article:published_time" content="2020-12-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-12T04:42:08.521Z">
 <meta property="article:author" content="V&amp;J">
+<meta property="article:tag" content="UE4">
+<meta property="article:tag" content="按键">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201212114227270.png">
 
 
-<link rel="canonical" href="http://supervj.top/archives/page/2/">
+<link rel="canonical" href="http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/">
 
 
 <script class="page-configurations">
@@ -44,11 +57,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
-<title>归档 | V&J's Blog</title>
+<title>RuntimeInputMappingDocumentation | V&J's Blog</title>
   
 
 
@@ -173,7 +186,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -186,6 +199,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Instructions"><span class="nav-number">1.</span> <span class="nav-text">Instructions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PC"><span class="nav-number">1.1.</span> <span class="nav-text">PC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeA"><span class="nav-number">1.1.1.</span> <span class="nav-text">TypeA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeB"><span class="nav-number">1.1.2.</span> <span class="nav-text">TypeB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VR"><span class="nav-number">1.2.</span> <span class="nav-text">VR</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -254,234 +268,222 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RuntimeInputMappingDocumentation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2020-12-12 00:00:00 / 修改时间：12:42:08" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/" itemprop="url" rel="index"><span itemprop="name">说明文档</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/12/RuntimeInputMappingPlugin/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/12/12/RuntimeInputMappingPlugin/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p> This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR</p>
+</blockquote>
+<h2 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><h4 id="TypeA"><a href="#TypeA" class="headerlink" title="TypeA"></a>TypeA</h4><p>You need use BP <code>UW_RIM_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeA</code> create it in <code>RIM_PlayerController</code></p>
+<p>Then an interface similar to the following will appeared.</p>
+<p><img src="https://img.supervj.top//img/image-20201212114227270.png" alt="image-20201212114227270"></p>
+<p>This mode only reads the keyboard and mouse buttons by default</p>
+<p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
+<p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
+<p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
+<ul>
+<li>SingleKey</li>
+</ul>
+<p>If your project only needs one button per action, then this mode is more appropriate.</p>
+<p>This type will only read the first button that meets the requirements of each action to provide settings, and it will not take effect for other buttons.</p>
+<p>Then you can click any button with the left mouse button (if it is a mouse, you need to hover over this button), and then the following picture will appear, and then press any button to modify the project input settings in real time.</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif" alt="录制_2020_12_12_12_17_58_489"></p>
+<ul>
+<li>MultiKey</li>
+</ul>
+<p>Similar to the former, but allows multiple buttons for the same action.</p>
+<p>But this adds two additional types of buttons, action can add new button mapping, and the button mapping has a delete button.</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
+<h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
+<p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
+<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods<br>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
+<h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879.gif" alt="录制_2020_12_12_12_39_31_879"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="V&J 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="V&J 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>V&J
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/" title="RuntimeInputMappingDocumentation">http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/UE4/" rel="tag"># UE4</a>
+              <a href="/tags/%E6%8C%89%E9%94%AE/" rel="tag"># 按键</a>
+          </div>
+
         
-        <span class="collection-header">还行! 目前共计 45 篇日志。 继续努力。</span>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-09-22T00:00:00+08:00"
-              content="2020-09-22">
-          09-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/" itemprop="url">
-            <span itemprop="name">TortoiseGit简单使用说明</span>
-          </a>
-      </div>
-
-      
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/" rel="prev" title="使用Hexo+GithubPages部署个人静态博客">
+                  <i class="fa fa-chevron-left"></i> 使用Hexo+GithubPages部署个人静态博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-31T00:00:00+08:00"
-              content="2020-08-31">
-          08-31
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">UE4添加自定义项目设置</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-28T00:00:00+08:00"
-              content="2020-08-28">
-          08-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/" itemprop="url">
-            <span itemprop="name">UE4 4.25离线文档</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-20T00:00:00+08:00"
-              content="2020-08-20">
-          08-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/20/ubuntu%E4%BF%AE%E6%94%B9IP/" itemprop="url">
-            <span itemprop="name">ubuntu修改静态IP</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-18T00:00:00+08:00"
-              content="2020-08-18">
-          08-18
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" itemprop="url">
-            <span itemprop="name">用GitLab搭建本地代码仓库</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-07T00:00:00+08:00"
-              content="2020-08-07">
-          08-07
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/07/Json/" itemprop="url">
-            <span itemprop="name">Json文件读写</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-05T00:00:00+08:00"
-              content="2020-08-05">
-          08-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/05/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B91/" itemprop="url">
-            <span itemprop="name">简单的自定义视图和节点</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-08-03T00:00:00+08:00"
-              content="2020-08-03">
-          08-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/03/UE4%E5%AD%90%E7%B3%BB%E7%BB%9F/" itemprop="url">
-            <span itemprop="name">UE4子系统</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-07-19T00:00:00+08:00"
-              content="2020-07-19">
-          07-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/19/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" itemprop="url">
-            <span itemprop="name">插件:批量重命名</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-07-13T00:00:00+08:00"
-              content="2020-07-13">
-          07-13
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/13/LearnDX12_DrawGeo2/" itemprop="url">
-            <span itemprop="name">DX学习笔记（五）：绘制几何体2</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
   </div>
   
-  
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -600,6 +602,17 @@
   
 
 
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 </body>
 </html>
