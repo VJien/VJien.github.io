@@ -5762,4 +5762,71 @@
         <tag>DirectX</tag>
       </tags>
   </entry>
+  <entry>
+    <title>UE4运行时修改按键的解决方案</title>
+    <url>/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
+<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
+<a name= "插件">
+
+<p><a href="git@github.com:VJien/RuntimeInputMapping.git">RuntimeInputMapping</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>蓝图中亦可</p>
+<p><img src="https://img.supervj.top//img/image-20201210111434638.png" alt="image-20201210111434638"></p>
+<p>看该类的头文件发现, 所有属性几乎都是蓝图不可访问的, 在多数情况下, 我们只需要找到修改按键的API即可</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddActionMapping</span><span class="params">(<span class="keyword">const</span> FInputActionKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintPure, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetActionMappingByName</span><span class="params">(<span class="keyword">const</span> FName InActionName, TArray&lt;FInputActionKeyMapping&gt;&amp; OutMappings)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveActionMapping</span><span class="params">(<span class="keyword">const</span> FInputActionKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddAxisMapping</span><span class="params">(<span class="keyword">const</span> FInputAxisKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintPure, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetAxisMappingByName</span><span class="params">(<span class="keyword">const</span> FName InAxisName, TArray&lt;FInputAxisKeyMapping&gt;&amp; OutMappings)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveAxisMapping</span><span class="params">(<span class="keyword">const</span> FInputAxisKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category=Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SaveKeyMappings</span><span class="params">()</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetActionNames</span><span class="params">(TArray&lt;FName&gt;&amp; ActionNames)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetAxisNames</span><span class="params">(TArray&lt;FName&gt;&amp; AxisNames)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">ForceRebuildKeymaps</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>还有几个有用的<code>cpp</code>方法,比如<code>void EKeys::GetAllKeys(TArray&lt;FKey&gt;&amp; OutKeys) </code></p>
+<p>这里就不过多讲述了</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>为了方便使用, 我们直接封装到一个蓝图库插件里(为什么不是纯蓝图, 因为后面要用到cpp)</p>
+<p>在某些时候我们的事件和按键是一对一就足以的(拳皇?), 有时候需要多个按键(第一/三人称模板),所以我们应对PC平台就设计了一个基础UMG,分为两个模式</p>
+<p><img src="https://img.supervj.top//img/image-20201212151604993.png" alt="image-20201212151604993"></p>
+<p><img src="https://img.supervj.top//img/image-20201212151713192.png" alt="image-20201212151713192"></p>
+<p>由主UI根据现有按键映射创建对应数量的控件UI,然后控件UI根据自身的状态修改实时的按键映射</p>
+<p>然后封装几个蓝图库函数,方便使用</p>
+<p><img src="https://img.supervj.top//img/image-20201212151937655.png" alt="image-20201212151937655"></p>
+<p>然后PC端就有了基本解决方案了</p>
+<hr>
+<p>然后是VR了, 我这里有现成的<code>HTC Vive</code>,  发现<code>4.26.0</code>目前版本<code>FKey</code>内的<code>Vive</code>类型的变量都是蓝图不可访问的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//InputCoreTypes.cpp L799</span></span><br><span class="line">	AddKey(FKeyDetails(EKeys::Vive_Left_System_Click, LOCTEXT(<span class="string">&quot;Vive_Left_System_Click&quot;</span>, <span class="string">&quot;Vive (L) System&quot;</span>), FKeyDetails::GamepadKey | FKeyDetails::NotBlueprintBindableKey, <span class="string">&quot;Vive&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>那么为了图个方便, 设置按键就干脆采用<code>ComboBox</code>的下拉列表的方式来修改按键;那么发现这个方案也使用于PC或者其他各个平台(不需要靠手动按键来设置按键映射)</p>
+<p><img src="https://img.supervj.top//img/image-20201212152518034.png" alt="image-20201212152518034"></p>
+<p>关键就是给<code>ComboBox</code>提供我们其他平台蓝图看不到的按键</p>
+<p>先声明一个对应所有类型(<code>Category</code>)的枚举</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ERIMKeyCategory</span> :</span>uint8</span><br><span class="line">&#123;</span><br><span class="line">	None,</span><br><span class="line">	Key,</span><br><span class="line">	Mouse,</span><br><span class="line">	Gamepad,</span><br><span class="line">	Motion,</span><br><span class="line">	Touch,</span><br><span class="line">	Gesture,</span><br><span class="line">	PS4,</span><br><span class="line">	Steam,</span><br><span class="line">	XBoxOne,</span><br><span class="line">	Android,</span><br><span class="line">	Daydream,</span><br><span class="line">	Vive,</span><br><span class="line">	MixedReality,</span><br><span class="line">	OculusGo,</span><br><span class="line">	OculusTouch,</span><br><span class="line">	ValveIndex,</span><br><span class="line">	MagicLeap,</span><br><span class="line">	OculusRemote,</span><br><span class="line">	Cosmos</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后整几个库函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable,BlueprintPure ,Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetAllKeys</span><span class="params">(TArray&lt;FKey&gt;&amp; OutKeys)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>, meta = (AutoCreateRefTerm = <span class="string">&quot;Categories&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetAllKeysWithCategories</span><span class="params">(TArray&lt;ERIMKeyCategory&gt; Categories, TArray&lt;FKey&gt;&amp; OutKeys)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FName <span class="title">GetKeyFName</span><span class="params">(FKey key)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FKey <span class="title">GetKeyByFName</span><span class="params">(FName name)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FKey <span class="title">GetKeyByDisplayName</span><span class="params">(FText name)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FName <span class="title">GetKeyMenuCategory</span><span class="params">(FKey key)</span></span>;</span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FString <span class="title">GetKeyCategoryEnumString</span><span class="params">(ERIMKeyCategory category = ERIMKeyCategory::None, <span class="keyword">bool</span> bShortName = <span class="literal">true</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后蓝图里就可以创建控件UI了</p>
+<p><img src="https://img.supervj.top//img/image-20201212153047135.png" alt="image-20201212153047135"></p>
+<p><img src="https://img.supervj.top//img/image-20201212153108452.png" alt="image-20201212153108452"></p>
+<p>稍微注意点的就是 <code>FKey</code>有两个名字, 一个是<code>FName</code>,一个是<code>DisplayName</code>,需要区分开.</p>
+<p>如</p>
+<ul>
+<li><code>FName</code>:  <code>Vive_Left_System_Click</code></li>
+<li><code>DisplayName</code>: <code>Vive (L) System</code></li>
+</ul>
+<p>具体参考<code>InputCoreTypes.cpp</code>文件中茫茫多的<code>AddKey()</code></p>
+<p>演示一下</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_15_33_54_468.gif" alt="录制_2020_12_12_15_33_54_468"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_15_34_45_13.gif" alt="录制_2020_12_12_15_34_45_13"></p>
+<p>VR道理相同, 无非就是要用到<code>WidgetInteraction</code>来模拟点击</p>
+<blockquote>
+<p>这里有个小问题, 如果默认情况下没有任何<code>Vive</code>的按键, 蓝图中的<code>AnyKey</code>无法接收到手柄事件,如果给了一个比如是<code>Vive(R) Trigger</code>的按键, 那么就可以有了.</p>
+<p>应对这个,那么建议默认还是给上对应的设备按键事件, 后期运行后(打包后)只需要修改就行</p>
+</blockquote>
+<p>具体实现方法可以参考插件内容 <a href="#%E6%8F%92%E4%BB%B6">↑</a></p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>按键</tag>
+      </tags>
+  </entry>
 </search>
