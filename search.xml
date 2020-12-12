@@ -5771,7 +5771,7 @@
 <p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
 <a name= "插件">
 
-<p><a href="git@github.com:VJien/RuntimeInputMapping.git">RuntimeInputMapping</a></p>
+<p><a href="https://github.com/VJien/RuntimeInputMapping">RuntimeInputMapping</a></p>
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
