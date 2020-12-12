@@ -264,7 +264,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
@@ -277,7 +277,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/12/RuntimeInputMappingPlugin/" class="post-title-link" itemprop="url">RuntimeInputMappingDocumentation</a>
+          <a href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="post-title-link" itemprop="url">UE4运行时修改按键的解决方案</a>
         </h2>
 
         <div class="post-meta-container">
@@ -289,8 +289,133 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-12-12 00:00:00 / 修改时间：13:24:02" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
+      <time title="创建时间：2020-12-12 00:00:00 / 修改时间：15:56:12" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="cy_cmt_count" data-xid="2020/12/12/自定义按键/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
+<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
+<a name= "插件">
+
+<p><a href="git@github.com:VJien/RuntimeInputMapping.git">RuntimeInputMapping</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/11/RuntimeInputMappingPlugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/11/RuntimeInputMappingPlugin/" class="post-title-link" itemprop="url">RuntimeInputMappingDocumentation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-11T00:00:00+08:00">2020-12-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-12 15:56:10" itemprop="dateModified" datetime="2020-12-12T15:56:10+08:00">2020-12-12</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -311,8 +436,8 @@
       <span class="post-meta-item-text">Changyan：</span>
     
     
-      <a title="changyan" href="/2020/12/12/RuntimeInputMappingPlugin/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/12/RuntimeInputMappingPlugin/" class="cy_cmt_count" data-xid="2020/12/12/RuntimeInputMappingPlugin/" itemprop="commentCount"></span>
+      <a title="changyan" href="/2020/12/11/RuntimeInputMappingPlugin/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/11/RuntimeInputMappingPlugin/" class="cy_cmt_count" data-xid="2020/12/11/RuntimeInputMappingPlugin/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -352,195 +477,14 @@
 <p>This mode only reads the keyboard and mouse buttons by default</p>
 <p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
 <p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
-<p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
-<ul>
-<li>SingleKey</li>
-</ul>
-<p>If your project only needs one button per action, then this mode is more appropriate.</p>
-<p>This type will only read the first button that meets the requirements of each action to provide settings, and it will not take effect for other buttons.</p>
-<p>Then you can click any button with the left mouse button (if it is a mouse, you need to hover over this button), and then the following picture will appear, and then press any button to modify the project input settings in real time.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif" alt="录制_2020_12_12_12_17_58_489"></p>
-<ul>
-<li>MultiKey</li>
-</ul>
-<p>Similar to the former, but allows multiple buttons for the same action.</p>
-<p>But this adds two additional types of buttons, action can add new button mapping, and the button mapping has a delete button.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
-<h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
-<p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
-<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods</p>
-<p>You need use BP <code>UW_RIM_EX_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeB</code> create it in <code>RIM_PlayerController</code></p>
-<p>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
-<h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
-<p><img src="https://github.com/VJien/img/blob/master/img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879-1607750372074.gif?raw=true" alt="vr"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="post-title-link" itemprop="url">UE4运行时修改按键的解决方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-11T00:00:00+08:00">2020-12-11</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-12 15:48:33" itemprop="dateModified" datetime="2020-12-12T15:48:33+08:00">2020-12-12</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="cy_cmt_count" data-xid="2020/12/11/自定义按键/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
-<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
-<a name= "插件">
-
-<p><a href="git@github.com:VJien/RuntimeInputMapping.git">RuntimeInputMapping</a></p>
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>蓝图中亦可</p>
-<p><img src="https://img.supervj.top//img/image-20201210111434638.png" alt="image-20201210111434638"></p>
-<p>看该类的头文件发现, 所有属性几乎都是蓝图不可访问的, 在多数情况下, 我们只需要找到修改按键的API即可</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddActionMapping</span><span class="params">(<span class="keyword">const</span> FInputActionKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintPure, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetActionMappingByName</span><span class="params">(<span class="keyword">const</span> FName InActionName, TArray&lt;FInputActionKeyMapping&gt;&amp; OutMappings)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveActionMapping</span><span class="params">(<span class="keyword">const</span> FInputActionKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddAxisMapping</span><span class="params">(<span class="keyword">const</span> FInputAxisKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintPure, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetAxisMappingByName</span><span class="params">(<span class="keyword">const</span> FName InAxisName, TArray&lt;FInputAxisKeyMapping&gt;&amp; OutMappings)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveAxisMapping</span><span class="params">(<span class="keyword">const</span> FInputAxisKeyMapping&amp; KeyMapping, <span class="keyword">bool</span> bForceRebuildKeymaps = <span class="literal">true</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category=Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SaveKeyMappings</span><span class="params">()</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetActionNames</span><span class="params">(TArray&lt;FName&gt;&amp; ActionNames)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">GetAxisNames</span><span class="params">(TArray&lt;FName&gt;&amp; AxisNames)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = Settings)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">ForceRebuildKeymaps</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>还有几个有用的<code>cpp</code>方法,比如<code>void EKeys::GetAllKeys(TArray&lt;FKey&gt;&amp; OutKeys) </code></p>
-<p>这里就不过多讲述了</p>
-<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>为了方便使用, 我们直接封装到一个蓝图库插件里(为什么不是纯蓝图, 因为后面要用到cpp)</p>
-<p>在某些时候我们的事件和按键是一对一就足以的(拳皇?), 有时候需要多个按键(第一/三人称模板),所以我们应对PC平台就设计了一个基础UMG,分为两个模式</p>
-<p><img src="https://img.supervj.top//img/image-20201212151604993.png" alt="image-20201212151604993"></p>
-<p><img src="https://img.supervj.top//img/image-20201212151713192.png" alt="image-20201212151713192"></p>
-<p>由主UI根据现有按键映射创建对应数量的控件UI,然后控件UI根据自身的状态修改实时的按键映射</p>
-<p>然后封装几个蓝图库函数,方便使用</p>
-<p><img src="https://img.supervj.top//img/image-20201212151937655.png" alt="image-20201212151937655"></p>
-<p>然后PC端就有了基本解决方案了</p>
-<hr>
-<p>然后是VR了, 我这里有现成的<code>HTC Vive</code>,  发现<code>4.26.0</code>目前版本<code>FKey</code>内的<code>Vive</code>类型的变量都是蓝图不可访问的</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//InputCoreTypes.cpp L799</span></span><br><span class="line">	AddKey(FKeyDetails(EKeys::Vive_Left_System_Click, LOCTEXT(<span class="string">&quot;Vive_Left_System_Click&quot;</span>, <span class="string">&quot;Vive (L) System&quot;</span>), FKeyDetails::GamepadKey | FKeyDetails::NotBlueprintBindableKey, <span class="string">&quot;Vive&quot;</span>));</span><br></pre></td></tr></table></figure>
-
-<p>那么为了图个方便, 设置按键就干脆采用<code>ComboBox</code>的下拉列表的方式来修改按键;那么发现这个方案也使用于PC或者其他各个平台(不需要靠手动按键来设置按键映射)</p>
-<p><img src="https://img.supervj.top//img/image-20201212152518034.png" alt="image-20201212152518034"></p>
-<p>关键就是给<code>ComboBox</code>提供我们其他平台蓝图看不到的按键</p>
-<p>先声明一个对应所有类型(<code>Category</code>)的枚举</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ERIMKeyCategory</span> :</span>uint8</span><br><span class="line">&#123;</span><br><span class="line">	None,</span><br><span class="line">	Key,</span><br><span class="line">	Mouse,</span><br><span class="line">	Gamepad,</span><br><span class="line">	Motion,</span><br><span class="line">	Touch,</span><br><span class="line">	Gesture,</span><br><span class="line">	PS4,</span><br><span class="line">	Steam,</span><br><span class="line">	XBoxOne,</span><br><span class="line">	Android,</span><br><span class="line">	Daydream,</span><br><span class="line">	Vive,</span><br><span class="line">	MixedReality,</span><br><span class="line">	OculusGo,</span><br><span class="line">	OculusTouch,</span><br><span class="line">	ValveIndex,</span><br><span class="line">	MagicLeap,</span><br><span class="line">	OculusRemote,</span><br><span class="line">	Cosmos</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>然后整几个库函数</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable,BlueprintPure ,Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetAllKeys</span><span class="params">(TArray&lt;FKey&gt;&amp; OutKeys)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>, meta = (AutoCreateRefTerm = <span class="string">&quot;Categories&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetAllKeysWithCategories</span><span class="params">(TArray&lt;ERIMKeyCategory&gt; Categories, TArray&lt;FKey&gt;&amp; OutKeys)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FName <span class="title">GetKeyFName</span><span class="params">(FKey key)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FKey <span class="title">GetKeyByFName</span><span class="params">(FName name)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FKey <span class="title">GetKeyByDisplayName</span><span class="params">(FText name)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FName <span class="title">GetKeyMenuCategory</span><span class="params">(FKey key)</span></span>;</span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;RuntimeInputMapping&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FString <span class="title">GetKeyCategoryEnumString</span><span class="params">(ERIMKeyCategory category = ERIMKeyCategory::None, <span class="keyword">bool</span> bShortName = <span class="literal">true</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>然后蓝图里就可以创建控件UI了</p>
-<p><img src="https://img.supervj.top//img/image-20201212153047135.png" alt="image-20201212153047135"></p>
-<p><img src="https://img.supervj.top//img/image-20201212153108452.png" alt="image-20201212153108452"></p>
-<p>稍微注意点的就是 <code>FKey</code>有两个名字, 一个是<code>FName</code>,一个是<code>DisplayName</code>,需要区分开.</p>
-<p>如</p>
-<ul>
-<li><code>FName</code>:  <code>Vive_Left_System_Click</code></li>
-<li><code>DisplayName</code>: <code>Vive (L) System</code></li>
-</ul>
-<p>具体参考<code>InputCoreTypes.cpp</code>文件中茫茫多的<code>AddKey()</code></p>
-<p>演示一下</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_15_33_54_468.gif" alt="录制_2020_12_12_15_33_54_468"></p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_15_34_45_13.gif" alt="录制_2020_12_12_15_34_45_13"></p>
-<p>VR道理相同, 无非就是要用到<code>WidgetInteraction</code>来模拟点击</p>
-<blockquote>
-<p>这里有个小问题, 如果默认情况下没有任何<code>Vive</code>的按键, 蓝图中的<code>AnyKey</code>无法接收到手柄事件,如果给了一个比如是<code>Vive(R) Trigger</code>的按键, 那么就可以有了.</p>
-<p>应对这个,那么建议默认还是给上对应的设备按键事件, 后期运行后(打包后)只需要修改就行</p>
-</blockquote>
-<p>具体实现方法可以参考插件内容 <a href="#%E6%8F%92%E4%BB%B6">↑</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/11/RuntimeInputMappingPlugin/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

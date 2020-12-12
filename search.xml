@@ -1167,7 +1167,7 @@
   </entry>
   <entry>
     <title>RuntimeInputMappingDocumentation</title>
-    <url>/2020/12/12/RuntimeInputMappingPlugin/</url>
+    <url>/2020/12/11/RuntimeInputMappingPlugin/</url>
     <content><![CDATA[<blockquote>
 <p> This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR</p>
 </blockquote>
@@ -1177,6 +1177,8 @@
 <p>This mode only reads the keyboard and mouse buttons by default</p>
 <p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
 <p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
+<a id="more"></a>
+
 <p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
 <ul>
 <li>SingleKey</li>
@@ -5764,7 +5766,7 @@
   </entry>
   <entry>
     <title>UE4运行时修改按键的解决方案</title>
-    <url>/2020/12/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/</url>
+    <url>/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
 <p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
 <a name= "插件">
@@ -5772,6 +5774,8 @@
 <p><a href="git@github.com:VJien/RuntimeInputMapping.git">RuntimeInputMapping</a></p>
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <p>蓝图中亦可</p>
 <p><img src="https://img.supervj.top//img/image-20201210111434638.png" alt="image-20201210111434638"></p>
