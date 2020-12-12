@@ -1166,6 +1166,49 @@
       </tags>
   </entry>
   <entry>
+    <title>RuntimeInputMappingDocumentation</title>
+    <url>/2020/12/12/RuntimeInputMappingPlugin/</url>
+    <content><![CDATA[<blockquote>
+<p> This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR</p>
+</blockquote>
+<h2 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><h4 id="TypeA"><a href="#TypeA" class="headerlink" title="TypeA"></a>TypeA</h4><p>You need use BP <code>UW_RIM_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeA</code> create it in <code>RIM_PlayerController</code></p>
+<p>Then an interface similar to the following will appeared.</p>
+<p><img src="https://img.supervj.top//img/image-20201212114227270.png" alt="image-20201212114227270"></p>
+<p>This mode only reads the keyboard and mouse buttons by default</p>
+<p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
+<p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
+<p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
+<ul>
+<li>SingleKey</li>
+</ul>
+<p>If your project only needs one button per action, then this mode is more appropriate.</p>
+<p>This type will only read the first button that meets the requirements of each action to provide settings, and it will not take effect for other buttons.</p>
+<p>Then you can click any button with the left mouse button (if it is a mouse, you need to hover over this button), and then the following picture will appear, and then press any button to modify the project input settings in real time.</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif" alt="录制_2020_12_12_12_17_58_489"></p>
+<ul>
+<li>MultiKey</li>
+</ul>
+<p>Similar to the former, but allows multiple buttons for the same action.</p>
+<p>But this adds two additional types of buttons, action can add new button mapping, and the button mapping has a delete button.</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
+<h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
+<p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
+<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods</p>
+<p>You need use BP <code>UW_RIM_EX_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeB</code> create it in <code>RIM_PlayerController</code></p>
+<p>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
+<h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
+<p><img src="https://github.com/VJien/img/blob/master/img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879-1607750372074.gif?raw=true" alt="vr"></p>
+]]></content>
+      <categories>
+        <category>说明文档</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>按键</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>UE4发布steam游戏流程</title>
     <url>/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/</url>
     <content><![CDATA[<blockquote>
@@ -3958,174 +4001,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DX学习笔记（三）：渲染流水线</title>
-    <url>/2020/06/24/LearnDX12_RenderPipline/</url>
-    <content><![CDATA[<h2 id="渲染流水线"><a href="#渲染流水线" class="headerlink" title="渲染流水线"></a>渲染流水线</h2><p>平行线最终会相交于<code>消失点</code>，又称为<code>灭点</code></p>
-<p><code>物体重叠</code>：即不同命的物体能够遮挡住其后侧物体的局部</p>
-<p>3D实体对象是通过<code>三角形网格</code>来近似表示的</p>
-<h3 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h3><p>分量式乘法:<code>(r,g,b)*(a,b,c)=(ra,gb,bc)</code></p>
-<h5 id="128位颜色"><a href="#128位颜色" class="headerlink" title="128位颜色"></a>128位颜色</h5><p>每个分量用浮点表示，即4D向量 (r,g,b,a)</p>
-<p><strong><em>0&lt;=r,g,b,a&lt;=1</em></strong></p>
-<p><code>DirectXMath</code>库对分量式乘法的支持</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CAKKCIBV <span class="title">XMColorModulate</span> <span class="params">(FXMVECTOR C1,FXMVECTOR C2)</span></span>;<span class="comment">//返回C1*C2</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="32位颜色"><a href="#32位颜色" class="headerlink" title="32位颜色"></a>32位颜色</h5><p>每个分量仅分配1个字节，因此每个占用8字节的颜色分量就分别描述256种不同的颜色强度</p>
-<p>即0代表无强度，256代表最大强度</p>
-<p><code>DirectXMath</code>库<code>(include&lt;DirectXPackedVector.h&gt;)</code>在<code>DirectX::PackedVector</code>命名空间提供了相应函数</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">namespace</span> DirectX</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">namespace</span> PackedVector</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">XMCOLOR</span></span></span><br><span class="line"><span class="class">        &#123;</span></span><br><span class="line">            <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">            &#123;</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">                &#123;</span></span><br><span class="line">                    <span class="keyword">uint8_t</span> b;  <span class="comment">// Blue:    0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> g;  <span class="comment">// Green:   0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> r;  <span class="comment">// Red:     0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> a;  <span class="comment">// Alpha:   0/255 to 255/255</span></span><br><span class="line">                    </span><br><span class="line">                &#125;;<span class="keyword">uint32_t</span> c;</span><br><span class="line">                XMCOLOR() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">    			XMCOLOR(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                XMCOLOR(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="function">XM_CONSTEXPR <span class="title">XMCOLOR</span><span class="params">(<span class="keyword">uint32_t</span> Color)</span> : <span class="title">c</span><span class="params">(Color)</span> </span>&#123;&#125;</span><br><span class="line">                XMCOLOR(<span class="keyword">float</span> _r, <span class="keyword">float</span> _g, <span class="keyword">float</span> _b, <span class="keyword">float</span> _a);</span><br><span class="line">                <span class="function"><span class="keyword">explicit</span> <span class="title">XMCOLOR</span><span class="params">(_In_reads_(<span class="number">4</span>) <span class="keyword">const</span> <span class="keyword">float</span> *pArray)</span></span>;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">operator</span> <span class="title">uint32_t</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> c; &#125;</span><br><span class="line"></span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> <span class="keyword">uint32_t</span> Color) &#123; c = Color; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过将<code>[0,255]</code>映射到<code>[0,1]</code>即可完成32位到128位的转换</p>
-<p>转换函数</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadColor</span><span class="params">( <span class="keyword">const</span> XMCOLOR* pSource)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreColor</span><span class="params">( XMCOLOR* pDestination, FXMVECTOR V )</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="渲染流水线概述"><a href="#渲染流水线概述" class="headerlink" title="渲染流水线概述"></a>渲染流水线概述</h3><p>渲染流水线(rendering pipeline)是以摄像机位观察视角而生成的2D图像的一系列完整步骤</p>
-<p>​     </p>
-<p><img src="https://img.supervj.top/xuanran.png"></p>
-<h3 id="输入装配阶段"><a href="#输入装配阶段" class="headerlink" title="输入装配阶段"></a>输入装配阶段</h3><p>输入装配阶段：从显存中读取集合数据(顶点和索引，vertex and index)</p>
-<p>再装配为几何图元（几何基元），如三角形和线条</p>
-<ul>
-<li>顶点缓冲区：将顶点与渲染流水线绑定的特殊结构体</li>
-</ul>
-<h5 id="图元拓扑-primitive-topology"><a href="#图元拓扑-primitive-topology" class="headerlink" title="图元拓扑(primitive topology)"></a>图元拓扑(primitive topology)</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> STDMETHODCALLTYPE <span class="title">IASetPrimitiveTopology</span><span class="params">( </span></span></span><br><span class="line"><span class="function"><span class="params">            _In_  D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology)</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> </span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">D3D_PRIMITIVE_TOPOLOGY</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_UNDEFINED	= <span class="number">0</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_POINTLIST	= <span class="number">1</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST	= <span class="number">2</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP	= <span class="number">3</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= <span class="number">4</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= <span class="number">5</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= <span class="number">10</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= <span class="number">11</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= <span class="number">12</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= <span class="number">13</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= <span class="number">33</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= <span class="number">34</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= <span class="number">35</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= <span class="number">36</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= <span class="number">37</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= <span class="number">38</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= <span class="number">39</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= <span class="number">40</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= <span class="number">41</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= <span class="number">42</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= <span class="number">43</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= <span class="number">44</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= <span class="number">45</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= <span class="number">46</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= <span class="number">47</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= <span class="number">48</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= <span class="number">49</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= <span class="number">50</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= <span class="number">51</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= <span class="number">52</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= <span class="number">53</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= <span class="number">54</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= <span class="number">55</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= <span class="number">56</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= <span class="number">57</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= <span class="number">58</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= <span class="number">59</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= <span class="number">60</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= <span class="number">61</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= <span class="number">62</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= <span class="number">63</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= <span class="number">64</span>,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST</span><br><span class="line">    &#125; 	D3D_PRIMITIVE_TOPOLOGY;</span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过线列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);</span><br><span class="line"><span class="comment">//通过三角形列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"><span class="comment">//通过三角形带来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>点列表 <code>D3D_PRIMITIVE_TOPOLOGY_POINTLIST</code></li>
-<li>线条带 <code>D3D_PRIMITIVE_TOPOLOGY_LINESTRIP</code></li>
-<li>线列表 <code>D3D_PRIMITIVE_TOPOLOGY_LINELIST</code></li>
-<li>三角形带 <code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP</code></li>
-</ul>
-<p><img src="https://img.supervj.top/img/tuyuantuopu_1.jpg"></p>
-<ul>
-<li>剔除(culling)问题：奇数与偶数三角形的绕序(环绕顺序)即装配图元的顶点顺序是不同的</li>
-</ul>
-<p>CPU会对偶数三角形的<code>前两个顶点</code>顺序进行调换已达到有奇数三角形绕序相同</p>
-<blockquote>
-<p>正确的应该是后<strong>两个顶点</strong>顺序调换，而OpenGL中才是前两个顶点调换</p>
-</blockquote>
-<ul>
-<li>三角形列表</li>
-</ul>
-<p><code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST</code></p>
-<p>三角形列表与三角形带的区别是，三角形列表的三角形可以彼此分离，所以每n*3个顶点组成n个三角形</p>
-<ul>
-<li>具有邻接数据的图元拓扑</li>
-</ul>
-<p>对于有邻接数据的三角形列表，每个三角形都有3个与之相邻的<code>邻接三角形</code></p>
-<p>借助<code>顶点缓冲区</code>和<code>索引缓冲区</code>将它们随主三角形一并提交至渲染流水线</p>
-<p>并且要把拓扑类型指定为<code>D3D12_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ</code>让渲染流水线知道如何以顶点缓冲区的顶点来构建主三角形和其邻接三角形；</p>
-<p>邻接图元的顶点只作为集合着色器的输入数据，并不会被绘制</p>
-<p><img src="https://img.supervj.top/img/DX/tuyuantuopu_2.jpg"></p>
-<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Vertex quad[<span class="number">6</span>]=&#123;</span><br><span class="line">    v0,v1,v2,<span class="comment">//三角形0</span></span><br><span class="line">    v0,v2,v3 <span class="comment">//三角形1</span></span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>绕序</strong>：为三角形指定顶点顺序</li>
-</ul>
-<p>用<code>顶点列表</code>和<code>索引列表</code>组合起来构成三角形</p>
-<p>如</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Vertex v[<span class="number">9</span>]=&#123;v0,v1,v2,v3,v4,v5,v6,v7,v8&#125;;</span><br><span class="line">UINT indexList[<span class="number">24</span>]=&#123;</span><br><span class="line">    <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">4</span>,<span class="number">5</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">5</span>,<span class="number">6</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">6</span>,<span class="number">7</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">7</span>,<span class="number">8</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">8</span>,<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="顶点着色阶段"><a href="#顶点着色阶段" class="headerlink" title="顶点着色阶段"></a>顶点着色阶段</h3><ul>
-<li>世界变换：将局部坐标系内的坐标转换到世界坐标系</li>
-<li>世界矩阵：上述变换的矩阵</li>
-</ul>
-<p>$$<br>W=SRT<br>$$</p>
-<ul>
-<li>观察空间:相机的局部坐标系，亦称视觉空间、摄像机空间等</li>
-<li>取景变换：世界空间至观察空间的变换；此变换的矩阵叫做<code>观察矩阵</code></li>
-</ul>
-<p>观察矩阵函数</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV XMMatrixLookAtLH</span><br><span class="line">(</span><br><span class="line">    FXMVECTOR EyePosition, </span><br><span class="line">    FXMVECTOR FocusPosition, </span><br><span class="line">    FXMVECTOR UpDirection</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">XMVECTOR eyePos=XMVectorSet(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">1</span>);</span><br><span class="line">XMVECTOR target=XMVectorZero();</span><br><span class="line">XMVECTOR up=XMVectorSet(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">XMMATRIX V=XMMatrixLookAtLH(eyePos,target,up);<span class="comment">//返回观察矩阵</span></span><br><span class="line">XMVECTOR v2=XMVector3TransformCoord(target,V);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;v2;<span class="comment">//输出得到(0,0,173.2),即在观察空间的坐标</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>顶点的投影线：顶点到观察点的连线</li>
-<li>透视投影变换：3D顶点<strong>v</strong>变换至其投影线与3D投影平面的交点<strong>v<sup>、</sup></strong></li>
-</ul>
-<blockquote>
-<p>近平面(近裁剪面)<code>n</code>,远平面<code>f</code>，垂直视场角<code>α</code>，纵横比<code>r</code>，4个参数定义了以原点作为投影的中心，以<code>Z</code>轴进行观察的平截头体</p>
-</blockquote>
-<p>纵横比<br>$$<br>r=w/h<br>$$<br>w:投影窗口的宽度</p>
-<p>h:投影窗口的高度</p>
-<blockquote>
-<p>如果后台缓冲区与投影窗口纵横比不一致，在映射的过程中会产生非均匀缩放（不等比例缩放），导致图像拉伸</p>
-</blockquote>
-<ul>
-<li><p>NDC：规格化设备坐标(Normalized Device Coordinates)</p>
-</li>
-<li><p>透视除法（齐次除法）：顶点与投影矩阵相乘以后，对每个坐标除以<code>w=z</code></p>
-</li>
-<li><p>归一化深度值：通过函数 <code>g(z)</code>把<code>z</code>坐标从<code>[n,f]</code>映射到区间<code>[0,1]</code></p>
-</li>
-</ul>
-<p>$$<br>g(z)=A+ {B \over z}<br>$$</p>
-<ul>
-<li>透视投影矩阵</li>
-</ul>
-<p>$$<br>P=\begin{bmatrix}1\over rtan({\alpha \over 2}) &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 1\over{tan({\alpha\over 2})} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; f\over {f-n} &amp; 1 \<br>0 &amp; &amp; 0 &amp; -nf\over{f-n} &amp; 0<br>\end{bmatrix}<br>$$</p>
-<blockquote>
-<p>在顶点乘以投影矩阵后，集合体会处于所谓的<code>齐次裁剪空间</code>或者<code>投影空间</code></p>
-<p>完成<strong>透视除法</strong>以后，便是**规格化设备坐标(NDC)**了</p>
-</blockquote>
-<ul>
-<li>XMMatrixPerspectiveFovLH</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV XMMatrixPerspectiveFovLH</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">float</span> FovAngleY, <span class="comment">//用弧度值表示的垂直视场角</span></span><br><span class="line">    <span class="keyword">float</span> AspectRatio, <span class="comment">//纵横比：宽度/高度</span></span><br><span class="line">    <span class="keyword">float</span> NearZ, <span class="comment">//近平面距离</span></span><br><span class="line">    <span class="keyword">float</span> FarZ<span class="comment">//到远平面距离</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">XMMATRIX M2=XMMatrixPerspectiveFovLH(<span class="number">0.25f</span>*XM_PI,<span class="number">1092</span>/<span class="number">1080</span>,<span class="number">1.0</span>,<span class="number">1000</span>);</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;M2;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>2.41421 0       0       0<br>0       2.41421 0       0<br>0       0       1.001   1<br>0       0       -1.001  0</p>
-</blockquote>
-<h3 id="曲面细分阶段"><a href="#曲面细分阶段" class="headerlink" title="曲面细分阶段"></a>曲面细分阶段</h3><p>利用镶嵌化处理技术对网格中的三角形进行细分，以此来增加物体表面上的三角形数量。</p>
-<p>再将这些新增的三角形偏移到适当的位置，使网格表现出更加细腻的细节</p>
-<ul>
-<li>曲面细分的优点</li>
-</ul>
-<ol>
-<li>实现LOD</li>
-<li>在内存中只维护<strong>低模</strong>，在有需求时动态增添三角形，从而节省资源</li>
-<li>处理动画和物理时使用低模，渲染时使用处理过的高模</li>
-</ol>
-<h3 id="几何着色器阶段"><a href="#几何着色器阶段" class="headerlink" title="几何着色器阶段"></a>几何着色器阶段</h3><p>几何着色器阶段接受输入是完整的图元</p>
-<p>与顶点着色器相比，几何着色器可以创建或者修改几何体</p>
-<p>比如，将一个点或者一条线扩展为一个四边形</p>
-<h3 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h3><p>对视锥体之外的物体进行裁剪</p>
-<blockquote>
-<p>苏泽兰-霍奇曼裁剪算法</p>
-</blockquote>
-<h3 id="光栅化阶段"><a href="#光栅化阶段" class="headerlink" title="光栅化阶段"></a>光栅化阶段</h3><p>光栅化阶段(RS,栅格化)：投影主屏幕上的3D三角形计算出对应的像素颜色</p>
-<ul>
-<li>视口变换：裁剪完成后，硬件通过透视除法将物体从齐次空间变换为规格化设备坐标（NDC）。此后顶点<code>x、y</code>坐标会以像素单位表示</li>
-<li>背面剔除：将背面朝向的三角形从渲染流水线中除去</li>
-<li>透视矫正插值：为得到2D空间的顶点的插值属性，对3D空间的三角形属性进行线性插值，即利用三角形属性计算出内部像素的属性</li>
-<li>像素着色器阶段(pixel shader)：针对每个像素片段进行处理，根据顶点的差值属性作为输入来计算像素颜色，亦可实现如逐像素光照(per-pixel lighting)、反射以及阴影等复杂效果</li>
-<li>输入合并阶段：上述阶段生成的像素片段送至渲染流水线的输出合并阶段(OM)。丢弃部分像素(如未通过深度测试等)，剩下的写入后台缓冲区，执行混合(blend)操作（透明效果也混合实现的）</li>
-</ul>
-]]></content>
-      <categories>
-        <category>图形</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>学习笔记</tag>
-        <tag>DirectX</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PureMVC框架</title>
     <url>/2020/11/30/PureMVC/</url>
     <content><![CDATA[<blockquote>
@@ -4326,6 +4201,174 @@
         <tag>PureMVC</tag>
         <tag>框架</tag>
         <tag>插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DX学习笔记（三）：渲染流水线</title>
+    <url>/2020/06/24/LearnDX12_RenderPipline/</url>
+    <content><![CDATA[<h2 id="渲染流水线"><a href="#渲染流水线" class="headerlink" title="渲染流水线"></a>渲染流水线</h2><p>平行线最终会相交于<code>消失点</code>，又称为<code>灭点</code></p>
+<p><code>物体重叠</code>：即不同命的物体能够遮挡住其后侧物体的局部</p>
+<p>3D实体对象是通过<code>三角形网格</code>来近似表示的</p>
+<h3 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h3><p>分量式乘法:<code>(r,g,b)*(a,b,c)=(ra,gb,bc)</code></p>
+<h5 id="128位颜色"><a href="#128位颜色" class="headerlink" title="128位颜色"></a>128位颜色</h5><p>每个分量用浮点表示，即4D向量 (r,g,b,a)</p>
+<p><strong><em>0&lt;=r,g,b,a&lt;=1</em></strong></p>
+<p><code>DirectXMath</code>库对分量式乘法的支持</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CAKKCIBV <span class="title">XMColorModulate</span> <span class="params">(FXMVECTOR C1,FXMVECTOR C2)</span></span>;<span class="comment">//返回C1*C2</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="32位颜色"><a href="#32位颜色" class="headerlink" title="32位颜色"></a>32位颜色</h5><p>每个分量仅分配1个字节，因此每个占用8字节的颜色分量就分别描述256种不同的颜色强度</p>
+<p>即0代表无强度，256代表最大强度</p>
+<p><code>DirectXMath</code>库<code>(include&lt;DirectXPackedVector.h&gt;)</code>在<code>DirectX::PackedVector</code>命名空间提供了相应函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">namespace</span> DirectX</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">namespace</span> PackedVector</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">XMCOLOR</span></span></span><br><span class="line"><span class="class">        &#123;</span></span><br><span class="line">            <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">            &#123;</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">                &#123;</span></span><br><span class="line">                    <span class="keyword">uint8_t</span> b;  <span class="comment">// Blue:    0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> g;  <span class="comment">// Green:   0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> r;  <span class="comment">// Red:     0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> a;  <span class="comment">// Alpha:   0/255 to 255/255</span></span><br><span class="line">                    </span><br><span class="line">                &#125;;<span class="keyword">uint32_t</span> c;</span><br><span class="line">                XMCOLOR() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">    			XMCOLOR(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                XMCOLOR(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="function">XM_CONSTEXPR <span class="title">XMCOLOR</span><span class="params">(<span class="keyword">uint32_t</span> Color)</span> : <span class="title">c</span><span class="params">(Color)</span> </span>&#123;&#125;</span><br><span class="line">                XMCOLOR(<span class="keyword">float</span> _r, <span class="keyword">float</span> _g, <span class="keyword">float</span> _b, <span class="keyword">float</span> _a);</span><br><span class="line">                <span class="function"><span class="keyword">explicit</span> <span class="title">XMCOLOR</span><span class="params">(_In_reads_(<span class="number">4</span>) <span class="keyword">const</span> <span class="keyword">float</span> *pArray)</span></span>;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">operator</span> <span class="title">uint32_t</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> c; &#125;</span><br><span class="line"></span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> <span class="keyword">uint32_t</span> Color) &#123; c = Color; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过将<code>[0,255]</code>映射到<code>[0,1]</code>即可完成32位到128位的转换</p>
+<p>转换函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadColor</span><span class="params">( <span class="keyword">const</span> XMCOLOR* pSource)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreColor</span><span class="params">( XMCOLOR* pDestination, FXMVECTOR V )</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="渲染流水线概述"><a href="#渲染流水线概述" class="headerlink" title="渲染流水线概述"></a>渲染流水线概述</h3><p>渲染流水线(rendering pipeline)是以摄像机位观察视角而生成的2D图像的一系列完整步骤</p>
+<p>​     </p>
+<p><img src="https://img.supervj.top/xuanran.png"></p>
+<h3 id="输入装配阶段"><a href="#输入装配阶段" class="headerlink" title="输入装配阶段"></a>输入装配阶段</h3><p>输入装配阶段：从显存中读取集合数据(顶点和索引，vertex and index)</p>
+<p>再装配为几何图元（几何基元），如三角形和线条</p>
+<ul>
+<li>顶点缓冲区：将顶点与渲染流水线绑定的特殊结构体</li>
+</ul>
+<h5 id="图元拓扑-primitive-topology"><a href="#图元拓扑-primitive-topology" class="headerlink" title="图元拓扑(primitive topology)"></a>图元拓扑(primitive topology)</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> STDMETHODCALLTYPE <span class="title">IASetPrimitiveTopology</span><span class="params">( </span></span></span><br><span class="line"><span class="function"><span class="params">            _In_  D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology)</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> </span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">D3D_PRIMITIVE_TOPOLOGY</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_UNDEFINED	= <span class="number">0</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_POINTLIST	= <span class="number">1</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST	= <span class="number">2</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP	= <span class="number">3</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= <span class="number">4</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= <span class="number">5</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= <span class="number">10</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= <span class="number">11</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= <span class="number">12</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= <span class="number">13</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= <span class="number">33</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= <span class="number">34</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= <span class="number">35</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= <span class="number">36</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= <span class="number">37</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= <span class="number">38</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= <span class="number">39</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= <span class="number">40</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= <span class="number">41</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= <span class="number">42</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= <span class="number">43</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= <span class="number">44</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= <span class="number">45</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= <span class="number">46</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= <span class="number">47</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= <span class="number">48</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= <span class="number">49</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= <span class="number">50</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= <span class="number">51</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= <span class="number">52</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= <span class="number">53</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= <span class="number">54</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= <span class="number">55</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= <span class="number">56</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= <span class="number">57</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= <span class="number">58</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= <span class="number">59</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= <span class="number">60</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= <span class="number">61</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= <span class="number">62</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= <span class="number">63</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= <span class="number">64</span>,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST</span><br><span class="line">    &#125; 	D3D_PRIMITIVE_TOPOLOGY;</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过线列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);</span><br><span class="line"><span class="comment">//通过三角形列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"><span class="comment">//通过三角形带来绘制对象</span></span><br><span class="line">mCommandList-&gt;IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>点列表 <code>D3D_PRIMITIVE_TOPOLOGY_POINTLIST</code></li>
+<li>线条带 <code>D3D_PRIMITIVE_TOPOLOGY_LINESTRIP</code></li>
+<li>线列表 <code>D3D_PRIMITIVE_TOPOLOGY_LINELIST</code></li>
+<li>三角形带 <code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP</code></li>
+</ul>
+<p><img src="https://img.supervj.top/img/tuyuantuopu_1.jpg"></p>
+<ul>
+<li>剔除(culling)问题：奇数与偶数三角形的绕序(环绕顺序)即装配图元的顶点顺序是不同的</li>
+</ul>
+<p>CPU会对偶数三角形的<code>前两个顶点</code>顺序进行调换已达到有奇数三角形绕序相同</p>
+<blockquote>
+<p>正确的应该是后<strong>两个顶点</strong>顺序调换，而OpenGL中才是前两个顶点调换</p>
+</blockquote>
+<ul>
+<li>三角形列表</li>
+</ul>
+<p><code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST</code></p>
+<p>三角形列表与三角形带的区别是，三角形列表的三角形可以彼此分离，所以每n*3个顶点组成n个三角形</p>
+<ul>
+<li>具有邻接数据的图元拓扑</li>
+</ul>
+<p>对于有邻接数据的三角形列表，每个三角形都有3个与之相邻的<code>邻接三角形</code></p>
+<p>借助<code>顶点缓冲区</code>和<code>索引缓冲区</code>将它们随主三角形一并提交至渲染流水线</p>
+<p>并且要把拓扑类型指定为<code>D3D12_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ</code>让渲染流水线知道如何以顶点缓冲区的顶点来构建主三角形和其邻接三角形；</p>
+<p>邻接图元的顶点只作为集合着色器的输入数据，并不会被绘制</p>
+<p><img src="https://img.supervj.top/img/DX/tuyuantuopu_2.jpg"></p>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Vertex quad[<span class="number">6</span>]=&#123;</span><br><span class="line">    v0,v1,v2,<span class="comment">//三角形0</span></span><br><span class="line">    v0,v2,v3 <span class="comment">//三角形1</span></span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>绕序</strong>：为三角形指定顶点顺序</li>
+</ul>
+<p>用<code>顶点列表</code>和<code>索引列表</code>组合起来构成三角形</p>
+<p>如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Vertex v[<span class="number">9</span>]=&#123;v0,v1,v2,v3,v4,v5,v6,v7,v8&#125;;</span><br><span class="line">UINT indexList[<span class="number">24</span>]=&#123;</span><br><span class="line">    <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">4</span>,<span class="number">5</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">5</span>,<span class="number">6</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">6</span>,<span class="number">7</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">7</span>,<span class="number">8</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">8</span>,<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="顶点着色阶段"><a href="#顶点着色阶段" class="headerlink" title="顶点着色阶段"></a>顶点着色阶段</h3><ul>
+<li>世界变换：将局部坐标系内的坐标转换到世界坐标系</li>
+<li>世界矩阵：上述变换的矩阵</li>
+</ul>
+<p>$$<br>W=SRT<br>$$</p>
+<ul>
+<li>观察空间:相机的局部坐标系，亦称视觉空间、摄像机空间等</li>
+<li>取景变换：世界空间至观察空间的变换；此变换的矩阵叫做<code>观察矩阵</code></li>
+</ul>
+<p>观察矩阵函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV XMMatrixLookAtLH</span><br><span class="line">(</span><br><span class="line">    FXMVECTOR EyePosition, </span><br><span class="line">    FXMVECTOR FocusPosition, </span><br><span class="line">    FXMVECTOR UpDirection</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">XMVECTOR eyePos=XMVectorSet(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">1</span>);</span><br><span class="line">XMVECTOR target=XMVectorZero();</span><br><span class="line">XMVECTOR up=XMVectorSet(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">XMMATRIX V=XMMatrixLookAtLH(eyePos,target,up);<span class="comment">//返回观察矩阵</span></span><br><span class="line">XMVECTOR v2=XMVector3TransformCoord(target,V);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;v2;<span class="comment">//输出得到(0,0,173.2),即在观察空间的坐标</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>顶点的投影线：顶点到观察点的连线</li>
+<li>透视投影变换：3D顶点<strong>v</strong>变换至其投影线与3D投影平面的交点<strong>v<sup>、</sup></strong></li>
+</ul>
+<blockquote>
+<p>近平面(近裁剪面)<code>n</code>,远平面<code>f</code>，垂直视场角<code>α</code>，纵横比<code>r</code>，4个参数定义了以原点作为投影的中心，以<code>Z</code>轴进行观察的平截头体</p>
+</blockquote>
+<p>纵横比<br>$$<br>r=w/h<br>$$<br>w:投影窗口的宽度</p>
+<p>h:投影窗口的高度</p>
+<blockquote>
+<p>如果后台缓冲区与投影窗口纵横比不一致，在映射的过程中会产生非均匀缩放（不等比例缩放），导致图像拉伸</p>
+</blockquote>
+<ul>
+<li><p>NDC：规格化设备坐标(Normalized Device Coordinates)</p>
+</li>
+<li><p>透视除法（齐次除法）：顶点与投影矩阵相乘以后，对每个坐标除以<code>w=z</code></p>
+</li>
+<li><p>归一化深度值：通过函数 <code>g(z)</code>把<code>z</code>坐标从<code>[n,f]</code>映射到区间<code>[0,1]</code></p>
+</li>
+</ul>
+<p>$$<br>g(z)=A+ {B \over z}<br>$$</p>
+<ul>
+<li>透视投影矩阵</li>
+</ul>
+<p>$$<br>P=\begin{bmatrix}1\over rtan({\alpha \over 2}) &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 1\over{tan({\alpha\over 2})} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; f\over {f-n} &amp; 1 \<br>0 &amp; &amp; 0 &amp; -nf\over{f-n} &amp; 0<br>\end{bmatrix}<br>$$</p>
+<blockquote>
+<p>在顶点乘以投影矩阵后，集合体会处于所谓的<code>齐次裁剪空间</code>或者<code>投影空间</code></p>
+<p>完成<strong>透视除法</strong>以后，便是**规格化设备坐标(NDC)**了</p>
+</blockquote>
+<ul>
+<li>XMMatrixPerspectiveFovLH</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV XMMatrixPerspectiveFovLH</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">float</span> FovAngleY, <span class="comment">//用弧度值表示的垂直视场角</span></span><br><span class="line">    <span class="keyword">float</span> AspectRatio, <span class="comment">//纵横比：宽度/高度</span></span><br><span class="line">    <span class="keyword">float</span> NearZ, <span class="comment">//近平面距离</span></span><br><span class="line">    <span class="keyword">float</span> FarZ<span class="comment">//到远平面距离</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">XMMATRIX M2=XMMatrixPerspectiveFovLH(<span class="number">0.25f</span>*XM_PI,<span class="number">1092</span>/<span class="number">1080</span>,<span class="number">1.0</span>,<span class="number">1000</span>);</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;M2;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2.41421 0       0       0<br>0       2.41421 0       0<br>0       0       1.001   1<br>0       0       -1.001  0</p>
+</blockquote>
+<h3 id="曲面细分阶段"><a href="#曲面细分阶段" class="headerlink" title="曲面细分阶段"></a>曲面细分阶段</h3><p>利用镶嵌化处理技术对网格中的三角形进行细分，以此来增加物体表面上的三角形数量。</p>
+<p>再将这些新增的三角形偏移到适当的位置，使网格表现出更加细腻的细节</p>
+<ul>
+<li>曲面细分的优点</li>
+</ul>
+<ol>
+<li>实现LOD</li>
+<li>在内存中只维护<strong>低模</strong>，在有需求时动态增添三角形，从而节省资源</li>
+<li>处理动画和物理时使用低模，渲染时使用处理过的高模</li>
+</ol>
+<h3 id="几何着色器阶段"><a href="#几何着色器阶段" class="headerlink" title="几何着色器阶段"></a>几何着色器阶段</h3><p>几何着色器阶段接受输入是完整的图元</p>
+<p>与顶点着色器相比，几何着色器可以创建或者修改几何体</p>
+<p>比如，将一个点或者一条线扩展为一个四边形</p>
+<h3 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h3><p>对视锥体之外的物体进行裁剪</p>
+<blockquote>
+<p>苏泽兰-霍奇曼裁剪算法</p>
+</blockquote>
+<h3 id="光栅化阶段"><a href="#光栅化阶段" class="headerlink" title="光栅化阶段"></a>光栅化阶段</h3><p>光栅化阶段(RS,栅格化)：投影主屏幕上的3D三角形计算出对应的像素颜色</p>
+<ul>
+<li>视口变换：裁剪完成后，硬件通过透视除法将物体从齐次空间变换为规格化设备坐标（NDC）。此后顶点<code>x、y</code>坐标会以像素单位表示</li>
+<li>背面剔除：将背面朝向的三角形从渲染流水线中除去</li>
+<li>透视矫正插值：为得到2D空间的顶点的插值属性，对3D空间的三角形属性进行线性插值，即利用三角形属性计算出内部像素的属性</li>
+<li>像素着色器阶段(pixel shader)：针对每个像素片段进行处理，根据顶点的差值属性作为输入来计算像素颜色，亦可实现如逐像素光照(per-pixel lighting)、反射以及阴影等复杂效果</li>
+<li>输入合并阶段：上述阶段生成的像素片段送至渲染流水线的输出合并阶段(OM)。丢弃部分像素(如未通过深度测试等)，剩下的写入后台缓冲区，执行混合(blend)操作（透明效果也混合实现的）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>图形</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>学习笔记</tag>
+        <tag>DirectX</tag>
       </tags>
   </entry>
   <entry>
@@ -5717,49 +5760,6 @@
         <tag>C++</tag>
         <tag>学习笔记</tag>
         <tag>DirectX</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RuntimeInputMappingDocumentation</title>
-    <url>/2020/12/12/RuntimeInputMappingPlugin/</url>
-    <content><![CDATA[<blockquote>
-<p> This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR</p>
-</blockquote>
-<h2 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><h4 id="TypeA"><a href="#TypeA" class="headerlink" title="TypeA"></a>TypeA</h4><p>You need use BP <code>UW_RIM_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeA</code> create it in <code>RIM_PlayerController</code></p>
-<p>Then an interface similar to the following will appeared.</p>
-<p><img src="https://img.supervj.top//img/image-20201212114227270.png" alt="image-20201212114227270"></p>
-<p>This mode only reads the keyboard and mouse buttons by default</p>
-<p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
-<p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
-<p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
-<ul>
-<li>SingleKey</li>
-</ul>
-<p>If your project only needs one button per action, then this mode is more appropriate.</p>
-<p>This type will only read the first button that meets the requirements of each action to provide settings, and it will not take effect for other buttons.</p>
-<p>Then you can click any button with the left mouse button (if it is a mouse, you need to hover over this button), and then the following picture will appear, and then press any button to modify the project input settings in real time.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif" alt="录制_2020_12_12_12_17_58_489"></p>
-<ul>
-<li>MultiKey</li>
-</ul>
-<p>Similar to the former, but allows multiple buttons for the same action.</p>
-<p>But this adds two additional types of buttons, action can add new button mapping, and the button mapping has a delete button.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
-<h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
-<p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
-<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods</p>
-<p>You need use BP <code>UW_RIM_EX_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeB</code> create it in <code>RIM_PlayerController</code></p>
-<p>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
-<h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
-<p><img src="https://github.com/VJien/img/blob/master/img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879-1607750372074.gif?raw=true" alt="vr"></p>
-]]></content>
-      <categories>
-        <category>说明文档</category>
-      </categories>
-      <tags>
-        <tag>UE4</tag>
-        <tag>按键</tag>
       </tags>
   </entry>
 </search>
