@@ -5747,10 +5747,12 @@
 <p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
 <h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
 <p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
-<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods<br>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
+<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods</p>
+<p>You need use BP <code>UW_RIM_EX_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeB</code> create it in <code>RIM_PlayerController</code></p>
+<p>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
 <p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
 <h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879.gif" alt="录制_2020_12_12_12_39_31_879"></p>
+<p><img src="https://github.com/VJien/img/blob/master/img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879-1607750372074.gif?raw=true" alt="vr"></p>
 ]]></content>
       <categories>
         <category>说明文档</category>
