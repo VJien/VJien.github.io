@@ -5883,6 +5883,7 @@
 <blockquote>
 <p>补充: 如果发现描边效果会异常的抖动(看上去是渲染问题的感觉), 需要设置如下图所示的材质球属性</p>
 </blockquote>
+<p><img src="https://img.supervj.top//img/image-20201215174137554.png" alt="image-20201215174137554"></p>
 <h2 id="模型叠加方案"><a href="#模型叠加方案" class="headerlink" title="模型叠加方案"></a>模型叠加方案</h2><p><img src="https://img.supervj.top//img/image-20201215170946685.png" alt="image-20201215170946685"></p>
 <p>何为模型叠加, 其实就是额外使用一个一样的模型,例用模型顶点偏移效果来模拟边缘发光效果,这个相对比较简单</p>
 <p>此方案不需要前者那样设置特殊的通道和模型属性,直接开怼</p>
