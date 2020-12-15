@@ -5833,4 +5833,73 @@
         <tag>按键</tag>
       </tags>
   </entry>
+  <entry>
+    <title>边缘高光实现方案</title>
+    <url>/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>模型的边缘高光应该是老生常谈的话题了, 不过还是有必要详细记录一下各种主流的两个实现方案, 同样的, 这个问题也经常在TA或者客户端面试中被问到的问题</p>
+<h2 id="后期方案"><a href="#后期方案" class="headerlink" title="后期方案"></a>后期方案</h2><p>先看效果动图</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_15_16_03_11_453.gif" alt="录制_2020_12_15_16_03_11_453"></p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>后期的方案效果上来说是比较优秀的, 主要就是丢一个后期盒子进去,可以设置成全局的,然后给上一个后期材质,不过研究材质球之前还有好几部准备工作</p>
+<ul>
+<li>开启自定义模板</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201215160629430.png" alt="image-20201215160629430"></p>
+<p>需要在项目设置-&gt;渲染-&gt;后期-&gt;设置自定义模板通道为上图所示选项</p>
+<p><img src="https://img.supervj.top//img/image-20201215161149290.png" alt="image-20201215161149290"></p>
+<p>然后需要边缘发光的模型要开启自定义深度,然后给上一定模板值(一般只需要&gt;0的值即可,当然这个值可以拿来做很多效果)</p>
+<p><img src="https://img.supervj.top//img/image-20201215162020252.png" alt="image-20201215162020252"></p>
+<p>可以参考上图观察是否正确开启自定义模板通道</p>
+<h3 id="材质球"><a href="#材质球" class="headerlink" title="材质球"></a>材质球</h3><p><img src="https://img.supervj.top//img/image-20201215161216695.png" alt="image-20201215161216695"></p>
+<p>乍一看很复杂, 其实也没什么太难的地方, 主要就是对纹理像素进行一定偏移然后减去原有的蒙版值后就得到了边缘了</p>
+<p><img src="https://img.supervj.top//img/image-20201215161522615.png" alt="image-20201215161522615"></p>
+<p><img src="https://img.supervj.top//img/image-20201215161358241.png" alt="image-20201215161358241"></p>
+<p>打算对纹理像素横纵方向的偏移设置,  这里做了一个根据时间偏移的闪烁/抖动的效果, 宽度由一个参数<code>OutlineThickness</code>控制</p>
+<p><img src="https://img.supervj.top//img/image-20201215161622843.png" alt="image-20201215161622843"></p>
+<p>类似上图的, 对8个方向进行偏移</p>
+<p><img src="https://img.supervj.top//img/image-20201215161744379.png" alt="image-20201215161744379"></p>
+<p>找到周边最大的一个模板值, 到这里的显示效果如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201215161846884.png" alt="image-20201215161846884"></p>
+<p>上图中显示效果就是原有模板值加上之前做的偏移的效果, 因为值远大于1, 所以很亮</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_15_16_21_38_894.gif" alt="录制_2020_12_15_16_21_38_894"></p>
+<p>做一个测试, 模板值就是我们的颜色值</p>
+<p>为了方便处理, 我们后面加一个<code>Clamp(0-1)</code></p>
+<p><img src="https://img.supervj.top//img/image-20201215162325202.png" alt="image-20201215162325202"></p>
+<p>然后减去我们原有的值就得到了边缘</p>
+<p>如果只需要边缘效果, 那么到此为止也可以了,再加上颜色和原有场景色就是正确的边缘发光了, 如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201215162508080.png" alt="image-20201215162508080"></p>
+<hr>
+<p>后面我们再做一个被遮挡的部分全高光显示的操作,如同最开始动图中演示的效果</p>
+<p><img src="https://img.supervj.top//img/image-20201215162614708.png" alt="image-20201215162614708"></p>
+<p>上图中通过<code>ceil</code>得到0即是可见部分,1为遮挡部分</p>
+<p><img src="https://img.supervj.top//img/image-20201215162838246.png" alt="image-20201215162838246"></p>
+<p>简单加减一下就可以让被遮挡部分也通过开关显示高光</p>
+<p>完成!</p>
+<p><img src="https://img.supervj.top//img/image-20201215163020243.png" alt="image-20201215163020243"></p>
+<p><img src="https://img.supervj.top//img/image-20201215163045403.png" alt="image-20201215163045403"></p>
+<blockquote>
+<p>补充: 如果发现描边效果会异常的抖动(看上去是渲染问题的感觉), 需要设置如下图所示的材质球属性</p>
+</blockquote>
+<h2 id="模型叠加方案"><a href="#模型叠加方案" class="headerlink" title="模型叠加方案"></a>模型叠加方案</h2><p><img src="https://img.supervj.top//img/image-20201215170946685.png" alt="image-20201215170946685"></p>
+<p>何为模型叠加, 其实就是额外使用一个一样的模型,例用模型顶点偏移效果来模拟边缘发光效果,这个相对比较简单</p>
+<p>此方案不需要前者那样设置特殊的通道和模型属性,直接开怼</p>
+<h3 id="材质球-1"><a href="#材质球-1" class="headerlink" title="材质球"></a>材质球</h3><p><img src="https://img.supervj.top//img/image-20201215170616035.png" alt="image-20201215170616035"></p>
+<p>解释一下<code>TwoSideSign</code></p>
+<p>可以理解为,正面为1, 背面为0</p>
+<p>我们做一个<code>OneMinus</code>操作就可以把双面显示部分显示为1</p>
+<p>这样就得到了顶点偏移部分显示,其他部分隐藏的效果</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>后者方案材质球比较简单, 但是需要额外提供一个一样的模型, 模型渲染方面的消耗肯定有增加,而且问题是个人觉得这个效果不是真正意义上的边缘发光,在复杂的比如人物模型的时候表现的比较纠结;</p>
+<p>同样的模型方案无法在遮挡的情况下显示, 算是比较遗憾的地方</p>
+<p>后期方案效果比较优秀, 但是必须依赖一个后期盒子, 如果你有其他复杂的后期效果需要用到后期盒子, 需要谨慎处理</p>
+<p>最后再动图对比一下</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_15_17_14_42_648.gif" alt="录制_2020_12_15_17_14_42_648"></p>
+]]></content>
+      <categories>
+        <category>材质</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>材质</tag>
+        <tag>后期</tag>
+      </tags>
+  </entry>
 </search>

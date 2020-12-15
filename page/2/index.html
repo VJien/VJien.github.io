@@ -201,20 +201,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,182 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">AdvancedLocomotionSystemV4分析(二):攀爬系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-27T00:00:00+08:00">2020-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8A%A8%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">动画</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/" class="cy_cmt_count" data-xid="2020/10/27/AdvancedLocomotionSystem分析2_攀爬系统/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>ALS系统的攀爬系统思路比较简单，播放蒙太奇配合位置的刷新。缺点是没有中间状态，意味着无法打断或者做平移等</p>
+<p>后面我打算尝试改成加入中间过程的攀爬系统</p>
+</blockquote>
+<p><a href="https://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">AdvancedLocomotionSysemV4分析(一):移动和脚步IK</a></p>
+<p><a href="https://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">AdvancedLocomotionSystemV4分析(三):动作叠加</a></p>
+<p><a href="https://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a></p>
+<p><a href="https://supervj.top/2020/10/31/AdvancedLocomotionSystem%E5%88%86%E6%9E%905_%E9%95%9C%E5%A4%B4/">AdvancedLocomotionSystemV4分析(五):镜头</a></p>
+<h3 id="检测-ClimbCheck"><a href="#检测-ClimbCheck" class="headerlink" title="检测/ClimbCheck"></a>检测/ClimbCheck</h3><p>原工程里的<code>Climb</code>用的是<code>Mantle</code>，作为一个英文盲还是改成了自己看得懂的单词</p>
+<p><img src="https://img.supervj.top/img/temp/image-20201028165706917.png" alt="image-20201028165706917"></p>
+<p><img src="https://img.supervj.top/img/temp/image-20201028165823436.png" alt="image-20201028165823436"></p>
+<p>先要从输入开始，起跳输入以后在状态改为<code>InAir</code>之前就做了一次检测，另外在<code>Tick</code>中有检测</p>
+<ul>
+<li>TraceSetting<ul>
+<li>MaxLedgeHeight</li>
+<li>MinLedgeHeight</li>
+<li>ReachDistance</li>
+<li>ForwardTraceRadius</li>
+<li>DownwardTraceRadius</li>
+</ul>
+</li>
+</ul>
+<p>此数据结构是配置好的常量，分<code>Fall</code>、<code>Grounded</code>、<code>Automatic</code>三种配置</p>
+<hr>
+<ul>
+<li>总览</li>
+</ul>
+<p><img src="https://img.supervj.top/img/temp/image-20201028170206771.png" alt="image-20201028170206771"></p>
+<p>思路是比较简单，但是算法略复杂</p>
+<ol>
+<li>自身身体部位打一个胶囊体射线，射线始末点跟传入参数的最高/最低墙高度和ReachDistance有关系，得到墙体上的点和发现</li>
+<li>从上往下打射线得到适合的落脚点位置</li>
+<li>判断落脚点是否有足够的空间站人</li>
+<li>根据所需要攀爬的高度来设置攀爬类型</li>
+<li>开始攀爬</li>
+</ol>
+<h3 id="开始攀爬-ClimbStart"><a href="#开始攀爬-ClimbStart" class="headerlink" title="开始攀爬/ClimbStart"></a>开始攀爬/ClimbStart</h3><p><img src="https://img.supervj.top/img/temp/image-20201028170736835.png" alt="image-20201028170736835"></p>
+<p>一切围绕两点</p>
+<ol>
+<li><p>算出播放的动画参数，包括动画蒙太奇以及播放速率等</p>
+</li>
+<li><p>算出播放动画时所需要更新的位置信息</p>
+</li>
+</ol>
+<p>实现思路是</p>
+<ol>
+<li>根据攀爬类型和当前叠加的状态(目前还没有实现，可以理解为受伤或者拿某种武器的姿势下的不一样的动画参数)得到相应的动画参数<img src="https://img.supervj.top/img/temp/image-20201028171040513.png" alt="image-20201028171040513">上图即使默认的2米高度攀爬的参数</li>
+<li>把<code>Climb Check</code>函数得到的墙体位置信息转化为墙体本地空间的位置信息</li>
+<li>计算得到角色位置和墙体最后位置的世界空间偏差</li>
+<li>计算得到动画位置偏差，这个可以理解为攀爬动作本身就有唯一，这个位置偏差就是动画本身会造成的偏差。这里我们的动画都是锁定根骨骼的，意味着我们手动计算位置而非用动画本身的RootMotion</li>
+<li>设置运动模式</li>
+<li>根据动画参数设置<code>TimeLine</code>以及启动<code>TimeLine</code></li>
+<li>播放攀爬动画</li>
+</ol>
+<h3 id="刷新攀爬位置-ClimbUpdate"><a href="#刷新攀爬位置-ClimbUpdate" class="headerlink" title="刷新攀爬位置/ClimbUpdate"></a>刷新攀爬位置/ClimbUpdate</h3><p><img src="https://img.supervj.top/img/temp/%E5%BD%95%E5%88%B6_2020_10_29_09_25_36_526.gif" alt="录制_2020_10_29_09_25_36_526"></p>
+<p>一张动图比较清楚的描述了位置的插值过程</p>
+<p>从白色框到红色再到最终的蓝色，胶囊体的位移比动画早完成</p>
+<p><img src="https://img.supervj.top/img/temp/image-20201029092848925.png" alt="image-20201029092848925"></p>
+<h3 id="攀爬结束-ClimbEnd"><a href="#攀爬结束-ClimbEnd" class="headerlink" title="攀爬结束/ClimbEnd"></a>攀爬结束/ClimbEnd</h3><p>结束在Timeline结束的时候调用，就是把<code>MovementMode</code>改回<code>Walking</code></p>
+<p>这里还有一个比较重要的事情要做，不然在爬上去以后马上移动的话，脚步还有lock效果会拉伸</p>
+<p>于是在攀爬动作的后半段加上一个通知</p>
+<p><img src="https://i.loli.net/2020/10/29/uVOJyfaG9di1Wpj.png" alt="image-20201029093133029"></p>
+<p>目的就是检测在最后阶段是否有输入或者姿态切换，如果有就<code>MontageStop</code></p>
+<p>原作这里需要指定当前的动画本身，我这里做了稍微简化</p>
+<p><img src="https://i.loli.net/2020/10/29/EWjvQAIOVdP9tXs.png" alt="image-20201029093239908"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2102,134 +2278,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/07/19/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/07/19/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" class="post-title-link" itemprop="url">插件:批量重命名</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-07-19 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-19T00:00:00+08:00">2020-07-19</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%89%A9%E5%B1%95/" itemprop="url" rel="index"><span itemprop="name">扩展</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/07/19/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/07/19/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" class="cy_cmt_count" data-xid="2020/07/19/批量重命名/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>178</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>由于自己平时在项目开发中经常遇到大批量的资源需要重命名，特别是美术资源如贴图、动画这些</p>
-<p>而UE自带的批量操作又没有发现有重命名方法</p>
-<p>所以就制作了这个简单的批量重命名的小插件</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/VJien/BatchRename">Github下载链接</a></p>
-<ul>
-<li>动图演示</li>
-</ul>
-<p><img src="https://img.supervj.top/img/other/Rename.gif" alt="Rename"></p>
-<h5 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h5><ul>
-<li>Prefix前缀</li>
-<li>Name:修改后的名称</li>
-<li>StartIndex:在多选的情况下会自动生成序号，此选项为起始序号</li>
-<li>Suffix:后缀</li>
-<li>点击Rename按键就执行重命名</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -2277,14 +2325,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">376k</span>
+    <span title="站点总字数">377k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:42</span>
+    <span title="站点阅读时长">5:43</span>
   </span>
 </div>
 <div class="busuanzi-count">
