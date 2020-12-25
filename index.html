@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -601,6 +601,261 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/12/11/RuntimeInputMappingPlugin/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/" class="post-title-link" itemprop="url">GameplayAbilitySystem(二):属性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-10T00:00:00+08:00">2020-12-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-25 14:31:17" itemprop="dateModified" datetime="2020-12-25T14:31:17+08:00">2020-12-25</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/" class="cy_cmt_count" data-xid="2020/12/10/GameplayAbilitySystem分析(二)_属性/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们<code>GAS</code>框架内的属性</p>
+<p><u>暗黑3属性图镇楼</u></p>
+<img src="https://img.supervj.top//img/image-20201217111712682.png" alt="image-20201217111712682" style="zoom:50%;" />
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/" class="post-title-link" itemprop="url">GameplayAbilitySystem(一):初始化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-09T00:00:00+08:00">2020-12-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-24 21:06:37" itemprop="dateModified" datetime="2020-12-24T21:06:37+08:00">2020-12-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/" class="cy_cmt_count" data-xid="2020/12/09/GameplayAbilitySystem分析(一)_初始化/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>此篇为<code>GameplayAbilitySystem(GAS)</code>相关文档的开篇,</p>
+<p>此系列文档打算从头记录用UE4 <code>GAS</code>插件为基础实战开发游戏的技术细节</p>
+</blockquote>
+<p>引用官网的一段话介绍一下<code>GAS</code>系统</p>
+<blockquote>
+<p>Gameplay技能系统 是一个高度灵活的框架，可用于构建你可能会在RPG或MOBA游戏中看到的技能和属性类型。你可以构建可供游戏中的角色使用的动作或被动技能，使这些动作导致各种属性累积或损耗的状态效果，实现约束这些动作使用的”冷却”计时器或资源消耗，更改技能等级及每个技能等级的技能效果，激活粒子或音效，等等。简单来说，此系统可帮助你在任何现代RPG或MOBA游戏中设计、实现及高效关联各种游戏中的技能，既包括跳跃等简单技能，也包括你喜欢的角色的复杂技能集。</p>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>创建C++工程<code>SuperRoad</code>(也可以先创建蓝图工程,然后添加任意c++类), 目前引擎已经升级到4.26.0, 就以此版本为基础开发</li>
+<li>暂不导入美术资源, 使用默认<code>TopDown</code>模板的基础资源</li>
+<li>打开引擎插件, 开启<code>GameplayAbilities</code>并重启项目</li>
+</ul>
+<p>打开项目<code>Build.cs</code></p>
+<p>暂添加如下模块</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PrivateDependencyModuleNames.AddRange(<span class="keyword">new</span> <span class="built_in">string</span>[] &#123;</span><br><span class="line">            <span class="string">&quot;GameplayAbilities&quot;</span>,</span><br><span class="line">            <span class="string">&quot;GameplayTags&quot;</span>,</span><br><span class="line">            <span class="string">&quot;GameplayTasks&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1328,341 +1583,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/" class="post-title-link" itemprop="url">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-29T00:00:00+08:00">2020-10-29</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8A%A8%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">动画</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/" class="cy_cmt_count" data-xid="2020/10/29/AdvancedLocomotionSystem分析4_布娃娃和起身/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>  接下来就是布娃娃系统，对应的就有从布娃娃恢复成正常状态的起身动作。</p>
-<p>这里还同时分析了一下站立和下蹲姿势的切换，因为起身动作会涉及到这一块</p>
-</blockquote>
-<p><a href="https://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">AdvancedLocomotionSysemV4分析(一):移动和脚步IK</a></p>
-<p><a href="https://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">AdvancedLocomotionSystem分析(二):攀爬系统</a></p>
-<p><a href="https://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">AdvancedLocomotionSystemV4分析(三):动作叠加</a></p>
-<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>站姿切换的输入比较简单粗暴，<code>ASL</code>项目用一个按键来实现姿势切换和翻滚，我这里方便测试就直接把这两个功能分开了，只需要设定一个按键直接调用<code>Crouch</code>和<code>UnCrouch</code>即可，然后在角色自带的时间<code>OnStartCrouch</code>和<code>OnEndCrouch</code>去调用方法<code>OnStanceChanged</code></p>
-<p>然后是布娃娃的输入，直接按键以后调用<code>RagdollStart</code>即可，如果已经处于<code>Ragdoll</code>状态就调用<code>RagdollEnd</code>结束布娃娃状态</p>
-<h3 id="布娃娃"><a href="#布娃娃" class="headerlink" title="布娃娃"></a>布娃娃</h3><h5 id="开始-进入布娃娃状态"><a href="#开始-进入布娃娃状态" class="headerlink" title="开始/进入布娃娃状态"></a>开始/进入布娃娃状态</h5><p><img src="https://img.supervj.top/img/temp/image-20201030105803687.png" alt="image-20201030105803687"></p>
-<p>进入布娃娃状态我们分3步走</p>
-<ol>
-<li>设置移动状态为<code>None</code>，设置<code>MovementState</code>为<code>Ragdoll</code></li>
-<li>关闭胶囊体碰撞，设置骨骼模型的碰撞为<code>PhysicsBody</code>，开启物理和检测效果，打开<code>pelvis</code>及以下的所有骨骼物理效果</li>
-<li>停止当前蒙太奇动画</li>
-</ol>
-<p>这里有一个非常大的坑需要注意，第2条的开启骨骼物理效果需要修改默认的骨骼物理资产，见下图</p>
-<p><img src="https://i.loli.net/2020/10/30/J5BqkUfN9OT6iwC.png" alt="image-20201030110213472"></p>
-<p>需要注意几点</p>
-<ol>
-<li>给<code>root</code>添加一个碰撞体</li>
-<li>修改碰撞体属性，<code>PhysicsType</code>设置为<code>Kinematic</code>，关闭碰撞检测</li>
-<li>修改<code>root</code>与<code>pelvis</code>碰撞体之间的约束，线性约束全部设置为<code>free</code></li>
-</ol>
-<p>如果不做以上几点你就会发现起身以后位置的异常，是因为<code>pelvis</code>碰撞体如果最为最上层碰撞体必然会导致的异常位置缘故</p>
-<hr>
-<p>进入布娃娃以后我们也需要看一下动画蓝图中的内容</p>
-<p><img src="https://i.loli.net/2020/10/30/yBKTroaSxOXpq1A.png" alt="image-20201030111405881"></p>
-<p>在主动画视图里的最后节点混合了布娃娃状态机</p>
-<p><img src="https://i.loli.net/2020/10/30/FCjpBRAJ6GuMlVE.png" alt="image-20201030111447376"></p>
-<p>比较简单，2个状态机切换而已</p>
-<p>刚进入布娃娃的时候使用动画<code>Flail</code>动画来过度</p>
-<p><img src="https://i.loli.net/2020/10/30/OEUAsicdynKHXfl.png" alt="image-20201030111604063"></p>
-<p>离开布娃娃时会使用离开布娃娃瞬间保存的<strong>快照动作</strong>来过度，很巧妙</p>
-<h5 id="刷新布娃娃状态"><a href="#刷新布娃娃状态" class="headerlink" title="刷新布娃娃状态"></a>刷新布娃娃状态</h5><p><img src="https://i.loli.net/2020/10/30/M6uotmZCwDh3eE4.png" alt="image-20201030111139863"></p>
-<p><img src="https://i.loli.net/2020/10/30/EGlQo1g3qYVsmKn.png" alt="image-20201030111151057"></p>
-<p>图片上的注释已经说的比较详细了，用的方法比较传统，这个<strong>线速度</strong>保存着是为了在结束布娃娃状态的时候在特定时候需要继续使用</p>
-<h5 id="结束布娃娃状态"><a href="#结束布娃娃状态" class="headerlink" title="结束布娃娃状态"></a>结束布娃娃状态</h5><p><img src="https://i.loli.net/2020/10/30/eVtYHkbiJg38AhQ.png" alt="image-20201030111753682"></p>
-<p>需要稍微注意的是这里有一个方法<code>GetGetUpAnimation</code>来得到具体的起身蒙太奇动画，考虑到的主要就是动作叠加问题，其实动画序列来自于同一个，只是动画通知内容不一样</p>
-<p><img src="https://i.loli.net/2020/10/30/KMrmGi8ba541VUh.png" alt="image-20201030112204582"></p>
-<p>动画通知调用了接口设置角色的状态为<code>GettingUp</code></p>
-<hr>
-<p>到这里，整个布娃娃和起身逻辑基本上完成了，但是实现的时候还会发现一个问题，就是起身以后会异常抖动</p>
-<p>原因是这套系统需要配合站立/下蹲的过度切换，如果不参用这个套路或者<strong>把起身动画里的下蹲权重=1的曲线<code>BasePose_CLF</code>删掉或设置为0</strong>都可以让角色直接成为站立状态，不需要下蹲姿势的过度，不过这个效果稍微差劲一点，看下图对比</p>
-<p><img src="https://i.loli.net/2020/10/30/JpYtPrWhNVEjwb2.gif" alt="录制_2020_10_30_11_28_27_728"></p>
-<p><img src="https://i.loli.net/2020/10/30/KZQO1R8egDhTXPH.gif" alt="录制_2020_10_30_11_29_12_605"></p>
-<h5 id="站立-下蹲切换"><a href="#站立-下蹲切换" class="headerlink" title="站立/下蹲切换"></a>站立/下蹲切换</h5><p><img src="https://i.loli.net/2020/10/30/1IVeWwyZxJpT2K3.png" alt="image-20201030113156852"></p>
-<p>下蹲在<code>Baselayer</code>层内也有类似站姿的2个状态机，实现内容也大同小异不过多讲述了</p>
-<p><code>Cycles</code>内6方向混合，<code>States</code>内停止/移动切换，转身</p>
-<p>重点看一下<code>MainGrounded</code>状态机内的姿势切换状态机</p>
-<p><img src="https://i.loli.net/2020/10/30/EsPUB8oyIfOwcR6.png" alt="image-20201030113355979"></p>
-<p>拿一张脑图来说明一下</p>
-<p><img src="https://i.loli.net/2020/10/30/meMcgWJy7s6UlH3.png" alt="image-20201030115438341"></p>
-<p>两个过渡状态机添加了通知<code>StopTransition</code></p>
-<p>另外，目前阶段的切换站姿会导致视角抖动，因为UE4本身<code>Crouch</code>的瞬间会把胶囊体的大小缩放为<code>CrouchHalfHeight</code>的高度，解决方法是把相机独立出去，即不挂载在角色身上，后续分析</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/" class="post-title-link" itemprop="url">AdvancedLocomotionSystemV4分析(三):动作叠加</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-28T00:00:00+08:00">2020-10-28</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8A%A8%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">动画</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/" class="cy_cmt_count" data-xid="2020/10/28/AdvancedLocomotionSystem分析3_动作叠加/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a href="https://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">AdvancedLocomotionSysemV4分析(一):移动和脚步IK</a></p>
-<p><a href="https://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">AdvancedLocomotionSystem分析(二):攀爬系统</a></p>
-<p><a href="https://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a></p>
-<p><a href="https://supervj.top/2020/10/31/AdvancedLocomotionSystem%E5%88%86%E6%9E%905_%E9%95%9C%E5%A4%B4/">AdvancedLocomotionSystemV4分析(五):镜头</a></p>
-<hr>
-<blockquote>
-<p>本片主要分析一下ALS项目的动作叠加部分，主要用到各类姿势的切换，如受伤状态、持枪、持弓状态等，另外一种一般项目会用到的<code>AnimOffset</code>在这里没有用到，头部转向用了另外一种方式制作</p>
-</blockquote>
-<p><img src="https://img.supervj.top/img/temp/%E5%BD%95%E5%88%B6_2020_10_29_16_42_10_43.gif" alt="录制_2020_10_29_16_42_10_43"></p>
-<p>姿势的切换通过接口<code>BPI_Set_OverlayState</code>调用，无论是用<code>ALS</code>项目的UI切换或者其他方式都可以</p>
-<p>在<code>ABP</code>中直接改变<code>OverlayState</code>变量也可以直接预览效果，比之前的模块都简单一些</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029161903882.png" alt="image-20201029161903882"></p>
-<p>如上图，<code>Overlay</code>单独做了一个动画层</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029162011256.png" alt="image-20201029162011256"></p>
-<p>我这边实现了部分动作，如上图，其实思路大同小异，性别/受伤等切换比较简单，弓箭/枪类等动作会有一个内部状态机切换动作，稍微会讲</p>
-<p>判断类型基本是通过<code>OverlayState</code>来判定</p>
-<h3 id="Default"><a href="#Default" class="headerlink" title="Default"></a>Default</h3><p>如果按照我们之前两篇文章的制作，到这里之前角色是静态的，因为之前的默认动作只是播放<code>ALS_N_Pose</code>的第一帧动作，但是加上目前这个逻辑以后就开始有了<code>IDLE</code>动作了，我们看<code>Default</code>状态机做了什么</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029162347423.png" alt="image-20201029162347423"></p>
-<p>文字描述一下就是</p>
-<p>根据<strong>步态/站姿/是否在空中</strong>，来决定基础动作使用姿势动画的第几帧,这里名字带<code>Variation</code>的字样的都是单帧动画的集合，使用的都是某一帧的数据</p>
-<p>然后叠加<code>次要运动</code>动画，这个动画是带起伏的<code>IDLE</code>动作，如下图</p>
-<img src="https://img.supervj.top/img/temp/%E5%BD%95%E5%88%B6_2020_10_29_16_28_06_978.gif" alt="录制_2020_10_29_16_28_06_978" style="zoom:50%;" />
-
-<p>所以所有姿势的起伏动作都是来源于这个动画，值得借鉴</p>
-<h3 id="Bow"><a href="#Bow" class="headerlink" title="Bow"></a>Bow</h3><p>至于男女姿势其实跟默认的没啥逻辑上的区别就略过了，下面看看弓箭的动作，这个还是蛮实用的，我们实际开发中基本肯定会用到射击类的武器</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029163239993.png" alt="image-20201029163239993"></p>
-<p>上图就是整个弓箭的状态机，除了几个特殊动作，默认都用子状态机<code>Bow</code>，特殊动作比如<code>GetUp</code>用的就是基础弓箭动作的某一帧比如下图，而这个整形变量<code>OverlayStateCount</code>是通过动画通知修改的，容易理解</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029163214826.png" alt="image-20201029163214826"></p>
-<p><img src="https://i.loli.net/2020/10/29/pAfJreFWv5b6Klu.png" alt="image-20201029163523606"></p>
-<p>我们看一下子状态机里面的内容，如上图</p>
-<p>默认是一个松弛状态，然后有准备动作和瞄准动作</p>
-<p>其实就是把之前的比如<code>Default</code>类型的姿势模仿一遍扔过来就可以了，无非就是换一个单帧混合动画而已</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029163714887.png" alt="image-20201029163714887"></p>
-<p>这里看到上面从<code>Ready</code>切换回<code>Released</code>会有3个<code>Contition</code>，理论上来讲不用这么多，当然他总有他的道理</p>
-<p>3个分别解释一下是</p>
-<ol>
-<li><code>Bow</code>状态机持续超过3秒同时旋转值(RotationAmount)等于0</li>
-<li><code>Bow</code>状态机持续超过3秒同时正在移动</li>
-<li>冲刺状态或者空中状态</li>
-</ol>
-<p>其中上面第三个判定优先级是2</p>
-<p>那么就凑成了一个完整的弓箭姿势叠加</p>
-<h3 id="LayerBlending层"><a href="#LayerBlending层" class="headerlink" title="LayerBlending层"></a>LayerBlending层</h3><p>只看<code>Overlay</code>层还不够，因为最开始的一张图显示，还有一个<code>LayerBlending</code>层来混合3个另外的层</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029164641087.png" alt="image-20201029164641087"></p>
-<p>一眼望去很绝望的赶脚，确实做的非常细致</p>
-<p>我们看几个代表性的</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201029164742536.png" alt="image-20201029164742536"></p>
-<p><img src="https://i.loli.net/2020/10/29/vOE72zdfQtIAHey.png" alt="image-20201029171059067"></p>
-<p><img src="https://i.loli.net/2020/10/29/y2O1PtaDFJ8pqiR.png" alt="image-20201029171216089"></p>
-<p><code>BasePose</code>通过两种方式叠加<code>BaseLayer</code>缓存为Pose</p>
-<p>后面根据各种<code>Layering</code>曲线的值来决定混合的动作和插槽</p>
-<p>然后从脚步pose开始逐步骨骼分层</p>
-<p><img src="https://i.loli.net/2020/10/29/gOLE469lzDSNcmY.png" alt="image-20201029172626602"></p>
-<p>上图比较特殊，在最后部分用了2个特殊的骨骼分层，倒数第二个用了一个<code>root</code>创建的基于<code>root</code>的虚拟骨骼，暂时没发现什么具体作用；最后一个骨骼分层节点没有设置成员</p>
-<p>按照注释解释是<strong>将两个图层中的动画曲线混合在一起，并覆盖上一层的干扰。</strong></p>
-<p>好吧，此坑先留着，后面来挖</p>
-<h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>制作叠加的时候发现了一个坑，动作切换的时候，<code>Base_N_Pose</code>曲线的值会回到0，然后导致每次切换姿势回瞬间跳转到默认姿势再调准到期望姿势，产生了异常抖动效果。</p>
-<p>按照正常情况站姿的情况下该值应该一直处于1才对，然后手动在基础动画层的最后节点之前手动<code>ModifyCurves</code>把此曲线值先设为1。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1710,14 +1630,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">377k</span>
+    <span title="站点总字数">394k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:43</span>
+    <span title="站点阅读时长">5:58</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -5907,4 +5907,278 @@
         <tag>后期</tag>
       </tags>
   </entry>
+  <entry>
+    <title>GameplayAbilitySystem(一):初始化</title>
+    <url>/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>此篇为<code>GameplayAbilitySystem(GAS)</code>相关文档的开篇,</p>
+<p>此系列文档打算从头记录用UE4 <code>GAS</code>插件为基础实战开发游戏的技术细节</p>
+</blockquote>
+<p>引用官网的一段话介绍一下<code>GAS</code>系统</p>
+<blockquote>
+<p>Gameplay技能系统 是一个高度灵活的框架，可用于构建你可能会在RPG或MOBA游戏中看到的技能和属性类型。你可以构建可供游戏中的角色使用的动作或被动技能，使这些动作导致各种属性累积或损耗的状态效果，实现约束这些动作使用的”冷却”计时器或资源消耗，更改技能等级及每个技能等级的技能效果，激活粒子或音效，等等。简单来说，此系统可帮助你在任何现代RPG或MOBA游戏中设计、实现及高效关联各种游戏中的技能，既包括跳跃等简单技能，也包括你喜欢的角色的复杂技能集。</p>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>创建C++工程<code>SuperRoad</code>(也可以先创建蓝图工程,然后添加任意c++类), 目前引擎已经升级到4.26.0, 就以此版本为基础开发</li>
+<li>暂不导入美术资源, 使用默认<code>TopDown</code>模板的基础资源</li>
+<li>打开引擎插件, 开启<code>GameplayAbilities</code>并重启项目</li>
+</ul>
+<p>打开项目<code>Build.cs</code></p>
+<p>暂添加如下模块</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">PrivateDependencyModuleNames.AddRange(<span class="keyword">new</span> <span class="built_in">string</span>[] &#123;</span><br><span class="line">            <span class="string">&quot;GameplayAbilities&quot;</span>,</span><br><span class="line">            <span class="string">&quot;GameplayTags&quot;</span>,</span><br><span class="line">            <span class="string">&quot;GameplayTasks&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+
+
+
+
+<h2 id="初始化流程"><a href="#初始化流程" class="headerlink" title="初始化流程"></a>初始化流程</h2><p><code>GAS</code>系统必须使用c++, 这个是目前逃不掉的规则, 后续可以尽量使用蓝图来更直观的<code>连连看</code>, 但是基础设置还是必须要c++先完成</p>
+<h3 id="创建各种类"><a href="#创建各种类" class="headerlink" title="创建各种类"></a>创建各种类</h3><p>创建各种必要的基类和<code>GAS</code>相关类, 因为其中部分类初始化必须需要用到,下图仅供参考</p>
+<p><img src="https://img.supervj.top//img/image-20201209110513636.png" alt="image-20201209110513636"></p>
+<p>此项目多数类以<code>SR</code>为前缀</p>
+<h3 id="TargetData"><a href="#TargetData" class="headerlink" title="TargetData"></a>TargetData</h3><p>首先为了使用<code>TargetData</code>必须找一个地方在尽量早的时机执行<code>UAbilitySystemGlobals::InitGlobalData()</code>,可以自定义一个<code>SubsystemEngine</code>或者如<code>ActionRPG</code>自定义一个<code>AssetManager</code>到这个类里面执行</p>
+<h3 id="ASC"><a href="#ASC" class="headerlink" title="ASC"></a>ASC</h3><p><code>ASC</code>即<code>AbilitySystemComponent</code>, <code>GAS</code>系统的核心关键, 使用<code>GAS</code>的各类功能都是围绕这个组件展开的</p>
+<p>一般流行的方法中关于<code>ASC</code>的创建会放到<code>PlayerState(PS)</code>或者<code>Character/Pawn</code>中,两种方式都可以,初始化略有区别, 但是都是围绕着一点 <em>在客户端和服务端都在合适的时机调用初始化方法</em></p>
+<p>这里有一点需要注意</p>
+<blockquote>
+<p>如果<code>ASC</code>在<code>PS</code>上，那么必须增加<code>NetUpdateFrequency</code>的值,因为默认情况下PS的优先级不高，会导致技能延迟</p>
+</blockquote>
+<p>还有一个规则</p>
+<p>如果组件的<code>OwnerActor</code>和作用目标不是同一个，那么必须实现<code>IAbilitySystemInterface</code>接口，同时必须重写里面的唯一的方法<code>GetAbilitySystemComponent</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">UAbilitySystemComponent * <span class="title">ASRCharacterBase::GetAbilitySystemComponent</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> AbilitySystemComponent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>既然<code>ASC</code>需要在服务端和客户端都进行初始化，对于<code>Pawn</code>来说，可以在服务端用<code>PossessedBy</code>,在客户端用<code>PlayerController</code>的<code>AcknowledgePawn</code>初始化</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRCharacterBase::PossessedBy</span><span class="params">(AController * NewController)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::PossessedBy(NewController);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (AbilitySystemComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent-&gt;InitAbilityActorInfo(<span class="keyword">this</span>, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	SetOwner(NewController);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRPlayerControllerBase::AcknowledgePossession</span><span class="params">(APawn* P)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::AcknowledgePossession(P);</span><br><span class="line"></span><br><span class="line">	AVGCharacterBase* CharacterBase = Cast&lt;ASRCharacterBase&gt;(P);</span><br><span class="line">	<span class="keyword">if</span> (CharacterBase)</span><br><span class="line">	&#123;</span><br><span class="line">		CharacterBase-&gt;GetAbilitySystemComponent()-&gt;InitAbilityActorInfo(CharacterBase, CharacterBase);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于<code>ASC</code>在<code>PS</code>中创建的，可以在客户端用<code>Pawn</code>的<code>OnRep_PlayerState</code>内初始化</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Server only</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AHeroCharacter::PossessedBy</span><span class="params">(AController * NewController)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::PossessedBy(NewController);</span><br><span class="line"></span><br><span class="line">	AGDPlayerState* PS = GetPlayerState&lt;AGDPlayerState&gt;();</span><br><span class="line">	<span class="keyword">if</span> (PS)</span><br><span class="line">	&#123;</span><br><span class="line">		</span><br><span class="line">		AbilitySystemComponent = Cast&lt;UGDAbilitySystemComponent&gt;(PS-&gt;GetAbilitySystemComponent());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		PS-&gt;GetAbilitySystemComponent()-&gt;InitAbilityActorInfo(PS, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Client only</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AHeroCharacter::OnRep_PlayerState</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::OnRep_PlayerState();</span><br><span class="line"></span><br><span class="line">	AGDPlayerState* PS = GetPlayerState&lt;AGDPlayerState&gt;();</span><br><span class="line">	<span class="keyword">if</span> (PS)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent = Cast&lt;UGDAbilitySystemComponent&gt;(PS-&gt;GetAbilitySystemComponent());</span><br><span class="line">		AbilitySystemComponent-&gt;InitAbilityActorInfo(PS, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>因为考虑怪物也需要释放技能, 那么我就干脆直接把<code>ASC</code>创建到基础角色中,即<code>SRCharacterBase</code>中</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ASRCharacterBase::ASRCharacterBase(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer):Super(ObjectInitializer)</span><br><span class="line">&#123;</span><br><span class="line">	PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line">	AbilitySystemComponent = CreateDefaultSubobject&lt;USRAbilitySystemComponent&gt;(TEXT(<span class="string">&quot;AbilityComponent&quot;</span>));</span><br><span class="line">	AbilitySystemComponent-&gt;SetIsReplicated(<span class="literal">true</span>);</span><br><span class="line">	AbilitySystemComponent-&gt;SetReplicationMode(EGameplayEffectReplicationMode::Mixed);</span><br><span class="line"></span><br><span class="line">	AttributeSet = CreateDefaultSubobject&lt;USRAttributeSetBase&gt;(TEXT(<span class="string">&quot;AttributeSet&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就按照之前所说的, 在<code>PossessedBy</code>和<code>Controller</code>中的<code>AcknowledgePossession</code>中初始化<code>ASC</code></p>
+<h3 id="添加技能-初始化属性"><a href="#添加技能-初始化属性" class="headerlink" title="添加技能/初始化属性"></a>添加技能/初始化属性</h3><p>因为我们需要使用技能, 而技能必须被添加到<code>ASC</code>中, 可以理解为注册技能, 我们这里给<code>SRCharacterBase</code>加入几个初始化方法;</p>
+<p>也别忘了给角色添加几个变量来设置初始内容</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//角色技能</span></span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;SR | Abilities&quot;</span>)</span><br><span class="line">	TArray&lt;TSubclassOf&lt;<span class="class"><span class="keyword">class</span> <span class="title">USRGameplayAbilityBase</span>&gt;</span>&gt; CharacterAbilities;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始效果,用来初始化属性</span></span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;SR | Abilities&quot;</span>)</span><br><span class="line">	TSubclassOf&lt;<span class="class"><span class="keyword">class</span> <span class="title">UGameplayEffect</span>&gt;</span> DefaultAttributeEffect;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始应用的GE效果,例如魔法回复</span></span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;SR | Abilities&quot;</span>)</span><br><span class="line">	TArray&lt;TSubclassOf&lt;<span class="class"><span class="keyword">class</span> <span class="title">UGameplayEffect</span>&gt;</span>&gt; StartupEffects;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化属性</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">InitAttributes</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//添加初始技能</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AddCharacterStartupAbilities</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//添加初始效果</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AddStartUpEffects</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>分别实现</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRCharacterBase::InitAttributes</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!AbilitySystemComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(SRLog, Warning, TEXT(<span class="string">&quot;InitAttributes failed [no ASC]  !!&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!DefaultAttributeEffect)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(SRLog, Warning, TEXT(<span class="string">&quot;InitAttributes failed [no DefaultAttributeEffect]  !!&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent-&gt;MakeEffectContext();</span><br><span class="line">	EffectContextHandle.AddSourceObject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent-&gt;MakeOutgoingSpec(DefaultAttributeEffect, GetCharacterLevel(), EffectContextHandle);</span><br><span class="line">	<span class="keyword">if</span> (SpecHandle.IsValid())</span><br><span class="line">	&#123;</span><br><span class="line">		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent-&gt;ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), AbilitySystemComponent);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRCharacterBase::AddCharacterStartupAbilities</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent || AbilitySystemComponent-&gt;bHasGiveCharacterAbilities)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> ga : CharacterAbilities)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		FGameplayAbilitySpec spec = FGameplayAbilitySpec(ga, GetAbilityLevel(ga.GetDefaultObject()-&gt;AbilityName), <span class="keyword">static_cast</span>&lt;int32&gt;(ga.GetDefaultObject()-&gt;InputID), <span class="keyword">this</span>);</span><br><span class="line">		AbilitySystemComponent-&gt;GiveAbility(spec);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	AbilitySystemComponent-&gt;bHasGiveCharacterAbilities = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRCharacterBase::AddStartUpEffects</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent || AbilitySystemComponent-&gt;bHasApplyStartupEffects)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(SRLog, Warning, TEXT(<span class="string">&quot;Add Startup Effects failed&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent-&gt;MakeEffectContext();</span><br><span class="line">	EffectContextHandle.AddSourceObject(<span class="keyword">this</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> ge : StartupEffects)</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent-&gt;MakeOutgoingSpec(ge, GetCharacterLevel(), EffectContextHandle);</span><br><span class="line">		<span class="keyword">if</span> (SpecHandle.IsValid())</span><br><span class="line">		&#123;</span><br><span class="line">			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent-&gt;ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), AbilitySystemComponent);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	AbilitySystemComponent-&gt;bHasApplyStartupEffects = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面初始化属性实际上也是激活了一次<code>GameplayAbilityEffect</code>效果, 这个关于<code>GA</code>和<code>GE</code>之类的内容在后续展开</p>
+<p>我们现在随意创建一个<code>GA</code>和一个<code>GE</code></p>
+<p>为了防止重复调用, 上述代码中会有两个bool变量(<code>bHasApplyStartupEffects</code>,<code>bHasGiveCharacterAbilities</code>)需要稍微注意, 当然不是必须的</p>
+<p>关于调用时机, 我们把他们放在了服务端的函数 <code>PossessedBy</code>中,关于客户端是否需要调用后续看需求跟进.</p>
+<p>此函数目前状态</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRCharacterBase::PossessedBy</span><span class="params">(AController* NewController)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::PossessedBy(NewController);</span><br><span class="line">	<span class="keyword">if</span> (AbilitySystemComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent-&gt;InitAbilityActorInfo(<span class="keyword">this</span>, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	InitAttributes();</span><br><span class="line">	AddCharacterStartupAbilities();</span><br><span class="line">	AddStartUpEffects();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h3 id="按键绑定"><a href="#按键绑定" class="headerlink" title="按键绑定"></a>按键绑定</h3><p><code>ASC</code>有一个非常快捷的按键绑定方式,即调用方法<code>BindAbilityActivationToInputComponent(...)</code></p>
+<p>传入参数第二个参数<code>FGameplayAbilityInputBinds</code>非常有意思,先看一下构造函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">FGameplayAbilityInputBinds(FString InConfirmTargetCommand, FString InCancelTargetCommand, FString InEnumName, int32 InConfirmTargetInputID = INDEX_NONE, int32 InCancelTargetInputID = INDEX_NONE)</span><br><span class="line">		: ConfirmTargetCommand(InConfirmTargetCommand)</span><br><span class="line">		, CancelTargetCommand(InCancelTargetCommand)</span><br><span class="line">		, EnumName(InEnumName)</span><br><span class="line">		, ConfirmTargetInputID(InConfirmTargetInputID)</span><br><span class="line">		, CancelTargetInputID(InCancelTargetInputID)</span><br><span class="line">	&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>InEnumName</li>
+</ul>
+<p>我们先看这个参数, 他需要你定义一个枚举变量, 此枚举成员变量的名字就需要对应到游戏项目设置里的<code> Input</code>栏内的<code>Action</code>名称,当然有两个例外,后面讲, 先定义一个枚举</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ESRAbilityInputID</span> :</span> uint8</span><br><span class="line">&#123;</span><br><span class="line">	NONE,</span><br><span class="line">	CONFIRM,</span><br><span class="line">	CANCEL,</span><br><span class="line">	ABILITY1,</span><br><span class="line">	ABILITY2,</span><br><span class="line">	ABILITY3,</span><br><span class="line">	ABILITY4,</span><br><span class="line">	ABILITY5,</span><br><span class="line">	ABILITY6,</span><br><span class="line">	ABILITY7,</span><br><span class="line">	ABILITY8,</span><br><span class="line">	ABILITY9,</span><br><span class="line">	ABILITY10,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>InConfirmTargetCommand/InCancelTargetCommand</li>
+</ul>
+<p>这俩参数是<strong>确认</strong>和<strong>取消</strong>命令的<code>Action</code>名称, 即你打开你游戏项目设置里的<code> Input</code>栏内的<code>Action</code>名称</p>
+<p>如果输入为空,就使用之前枚举里定义的两个对应的枚举名称;如果设置了其他名称, 那么你<code>Action</code>内的这俩功能的名称可以改成你设置的;</p>
+<ul>
+<li>ConfirmTargetInputID/CancelTargetInputID</li>
+</ul>
+<p>这俩是具体枚举里面的对应<strong>确认</strong>和<strong>取消</strong>命令的成员变量</p>
+<p>最后实现如下</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ASRHero::BindASCInput</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!bHasBindInput &amp;&amp; AbilitySystemComponent &amp;&amp; InputComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent-&gt;BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(TEXT(<span class="string">&quot;CONFIRM&quot;</span>), TEXT(<span class="string">&quot;CANCEL&quot;</span>),</span><br><span class="line">			TEXT(<span class="string">&quot;ESRAbilityInputID&quot;</span>), <span class="keyword">static_cast</span>&lt;int32&gt;(ESRAbilityInputID::CONFIRM), <span class="keyword">static_cast</span>&lt;int32&gt;(ESRAbilityInputID::CANCEL)));</span><br><span class="line">		bHasBindInput = <span class="literal">true</span>; <span class="comment">//防止多次绑定</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<blockquote>
+<p>实测发现, 自定义的<code>Confirm</code>和<code>Cancel</code>会调用到<code>ASC</code>的虚函数<code>virtual void LocalInputConfirm(); 和    virtual void LocalInputCancel();</code></p>
+<p>而并不能成功调用已经注册的例如<code>InputID</code>=<code>CF</code>的技能</p>
+<p>当然理论上可以绕一圈重写上面方法来调用到对应技能</p>
+</blockquote>
+<blockquote>
+<p>所以建议还是<code>BindAbilityActivationToInputComponent</code>的前两个参数设置成对应的<code>Confirm</code>和<code>Cancel</code>的名称或者直接设置成空也是可以映射到枚举的</p>
+</blockquote>
+<p>然后就是函数执行时机问题,这里有个问题需要考虑, 你调用此函数的时候需要确保或者尽量保证<code>InputComponent</code>已经存在了,服务端没什么问题, 在服务端在<code>SetupPlayerInputComponent</code>中执行绑定函数;</p>
+<p>关键就是客户端, 客户端通过<code>PlayerController::ClientRestart()</code>函数然后创建的<code>InputComponent</code>,我们重写了<code>OnRep_PlayerState</code>来执行客户端事件, 也调用绑定事件, 因为有<code>bool</code>变量来防止多次绑定, 那么此举也是为了保险起见(<code>GASDoc</code>项目是这么建议的)</p>
+<h3 id="自定义GA类"><a href="#自定义GA类" class="headerlink" title="自定义GA类"></a>自定义GA类</h3><p>上面添加技能的方法中有一条语句是我们自定义的<code>GA</code>类的内容</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">FGameplayAbilitySpec spec = FGameplayAbilitySpec(ga, GetAbilityLevel(ga.GetDefaultObject()-&gt;AbilityName), <span class="keyword">static_cast</span>&lt;int32&gt;(ga.GetDefaultObject()-&gt;InputID), <span class="keyword">this</span>);</span><br><span class="line">		AbilitySystemComponent-&gt;GiveAbility(spec);</span><br></pre></td></tr></table></figure>
+
+<p>这里有两个参数<code>InputID</code>和<code>AbilityName</code>;</p>
+<p>我们创建<code>USRGameplayAbilityBase</code> 继承自 <code>UGameplayAbility</code></p>
+<p>新建如下变量</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;Ability&quot;</span>)</span><br><span class="line">	FString AbilityName;</span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;Ability&quot;</span>)</span><br><span class="line">	ESRAbilityInputID InputID = ESRAbilityInputID::NONE;</span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;Ability&quot;</span>)</span><br><span class="line">	<span class="keyword">bool</span> bAutoActivate = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>重写方法<code>OnAvatarSet</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRGameplayAbilityBase::OnAvatarSet</span><span class="params">(<span class="keyword">const</span> FGameplayAbilityActorInfo* ActorInfo, <span class="keyword">const</span> FGameplayAbilitySpec&amp; Spec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::OnAvatarSet(ActorInfo, Spec);</span><br><span class="line">	<span class="keyword">if</span> (bAutoActivate)</span><br><span class="line">	&#123;</span><br><span class="line">		ActorInfo-&gt;AbilitySystemComponent-&gt;TryActivateAbility(Spec.Handle, <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目的是如果是自动释放的技能就直接释放;</p>
+<p>至此我们技能的与按键就对应起来了</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>测试之前我们创建几个测试性的<code>GA</code>和<code>GE</code>, 这里我已经把初始化属性也做了, 但这是后续内容, 这里不展开; 我们先测试能否正确触发技能</p>
+<p>创建<code>GA_Test</code>,内容如下</p>
+<p><img src="https://img.supervj.top//img/image-20201210104931838.png" alt="image-20201210104931838"></p>
+<p>蒙太奇动画是一个跳跃动作(别忘记给默认动画蓝图加一个插槽),然后配置按键</p>
+<p><img src="https://img.supervj.top//img/image-20201210105408009.png" alt="image-20201210105408009"></p>
+<p>丢一个AI怪通过如下方式一直释放技能</p>
+<p><img src="https://img.supervj.top//img/image-20201210105530613.png" alt="image-20201210105530613"></p>
+<p>然后开测</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_10_10_56_14_650.gif" alt="录制_2020_12_10_10_56_14_650"></p>
+<p>完成!!!</p>
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GameplayAbilitySystem(二):属性</title>
+    <url>/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们<code>GAS</code>框架内的属性</p>
+<p><u>暗黑3属性图镇楼</u></p>
+<img src="https://img.supervj.top//img/image-20201217111712682.png" alt="image-20201217111712682" style="zoom:50%;" />
+
+
+
+
+
+<a id="more"></a>
+
+<h2 id="属性类"><a href="#属性类" class="headerlink" title="属性类"></a>属性类</h2><p><code>GAS</code>常用的属性类是<code>FGameplayAttribute</code>和<code>FGameplayAttributeData</code></p>
+<ul>
+<li><code>FGameplayAttributeData</code></li>
+</ul>
+<p>此结构体内有两个<code>float</code>变量, 表示<code>Base</code>和<code>Current</code>两个值, 一般情况下是一致的. 多数游戏中的生命值,魔法值等多数属性都可以使用此属性</p>
+<p>这里请看如下关键代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">FAggregatorRef* RefPtr = AttributeAggregatorMap.Find(Attribute);</span><br><span class="line">	<span class="keyword">if</span> (RefPtr)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// There is an aggregator for this attribute, so set the base value. The dirty callback chain</span></span><br><span class="line">		<span class="comment">// will update the actual AttributeSet property value for us.		</span></span><br><span class="line">		RefPtr-&gt;Get()-&gt;SetBaseValue(NewBaseValue);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// if there is no aggregator set the current value (base == current in this case)</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		InternalUpdateNumericalAttribute(Attribute, NewBaseValue, <span class="literal">nullptr</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码是在<code>GameplayEffect.cpp</code>;中的<code>SetAttributeBaseValue()</code>函数体中的, 本函数设置了<code>Base</code>值,然后<code>InternalUpdateNumericalAttribute()</code>设置了与<code>Base</code>一样的<code>Current</code>值, 从除非你自己创建了<code>FAggregatorRef</code>类, 该类通过<code>FActiveGameplayEffectsContainer::FindOrCreateAttributeAggregator()</code>创建,此方法是私有的, 实测通过<code>FActiveGameplayEffectsContainer::CaptureAttributeForGameplayEffect()</code>可以在外部创建, 那么使用起来就有点略微麻烦了,而且如果使用默认的<code>FAggregatorRef</code>类还是会饶了一圈通过<code>OnAttributeAggregatorDirty()</code>再执行<code>InternalUpdateNumericalAttribute()</code>把<code>Current</code>值给设置为与<code>Base</code>值一样的值.</p>
+<p>当然你强行拿到<code>FGameplayAttributeData</code>直接<code>SetCurrentValue()</code>是可以改变的, 但是无法通过<code>GE</code>来改到<code>Current</code>值,而且没有属性的事件响应</p>
+<blockquote>
+<p>对此处没有过多研究,如有错误请执教</p>
+</blockquote>
+<ul>
+<li><code>FGameplayAttribute</code></li>
+</ul>
+<p>相比而言只有一个浮点值, 对于一些辅助属性或者UI之类的属性可以用此属性</p>
+<ul>
+<li>事件响应</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;GetGameplayAttributeValueChangeDelegate(AttributeSetBase-&gt;GetHealthAttribute()).AddUObject(<span class="keyword">this</span>, &amp;APlayerState::HealthChanged);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">HealthChanged</span><span class="params">(<span class="keyword">const</span> FOnAttributeChangeData&amp; Data)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>用上述两个方法来绑定生命属性更改以后的回调，我们可以在绑定的事件处理比如UI之类的逻辑</p>
+<p>我们也可以用一个编辑器异步节点来监听属性的修改</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UCLASS(BlueprintType, meta=(ExposedAsyncProxy = AsyncTask))</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GASDOCUMENTATION_API</span> <span class="title">UAsyncTaskAttributeChanged</span> :</span> <span class="keyword">public</span> UBlueprintAsyncActionBase</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">	FOnAttributeChanged OnAttributeChanged;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Listens for an attribute changing.</span></span><br><span class="line">	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">	<span class="function"><span class="keyword">static</span> UAsyncTaskAttributeChanged* <span class="title">ListenForAttributeChange</span><span class="params">(UAbilitySystemComponent* AbilitySystemComponent, FGameplayAttribute Attribute)</span></span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">	UPROPERTY()</span><br><span class="line">	UAbilitySystemComponent* ASC;</span><br><span class="line"></span><br><span class="line">	FGameplayAttribute AttributeToListenFor;</span><br><span class="line">	TArray&lt;FGameplayAttribute&gt; AttributesToListenFor;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AttributeChanged</span><span class="params">(<span class="keyword">const</span> FOnAttributeChangeData&amp; Data)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">UAsyncTaskAttributeChanged * <span class="title">UAsyncTaskAttributeChanged::ListenForAttributesChange</span><span class="params">(UAbilitySystemComponent * AbilitySystemComponent, TArray&lt;FGameplayAttribute&gt; Attributes)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAsyncTaskAttributeChanged* WaitForAttributeChangedTask = NewObject&lt;UAsyncTaskAttributeChanged&gt;();</span><br><span class="line">	WaitForAttributeChangedTask-&gt;ASC = AbilitySystemComponent;</span><br><span class="line">	WaitForAttributeChangedTask-&gt;AttributesToListenFor = Attributes;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!IsValid(AbilitySystemComponent) || Attributes.Num() &lt; <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForAttributeChangedTask-&gt;RemoveFromRoot();</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (FGameplayAttribute Attribute : Attributes)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent-&gt;GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(WaitForAttributeChangedTask, &amp;UAsyncTaskAttributeChanged::AttributeChanged);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> WaitForAttributeChangedTask;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面会创建一个下图所示的异步节点来监听属性改变, 方便在各个地方得到属性数据</p>
+<p><img src="https://img.supervj.top/img/gitlab/image-20201024195609117.png" alt="image-20201024195609117"></p>
+<h2 id="属性集-AttributeSet"><a href="#属性集-AttributeSet" class="headerlink" title="属性集/AttributeSet"></a>属性集/AttributeSet</h2><p>顾名思义，属性集就是多个属性的容器，通常在拥有类的构造函数中创建，当然目前必须用C++</p>
+<p>例如我们也可以在<code>CharacterBase</code>的构造函数构造此类</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY()</span><br><span class="line">		USRAttributeSetBase* AttributeSet;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AttributeSet = CreateDefaultSubobject&lt;USRAttributeSetBase&gt;(TEXT(<span class="string">&quot;AttributeSet&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><ul>
+<li>辅助宏</li>
+</ul>
+<p><code>AttributeSet.h</code>中为我们提供了几个很有用的辅助宏, 用于方便我们在<code>cpp</code>中<code>get</code>,<code>set</code>,<code>init</code>等属性操作</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \</span></span><br><span class="line">	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName) \</span><br></pre></td></tr></table></figure>
+
+<p>我们再用<code>ATTRIBUTE_ACCESSORS</code>宏包裹4个宏</p>
+<hr>
+<p>然后用如下方法申明一个属性</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;Health&quot;</span>, ReplicatedUsing = OnRep_Health)</span><br><span class="line">		FGameplayAttributeData Health;</span><br><span class="line">	ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Health)</span><br></pre></td></tr></table></figure>
+
+<p>测试可以在<code>cpp</code>中调用如下方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">this</span>-&gt;InitHealth(<span class="number">100</span>);</span><br><span class="line"><span class="keyword">this</span>-&gt;GetHealth();</span><br><span class="line"><span class="keyword">this</span>-&gt;SetHealth(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">this</span>-&gt;GetHealthAttribute();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 注意: 这个是cpp中的函数,在蓝图中无法使用</p>
+</blockquote>
+<p>在蓝图中可以通过如下方式获取, 不能<code>Set</code></p>
+<p><img src="https://img.supervj.top/img/advVR/image-20200922134907045.png" alt="image-20200922134907045"></p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>如果属性设置了同步(Rep)</p>
+<p>那么可以在实现的时候用宏<code>GAMEPLAYATTRIBUTE_REPNOTIFY</code>来处理属性的同步</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGAttributeSet::OnRep_Health</span><span class="params">(<span class="keyword">const</span> FGameplayAttributeData&amp; OldHealth)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	GAMEPLAYATTRIBUTE_REPNOTIFY(UVGAttributeSet, Health, OldHealth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为<code>OnRep</code>函数是<code>UFUNCTION()</code>,所以因为UE的限制, 没办法用宏来快速声明和定义, 所以属性很多的话只能手动一个个声明定义</p>
+</blockquote>
+<p>最后,同步的属性需要在<code>GetLifetimeReplicatedProps</code>函数内用宏<code>DOREPLIFETIME_CONDITION_NOTIFY</code>处理同步,<code>REPNOTIFY_Always</code>属性意味着服务器值过来以后一定会走<code>Rep</code>函数, 默认情况如果值不变不用调用;</p>
+<blockquote>
+<p> 后面两个参数可以不填, 默认值是<code>COND_None,REPNOTIFY_OnChanged</code></p>
+</blockquote>
+<p>如果是类似<code>MetaAttribute</code>类的非同步属性, 那么此函数也会取消同步</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGAttributeSet::GetLifetimeReplicatedProps</span><span class="params">(TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::GetLifetimeReplicatedProps(OutLifetimeProps);</span><br><span class="line"></span><br><span class="line">	DOREPLIFETIME_CONDITION_NOTIFY(UVGAttributeSet, Health, COND_None, REPNOTIFY_Always);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态添加-移除"><a href="#动态添加-移除" class="headerlink" title="动态添加/移除"></a>动态添加/移除</h3><p>属性集也可以动态的添加和移除</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;SpawnedAttributes.AddUnique(WeaponAttributeSetPointer);</span><br><span class="line">AbilitySystemComponent-&gt;ForceReplication();</span><br><span class="line"></span><br><span class="line">AbilitySystemComponent-&gt;SpawnedAttributes.Remove(WeaponAttributeSetPointer);</span><br><span class="line">AbilitySystemComponent-&gt;ForceReplication();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="预处理-PreAttributeChange"><a href="#预处理-PreAttributeChange" class="headerlink" title="预处理/PreAttributeChange"></a>预处理/PreAttributeChange</h2><p>属性在正在修改之前会到函数<code>PreAttributeChange()</code></p>
+<p>这里比较适合对<code>NewValue</code>进行<code>Clamp</code>处理,比如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Attribute == GetMoveSpeedAttribute())</span><br><span class="line">&#123;</span><br><span class="line">    NewValue = FMath::Clamp&lt;<span class="keyword">float</span>&gt;(NewValue, <span class="number">150</span>, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者我们在这里对修改生命和魔法的最大值做一个处理, 请思考一般Moba或RPG等游戏中最大值修改以后, 当前的值也会按照百分比修改</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::AdjustAttributeForMaxChange</span><span class="params">(FGameplayAttributeData&amp; AffectedAttribute, <span class="keyword">const</span> FGameplayAttributeData&amp; MaxAttribute, <span class="keyword">float</span> NewMaxValue, <span class="keyword">const</span> FGameplayAttribute&amp; AffectedAttributeProperty)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent();</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> CurrentMaxValue = MaxAttribute.GetCurrentValue();</span><br><span class="line">	<span class="keyword">if</span> (!FMath::IsNearlyEqual(CurrentMaxValue, NewMaxValue) &amp;&amp; AbilityComp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 更改当前值以保持 Cur / Max 的百分比</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> CurrentValue = AffectedAttribute.GetCurrentValue();</span><br><span class="line">		<span class="keyword">float</span> NewDelta = (CurrentMaxValue &gt; <span class="number">0.f</span>) ? (CurrentValue * NewMaxValue / CurrentMaxValue) - CurrentValue : NewMaxValue;</span><br><span class="line"></span><br><span class="line">		AbilityComp-&gt;ApplyModToAttributeUnsafe(AffectedAttributeProperty, EGameplayModOp::Additive, NewDelta);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在预处理中执行</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::PreAttributeChange</span><span class="params">(<span class="keyword">const</span> FGameplayAttribute&amp; Attribute, <span class="keyword">float</span>&amp; NewValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UE_LOG(SRLog, Log, TEXT(<span class="string">&quot;Attribute Pre Changed old = %s, new= %f&quot;</span>), Attribute.GetUProperty(), NewValue);</span><br><span class="line">	Super::PreAttributeBaseChange(Attribute, NewValue);</span><br><span class="line">	<span class="keyword">if</span> (Attribute == GetMaxManaAttribute())</span><br><span class="line">	&#123;</span><br><span class="line">		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (Attribute == GetMaxManaAttribute())</span><br><span class="line">	&#123;</span><br><span class="line">		AdjustAttributeForMaxChange(Mana, MaxMana, NewValue, GetManaAttribute());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="PostGameplayEffectExecute"><a href="#PostGameplayEffectExecute" class="headerlink" title="PostGameplayEffectExecute"></a>PostGameplayEffectExecute</h2><p><code>PostGameplayEffectExecute()</code>函数会在瞬间执行的<code>GameplayEffect</code>修改到属性的时候执行</p>
+<p>这里可以做属性做一些额外的操作,比如对一些临时属性进行处理然后反馈到最终角色上, 我们后面会在这里做对临时的伤害值进行处理后, 修改角色的生命值等操作.</p>
+<p>因为还涉及到很多后续的内容, 这里先不展开</p>
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
 </search>

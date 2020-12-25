@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic|ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic|NoTo+Sans+SC:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们GAS框架内的属性 暗黑3属性图镇楼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GameplayAbilitySystem(二):属性">
+<meta property="og:url" content="http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/index.html">
+<meta property="og:site_name" content="V&amp;J&#39;s Blog">
+<meta property="og:description" content="前言前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们GAS框架内的属性 暗黑3属性图镇楼">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201217111712682.png">
+<meta property="og:image" content="https://img.supervj.top/img/gitlab/image-20201024195609117.png">
+<meta property="og:image" content="https://img.supervj.top/img/advVR/image-20200922134907045.png">
+<meta property="article:published_time" content="2020-12-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-25T06:31:17.971Z">
+<meta property="article:author" content="V&amp;J">
+<meta property="article:tag" content="UE4">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="实战">
+<meta property="article:tag" content="GAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201217111712682.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>GameplayAbilitySystem(二):属性 | V&J's Blog</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">V&J's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">属性类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E9%9B%86-AttributeSet"><span class="nav-number">3.</span> <span class="nav-text">属性集&#x2F;AttributeSet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E"><span class="nav-number">3.1.</span> <span class="nav-text">声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5"><span class="nav-number">3.2.</span> <span class="nav-text">同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0-%E7%A7%BB%E9%99%A4"><span class="nav-number">3.3.</span> <span class="nav-text">动态添加&#x2F;移除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86-PreAttributeChange"><span class="nav-number">4.</span> <span class="nav-text">预处理&#x2F;PreAttributeChange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PostGameplayEffectExecute"><span class="nav-number">5.</span> <span class="nav-text">PostGameplayEffectExecute</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="V&J"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">V&J</p>
+  <div class="site-description" itemprop="description">走过的叫足迹 走不到的叫憧憬</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GameplayAbilitySystem(二):属性
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-10T00:00:00+08:00">2020-12-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-25 14:31:17" itemprop="dateModified" datetime="2020-12-25T14:31:17+08:00">2020-12-25</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/12/10/GameplayAbilitySystem分析(二)_属性/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们<code>GAS</code>框架内的属性</p>
+<p><u>暗黑3属性图镇楼</u></p>
+<img src="https://img.supervj.top//img/image-20201217111712682.png" alt="image-20201217111712682" style="zoom:50%;" />
+
+
+
+
+
+<a id="more"></a>
+
+<h2 id="属性类"><a href="#属性类" class="headerlink" title="属性类"></a>属性类</h2><p><code>GAS</code>常用的属性类是<code>FGameplayAttribute</code>和<code>FGameplayAttributeData</code></p>
+<ul>
+<li><code>FGameplayAttributeData</code></li>
+</ul>
+<p>此结构体内有两个<code>float</code>变量, 表示<code>Base</code>和<code>Current</code>两个值, 一般情况下是一致的. 多数游戏中的生命值,魔法值等多数属性都可以使用此属性</p>
+<p>这里请看如下关键代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FAggregatorRef* RefPtr = AttributeAggregatorMap.Find(Attribute);</span><br><span class="line">	<span class="keyword">if</span> (RefPtr)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// There is an aggregator for this attribute, so set the base value. The dirty callback chain</span></span><br><span class="line">		<span class="comment">// will update the actual AttributeSet property value for us.		</span></span><br><span class="line">		RefPtr-&gt;Get()-&gt;SetBaseValue(NewBaseValue);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// if there is no aggregator set the current value (base == current in this case)</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		InternalUpdateNumericalAttribute(Attribute, NewBaseValue, <span class="literal">nullptr</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码是在<code>GameplayEffect.cpp</code>;中的<code>SetAttributeBaseValue()</code>函数体中的, 本函数设置了<code>Base</code>值,然后<code>InternalUpdateNumericalAttribute()</code>设置了与<code>Base</code>一样的<code>Current</code>值, 从除非你自己创建了<code>FAggregatorRef</code>类, 该类通过<code>FActiveGameplayEffectsContainer::FindOrCreateAttributeAggregator()</code>创建,此方法是私有的, 实测通过<code>FActiveGameplayEffectsContainer::CaptureAttributeForGameplayEffect()</code>可以在外部创建, 那么使用起来就有点略微麻烦了,而且如果使用默认的<code>FAggregatorRef</code>类还是会饶了一圈通过<code>OnAttributeAggregatorDirty()</code>再执行<code>InternalUpdateNumericalAttribute()</code>把<code>Current</code>值给设置为与<code>Base</code>值一样的值.</p>
+<p>当然你强行拿到<code>FGameplayAttributeData</code>直接<code>SetCurrentValue()</code>是可以改变的, 但是无法通过<code>GE</code>来改到<code>Current</code>值,而且没有属性的事件响应</p>
+<blockquote>
+<p>对此处没有过多研究,如有错误请执教</p>
+</blockquote>
+<ul>
+<li><code>FGameplayAttribute</code></li>
+</ul>
+<p>相比而言只有一个浮点值, 对于一些辅助属性或者UI之类的属性可以用此属性</p>
+<ul>
+<li>事件响应</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;GetGameplayAttributeValueChangeDelegate(AttributeSetBase-&gt;GetHealthAttribute()).AddUObject(<span class="keyword">this</span>, &amp;APlayerState::HealthChanged);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">HealthChanged</span><span class="params">(<span class="keyword">const</span> FOnAttributeChangeData&amp; Data)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>用上述两个方法来绑定生命属性更改以后的回调，我们可以在绑定的事件处理比如UI之类的逻辑</p>
+<p>我们也可以用一个编辑器异步节点来监听属性的修改</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">UCLASS(BlueprintType, meta=(ExposedAsyncProxy = AsyncTask))</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GASDOCUMENTATION_API</span> <span class="title">UAsyncTaskAttributeChanged</span> :</span> <span class="keyword">public</span> UBlueprintAsyncActionBase</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">	FOnAttributeChanged OnAttributeChanged;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Listens for an attribute changing.</span></span><br><span class="line">	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = <span class="string">&quot;true&quot;</span>))</span><br><span class="line">	<span class="function"><span class="keyword">static</span> UAsyncTaskAttributeChanged* <span class="title">ListenForAttributeChange</span><span class="params">(UAbilitySystemComponent* AbilitySystemComponent, FGameplayAttribute Attribute)</span></span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">	UPROPERTY()</span><br><span class="line">	UAbilitySystemComponent* ASC;</span><br><span class="line"></span><br><span class="line">	FGameplayAttribute AttributeToListenFor;</span><br><span class="line">	TArray&lt;FGameplayAttribute&gt; AttributesToListenFor;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AttributeChanged</span><span class="params">(<span class="keyword">const</span> FOnAttributeChangeData&amp; Data)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UAsyncTaskAttributeChanged * <span class="title">UAsyncTaskAttributeChanged::ListenForAttributesChange</span><span class="params">(UAbilitySystemComponent * AbilitySystemComponent, TArray&lt;FGameplayAttribute&gt; Attributes)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAsyncTaskAttributeChanged* WaitForAttributeChangedTask = NewObject&lt;UAsyncTaskAttributeChanged&gt;();</span><br><span class="line">	WaitForAttributeChangedTask-&gt;ASC = AbilitySystemComponent;</span><br><span class="line">	WaitForAttributeChangedTask-&gt;AttributesToListenFor = Attributes;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!IsValid(AbilitySystemComponent) || Attributes.Num() &lt; <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForAttributeChangedTask-&gt;RemoveFromRoot();</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (FGameplayAttribute Attribute : Attributes)</span><br><span class="line">	&#123;</span><br><span class="line">		AbilitySystemComponent-&gt;GetGameplayAttributeValueChangeDelegate(Attribute).AddUObject(WaitForAttributeChangedTask, &amp;UAsyncTaskAttributeChanged::AttributeChanged);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> WaitForAttributeChangedTask;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面会创建一个下图所示的异步节点来监听属性改变, 方便在各个地方得到属性数据</p>
+<p><img src="https://img.supervj.top/img/gitlab/image-20201024195609117.png" alt="image-20201024195609117"></p>
+<h2 id="属性集-AttributeSet"><a href="#属性集-AttributeSet" class="headerlink" title="属性集/AttributeSet"></a>属性集/AttributeSet</h2><p>顾名思义，属性集就是多个属性的容器，通常在拥有类的构造函数中创建，当然目前必须用C++</p>
+<p>例如我们也可以在<code>CharacterBase</code>的构造函数构造此类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPROPERTY()</span><br><span class="line">		USRAttributeSetBase* AttributeSet;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AttributeSet = CreateDefaultSubobject&lt;USRAttributeSetBase&gt;(TEXT(<span class="string">&quot;AttributeSet&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><ul>
+<li>辅助宏</li>
+</ul>
+<p><code>AttributeSet.h</code>中为我们提供了几个很有用的辅助宏, 用于方便我们在<code>cpp</code>中<code>get</code>,<code>set</code>,<code>init</code>等属性操作</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \</span></span><br><span class="line">	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \</span><br><span class="line">	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName) \</span><br></pre></td></tr></table></figure>
+
+<p>我们再用<code>ATTRIBUTE_ACCESSORS</code>宏包裹4个宏</p>
+<hr>
+<p>然后用如下方法申明一个属性</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;Health&quot;</span>, ReplicatedUsing = OnRep_Health)</span><br><span class="line">		FGameplayAttributeData Health;</span><br><span class="line">	ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Health)</span><br></pre></td></tr></table></figure>
+
+<p>测试可以在<code>cpp</code>中调用如下方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>-&gt;InitHealth(<span class="number">100</span>);</span><br><span class="line"><span class="keyword">this</span>-&gt;GetHealth();</span><br><span class="line"><span class="keyword">this</span>-&gt;SetHealth(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">this</span>-&gt;GetHealthAttribute();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 注意: 这个是cpp中的函数,在蓝图中无法使用</p>
+</blockquote>
+<p>在蓝图中可以通过如下方式获取, 不能<code>Set</code></p>
+<p><img src="https://img.supervj.top/img/advVR/image-20200922134907045.png" alt="image-20200922134907045"></p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>如果属性设置了同步(Rep)</p>
+<p>那么可以在实现的时候用宏<code>GAMEPLAYATTRIBUTE_REPNOTIFY</code>来处理属性的同步</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGAttributeSet::OnRep_Health</span><span class="params">(<span class="keyword">const</span> FGameplayAttributeData&amp; OldHealth)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	GAMEPLAYATTRIBUTE_REPNOTIFY(UVGAttributeSet, Health, OldHealth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为<code>OnRep</code>函数是<code>UFUNCTION()</code>,所以因为UE的限制, 没办法用宏来快速声明和定义, 所以属性很多的话只能手动一个个声明定义</p>
+</blockquote>
+<p>最后,同步的属性需要在<code>GetLifetimeReplicatedProps</code>函数内用宏<code>DOREPLIFETIME_CONDITION_NOTIFY</code>处理同步,<code>REPNOTIFY_Always</code>属性意味着服务器值过来以后一定会走<code>Rep</code>函数, 默认情况如果值不变不用调用;</p>
+<blockquote>
+<p> 后面两个参数可以不填, 默认值是<code>COND_None,REPNOTIFY_OnChanged</code></p>
+</blockquote>
+<p>如果是类似<code>MetaAttribute</code>类的非同步属性, 那么此函数也会取消同步</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGAttributeSet::GetLifetimeReplicatedProps</span><span class="params">(TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::GetLifetimeReplicatedProps(OutLifetimeProps);</span><br><span class="line"></span><br><span class="line">	DOREPLIFETIME_CONDITION_NOTIFY(UVGAttributeSet, Health, COND_None, REPNOTIFY_Always);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态添加-移除"><a href="#动态添加-移除" class="headerlink" title="动态添加/移除"></a>动态添加/移除</h3><p>属性集也可以动态的添加和移除</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;SpawnedAttributes.AddUnique(WeaponAttributeSetPointer);</span><br><span class="line">AbilitySystemComponent-&gt;ForceReplication();</span><br><span class="line"></span><br><span class="line">AbilitySystemComponent-&gt;SpawnedAttributes.Remove(WeaponAttributeSetPointer);</span><br><span class="line">AbilitySystemComponent-&gt;ForceReplication();</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="预处理-PreAttributeChange"><a href="#预处理-PreAttributeChange" class="headerlink" title="预处理/PreAttributeChange"></a>预处理/PreAttributeChange</h2><p>属性在正在修改之前会到函数<code>PreAttributeChange()</code></p>
+<p>这里比较适合对<code>NewValue</code>进行<code>Clamp</code>处理,比如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Attribute == GetMoveSpeedAttribute())</span><br><span class="line">&#123;</span><br><span class="line">    NewValue = FMath::Clamp&lt;<span class="keyword">float</span>&gt;(NewValue, <span class="number">150</span>, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者我们在这里对修改生命和魔法的最大值做一个处理, 请思考一般Moba或RPG等游戏中最大值修改以后, 当前的值也会按照百分比修改</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::AdjustAttributeForMaxChange</span><span class="params">(FGameplayAttributeData&amp; AffectedAttribute, <span class="keyword">const</span> FGameplayAttributeData&amp; MaxAttribute, <span class="keyword">float</span> NewMaxValue, <span class="keyword">const</span> FGameplayAttribute&amp; AffectedAttributeProperty)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent();</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> CurrentMaxValue = MaxAttribute.GetCurrentValue();</span><br><span class="line">	<span class="keyword">if</span> (!FMath::IsNearlyEqual(CurrentMaxValue, NewMaxValue) &amp;&amp; AbilityComp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 更改当前值以保持 Cur / Max 的百分比</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> CurrentValue = AffectedAttribute.GetCurrentValue();</span><br><span class="line">		<span class="keyword">float</span> NewDelta = (CurrentMaxValue &gt; <span class="number">0.f</span>) ? (CurrentValue * NewMaxValue / CurrentMaxValue) - CurrentValue : NewMaxValue;</span><br><span class="line"></span><br><span class="line">		AbilityComp-&gt;ApplyModToAttributeUnsafe(AffectedAttributeProperty, EGameplayModOp::Additive, NewDelta);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在预处理中执行</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::PreAttributeChange</span><span class="params">(<span class="keyword">const</span> FGameplayAttribute&amp; Attribute, <span class="keyword">float</span>&amp; NewValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UE_LOG(SRLog, Log, TEXT(<span class="string">&quot;Attribute Pre Changed old = %s, new= %f&quot;</span>), Attribute.GetUProperty(), NewValue);</span><br><span class="line">	Super::PreAttributeBaseChange(Attribute, NewValue);</span><br><span class="line">	<span class="keyword">if</span> (Attribute == GetMaxManaAttribute())</span><br><span class="line">	&#123;</span><br><span class="line">		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (Attribute == GetMaxManaAttribute())</span><br><span class="line">	&#123;</span><br><span class="line">		AdjustAttributeForMaxChange(Mana, MaxMana, NewValue, GetManaAttribute());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="PostGameplayEffectExecute"><a href="#PostGameplayEffectExecute" class="headerlink" title="PostGameplayEffectExecute"></a>PostGameplayEffectExecute</h2><p><code>PostGameplayEffectExecute()</code>函数会在瞬间执行的<code>GameplayEffect</code>修改到属性的时候执行</p>
+<p>这里可以做属性做一些额外的操作,比如对一些临时属性进行处理然后反馈到最终角色上, 我们后面会在这里做对临时的伤害值进行处理后, 修改角色的生命值等操作.</p>
+<p>因为还涉及到很多后续的内容, 这里先不展开</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="V&J 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="V&J 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>V&J
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/12/10/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/" title="GameplayAbilitySystem(二):属性">http://supervj.top/2020/12/10/GameplayAbilitySystem分析(二)_属性/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/UE4/" rel="tag"># UE4</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E5%AE%9E%E6%88%98/" rel="tag"># 实战</a>
+              <a href="/tags/GAS/" rel="tag"># GAS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/09/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="prev" title="GameplayAbilitySystem(一):初始化">
+                  <i class="fa fa-chevron-left"></i> GameplayAbilitySystem(一):初始化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/11/RuntimeInputMappingPlugin/" rel="next" title="RuntimeInputMappingDocumentation">
+                  RuntimeInputMappingDocumentation <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">V&J</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">394k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>
