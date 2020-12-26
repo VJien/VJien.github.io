@@ -6541,6 +6541,8 @@
 
 <p><img src="https://img.supervj.top//img/image-20201218172355966.png" alt="image-20201218172355966"></p>
 <p>给上我们的<code>GEEC</code></p>
+<a id="more"></a>
+
 <p>在<code>GEEC</code>中只需要重写方法</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -6941,6 +6943,12 @@
 <p><code>GE</code>的属性设置一般建议在编辑器用蓝图编辑, 理论上可以用<code>cpp</code>设定参数, 但是不直观也比较麻烦</p>
 </blockquote>
 <hr>
+<a id="more"></a>
+
+
+
+
+
 <h2 id="一些重要的数据结构"><a href="#一些重要的数据结构" class="headerlink" title="一些重要的数据结构"></a>一些重要的数据结构</h2><h3 id="FGameplayEffectContext"><a href="#FGameplayEffectContext" class="headerlink" title="FGameplayEffectContext"></a>FGameplayEffectContext</h3><p>保存了<code>GE</code>相关的所有数据, 用于在<code>GE</code>执行的过程中传递重要信息</p>
 <p>可以继承他用来扩展参数</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//发起者,即拥有ASC的actor, 本项目是ASRCharacterBase类</span></span><br><span class="line">UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;AActor&gt; Instigator;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 应用GE的类, 可以是武器或者子弹 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;AActor&gt; EffectCauser;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 响应GE的默认GA对象 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;UGameplayAbility&gt; AbilityCDO;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 响应GE的GA实例化对象 */</span></span><br><span class="line">	UPROPERTY(NotReplicated)</span><br><span class="line">	TWeakObjectPtr&lt;UGameplayAbility&gt; AbilityInstanceNotReplicated;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 技能等级 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	int32 AbilityLevel;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 创建这个GE的对象, 可以是Actor或者其他对象 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;UObject&gt; SourceObject;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**与发起者绑定的ASC */</span></span><br><span class="line">	UPROPERTY(NotReplicated)</span><br><span class="line">	TWeakObjectPtr&lt;UAbilitySystemComponent&gt; InstigatorAbilitySystemComponent;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 引用的Actor */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TArray&lt;TWeakObjectPtr&lt;AActor&gt;&gt; Actors;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 射线数据 */</span></span><br><span class="line">	TSharedPtr&lt;FHitResult&gt;	HitResult;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**原始坐标 ,如果bHasWorldOrigin为否则为空*/</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	FVector	WorldOrigin;</span><br><span class="line"></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	uint8 bHasWorldOrigin:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** SourceObject是否能同步, 这个布尔本身不同步 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	uint8 bReplicateSourceObject:<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
