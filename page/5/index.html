@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,744 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/01/UE4%E5%88%9B%E5%BB%BA%E5%BC%82%E6%AD%A5%E8%8A%82%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/06/01/UE4%E5%88%9B%E5%BB%BA%E5%BC%82%E6%AD%A5%E8%8A%82%E7%82%B9/" class="post-title-link" itemprop="url">创建异步节点:MoveByPath</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-01T00:00:00+08:00">2020-06-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%89%A9%E5%B1%95/" itemprop="url" rel="index"><span itemprop="name">扩展</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/06/01/UE4%E5%88%9B%E5%BB%BA%E5%BC%82%E6%AD%A5%E8%8A%82%E7%82%B9/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/06/01/UE4%E5%88%9B%E5%BB%BA%E5%BC%82%E6%AD%A5%E8%8A%82%E7%82%B9/" class="cy_cmt_count" data-xid="2020/06/01/UE4创建异步节点/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://img.supervj.top/img/AIMoveTo/move_4.jpg"></p>
+<blockquote>
+<p>如图所示，我们经常在UE4内看到如此的异步节点，简单说此类节点的输出并非像函数一样瞬间完成，而是拥有自己的生命周期，此类节点一般在右上角有一个<strong>时钟标志</strong></p>
+<p>本文讲解如何制作类似<code>AI_MoveTo</code>的异步节点</p>
+<p>另一篇<a href="%5Bhttps://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/%5D(https://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/)">AI_MoveTo简单分析和扩展</a>介绍<code>AI_MoveTo</code>的简单运行机制和其他扩展方式</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>2020.11.24更新:</p>
+<p>更新各类移动扩展函数库以及K2Node</p>
+<p><a href="git@github.com:VJien/MovementEx.git">github</a></p>
+<p><img src="https://img.supervj.top//img/image-20201124134801666.png" alt="image-20201124134801666"></p>
+</blockquote>
+<h3 id="UK2Node-AIMoveTo"><a href="#UK2Node-AIMoveTo" class="headerlink" title="UK2Node_AIMoveTo"></a>UK2Node_AIMoveTo</h3><p>我们先看一下这个节点的所有申明</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UCLASS()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AIGRAPH_API</span> <span class="title">UK2Node_AIMoveTo</span> :</span> <span class="keyword">public</span> UK2Node_BaseAsyncTask</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_UCLASS_BODY() <span class="comment">//加入UCLASS生成默认构造函数</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FText <span class="title">GetTooltipText</span><span class="params">()</span> <span class="keyword">const</span> <span class="keyword">override</span></span>; <span class="comment">//鼠标移动到节点的说明</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FText <span class="title">GetNodeTitle</span><span class="params">(ENodeTitleType::Type TitleType)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;<span class="comment">//节点的名字</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FText <span class="title">GetMenuCategory</span><span class="params">()</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;<span class="comment">//分类</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>短短没几行代码，主要内容在构造函数的定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UK2Node_AIMoveTo::UK2Node_AIMoveTo(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer)</span><br><span class="line">	: Super(ObjectInitializer)</span><br><span class="line">&#123;</span><br><span class="line">	ProxyFactoryFunctionName = GET_FUNCTION_NAME_CHECKED(UAIBlueprintHelperLibrary, CreateMoveToProxyObject);</span><br><span class="line">	ProxyFactoryClass = UAIBlueprintHelperLibrary::StaticClass();</span><br><span class="line">	ProxyClass = UAIAsyncTaskBlueprintProxy::StaticClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>ProxyFactoryFunctionName = GET_FUNCTION_NAME_CHECKED(UAIBlueprintHelperLibrary, CreateMoveToProxyObject);</code><ol>
+<li>参数1：调用函数的类</li>
+<li>参数2：调用的函数</li>
+</ol>
+</li>
+<li><code>ProxyFactoryClass</code>:工厂类，一般就是上述参数1的类</li>
+<li><code>ProxyClass</code>：代理类，用来执行<code>MoveTo</code>操作并且监听派发的<code>UObject</code></li>
+</ol>
+<h5 id="代理类"><a href="#代理类" class="headerlink" title="代理类"></a>代理类</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AAIController</span>;</span></span><br><span class="line"></span><br><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOAISimpleDelegate, EPathFollowingResult::Type, MovementResult);</span><br><span class="line"></span><br><span class="line">UCLASS(MinimalAPI)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UAIAsyncTaskBlueprintProxy</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_UCLASS_BODY()</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">	FOAISimpleDelegate	OnSuccess;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">	FOAISimpleDelegate	OnFail;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UFUNCTION()</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnMoveCompleted</span><span class="params">(FAIRequestID RequestID, EPathFollowingResult::Type MovementResult)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnNoPath</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnAtGoal</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//~ Begin UObject Interface</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">BeginDestroy</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="comment">//~ End UObject Interface</span></span><br><span class="line"></span><br><span class="line">	TWeakObjectPtr&lt;AAIController&gt; AIController;</span><br><span class="line">	FAIRequestID MoveRequestId;</span><br><span class="line">	TWeakObjectPtr&lt;UWorld&gt; MyWorld;</span><br><span class="line"></span><br><span class="line">	FTimerHandle TimerHandle_OnInstantFinish;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>代理类的代码也不多，实际上最关键的就是几个多播代理，异步节点的扩展节点就是由这几个多播代理决定的，代理类里什么时候广播就决定异步节点的运行了；</p>
+<p>大概看明白了以后我们自己来扩展一个高级版的<code>AIMoveTo</code></p>
+<h3 id="创建异步节点-MoveByPath"><a href="#创建异步节点-MoveByPath" class="headerlink" title="创建异步节点:MoveByPath"></a>创建异步节点:MoveByPath</h3><h5 id="代理类-1"><a href="#代理类-1" class="headerlink" title="代理类"></a>代理类</h5><p><img src="https://img.supervj.top/img/AIMoveTo/k2node_1.jpg"></p>
+<blockquote>
+<p>参考<code>AI_MoveTo</code>,我们制作一个输入一个路径点数组，完成逐步沿着各个点移动的节点</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveResult, EPathFollowingResult::Type, MovementResult);</span><br></pre></td></tr></table></figure>
+
+<p>先定义一个多播代理，用来申明我们自己的代理变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UPROPERTY(BlueprintAssignable,BlueprintCallable)</span><br><span class="line">	FMoveResult OnFail;</span><br><span class="line">UPROPERTY(BlueprintAssignable, BlueprintCallable)</span><br><span class="line">	FMoveResult OnFinished;</span><br><span class="line">UPROPERTY(BlueprintAssignable, BlueprintCallable)</span><br><span class="line">	FMoveResult OnOneStep;</span><br></pre></td></tr></table></figure>
+
+<p>直接来3个代理变量，意味着我们这个异步节点会有3个扩展节点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable)</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MoveTo</span><span class="params">(APawn* Pawn, <span class="keyword">const</span> TArray&lt;FVector&gt;&amp; Path, <span class="keyword">float</span> AcceptanceRadius = <span class="number">5.0</span>, <span class="keyword">bool</span> StopOnOverlap = <span class="literal">false</span>)</span></span>;</span><br><span class="line">UFUNCTION()</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MoveEnd</span><span class="params">(EPathFollowingResult::Type result)</span></span>;</span><br><span class="line">UFUNCTION()</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MoveSuccess</span><span class="params">(EPathFollowingResult::Type result)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>再来3个函数，第一个函数让函数库调用，后两个用来内部控制移动的逻辑</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UPROPERTY()</span><br><span class="line">TArray&lt;FVector&gt; CurPath;</span><br><span class="line">UPROPERTY()</span><br><span class="line">APawn* CurPawn;</span><br><span class="line">UPROPERTY()</span><br><span class="line"><span class="keyword">float</span> fAcceptanceRadius;</span><br><span class="line">UPROPERTY()</span><br><span class="line"><span class="keyword">bool</span> bStopOnOverlap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> bIsInit = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>主要用<code>CurPath</code>这个数组，记录实时路径点</p>
+<p>直接贴代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAIMoveToByPathProxy::MoveTo</span><span class="params">(APawn* Pawn, <span class="keyword">const</span> TArray&lt;FVector&gt;&amp; Path, <span class="keyword">float</span> AcceptanceRadius <span class="comment">/*= 5.0*/</span>, <span class="keyword">bool</span> StopOnOverlap <span class="comment">/*= false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Path.Num()&lt;=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!bIsInit)</span><br><span class="line">	&#123;</span><br><span class="line">		bIsInit = <span class="literal">true</span>;</span><br><span class="line">		CurPath = Path;</span><br><span class="line">		CurPawn = Pawn;</span><br><span class="line">		fAcceptanceRadius = AcceptanceRadius;</span><br><span class="line">		bStopOnOverlap = StopOnOverlap;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	UAIAsyncTaskBlueprintProxy* p=UAIBlueprintHelperLibrary::CreateMoveToProxyObject(Pawn, Pawn, Path[<span class="number">0</span>], <span class="literal">nullptr</span>, AcceptanceRadius, StopOnOverlap);</span><br><span class="line">	p-&gt;OnFail.AddDynamic(<span class="keyword">this</span>, &amp;UAIMoveToByPathProxy::MoveEnd);</span><br><span class="line">	p-&gt;OnSuccess.AddDynamic(<span class="keyword">this</span>, &amp;UAIMoveToByPathProxy::MoveSuccess);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAIMoveToByPathProxy::MoveEnd</span><span class="params">(EPathFollowingResult::Type result)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//UKismetSystemLibrary::PrintString(CurPawn, TEXT(&quot;End!&quot;));</span></span><br><span class="line">	OnFail.Broadcast(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAIMoveToByPathProxy::MoveSuccess</span><span class="params">(EPathFollowingResult::Type result)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (CurPath.Num()&lt;=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OnOneStep.Broadcast(result);</span><br><span class="line">		OnFinished.Broadcast(result);</span><br><span class="line">		<span class="comment">//UKismetSystemLibrary::PrintString(CurPawn, TEXT(&quot;Finish!&quot;));</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		OnOneStep.Broadcast(result);</span><br><span class="line">		<span class="keyword">if</span> (CurPath.Num() &gt; <span class="number">1</span>)			</span><br><span class="line">		&#123;</span><br><span class="line">			CurPath.RemoveAt(<span class="number">0</span>);	</span><br><span class="line">			MoveTo(CurPawn, CurPath, fAcceptanceRadius, bStopOnOverlap);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			MoveTo(CurPawn, CurPath, fAcceptanceRadius, bStopOnOverlap);</span><br><span class="line">			CurPath.RemoveAt(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		<span class="comment">//UKismetSystemLibrary::PrintString(CurPawn, TEXT(&quot;OneSTEP!&quot;));</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此类移动一次成功后就会派发<code>OneStep</code>，移动完成和失败分别广播对应事件</p>
+<h5 id="库"><a href="#库" class="headerlink" title="库"></a>库</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UAIMoveToByPathProxy* <span class="title">UBPLib_MoveTo::V_AI_MoveToByPath</span><span class="params">(APawn* Pawn, <span class="keyword">const</span> TArray&lt;FVector&gt;&amp; Path, <span class="keyword">float</span> AcceptanceRadius <span class="comment">/*= 5.0*/</span>, <span class="keyword">bool</span> StopOnOverlap <span class="comment">/*= false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAIMoveToByPathProxy* p = NewObject&lt;UAIMoveToByPathProxy&gt;(Pawn);</span><br><span class="line">	p-&gt;MoveTo(Pawn, Path, AcceptanceRadius, StopOnOverlap);</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="K2Node"><a href="#K2Node" class="headerlink" title="K2Node"></a>K2Node</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">UUK2Node_MoveByPath::UUK2Node_MoveByPath(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer)</span><br><span class="line">	: Super(ObjectInitializer)</span><br><span class="line">&#123;</span><br><span class="line">	ProxyFactoryFunctionName = GET_FUNCTION_NAME_CHECKED(UBPLib_MoveTo, V_AI_MoveToByPath);</span><br><span class="line">	ProxyFactoryClass = UBPLib_MoveTo::StaticClass();</span><br><span class="line">	ProxyClass = UAIMoveToByPathProxy::StaticClass();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FText <span class="title">UUK2Node_MoveByPath::GetTooltipText</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> FText::FromString(TEXT(<span class="string">&quot;move by a path&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FText <span class="title">UUK2Node_MoveByPath::GetNodeTitle</span><span class="params">(ENodeTitleType::Type TitleType)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> FText::FromString(TEXT(<span class="string">&quot;MoveByPath&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FText <span class="title">UUK2Node_MoveByPath::GetMenuCategory</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> FText::FromString(TEXT(<span class="string">&quot;MoveByPath&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h5><p><img src="https://img.supervj.top/img/AIMoveTo/k2node_2.gif"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/" class="post-title-link" itemprop="url">AI_MoveTo简单分析和扩展</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-27T00:00:00+08:00">2020-05-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%95%E6%93%8E/" itemprop="url" rel="index"><span itemprop="name">引擎</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/" class="cy_cmt_count" data-xid="2020/05/27/AI_MoveTo研究/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>15k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="UK2Node-AIMoveTo"><a href="#UK2Node-AIMoveTo" class="headerlink" title="UK2Node_AIMoveTo"></a>UK2Node_AIMoveTo</h2><p><img src="https://img.supervj.top/img/AIMoveTo/move_4.jpg"></p>
+<blockquote>
+<p>这是我们最熟悉的编辑器模式下的AI_MoveTo节点，也就是那个自带OnSuccess和OnFailed的异步节点，在蓝图中大多数时候使用起来都得心应手非常方便，但是它有个最大的缺点，异步节点意味着他有自己的生命周期，不能放到函数中使用，同样的，在代码中也没有此类节点，那么接下来我们尝试解决这一问题</p>
+</blockquote>
+<p>翻看此节点的代码，没几行代码,主要看如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UK2Node_AIMoveTo::UK2Node_AIMoveTo(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer)</span><br><span class="line">	: Super(ObjectInitializer)</span><br><span class="line">&#123;</span><br><span class="line">	ProxyFactoryFunctionName = GET_FUNCTION_NAME_CHECKED(UAIBlueprintHelperLibrary, CreateMoveToProxyObject);</span><br><span class="line">	ProxyFactoryClass = UAIBlueprintHelperLibrary::StaticClass();</span><br><span class="line">	ProxyClass = UAIAsyncTaskBlueprintProxy::StaticClass();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们发现一个关键函数<code>CreateMoveToProxyObject</code>,找到该函数的原型 </p>
+<p><code>UAIBlueprintHelperLibrary::CreateMoveToProxyObject</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> UAIAsyncTaskBlueprintProxy * CreateMoveToProxyObject</span><br><span class="line">(</span><br><span class="line">    UObject * WorldContextObject,</span><br><span class="line">    APawn * Pawn,</span><br><span class="line">    FVector Destination,</span><br><span class="line">    AActor * TargetActor,</span><br><span class="line">    <span class="keyword">float</span> AcceptanceRadius,</span><br><span class="line">    <span class="keyword">bool</span> bStopOnOverlap</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>熟悉的参数，就是我们调用AIMoveTo的参数，继续翻代码</p>
+<h2 id="UAIBlueprintHelperLibrary-CreateMoveToProxyObject"><a href="#UAIBlueprintHelperLibrary-CreateMoveToProxyObject" class="headerlink" title="UAIBlueprintHelperLibrary::CreateMoveToProxyObject"></a>UAIBlueprintHelperLibrary::CreateMoveToProxyObject</h2><blockquote>
+<p><code>UAIBlueprintHelperLibrary</code>函数库的一个方法，返回<code>UAIAsyncTaskBlueprintProxy</code>对象</p>
+</blockquote>
+<p>看关键代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UAIAsyncTaskBlueprintProxy* MyObj = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 这里需要注意一点，<code>UAIAsyncTaskBlueprintProxy</code>构造以后会存到<code>AISystem</code>内，防止GC销毁</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FAIMoveRequest MoveReq;</span><br><span class="line">		MoveReq.SetUsePathfinding(<span class="literal">true</span>);</span><br><span class="line">		MoveReq.SetAcceptanceRadius(AcceptanceRadius);</span><br><span class="line">		MoveReq.SetReachTestIncludesAgentRadius(bStopOnOverlap);</span><br><span class="line">		<span class="keyword">if</span> (TargetActor)</span><br><span class="line">		&#123;</span><br><span class="line">			MoveReq.SetGoalActor(TargetActor);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			MoveReq.SetGoalLocation(Destination);</span><br><span class="line">		&#125;</span><br><span class="line">		MoveReq.SetNavigationFilter(AIController-&gt;GetDefaultNavigationFilterClass());</span><br><span class="line">		</span><br><span class="line">		FPathFollowingRequestResult ResultData = AIController-&gt;MoveTo(MoveReq);</span><br></pre></td></tr></table></figure>
+
+<p>简单说就是，创建并设置了关键的结构体<code>FAIMoveRequest</code>，然后塞给<code>AIController-&gt;MoveTo(MoveReq);</code>至于<code>AIController</code>干了什么，我们后面再说</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">FPathFollowingRequestResult ResultData = AIController-&gt;MoveTo(MoveReq);</span><br><span class="line"><span class="keyword">switch</span> (ResultData.Code)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> EPathFollowingRequestResult::RequestSuccessful:</span><br><span class="line">	MyObj-&gt;AIController = AIController;</span><br><span class="line">	MyObj-&gt;AIController-&gt;ReceiveMoveCompleted.AddDynamic(MyObj, &amp;UAIAsyncTaskBlueprintProxy::OnMoveCompleted);</span><br><span class="line">	MyObj-&gt;MoveRequestId = ResultData.MoveId;</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> EPathFollowingRequestResult::AlreadyAtGoal:</span><br><span class="line">	World-&gt;GetTimerManager().SetTimer(MyObj-&gt;TimerHandle_OnInstantFinish, MyObj, &amp;UAIAsyncTaskBlueprintProxy::OnAtGoal, <span class="number">0.1f</span>, <span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> EPathFollowingRequestResult::Failed:</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	World-&gt;GetTimerManager().SetTimer(MyObj-&gt;TimerHandle_OnInstantFinish, MyObj, &amp;UAIAsyncTaskBlueprintProxy::OnNoPath, <span class="number">0.1f</span>, <span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Controller </code>的<code>MoveTo</code>方法返回一个结果结构体<code>FPathFollowingRequestResult</code>,这里用到结构体内的<code>Code</code>参数，看申明类型是<code>TEnumAsByte&lt;EPathFollowingRequestResult::Type&gt; Code</code></p>
+<p>看一下这个枚举</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="keyword">namespace</span> EPathFollowingRequestResult</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">Type</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		Failed,</span><br><span class="line">		AlreadyAtGoal,</span><br><span class="line">		RequestSuccessful</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就3个成员，分别是<code>失败/已经到达/请求成功</code></p>
+<ul>
+<li>对于3个结果分别绑定到本地3个函数<ul>
+<li>请求成功：监听AIController内的<code>ReceiveMoveCompleted</code>，绑定到本地<code>OnMoveCompleted</code>,移动结果通过本地多播代理的<code>OnFail</code> 或者<code>OnSuccess</code>广播</li>
+<li>失败：0.1秒后执行本地<code>OnNoPath</code>事件，广播<code>OnFail</code>，然后从<code>AISystem</code>移除</li>
+<li>已经到达：0.1秒后执行本地事件<code>OnAtGoal</code>，广播<code>OnSuccess</code>，然后从<code>AISystem</code>移除</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>总结</p>
+<p>创建一个代理类，通过<code>AIController</code>执行移动事件，绑定了<code>AIController</code>的移动结果回调事件，把结果通过此代理的2个代理广播</p>
+<p>至于为什么用2个类型一样的代理，跟K2Node的使用有关系，理论上用1个代理可以实现一样的作用</p>
+</blockquote>
+<h2 id="封装蓝图方法"><a href="#封装蓝图方法" class="headerlink" title="封装蓝图方法"></a>封装蓝图方法</h2><h3 id="代理类"><a href="#代理类" class="headerlink" title="代理类"></a>代理类</h3><blockquote>
+<p>我们先来创建一个<code>UObject</code>类，作为一个移动代理，毕竟移动有生命周期，必须要有个类来管理和监听</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;UObject/NoExportTypes.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Navigation/PathFollowingComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;AIMoveProxy.generated.h&quot;</span></span></span><br><span class="line">DECLARE_DYNAMIC_DELEGATE_OneParam(FMoveEnd, EPathFollowingResult::Type, MovementResult);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UAIAsyncTaskBlueprintProxy</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">APawn</span>;</span></span><br><span class="line">UCLASS(BlueprintType,Blueprintable)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">INPUTSYS_API</span> <span class="title">UAIMoveProxy</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UPROPERTY(BlueprintReadWrite)</span><br><span class="line">	UAIAsyncTaskBlueprintProxy* Proxy;</span><br><span class="line"></span><br><span class="line">	UFUNCTION(BlueprintCallable)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">Proxy_AIMoveTo</span><span class="params">(APawn* Pawn,FVector Des,AActor* Target,<span class="keyword">const</span> FMoveEnd&amp; MoveResult,<span class="keyword">float</span> AcceptanceRadius=<span class="number">5.0</span>,<span class="keyword">bool</span> StopOnOverlap=<span class="literal">false</span>)</span></span>;</span><br><span class="line">	UFUNCTION()</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">MoveEnd</span><span class="params">(EPathFollowingResult::Type Result)</span></span>;</span><br><span class="line"></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	FMoveEnd OnMoveEnd;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;AIMoveProxy.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Blueprint/AIBlueprintHelperLibrary.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Blueprint/AIAsyncTaskBlueprintProxy.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UAIMoveProxy::Proxy_AIMoveTo</span><span class="params">(APawn* Pawn, FVector Des, AActor* Target, <span class="keyword">const</span> FMoveEnd&amp; MoveResult, <span class="keyword">float</span> AcceptanceRadius<span class="comment">/*=5.0*/</span>, <span class="keyword">bool</span> StopOnOverlap<span class="comment">/*=false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!Pawn)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	OnMoveEnd = MoveResult;</span><br><span class="line">	Proxy = UAIBlueprintHelperLibrary::CreateMoveToProxyObject(Pawn, Pawn, Des, Target, AcceptanceRadius, StopOnOverlap);</span><br><span class="line">	Proxy-&gt;OnFail.AddDynamic(<span class="keyword">this</span>,&amp;UAIMoveProxy::MoveEnd);</span><br><span class="line">	Proxy-&gt;OnSuccess.AddDynamic(<span class="keyword">this</span>, &amp;UAIMoveProxy::MoveEnd);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAIMoveProxy::MoveEnd</span><span class="params">(EPathFollowingResult::Type Result)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	OnMoveEnd.ExecuteIfBound(Result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到蓝图实现如下图</p>
+<p><img src="https://img.supervj.top/img/AIMoveTo/move_2.jpg"></p>
+<h3 id="函数库"><a href="#函数库" class="headerlink" title="函数库"></a>函数库</h3><p>但是这样还是不是很方便，每次都要手动创建一个类，于是就封装到了函数库里</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Kismet/BlueprintFunctionLibrary.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;AIMoveProxy.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FLib_AI.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">UCLASS(Blueprintable,BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">INPUTSYS_API</span> <span class="title">UFLib_AI</span> :</span> <span class="keyword">public</span> UBlueprintFunctionLibrary</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UFUNCTION(BlueprintCallable)</span><br><span class="line">	<span class="function"><span class="keyword">static</span> UAIMoveProxy* <span class="title">V_AI_MoveTo</span><span class="params">(APawn* Pawn, FVector Des, AActor* Target, <span class="keyword">const</span> FMoveEnd&amp; MoveResult, <span class="keyword">float</span> AcceptanceRadius = <span class="number">5.0</span>, <span class="keyword">bool</span> StopOnOverlap = <span class="literal">false</span>)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FLib_AI.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">UAIMoveProxy* <span class="title">UFLib_AI::V_AI_MoveTo</span><span class="params">(APawn* Pawn, FVector Des, AActor* Target, <span class="keyword">const</span> FMoveEnd&amp; MoveResult, <span class="keyword">float</span> AcceptanceRadius, <span class="keyword">bool</span> StopOnOverlap)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!Pawn) &#123; <span class="keyword">return</span> <span class="literal">nullptr</span>; &#125;;</span><br><span class="line">	UAIMoveProxy* p = NewObject&lt;UAIMoveProxy&gt;(Pawn);</span><br><span class="line">	p-&gt;Proxy_AIMoveTo(Pawn, Des, Target, MoveResult, AcceptanceRadius, StopOnOverlap);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用如下图</p>
+<p><img src="https://img.supervj.top/img/AIMoveTo/move_3.jpg"></p>
+<h2 id="简单剖析一下"><a href="#简单剖析一下" class="headerlink" title="简单剖析一下"></a>简单剖析一下</h2><h3 id="AIController"><a href="#AIController" class="headerlink" title="AIController"></a>AIController</h3><h5 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PathFollowingComponent-&gt;OnRequestFinished.AddUObject(<span class="keyword">this</span>, &amp;AAIController::OnMoveCompleted);</span><br></pre></td></tr></table></figure>
+
+<p>绑定了<code>UPathFollowingComponent</code>的完成事件，我们上面代理监听的事件是从这里来的</p>
+<h5 id="MoveTo"><a href="#MoveTo" class="headerlink" title="MoveTo"></a>MoveTo</h5><blockquote>
+<p>先贴代码配注释</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FPathFollowingRequestResult <span class="title">AAIController::MoveTo</span><span class="params">(<span class="keyword">const</span> FAIMoveRequest&amp; MoveRequest, FNavPathSharedPtr* OutPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// MoveToActor和MoveToLocation都可以从蓝图/脚本中调用，并且应仅同时保留单个移动请求。</span></span><br><span class="line">	<span class="comment">// 此功能是所有运动机制的切入点-请勿在此处中止操作，因为运动可能由支持堆叠的AITasks处理</span></span><br><span class="line"></span><br><span class="line">	SCOPE_CYCLE_COUNTER(STAT_MoveTo);</span><br><span class="line">	UE_VLOG(<span class="keyword">this</span>, LogAINavigation, Log, TEXT(<span class="string">&quot;MoveTo: %s&quot;</span>), *MoveRequest.ToString());</span><br><span class="line"></span><br><span class="line">	FPathFollowingRequestResult ResultData;</span><br><span class="line">	ResultData.Code = EPathFollowingRequestResult::Failed;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (MoveRequest.IsValid() == <span class="literal">false</span>)<span class="comment">//判断请求是否有效，依据是有目标actor类或者不是移动到actor即坐标</span></span><br><span class="line">	&#123;</span><br><span class="line">		UE_VLOG(<span class="keyword">this</span>, LogAINavigation, Error, TEXT(<span class="string">&quot;MoveTo request failed due MoveRequest not being valid. Most probably desireg Goal Actor not longer exists&quot;</span>), *MoveRequest.ToString());</span><br><span class="line">		<span class="keyword">return</span> ResultData;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (PathFollowingComponent == <span class="literal">nullptr</span>)<span class="comment">//判断Path组件，默认就有挂载</span></span><br><span class="line">	&#123;</span><br><span class="line">		UE_VLOG(<span class="keyword">this</span>, LogAINavigation, Error, TEXT(<span class="string">&quot;MoveTo request failed due missing PathFollowingComponent&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span> ResultData;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//确保有寻路过滤器</span></span><br><span class="line">	ensure(MoveRequest.GetNavigationFilter() || !DefaultNavigationFilterClass);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">bool</span> bCanRequestMove = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">bool</span> bAlreadyAtGoal = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (!MoveRequest.IsMoveToActorRequest())<span class="comment">//移动到坐标点</span></span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//确保没有垃圾值，以及点在AI系统的最大边界值之内</span></span><br><span class="line">		<span class="keyword">if</span> (MoveRequest.GetGoalLocation().ContainsNaN() || FAISystem::IsValidLocation(MoveRequest.GetGoalLocation()) == <span class="literal">false</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			UE_VLOG(<span class="keyword">this</span>, LogAINavigation, Error, TEXT(<span class="string">&quot;AAIController::MoveTo: Destination is not valid! Goal(%s)&quot;</span>), TEXT_AI_LOCATION(MoveRequest.GetGoalLocation()));</span><br><span class="line">			bCanRequestMove = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//确保开启投射，这个参数在请求数据内可以通过set方法设置，默认开启</span></span><br><span class="line">		<span class="keyword">if</span> (bCanRequestMove &amp;&amp; MoveRequest.IsProjectingGoal())</span><br><span class="line">		&#123;</span><br><span class="line">            <span class="comment">//得到寻路系统</span></span><br><span class="line">			UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent&lt;UNavigationSystemV1&gt;(GetWorld());</span><br><span class="line">            <span class="comment">//得到寻路数据，保存于NavMovementComponent内</span></span><br><span class="line">			<span class="keyword">const</span> FNavAgentProperties&amp; AgentProps = GetNavAgentPropertiesRef();</span><br><span class="line">			FNavLocation ProjectedLocation;<span class="comment">//寻路位置，存一个位置和一个数据元素(uint64)</span></span><br><span class="line">			<span class="comment">//确保投射成功，这里给了一个无效extent，在内部有做判断，使用默认寻路数据的extent</span></span><br><span class="line">			<span class="keyword">if</span> (NavSys &amp;&amp; !NavSys-&gt;ProjectPointToNavigation(MoveRequest.GetGoalLocation(), ProjectedLocation, INVALID_NAVEXTENT, &amp;AgentProps))</span><br><span class="line">			&#123;</span><br><span class="line">				UE_VLOG_LOCATION(<span class="keyword">this</span>, LogAINavigation, Error, MoveRequest.GetGoalLocation(), <span class="number">30.f</span>, FColor::Red, TEXT(<span class="string">&quot;AAIController::MoveTo failed to project destination location to navmesh&quot;</span>));</span><br><span class="line">				bCanRequestMove = <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line"><span class="comment">//刷新目标点为寻路点</span></span><br><span class="line">			MoveRequest.UpdateGoalLocation(ProjectedLocation.Location);</span><br><span class="line">		&#125;</span><br><span class="line"><span class="comment">//判断是否到达，具体逻辑在UPathFollowingComponent内，稍复杂</span></span><br><span class="line">		bAlreadyAtGoal = bCanRequestMove &amp;&amp; PathFollowingComponent-&gt;HasReached(MoveRequest);</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		bAlreadyAtGoal = bCanRequestMove &amp;&amp; PathFollowingComponent-&gt;HasReached(MoveRequest);</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//如果已经到达就设置结果参数</span></span><br><span class="line">	<span class="keyword">if</span> (bAlreadyAtGoal)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_VLOG(<span class="keyword">this</span>, LogAINavigation, Log, TEXT(<span class="string">&quot;MoveTo: already at goal!&quot;</span>));</span><br><span class="line">		ResultData.MoveId = PathFollowingComponent-&gt;RequestMoveWithImmediateFinish(EPathFollowingResult::Success);</span><br><span class="line">		ResultData.Code = EPathFollowingRequestResult::AlreadyAtGoal;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//前面判断都过了，就得到建立寻路查询</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (bCanRequestMove)</span><br><span class="line">	&#123;</span><br><span class="line">		FPathFindingQuery PFQuery;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">bool</span> bValidQuery = BuildPathfindingQuery(MoveRequest, PFQuery);</span><br><span class="line">		<span class="keyword">if</span> (bValidQuery)</span><br><span class="line">		&#123;</span><br><span class="line">			FNavPathSharedPtr Path;</span><br><span class="line">			FindPathForMoveRequest(MoveRequest, PFQuery, Path);</span><br><span class="line"><span class="comment">//RequestMove方法来提交移动的请求</span></span><br><span class="line">			<span class="keyword">const</span> FAIRequestID RequestID = Path.IsValid() ? RequestMove(MoveRequest, Path) : FAIRequestID::InvalidRequest;</span><br><span class="line">			<span class="keyword">if</span> (RequestID.IsValid())</span><br><span class="line">			&#123;</span><br><span class="line">				bAllowStrafe = MoveRequest.CanStrafe();</span><br><span class="line">				ResultData.MoveId = RequestID;</span><br><span class="line">				ResultData.Code = EPathFollowingRequestResult::RequestSuccessful;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (OutPath)</span><br><span class="line">				&#123;</span><br><span class="line">					*OutPath = Path;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ResultData.Code == EPathFollowingRequestResult::Failed)</span><br><span class="line">	&#123;</span><br><span class="line">		ResultData.MoveId = PathFollowingComponent-&gt;RequestMoveWithImmediateFinish(EPathFollowingResult::Invalid);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ResultData;</span><br></pre></td></tr></table></figure>
+
+<p>上面的<code>MoveTo</code>完成了移动的请求即<code>RequestMove</code>，但是具体哪里在执行角色的移动呢，继续翻代码</p>
+<h5 id="RequestMove"><a href="#RequestMove" class="headerlink" title="RequestMove"></a>RequestMove</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FAIRequestID <span class="title">AAIController::RequestMove</span><span class="params">(<span class="keyword">const</span> FAIMoveRequest&amp; MoveRequest, FNavPathSharedPtr Path)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	uint32 RequestID = FAIRequestID::InvalidRequest;</span><br><span class="line">	<span class="keyword">if</span> (PathFollowingComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		RequestID = PathFollowingComponent-&gt;RequestMove(MoveRequest, Path);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> RequestID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PathFollowingComponent"><a href="#PathFollowingComponent" class="headerlink" title="PathFollowingComponent"></a>PathFollowingComponent</h3><p>一顿操作以后调用<code>UPathFollowingComponent::RequestMove</code></p>
+<p>代码不贴全，茫茫多的判断以后来到关键的地方</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!bIsUsingMetaPath &amp;&amp; Path.IsValid() &amp;&amp; Path-&gt;IsValid())</span><br><span class="line">&#123;</span><br><span class="line">	Status = EPathFollowingStatus::Moving;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// determine with path segment should be followed</span></span><br><span class="line">	<span class="keyword">const</span> uint32 CurrentSegment = DetermineStartingPathPoint(InPath.Get());</span><br><span class="line">	SetMoveSegment(CurrentSegment);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	Status = EPathFollowingStatus::Waiting;</span><br><span class="line">	GetWorld()-&gt;GetTimerManager().SetTimer(WaitingForPathTimer, <span class="keyword">this</span>, &amp;UPathFollowingComponent::OnWaitingPathTimeout, WaitingTimeout);<span class="comment">//等待以后结束寻路移动</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>艰难通过前面几道判断(什么Idle,Paused等等我们先不管)以后，把状态参数<code>Status</code>改为<code>Moving</code></p>
+<p>然后呢？然后这个函数就结束了，继续翻，发现内容就在<code>Tick</code>里面</p>
+<h5 id="TickComponent"><a href="#TickComponent" class="headerlink" title="TickComponent"></a>TickComponent</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Status == EPathFollowingStatus::Moving)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 判断是否结束以及刷新分段</span></span><br><span class="line">		UpdatePathSegment();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (Status == EPathFollowingStatus::Moving)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//这个是执行移动的地方</span></span><br><span class="line">		FollowPathSegment(DeltaTime);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>很好奇，为什么同样一个if判断用2次？</p>
+</blockquote>
+<p>继续翻<code>FolowPathSegment</code></p>
+<h5 id="FolowPathSegment"><a href="#FolowPathSegment" class="headerlink" title="FolowPathSegment"></a>FolowPathSegment</h5><p>完整代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UPathFollowingComponent::FollowPathSegment</span><span class="params">(<span class="keyword">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!Path.IsValid() || MovementComp == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> FVector CurrentLocation = MovementComp-&gt;GetActorFeetLocation();</span><br><span class="line">	<span class="keyword">const</span> FVector CurrentTarget = GetCurrentTargetLocation();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// set to false by default, we will set set this back to true if appropriate</span></span><br><span class="line">	bIsDecelerating = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">bool</span> bAccelerationBased = MovementComp-&gt;UseAccelerationForPathFollowing();</span><br><span class="line">	<span class="keyword">if</span> (bAccelerationBased)</span><br><span class="line">	&#123;</span><br><span class="line">		CurrentMoveInput = (CurrentTarget - CurrentLocation).GetSafeNormal();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (MoveSegmentStartIndex &gt;= DecelerationSegmentIndex)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">const</span> FVector PathEnd = Path-&gt;GetEndLocation();</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> DistToEndSq = FVector::DistSquared(CurrentLocation, PathEnd);</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">bool</span> bShouldDecelerate = DistToEndSq &lt; FMath::Square(CachedBrakingDistance);</span><br><span class="line">			<span class="keyword">if</span> (bShouldDecelerate)</span><br><span class="line">			&#123;</span><br><span class="line">				bIsDecelerating = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">const</span> <span class="keyword">float</span> SpeedPct = FMath::Clamp(FMath::Sqrt(DistToEndSq) / CachedBrakingDistance, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">				CurrentMoveInput *= SpeedPct;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		PostProcessMove.ExecuteIfBound(<span class="keyword">this</span>, CurrentMoveInput);</span><br><span class="line">		MovementComp-&gt;RequestPathMove(CurrentMoveInput);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		FVector MoveVelocity = (CurrentTarget - CurrentLocation) / DeltaTime;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> int32 LastSegmentStartIndex = Path-&gt;GetPathPoints().Num() - <span class="number">2</span>;</span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">bool</span> bNotFollowingLastSegment = (MoveSegmentStartIndex &lt; LastSegmentStartIndex);</span><br><span class="line"></span><br><span class="line">		PostProcessMove.ExecuteIfBound(<span class="keyword">this</span>, MoveVelocity);</span><br><span class="line">		MovementComp-&gt;RequestDirectMove(MoveVelocity, bNotFollowingLastSegment);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要就看2个函数<code>MovementComp-&gt;RequestPathMove(CurrentMoveInput);</code>和<code>MovementComp-&gt;RequestDirectMove(MoveVelocity, bNotFollowingLastSegment);</code></p>
+<ul>
+<li>前者点进去以后啥也没有，原因是基类不做实现，提示至少要从<code>PawnMovementComponent</code>开始才有实现</li>
+</ul>
+<p>看一下<code>PawnMovementComponent</code> 的实现</p>
+<ul>
+<li>后者简单设置了一下<code>Velocity</code>变量</li>
+</ul>
+<h5 id="OnPathFinished"><a href="#OnPathFinished" class="headerlink" title="OnPathFinished"></a>OnPathFinished</h5><p>计算寻路的时候各种判断，最后通过<code>OnRequestFinished</code>广播给监听者</p>
+<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p><code>AI_MoveTo</code>通过<code>AIController</code>调用<code>UPathFollowingComponent</code>的移动请求方法</p>
+<p>在<code>AIController</code>的<code>UPathFollowingComponent</code>得到移动请求后，调用了<code>Pawn</code>内的<code>移动组件</code>的移动方法</p>
+<h3 id="PawnMovementComponent"><a href="#PawnMovementComponent" class="headerlink" title="PawnMovementComponent"></a>PawnMovementComponent</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UPawnMovementComponent::RequestPathMove</span><span class="params">(<span class="keyword">const</span> FVector&amp; MoveInput)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (PawnOwner)</span><br><span class="line">	&#123;</span><br><span class="line">		PawnOwner-&gt;Internal_AddMovementInput(MoveInput);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>绕了一大圈结果<code>Pawn</code>就是通过<code>AddMovement</code>执行路径移动，关于<code>DirectMove</code>在<code>UPawnMovementComponent</code> 中没有实现</p>
+<p>继续看看<code>UCharacterMovementComponent</code></p>
+<h3 id="UCharacterMovementComponent"><a href="#UCharacterMovementComponent" class="headerlink" title="UCharacterMovementComponent"></a>UCharacterMovementComponent</h3><p>主要执行移动的函数在<code>PerformMovement</code>里，此函数在<code>TickComponent</code>中调用</p>
+<p>另外无意中发现了跟其他内容有关系的代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (MovementMode == MOVE_None || UpdatedComponent-&gt;Mobility != EComponentMobility::Movable || UpdatedComponent-&gt;IsSimulatingPhysics())</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>MovementMode</code>设置了<code>None</code> 或者开启物理模拟了就不能移动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (bHasRootMotionSources &amp;&amp; !CharacterOwner-&gt;bClientUpdating &amp;&amp; !CharacterOwner-&gt;bServerMoveIgnoreRootMotion)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>( CharacterOwner-&gt;IsPlayingRootMotion() &amp;&amp; CharacterOwner-&gt;GetMesh() )</span><br><span class="line">			&#123;</span><br></pre></td></tr></table></figure>
+
+<p><code>RootMotion</code>动画优先于移动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (bHasAuthority &amp;&amp; UNetDriver::IsAdaptiveNetUpdateFrequencyEnabled() &amp;&amp; UpdatedComponent)</span><br></pre></td></tr></table></figure>
+
+<p>只对权威角色开启移动效果</p>
+<p>主要通过<code>MaybeUpdateBasedMovement</code>或者<code>MoveUpdatedComponent</code>方法（在rootmotion情况下）等方法最后调用到方法<code>MoveUpdatedComponentImpl</code>,然后调用<code> UpdatedComponent-&gt;MoveComponent</code></p>
+<blockquote>
+<p>另外</p>
+<p>设置了当前的Velocity以及位置和旋转，也存储了Last和New2份</p>
+<p>这个Velocity其实就是2帧渲染的位置插值</p>
+</blockquote>
+<h3 id="Pawn"><a href="#Pawn" class="headerlink" title="Pawn"></a>Pawn</h3><h5 id="AddMovement"><a href="#AddMovement" class="headerlink" title="AddMovement"></a>AddMovement</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Pawn.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Internal_AddMovementInput</span><span class="params">(FVector WorldAccel, <span class="keyword">bool</span> bForce = <span class="literal">false</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//******************//</span></span><br><span class="line">ControlInputVector += WorldAccel;</span><br></pre></td></tr></table></figure>
+
+<p>如果有<code>UCharacterMovementComponent</code>就调用组件里的方法（组件也是直接调用Pawn的内部方法）否则调用自身的内部方法<code>Internal_AddMovementInput</code></p>
+<blockquote>
+<p>同理用于Get方法</p>
+</blockquote>
+<p>改变的这个参数用于派生类计算速度值<code>Velocity</code>用于，例如<code>UFloatingPawnMovement::ApplyControlInputToVelocity</code></p>
+<p>速度计算要通过<code>USceneComponent</code></p>
+<h3 id="刷新位置顺序"><a href="#刷新位置顺序" class="headerlink" title="刷新位置顺序"></a>刷新位置顺序</h3><p>用上面的<strong>速度</strong>变量来刷新位置信息</p>
+<p>先看调用顺序，从移动组件的<code>Tick</code>开始</p>
+<ol>
+<li><code>PerformMovement(DeltaTime)</code></li>
+<li><code>MovementComponent::MoveUpdatedComponentImpl(const FVector&amp; Delta,...)</code></li>
+<li><code>UpdatedComponent(MovementComponent的parent的rootcomp)-&gt;MoveComponent()</code></li>
+<li><code>UpdatedComponent::MoveComponentImpl()</code></li>
+<li><code>UpdateComponentToWorld()</code></li>
+<li><code>UpdateComponentToWorldWithParent()</code></li>
+<li><code>PropagateTransformUpdate()</code></li>
+</ol>
+<p>到这开始刷新根组件即parent的root的位置、渲染、体积、寻路等信息，同时也刷新子组件的信息，之后引擎的处理可以暂时参考<a href="">由SetActorLocation分析渲染流程</a></p>
+<h3 id="其他移动方法"><a href="#其他移动方法" class="headerlink" title="其他移动方法"></a>其他移动方法</h3><ol>
+<li><p>诸如<code>SimpleMoveToLocation</code>等<code>AIController</code>内的方法最后都是调用了<code>PathFollowingComponent::RequestMove</code> </p>
+</li>
+<li><p><strong>AI</strong>行为的<strong>Task</strong>节点，最终调用的也是<code>AIController</code>的<code>MoveTo</code>方法</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="https://img.supervj.top/img/AIMoveTo/AI_MoveTo%E7%AE%80%E5%9B%BE.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/" class="post-title-link" itemprop="url">使用ApexPhysXLab制作UE4的破损物体(DestructibleMesh)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:00+08:00">2020-05-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">物理</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/" class="cy_cmt_count" data-xid="2020/05/21/使用ApexPhysXLab制作UE4的破损物体（ DestructibleMesh）/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>276</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>UE4自带的DestructibleMesh系统的破碎方式比较单一，可以用英伟达的ApexPhysXLab工具制作自定义破碎文件，然后导入UE4</p>
+<p>本文介绍通过使用这一工具制作UE4破碎物体的流程</p>
+<p>工具下载地址<a href="**https://developer.nvidia.com/gameworksdownload#?dn=physx-lab-1-3-0**">点击下载</a></p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_1.png"></p>
+<h3 id="PhysXLab流程"><a href="#PhysXLab流程" class="headerlink" title="PhysXLab流程"></a>PhysXLab流程</h3><p>如下图所示，导入3D模型</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_2.png"></p>
+<h5 id="三种破碎方式"><a href="#三种破碎方式" class="headerlink" title="三种破碎方式"></a>三种破碎方式</h5><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_3.png"></p>
+<h6 id="Slice模式"><a href="#Slice模式" class="headerlink" title="Slice模式"></a>Slice模式</h6><p>如下图所示，红色框内为主要设置的参数</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_4.png"></p>
+<p>效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_5.png"></p>
+<h6 id="Cutout模式"><a href="#Cutout模式" class="headerlink" title="Cutout模式"></a>Cutout模式</h6><p>主要用黑白通道图来切割，<strong>注意黑白通道只是平面投射，跟UV无关，所以纹理如果要配合切割需要单独制作配合好的纹理及黑白图</strong></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_6.png"></p>
+<p>效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_7.png"></p>
+<h6 id="Voronoi模式"><a href="#Voronoi模式" class="headerlink" title="Voronoi模式"></a>Voronoi模式</h6><p>类似UE4内的破碎</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_8.png"></p>
+<p> 效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_9.png"></p>
+<h5 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h5><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_10.png"></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_11.png"></p>
+<h3 id="UE4流程"><a href="#UE4流程" class="headerlink" title="UE4流程"></a>UE4流程</h3><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_12.png"></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_13.png"></p>
+<p>用一个模拟子弹来制造破碎效果</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_14.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="post-title-link" itemprop="url">用Niagara的Ribbon绘制样条线</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:00+08:00">2020-05-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%B9%E6%95%88/" itemprop="url" rel="index"><span itemprop="name">特效</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="cy_cmt_count" data-xid="2020/05/21/用Niagara绘制样条线/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>最近由于项目需要用到鼠标在场景利绘制曲线，方案有很多，比如SplineMesh，ProceduralMesh 等等，回头一想用特效也可以试试</p>
+<p>本案例使用虚幻4.22版本演示</p>
+<p>用Niagara的Ribbon绘制样条线的功能</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_0.gif"></p>
+<h5 id="模块函数-NiagaraModuleScript"><a href="#模块函数-NiagaraModuleScript" class="headerlink" title="模块函数 NiagaraModuleScript"></a>模块函数 NiagaraModuleScript</h5><ul>
+<li>模块函数是Niagara系统的函数库，是niagara系统最主要区别于老例子系统的其中一点</li>
+</ul>
+<p>创建函数库 <code>NM_Test1</code></p>
+<p><img src="https://img.supervj.top/img/niagara/niagara_1.jpg"></p>
+<p>完成如上节点连接</p>
+<p>注意：变量的前缀是对应模块，这个不能随意更改，创建的时候就选好模块会自动添加前缀；如果是系统已有变量，就不需要自己更改名称，如<code>Emitter.age</code>，表示发射器的生命周期</p>
+<ul>
+<li>User.SP：User分类下的Spline变量，本案例用下面参数代替</li>
+<li>Module.Count：函数输入参数，本函数中用于控制发射数量</li>
+<li>SampleSplinePositionByUnitDistanceWS:输入0-1输出曲线从开始到结束的世界空间位置</li>
+<li>ExecutionIndex:当前粒子的序号</li>
+</ul>
+<p>简单描述这个函数的功能就是根据发射粒子在所有发射粒子中的百分比对应到曲线spline的长度百分比</p>
+<h5 id="粒子发射器-Emitter"><a href="#粒子发射器-Emitter" class="headerlink" title="粒子发射器 Emitter"></a>粒子发射器 Emitter</h5><p><img src="https://img.supervj.top/img/niagara/niagara_2.jpg"></p>
+<p>随意创建一个发射器，删除多余节点，配置图所示</p>
+<p>刚开始比较容易混淆的概念是 Emitter的spawn，update与Particle的Spawn，Update的概念</p>
+<ul>
+<li>Emitter针对的就是整个发射器的操作，约等于老系统的Required和部分Spawn的内容，如整个发射器的生命周期，是否循环</li>
+<li>Particle控制每个粒子的属性和功能，如每个粒子的大小颜色等</li>
+<li>不恰当的比喻就是Emitter就是Actor，Particle就是Component</li>
+</ul>
+<p>图中关键节点解释</p>
+<ul>
+<li>创建3个User变量，User变量可以到外部设置</li>
+<li>创建Emitter模块的<code>Emitter.SpawnCount</code>变量，暴力一点可以直接跳过直接用User的</li>
+<li>发射器创建的时候用<code>User.SpawnCount</code>设置<code>Emitter.SpawnCount</code></li>
+<li><code>Emitter.SpawnCount</code>去设置<code>SpawnBurstInstaneous</code>的发射数量</li>
+<li>修改<code>Render</code>模块中的粒子类型为<code>Ribbon</code></li>
+<li>设置Ribbon的宽度</li>
+<li>在Spawn（在Update也可以） 中加上自定义的函数<code>NM_Test1</code>，并把<code>EmitterSpawnCount</code>设置为输入参数</li>
+</ul>
+<h5 id="粒子系统-NiagaraSystem"><a href="#粒子系统-NiagaraSystem" class="headerlink" title="粒子系统 NiagaraSystem"></a>粒子系统 NiagaraSystem</h5><blockquote>
+<p> 汇总所有Emitter的集合，同时可以实例化到场景或者类里的类;同时也可以再次修改Emitter中所有参数</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_3.jpg"></p>
+<p>如图所示，可以使用多个发射器，可以设置User模块的参数，可以拖拽不同发射器的作用时间（类似动画）</p>
+<p>本案例中只需要添加一个发射器</p>
+<h5 id="画线类-DrawItem"><a href="#画线类-DrawItem" class="headerlink" title="画线类 DrawItem"></a>画线类 DrawItem</h5><p><img src="https://img.supervj.top/img/niagara/niagara_4.jpg"></p>
+<ul>
+<li><p>目前版本貌似没有更直观的方法设置Spline变量，强行用设置Actor变量尽然是可以的(lll￢ω￢)</p>
+</li>
+<li><p>提供对外函数<code>AddPoint(FVector)</code>用于添加曲线点</p>
+</li>
+</ul>
+<h5 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h5><blockquote>
+<p>不要忘记开启项目设置里Input模块下的UseMouseForTouch</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_5.jpg"></p>
+<p>蓝图比较简单，简单描述就是在鼠标按下移动后用射线点通过DrawItem添加曲线点</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
+<li>用Niagara类绘制曲线模型算是比较简单方便的，Niagara在性能优化上也不错</li>
+<li>曲线在长度到一定程度后会有明显分段情况出现，不够圆滑，目前版本没有公开Ribbon的设置段数的变量</li>
+<li>据说Niagara在4.25才是正式版，目前无法保证bug问题</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1701,743 +2439,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/" class="post-title-link" itemprop="url">UE4发布steam游戏流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-09T00:00:00+08:00">2020-05-09</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/" class="cy_cmt_count" data-xid="2020/05/09/UE4使用Steam子系统发布Steam包/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>2019年4月18日在steam发布了个人一款独立动作游戏《EndlessHell》，本文将借此记录发布steam游戏的流程</p>
-<p><a target="_blank" rel="noopener" href="https://store.steampowered.com/app/1055000/EndlessHell/">游戏链接</a></p>
-<p>UE4版本4.21</p>
-<p><a target="_blank" rel="noopener" href="https://partner.steamgames.com/doc/gettingstarted">SteamWork入门指南</a></p>
-<p>文中内容前半部分为提交当时编辑，搬运至博客后更新后续部分</p>
-</blockquote>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="SteamDLL"><a href="#SteamDLL" class="headerlink" title="SteamDLL"></a>SteamDLL</h3><p>复制steam程序中的dll文件至本地引擎文件内<code>*\UE_4.21\Engine\Binaries\ThirdParty\Steamworks\Steamv139</code></p>
-<p>如下图所示</p>
-<p><img src="https://img.supervj.top/imgsteamapi2.png"></p>
-<p><img src="https://img.supervj.top/imgsteamapi3.png"></p>
-<p>最终效果如下</p>
-<p><img src="https://img.supervj.top/imgapi1.png"></p>
-<h3 id="Engine-ini"><a href="#Engine-ini" class="headerlink" title="Engine.ini"></a>Engine.ini</h3><p>添加如下代码</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[/Script/Engine.GameEngine]</span></span><br><span class="line">+NetDriverDefinitions=(DefName=&quot;GameNetDriver&quot;,DriverClassName=&quot;OnlineSubsystemSteam.SteamNetDriver&quot;,DriverClassNameFallback=&quot;OnlineSubsystemUtils.IpNetDriver&quot;)</span><br><span class="line"></span><br><span class="line"><span class="section">[OnlineSubsystem]</span></span><br><span class="line"><span class="attr">DefaultPlatformService</span>=Steam</span><br><span class="line"></span><br><span class="line"><span class="section">[OnlineSubsystemSteam]</span></span><br><span class="line"><span class="attr">bEnabled</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">SteamDevAppId</span>=<span class="number">480</span>//测试ID，正式包用自己的ApplicationID</span><br><span class="line"><span class="attr">Achievement_0_Id</span>=ACH_WIN_ONE_GAME //添加成就，正式包用自己的成就</span><br><span class="line"><span class="section">[/Script/OnlineSubsystemSteam.SteamNetDriver]</span></span><br><span class="line"><span class="attr">NetConnectionClassName</span>=<span class="string">&quot;OnlineSubsystemSteam.SteamNetConnection&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="UE4配置"><a href="#UE4配置" class="headerlink" title="UE4配置"></a>UE4配置</h3><p>开启子系统，如下图 </p>
-<p><img src="https://img.supervj.top/imgsteam1.PNG"></p>
-<p>至此进入游戏后按<code>shift+tab</code>可以唤出steam窗口,记住需要使用==独立窗口模式运行==</p>
-<p><img src="https://img.supervj.top/imgsteam2.png"></p>
-<ul>
-<li>如需使用steamapi，在target.cs中开启如下选项</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bUsesSteam = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>同时在<code>build.cs</code>中如下模块</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PublicDependencyModuleNames.AddRange(<span class="keyword">new</span> <span class="built_in">string</span>[] &#123;</span><br><span class="line">            <span class="string">&quot;OnlineSubsystem&quot;</span>,</span><br><span class="line">            <span class="string">&quot;OnlineSubsystemUtils&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Steamworks&quot;</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"> DynamicallyLoadedModuleNames.Add(<span class="string">&quot;OnlineSubsystemSteam&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="SteamWork"><a href="#SteamWork" class="headerlink" title="SteamWork"></a>SteamWork</h2><ul>
-<li>首先需要注册一个stemawork账号</li>
-<li>发布steam游戏需要申请一个ID，本作ID是**<em>1055000**</em>（此数字+1为depot的ID），以下用的此数字均为游戏ID，另外需要一次性付费<strong>100美刀</strong>（当时价格），当销售额度达到1000美刀后返还</li>
-<li>另外需要提供个人银行账户，每月月初当上个月份税后金额达到100刀以上会打款到账户</li>
-<li>在进入下面之前需要先下载steamSDK，如steamwork首页右下角位置,如图</li>
-</ul>
-<img src="https://img.supervj.top/imgsteamSdk.jpg" style="zoom:50%;" />
-
-<h3 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h3><h4 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h4><h5 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h5><p>设置正确的游戏名字和平台</p>
-<h5 id="steam输入"><a href="#steam输入" class="headerlink" title="steam输入"></a>steam输入</h5><p>提供的输入方式，如手柄，xbox等</p>
-<h4 id="SteamPipe"><a href="#SteamPipe" class="headerlink" title="SteamPipe"></a>SteamPipe</h4><h6 id="提交版本"><a href="#提交版本" class="headerlink" title="提交版本"></a>提交版本</h6><p>这个是版本生成器，用于提交版本和选择当前在商店下载的游戏版本</p>
-<p>提交版本可以使用SDK包中的工具提交，在开始提交之前需要设置如下内容</p>
-<ol>
-<li>修改<code> sdk\tools\ContentBuilder\scripts\app_build_*.vdf</code>文件为<code>app_build_1055000.vdf</code>，同时修改内容为</li>
-</ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;appbuild&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;appid&quot;</span>	<span class="attr">&quot;1055000&quot;</span></span><br><span class="line">	<span class="attr">&quot;desc&quot;</span> <span class="attr">&quot;Your build description here&quot;</span> <span class="comment">// description for this build</span></span><br><span class="line">	<span class="attr">&quot;buildoutput&quot;</span> <span class="attr">&quot;..\output\&quot; // build output folder for .log, .csm &amp; .csd files, relative to location of this file</span></span><br><span class="line">	&quot;contentroot&quot; &quot;..\content\&quot; // root content folder, relative to location of this file</span><br><span class="line">	<span class="string">&quot;setlive&quot;</span>	<span class="string">&quot;&quot;</span> <span class="comment">// branch to set live after successful build, non if empty</span></span><br><span class="line">	<span class="string">&quot;preview&quot;</span> <span class="string">&quot;0&quot;</span> <span class="comment">// to enable preview builds</span></span><br><span class="line">	<span class="string">&quot;local&quot;</span>	<span class="string">&quot;&quot;</span>	<span class="comment">// set to flie path of local content server </span></span><br><span class="line">	</span><br><span class="line">	<span class="string">&quot;depots&quot;</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">&quot;1055001&quot;</span> <span class="attr">&quot;depot_build_1055001.vdf&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>必须修改的是appid和depots的内容， 对应的ID修改成自己的</p>
-</blockquote>
-<ol start="2">
-<li>depot_build_1055001.vdf文件同样修改内容为</li>
-</ol>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;DepotBuildConfig&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// Set your assigned depot ID here</span></span><br><span class="line">	<span class="attr">&quot;DepotID&quot;</span> <span class="attr">&quot;1055001&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set a root for all content.</span></span><br><span class="line">	<span class="comment">// All relative paths specified below (LocalPath in FileMapping entries, and FileExclusion paths)</span></span><br><span class="line">	<span class="comment">// will be resolved relative to this root.</span></span><br><span class="line">	<span class="comment">// If you don&#x27;t define ContentRoot, then it will be assumed to be</span></span><br><span class="line">	<span class="comment">// the location of this script file, which probably isn&#x27;t what you want</span></span><br><span class="line">	<span class="attr">&quot;ContentRoot&quot;</span>	<span class="attr">&quot;E:\Download\steamworks_sdk_144\sdk\tools\ContentBuilder\content&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// include all files recursivley</span></span><br><span class="line">  <span class="attr">&quot;FileMapping&quot;</span></span><br><span class="line">  &#123;</span><br><span class="line">  	<span class="comment">// This can be a full path, or a path relative to ContentRoot</span></span><br><span class="line">    <span class="string">&quot;LocalPath&quot;</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// This is a path relative to the install folder of your game</span></span><br><span class="line">    <span class="string">&quot;DepotPath&quot;</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// If LocalPath contains wildcards, setting this means that all</span></span><br><span class="line">    <span class="comment">// matching files within subdirectories of LocalPath will also</span></span><br><span class="line">    <span class="comment">// be included.</span></span><br><span class="line">    <span class="string">&quot;recursive&quot;</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// but exclude all symbol files  </span></span><br><span class="line">	<span class="comment">// This can be a full path, or a path relative to ContentRoot</span></span><br><span class="line">  <span class="string">&quot;FileExclusion&quot;</span> <span class="string">&quot;*.pdb&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>主要修改depotsid和content的路径</p>
-</blockquote>
-<ol start="3">
-<li><p>运行<code> \sdk\tools\ContentBuilder\builder\steamcmd.exe</code>准备提交内容</p>
-</li>
-<li><p>```\sdk\tools\ContentBuilder\content``内是<strong>游戏包的内容</strong>，请确保exe启动名字与==[安装&gt;通用安装&gt;启动选项&gt;可执行文件]==名字一样</p>
-</li>
-<li><p>更新&gt;登录&gt;运行如下脚本提交</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run_app_build E:\Download\steamworks_sdk_144\sdk\tools\ContentBuilder\scripts\app_build_1055000.vdf</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>路径为app_build文件的路径</p>
-</blockquote>
-</li>
-<li><p>提交后看到如下图的新的分支，修改default为当前展示和下载的分支</p>
-</li>
-</ol>
-<p><img src="https://img.supervj.top/imgdepot.jpg"></p>
-<h6 id="depot设置"><a href="#depot设置" class="headerlink" title="depot设置"></a>depot设置</h6><p>此页面比较简单，需要正确设置程序支持的<strong>语言</strong>和<strong>平台</strong></p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><h5 id="通用安装"><a href="#通用安装" class="headerlink" title="通用安装"></a>通用安装</h5><h6 id="安装文件夹"><a href="#安装文件夹" class="headerlink" title="安装文件夹"></a>安装文件夹</h6><p>下载安装以后的文件夹名字</p>
-<h6 id="启动选项"><a href="#启动选项" class="headerlink" title="启动选项"></a>启动选项</h6><ul>
-<li>可执行文件：启动程序，一般就是引擎打包以后那个exe文件</li>
-<li>其他正确设置就可以</li>
-</ul>
-<h6 id="可再发行文件"><a href="#可再发行文件" class="headerlink" title="可再发行文件"></a>可再发行文件</h6><p>Steam 可以自动安装您的许多常见可再发行文件</p>
-<h6 id="客户端图像"><a href="#客户端图像" class="headerlink" title="客户端图像"></a>客户端图像</h6><p>根据要求规格上传各种icon文件</p>
-<h4 id="统计与成就"><a href="#统计与成就" class="headerlink" title="统计与成就"></a>统计与成就</h4><h6 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h6><p>设置统计的类型和名称</p>
-<h6 id="成就"><a href="#成就" class="headerlink" title="成就"></a>成就</h6><p>设置名称、描述和icon</p>
-<p><img src="https://img.supervj.top/imgchengjiu.jpg"></p>
-<h6 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h6><p>成就名称和描述的本地化，可以下载文档再提交更新</p>
-<p><img src="https://img.supervj.top/imgbendihua.jpg"></p>
-<h4 id="管理序列号"><a href="#管理序列号" class="headerlink" title="管理序列号"></a>管理序列号</h4><p>申请序列号，注意其中不同的序列号的用途</p>
-<p><img src="https://img.supervj.top/imgcdkey.jpg"></p>
-<p>在首页有下载选项</p>
-<p><img src="https://img.supervj.top/imgkey.jpg"></p>
-<h4 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h4><p>所有修改完后都需要进入发布选项进行发布到商店，系统会提示差异</p>
-<h4 id="成就API"><a href="#成就API" class="headerlink" title="成就API"></a>成就API</h4><ul>
-<li>很容易被忘记的一点，ini文件利必须设置与网站成就对应的字符串，如下图</li>
-</ul>
-<p><img src="https://img.supervj.top/imgsteam%E6%88%90%E5%B0%B11.jpg"></p>
-<ul>
-<li>蓝图api</li>
-</ul>
-<p><img src="https://img.supervj.top/imgsteam%E6%88%90%E5%B0%B13.jpg"></p>
-<p>读写成就之前必须先缓存成功</p>
-<p>目前版本对于成就进度条的读取和设置只有0或者1，所以只要写入的参数大于0成就即完成，不知后续更新能不能完善</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/06/%E7%BB%98%E5%88%B6%E5%9B%BE%E5%BD%A2%EF%BC%88%E9%9D%9Edebug%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/05/06/%E7%BB%98%E5%88%B6%E5%9B%BE%E5%BD%A2%EF%BC%88%E9%9D%9Edebug%EF%BC%89/" class="post-title-link" itemprop="url">绘制图形（非debug）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-05-06 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-06T00:00:00+08:00">2020-05-06</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%89%A9%E5%B1%95/" itemprop="url" rel="index"><span itemprop="name">扩展</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/05/06/%E7%BB%98%E5%88%B6%E5%9B%BE%E5%BD%A2%EF%BC%88%E9%9D%9Edebug%EF%BC%89/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/05/06/%E7%BB%98%E5%88%B6%E5%9B%BE%E5%BD%A2%EF%BC%88%E9%9D%9Edebug%EF%BC%89/" class="cy_cmt_count" data-xid="2020/05/06/绘制图形（非debug）/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>蓝图方法DrawDebugLine（以及其他图形）的方法只能在开发者模式中使用</p>
-<p>下文为了得到发布版的DrawLine之类的功能</p>
-</blockquote>
-<h3 id="LineBatchComponent"><a href="#LineBatchComponent" class="headerlink" title="LineBatchComponent"></a>LineBatchComponent</h3><ul>
-<li>在UWorld中看到如下声明</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Line Batchers. All lines to be drawn in the world. */</span></span><br><span class="line">	UPROPERTY(Transient)</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ULineBatchComponent</span>*					<span class="title">LineBatcher</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Persistent Line Batchers. They don&#x27;t get flushed every frame.  */</span></span><br><span class="line">	UPROPERTY(Transient)</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ULineBatchComponent</span>*					<span class="title">PersistentLineBatcher</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Foreground Line Batchers. This can&#x27;t be Persistent.  */</span></span><br><span class="line">	UPROPERTY(Transient)</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ULineBatchComponent</span>*					<span class="title">ForegroundLineBatcher</span>;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>然后创建并注册组件</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*****</span><br><span class="line"><span class="keyword">if</span>(!LineBatcher)</span><br><span class="line">		&#123;</span><br><span class="line">			LineBatcher = NewObject&lt;ULineBatchComponent&gt;();</span><br><span class="line">			LineBatcher-&gt;bCalculateAccurateBounds = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(!LineBatcher-&gt;IsRegistered())</span><br><span class="line">		&#123;	</span><br><span class="line">			LineBatcher-&gt;RegisterComponentWithWorld(<span class="keyword">this</span>);</span><br><span class="line">		&#125;</span><br><span class="line">****</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>再到组件<code>LineBatchComponent.h</code></p>
-</li>
-<li><p>先关注组件内部申明的类<code>FLineBatcherSceneProxy : public FPrimitiveSceneProxy</code></p>
-<ul>
-<li>这个代理继承自<code>FPrimitiveSceneProxy</code>,这个类可以得到重要的<code>FPrimitiveDrawInterface</code>,通过这个类可以画出需要的图形（其他各类方法基本都是通过PDI来画出图形），代码如下</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//重写的方法，不需要自己调用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FLineBatcherSceneProxy::GetDynamicMeshElements</span><span class="params">(<span class="keyword">const</span> TArray&lt;<span class="keyword">const</span> FSceneView*&gt;&amp; Views, <span class="keyword">const</span> FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	QUICK_SCOPE_CYCLE_COUNTER( STAT_LineBatcherSceneProxy_GetDynamicMeshElements );</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (int32 ViewIndex = <span class="number">0</span>; ViewIndex &lt; Views.Num(); ViewIndex++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (VisibilityMap &amp; (<span class="number">1</span> &lt;&lt; ViewIndex))</span><br><span class="line">		&#123;<span class="keyword">const</span> FSceneView* View = Views[ViewIndex];</span><br><span class="line">         <span class="comment">//得到PDI</span></span><br><span class="line">			FPrimitiveDrawInterface* PDI = Collector.GetPDI(ViewIndex);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> (int32 i = <span class="number">0</span>; i &lt; Lines.Num(); i++)</span><br><span class="line">			&#123;</span><br><span class="line">                <span class="comment">//通过PDI画线，Lines是TArray&lt;FBatchedLine&gt;私有成员</span></span><br><span class="line">				PDI-&gt;DrawLine(Lines[i].Start, Lines[i].End, Lines[i].Color, Lines[i].DepthPriority, Lines[i].Thickness);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> (int32 i = <span class="number">0</span>; i &lt; Points.Num(); i++)</span><br><span class="line">			&#123;</span><br><span class="line">                <span class="comment">//同理画点</span></span><br><span class="line">				PDI-&gt;DrawPoint(Points[i].Position, Points[i].Color, Points[i].PointSize, Points[i].DepthPriority);</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代理构造的时候提供<code>ULineBatchComponent</code></li>
-<li> 目的是把<code>ULineBatchComponent</code>的数据传给此代理</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FLineBatcherSceneProxy::FLineBatcherSceneProxy(<span class="keyword">const</span> ULineBatchComponent* InComponent) :</span><br><span class="line">	FPrimitiveSceneProxy(InComponent), Lines(InComponent-&gt;BatchedLines), </span><br><span class="line">	Points(InComponent-&gt;BatchedPoints), Meshes(InComponent-&gt;BatchedMeshes)</span><br><span class="line">&#123;</span><br><span class="line">	bWillEverBeLit = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>下面到<code>ULineBatchComponent</code></li>
-<li><code>::DrawLine</code>方法把<code>FBatchedLine</code>添加到数组，然后通过Tick递减时间并删除</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ULineBatchComponent::DrawLine</span><span class="params">(<span class="keyword">const</span> FVector&amp; Start, <span class="keyword">const</span> FVector&amp; End, <span class="keyword">const</span> FLinearColor&amp; Color, uint8 DepthPriority, <span class="keyword">const</span> <span class="keyword">float</span> Thickness, <span class="keyword">const</span> <span class="keyword">float</span> LifeTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//构造一个FBatchedLine成员</span></span><br><span class="line">	<span class="keyword">new</span>(BatchedLines) FBatchedLine(Start, End, Color, LifeTime, Thickness, DepthPriority);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// LineBatcher and PersistentLineBatcher components will be updated at the end of UWorld::Tick</span></span><br><span class="line">	MarkRenderStateDirty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ULineBatchComponent::TickComponent</span><span class="params">(<span class="keyword">float</span> DeltaTime, <span class="keyword">enum</span> ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">bool</span> bDirty = <span class="literal">false</span>;</span><br><span class="line">	<span class="comment">// Update the life time of batched lines, removing the lines which have expired.</span></span><br><span class="line">	<span class="keyword">for</span>(int32 LineIndex=<span class="number">0</span>; LineIndex &lt; BatchedLines.Num(); LineIndex++)</span><br><span class="line">	&#123;</span><br><span class="line">		FBatchedLine&amp; Line = BatchedLines[LineIndex];</span><br><span class="line">		<span class="keyword">if</span> (Line.RemainingLifeTime &gt; <span class="number">0.0f</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			Line.RemainingLifeTime -= DeltaTime;</span><br><span class="line">			<span class="keyword">if</span>(Line.RemainingLifeTime &lt;= <span class="number">0.0f</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// The line has expired, remove it.</span></span><br><span class="line">				BatchedLines.RemoveAtSwap(LineIndex--);</span><br><span class="line">				bDirty = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    *************************</span><br></pre></td></tr></table></figure>
-
-<h3 id="DrawDebug版本"><a href="#DrawDebug版本" class="headerlink" title="DrawDebug版本"></a>DrawDebug版本</h3><p>通过<code>world</code>得到相应的<code>LineBatcher</code>然后调用<code>DrawLine</code>方法</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (GEngine-&gt;GetNetMode(InWorld) != NM_DedicatedServer)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// this means foreground lines can&#x27;t be persistent </span></span><br><span class="line">		ULineBatchComponent* <span class="keyword">const</span> LineBatcher = GetDebugLineBatcher( InWorld, bPersistentLines, LifeTime, (DepthPriority == SDPG_Foreground) );</span><br><span class="line">		<span class="keyword">if</span>(LineBatcher != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">float</span> <span class="keyword">const</span> LineLifeTime = GetDebugLineLifeTime(LineBatcher, LifeTime, bPersistentLines);</span><br><span class="line">			LineBatcher-&gt;DrawLine(LineStart, LineEnd, Color, DepthPriority, Thickness, LineLifeTime);</span><br><span class="line">		</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="封装蓝图函数库"><a href="#封装蓝图函数库" class="headerlink" title="封装蓝图函数库"></a>封装蓝图函数库</h3><h5 id="FlibDrawGraphics-h"><a href="#FlibDrawGraphics-h" class="headerlink" title="FlibDrawGraphics.h"></a>FlibDrawGraphics.h</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Kismet/BlueprintFunctionLibrary.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FlibDrawGraphics.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ULineBatchComponent</span>;</span></span><br><span class="line">UCLASS()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GWORLD_API</span> <span class="title">UFlibDrawGraphics</span> :</span> <span class="keyword">public</span> UBlueprintFunctionLibrary</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="keyword">static</span> ULineBatchComponent* <span class="title">GetDebugLineBatcher</span><span class="params">(<span class="keyword">const</span> UWorld* InWorld, <span class="keyword">bool</span> bPersistentLines, <span class="keyword">float</span> LifeTime, <span class="keyword">bool</span> bDepthIsForeground)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UFUNCTION(BlueprintCallable)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">G_DrawLine</span><span class="params">(UObject* context, FVector Start, FVector End, FLinearColor Color, uint8 DepthPriority, <span class="keyword">float</span> Thickness, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent = <span class="literal">false</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">G_DrawBox</span><span class="params">(UObject* context, FVector  Center, FVector  Box, FLinearColor Color, uint8 DepthPriority, <span class="keyword">float</span> Thickness, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent = <span class="literal">false</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, meta = (context = <span class="string">&quot;WorldContextObject&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">G_DrawSoildBox</span><span class="params">(UObject* context, FVector  Center, FVector  Extent, FLinearColor  Color, uint8 DepthPriority, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent = <span class="literal">false</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="FlibDrawGraphics-cpp"><a href="#FlibDrawGraphics-cpp" class="headerlink" title="FlibDrawGraphics.cpp"></a>FlibDrawGraphics.cpp</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FlibDrawGraphics.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Components/LineBatchComponent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Engine/World.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">ULineBatchComponent* <span class="title">ULibGameFunc::GetDebugLineBatcher</span><span class="params">(<span class="keyword">const</span> UWorld* InWorld, <span class="keyword">bool</span> bPersistentLines, <span class="keyword">float</span> LifeTime, <span class="keyword">bool</span> bDepthIsForeground)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> (InWorld ? (bDepthIsForeground ? InWorld-&gt;ForegroundLineBatcher : ((bPersistentLines || (LifeTime &gt; <span class="number">0.f</span>)) ? InWorld-&gt;PersistentLineBatcher : InWorld-&gt;LineBatcher)) : <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//画线</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ULibGameFunc::BP_DrawLine</span><span class="params">(UObject* context, FVector Start, FVector End, FLinearColor Color, uint8 DepthPriority, <span class="keyword">float</span> Thickness, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent <span class="comment">/*= false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UWorld* world = context-&gt;GetWorld();</span><br><span class="line">	<span class="keyword">if</span> (world)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//通过优先级得到对应的组件</span></span><br><span class="line">		ULineBatchComponent* <span class="keyword">const</span> LineBatcher = GetDebugLineBatcher(world, bPersistent, Duration, DepthPriority == SDPG_Foreground);</span><br><span class="line">        <span class="comment">//如果是永久的设置时间-1</span></span><br><span class="line">		<span class="keyword">float</span> <span class="keyword">const</span> ActualLifetime = bPersistent ? <span class="number">-1.0f</span> : ((Duration &gt; <span class="number">0.f</span>) ? Duration : LineBatcher-&gt;DefaultLifeTime);</span><br><span class="line">		LineBatcher-&gt;DrawLine(Start, End, Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//画盒子边框，通过8个点然后DrawLine得到</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ULibGameFunc::BP_DrawBox</span><span class="params">(UObject* context, FVector Center, FVector Box, FLinearColor Color, uint8 DepthPriority, <span class="keyword">float</span> Thickness, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent <span class="comment">/*= false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	UWorld* world = context-&gt;GetWorld();</span><br><span class="line">	<span class="keyword">if</span> (world)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		ULineBatchComponent* <span class="keyword">const</span> LineBatcher = GetDebugLineBatcher(world, bPersistent, Duration, DepthPriority == SDPG_Foreground);</span><br><span class="line">		<span class="keyword">float</span> <span class="keyword">const</span> ActualLifetime = bPersistent ? <span class="number">-1.0f</span> : ((Duration &gt; <span class="number">0.f</span>) ? Duration : LineBatcher-&gt;DefaultLifeTime);</span><br><span class="line">		<span class="keyword">if</span> (LineBatcher)</span><br><span class="line">		&#123;		LineBatcher-&gt;DrawLine(Center + FVector(Box.X, Box.Y, Box.Z), Center + FVector(Box.X, -Box.Y, Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(Box.X, -Box.Y, Box.Z), Center + FVector(-Box.X, -Box.Y, Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, -Box.Y, Box.Z), Center + FVector(-Box.X, Box.Y, Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, Box.Y, Box.Z), Center + FVector(Box.X, Box.Y, Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(Box.X, Box.Y, -Box.Z), Center + FVector(Box.X, -Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(Box.X, -Box.Y, -Box.Z), Center + FVector(-Box.X, -Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, -Box.Y, -Box.Z), Center + FVector(-Box.X, Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, Box.Y, -Box.Z), Center + FVector(Box.X, Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(Box.X, Box.Y, Box.Z), Center + FVector(Box.X, Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(Box.X, -Box.Y, Box.Z), Center + FVector(Box.X, -Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, -Box.Y, Box.Z), Center + FVector(-Box.X, -Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line">			LineBatcher-&gt;DrawLine(Center + FVector(-Box.X, Box.Y, Box.Z), Center + FVector(-Box.X, Box.Y, -Box.Z), Color.ToFColor(<span class="literal">true</span>), DepthPriority, Thickness, ActualLifetime);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//画实体的盒子</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ULibGameFunc::DrawSoildBox</span><span class="params">(UObject* context, FVector Center, FVector Extent, FLinearColor Color, uint8 DepthPriority, <span class="keyword">float</span> Duration, <span class="keyword">bool</span> bPersistent<span class="comment">/*=false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FBox Box = FBox::BuildAABB(Center, Extent);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (context)</span><br><span class="line">	&#123;</span><br><span class="line">		UWorld* World = context-&gt;GetWorld();</span><br><span class="line">		<span class="keyword">if</span> (World)</span><br><span class="line">		&#123;</span><br><span class="line">			</span><br><span class="line">			ULineBatchComponent* <span class="keyword">const</span> LineBatcher = GetDebugLineBatcher(World, bPersistent, Duration, DepthPriority == SDPG_Foreground);</span><br><span class="line">			<span class="keyword">if</span> (LineBatcher != <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">float</span> <span class="keyword">const</span> ActualLifetime = bPersistent ? <span class="number">-1.0f</span> : ((Duration &gt; <span class="number">0.f</span>) ? Duration : LineBatcher-&gt;DefaultLifeTime);</span><br><span class="line">				LineBatcher-&gt;DrawSolidBox(Box, FTransform::Identity, Color.ToFColor(<span class="literal">true</span>), DepthPriority, ActualLifetime);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="蓝图测试"><a href="#蓝图测试" class="headerlink" title="蓝图测试"></a>蓝图测试</h3><p><img src="https://img.supervj.top/imgdrawGraphics_1.png"></p>
-<p><img src="https://img.supervj.top/imgdrawGraphics_2.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">UE4顶点动画开发流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-30 20:24:51" itemprop="dateCreated datePublished" datetime="2020-04-30T20:24:51+08:00">2020-04-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8A%A8%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">动画</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" class="cy_cmt_count" data-xid="2020/04/30/UE4顶点动画开发流程/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>本文介绍从max到UE4顶点动画实现流程</p>
-<p>使用的方式是贴图记录顶点位置和法线信息通过材质球使静态模型模拟动画的播放</p>
-</blockquote>
-<p><img src="https://img.supervj.top/imgd1.gif" alt="Alt text"></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/VJien/VextexAnimationTool.git">脚本下载</a></p>
-<h3 id="顶点缓存脚本"><a href="#顶点缓存脚本" class="headerlink" title="顶点缓存脚本"></a>顶点缓存脚本</h3><ul>
-<li><strong>如果是非骨骼动画，可以直接跳过此步骤</strong></li>
-</ul>
-<p>用顶点缓存脚本把骨骼动画信息保存到==pointCache修改器==内，脚本界面如下</p>
-<p><img src="https://img.supervj.top/imgd2.jpg" alt="Alt text"></p>
-<ul>
-<li>缓存文件可以选择自定义路径</li>
-<li>烘培范围默认是时间轴的时间，一般不需要自定义</li>
-</ul>
-<p>完成后如下图所示</p>
-<p><img src="https://img.supervj.top/imgvertexAnim_pointCache.jpg" alt="Alt text"></p>
-<p>skin修改器会被自动禁用，然后就可以进入下一步骤</p>
-<h3 id="用顶点动画导出工具"><a href="#用顶点动画导出工具" class="headerlink" title="用顶点动画导出工具"></a>用顶点动画导出工具</h3><p>脚本界面如下 </p>
-<p><img src="https://img.supervj.top/imgd4.jpg" alt="Alt text"></p>
-<ul>
-<li>动画设置的的开始和结束一般不用修改，<strong>间隔</strong>参数后有详细数据测试</li>
-<li>压缩格式和渲染通道不建议修改</li>
-<li>输出格式可以用FLOAT16减少体积，测试影响不大</li>
-</ul>
-<p>点击【开始烘培】后选择目录保存2张贴图，然后模型窗口自动生成后缀为<strong>MorpohExport</strong>的模型，选择导出【<strong>非动画模型</strong>】，得到如下图</p>
-<p><img src="https://img.supervj.top/imgd5.jpg" alt="Alt text"></p>
-<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ol>
-<li>每个动作都需要一个FBX和2个贴图</li>
-</ol>
-<h5 id="测试间隔参数"><a href="#测试间隔参数" class="headerlink" title="测试间隔参数"></a>测试间隔参数</h5><p><strong>模型顶点数为：1729</strong></p>
-<ol>
-<li>以Run动作为测试，模型资源大小：189kb<ol>
-<li>原始数据：25帧，2张贴图大小合计（非cook数据，以下简称贴图)：273kb</li>
-<li>间隔1帧：13帧，贴图：143kb</li>
-<li>间隔2帧：9帧数，贴图：99kb</li>
-<li>间隔3帧：7帧，贴图：76kb</li>
-<li>间隔4帧：5帧，贴图：60kb</li>
-<li>间隔5帧：5帧，贴图：53kb</li>
-</ol>
-</li>
-<li>以attack动作测试，模型资源大小：189kb<ol>
-<li>原始数据：91帧，贴图：962kb</li>
-<li>间隔1帧：46帧，贴图：501kb</li>
-<li>间隔2帧：31帧数，贴图：343kb</li>
-<li>间隔3帧：23帧，贴图：262kb</li>
-<li>间隔4帧：19帧，贴图：214kb</li>
-<li>间隔5帧：16帧，贴图：180kb</li>
-</ol>
-</li>
-</ol>
-<h5 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h5><ol>
-<li>原始动画的帧数直接决定贴图<strong>y</strong>轴尺寸（像素数量），意味着帧数越少贴图越小（线性）</li>
-<li>原始动画的顶点数决定贴图<strong>x</strong>轴，所以尽可能的降低顶点数，同样意味着顶点数越少贴图越小</li>
-<li>由于顶点材质球（具体见下面材质球部分）计算有过度效果，所以去掉中间帧数（设置间隔参数）带来的影响并不大，损失部分细节，但不会出现跳跃现象，但是资源大小是线性变化的</li>
-<li>从max中对动画进行帧数手动减半，效果等同于用脚本设置间隔参数1，而且效果更直接，方便观察和调整</li>
-</ol>
-<h3 id="UE4部分"><a href="#UE4部分" class="headerlink" title="UE4部分"></a>UE4部分</h3><h5 id="导入模型"><a href="#导入模型" class="headerlink" title="导入模型"></a>导入模型</h5><p><img src="https://img.supervj.top/imgvertexAnim_ImportMesh.jpg"></p>
-<p><img src="https://img.supervj.top/img/vertexAnim_1.jpg"></p>
-<ul>
-<li>如图所示选项需要设置</li>
-</ul>
-<h5 id="EXR贴图"><a href="#EXR贴图" class="headerlink" title="EXR贴图"></a>EXR贴图</h5><p><img src="https://img.supervj.top/imgvertexAnim_EXR.jpg"></p>
-<ul>
-<li>参数设置如图<ul>
-<li>sRGB需要去掉</li>
-<li>压缩格式设置成HDR</li>
-</ul>
-</li>
-</ul>
-<h5 id="Normal贴图"><a href="#Normal贴图" class="headerlink" title="Normal贴图"></a>Normal贴图</h5><p><img src="https://img.supervj.top/imgvertexAnim_nor.jpg"></p>
-<ul>
-<li>参数设置<ul>
-<li>sRGB去掉</li>
-<li>压缩格式设置为VectorDisplacementMap</li>
-<li>其他不是很关键</li>
-</ul>
-</li>
-</ul>
-<h5 id="材质球"><a href="#材质球" class="headerlink" title="材质球"></a>材质球</h5><p><img src="https://img.supervj.top/imgvertexAnim_mat.jpg"></p>
-<ul>
-<li>使用UE自带的材质函数<ul>
-<li>设置材质球的TangentSpaceNormal选项为false</li>
-<li>NumCustomizedUVs设置为4</li>
-<li>图中sp节点为动画速度</li>
-<li>Mor参数为动画帧数<ul>
-<li>测试发现参数不能小于帧数，也就是贴图的Y轴像素大小</li>
-<li>当帧数过小，比如5帧的时候，设置这个Mor参数为5的较大整数倍，比如100，可以去掉原本有的跳帧显现</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="脚本核心功能解释"><a href="#脚本核心功能解释" class="headerlink" title="脚本核心功能解释"></a>脚本核心功能解释</h3><h5 id="顶点缓存脚本-1"><a href="#顶点缓存脚本-1" class="headerlink" title="顶点缓存脚本"></a>顶点缓存脚本</h5><ul>
-<li>max自带顶点缓存插件，本脚本工作原理是调用了插件的功能</li>
-<li>核心代码如下</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">createDialog test_dialog</span><br><span class="line">	</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	<span class="comment">--Label RangeSelect &quot;选择导出范围&quot;</span></span><br><span class="line">	checkbox cbCustomRange <span class="string">&quot;自定义范围&quot;</span> checked:<span class="literal">false</span> tooltip:<span class="string">&quot;默认使用时间轴范围&quot;</span></span><br><span class="line">	spinner Start <span class="string">&quot;开始帧:&quot;</span> range:[<span class="number">-10000</span>,<span class="number">10000</span>,<span class="number">0</span>] <span class="built_in">type</span>:#integer enabled:<span class="literal">false</span></span><br><span class="line">	Spinner End <span class="string">&quot;结束帧:&quot;</span> range:[<span class="number">-10000</span>,<span class="number">10000</span>,<span class="number">100</span>] <span class="built_in">type</span>:#integer enabled:<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">	on cbCustomRange changed stat <span class="keyword">do</span></span><br><span class="line">	(</span><br><span class="line">		<span class="keyword">if</span> cbCustomRange.checked==<span class="literal">true</span> <span class="keyword">then</span> </span><br><span class="line">		(</span><br><span class="line">			Start.enabled=<span class="literal">true</span> </span><br><span class="line">			End.enabled=<span class="literal">true</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		(</span><br><span class="line">			Start.enabled=<span class="literal">false</span> </span><br><span class="line">			End.enabled=<span class="literal">false</span></span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	Button _BakePC <span class="string">&quot;开始缓存&quot;</span> width:<span class="number">130</span> height:<span class="number">64</span></span><br><span class="line">	progressbar Bake_prog color:green </span><br><span class="line">	on _BakePC pressed <span class="keyword">do</span> </span><br><span class="line">	(</span><br><span class="line">		<span class="keyword">if</span> PCpath.text==<span class="string">&quot;&quot;</span> <span class="keyword">then</span> </span><br><span class="line">			messagebox <span class="string">&quot;请选择输出文件夹以保存顶点缓存文件&quot;</span></span><br><span class="line">		<span class="keyword">else</span> 		</span><br><span class="line">		<span class="keyword">if</span> $==undefined <span class="keyword">then</span></span><br><span class="line">		messagebox<span class="string">&quot;选择烘培物体&quot;</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		(</span><br><span class="line">			 <span class="keyword">for</span> i = <span class="number">1</span> to selection.count <span class="keyword">do</span>    <span class="comment">--遍历所有选择的物体，一般只会选择1个</span></span><br><span class="line">			(</span><br><span class="line">				A= selection as array</span><br><span class="line">				OBJname = A[i].name + <span class="string">&quot;.xml&quot;</span></span><br><span class="line">				FilePathName= PCpath.text</span><br><span class="line">				PointCacheName= FilePathName +@<span class="string">&quot;\&quot;+ OBJname</span></span><br><span class="line"><span class="string">				addmodifier A[i] (Point_Cache ())   --添加点缓存修改器</span></span><br><span class="line"><span class="string">				A[i].modifiers[#Point_Cache].filename=PointCacheName  </span></span><br><span class="line"><span class="string">				if cbCustomRange.checked then  --如果开启了自定义，就设置插件内如下参数</span></span><br><span class="line"><span class="string">				(</span></span><br><span class="line"><span class="string">					A[i].modifiers[#Point_Cache].playbackType=2</span></span><br><span class="line"><span class="string">					A[i].modifiers[#Point_Cache].playbackStart=Start.value</span></span><br><span class="line"><span class="string">					A[i].modifiers[#Point_Cache].playbackEnd=End.value</span></span><br><span class="line"><span class="string">				)</span></span><br><span class="line"><span class="string">				else</span></span><br><span class="line"><span class="string">				(</span></span><br><span class="line"><span class="string">					A[i].modifiers[#Point_Cache].playbackType=0</span></span><br><span class="line"><span class="string">				)</span></span><br><span class="line"><span class="string">				</span></span><br><span class="line"><span class="string">				cacheOps.recordcache A[i].modifiers[#point_cache] --记录点信息</span></span><br><span class="line"><span class="string">				cacheOps.DisableBelow A[i].modifiers[#point_cache] --关闭下面的修改器，一般就是skin</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">			Bake_prog.value = 100.*i/A.count</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">			)</span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">					Messagebox &quot;</span>生成完毕<span class="string">&quot;</span></span><br><span class="line"><span class="string">					</span></span><br><span class="line"><span class="string">				</span></span><br><span class="line"><span class="string">		)</span></span><br><span class="line"><span class="string">	)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">			</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">createdialog PointCacheTool</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="顶点动画导出工具"><a href="#顶点动画导出工具" class="headerlink" title="顶点动画导出工具"></a>顶点动画导出工具</h5><ul>
-<li>修改自Epic的顶点动画脚本，原版插件多数功能无用而且无导出选项</li>
-<li>核心代码如下</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">fn renderOutTheTextures = (	</span><br><span class="line">				  </span><br><span class="line">				fopenexr.SetCompression CompressionType  <span class="comment">--压缩格式，一般不压缩</span></span><br><span class="line">				<span class="built_in">print</span>(<span class="string">&quot;输出压缩格式:&quot;</span>+(CompressionType as <span class="built_in">string</span>))</span><br><span class="line">				fopenexr.setLayerOutputType <span class="number">0</span> OutputType <span class="comment">-- 输出通道，一般就是RPG</span></span><br><span class="line">				<span class="built_in">print</span>(<span class="string">&quot;输出通道:&quot;</span>+(OutputType as <span class="built_in">string</span>))</span><br><span class="line">				fopenexr.setLayerOutputFormat <span class="number">0</span> OutputFormat <span class="comment">--输出格式，一般FLOAT16够用</span></span><br><span class="line">				global TextureName = getSaveFileName types:<span class="string">&quot;EXR (*.EXR)|*.EXR&quot;</span></span><br><span class="line">				<span class="keyword">if</span> TextureName == undefined <span class="keyword">then</span> (</span><br><span class="line">					messagebox <span class="string">&quot;需要选择一个路径&quot;</span></span><br><span class="line">				)</span><br><span class="line">				<span class="keyword">else</span>(</span><br><span class="line">					uvString=<span class="string">&quot;_UV&quot;</span>+((targetMorphUV<span class="number">-1</span>) as <span class="built_in">string</span>)</span><br><span class="line">					TextureNameNormal= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;_Normals.BMP&quot;</span>)</span><br><span class="line">					TextureNameOffset= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;.EXR&quot;</span>)</span><br><span class="line">					global FinalTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameOffset hdr:<span class="literal">true</span>;</span><br><span class="line">					global FinalMorphTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameNormal hdr:<span class="literal">true</span>  gamma:<span class="number">1.0</span> ;</span><br><span class="line">					<span class="keyword">for</span> i=<span class="number">0</span> to (MorphVertOffsetArray.count<span class="number">-1</span>) <span class="keyword">do</span> (</span><br><span class="line">						setPixels FinalTexture [<span class="number">0</span>, i] MorphVertOffsetArray[(i+<span class="number">1</span>)]</span><br><span class="line">						setPixels FinalMorphTexture [<span class="number">0</span>, i] MorphNormalArray[(i+<span class="number">1</span>)]   <span class="comment">--设置图片对应坐标的像素颜色  2d坐标X分量是列，Y分量是行</span></span><br><span class="line"><span class="comment">--设置图片对应坐标的像素颜色  2d坐标X分量是列，Y分量是行</span></span><br><span class="line">					)</span><br><span class="line">					save FinalTexture gamma:<span class="number">1.0</span></span><br><span class="line">					<span class="built_in">close</span> FinalTexture</span><br><span class="line">					</span><br><span class="line">					save FinalMorphTexture gamma:<span class="number">1.0</span></span><br><span class="line">					<span class="built_in">close</span> FinalMorphTexture</span><br><span class="line">				)</span><br><span class="line">			)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="post-title-link" itemprop="url">VsCode配置MaxScript开发环境</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-30T00:00:00+08:00">2020-04-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="cy_cmt_count" data-xid="2020/04/30/vscode配置max/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="开发环境配置流程"><a href="#开发环境配置流程" class="headerlink" title="开发环境配置流程"></a>开发环境配置流程</h3><h5 id="MXSPyCom"><a href="#MXSPyCom" class="headerlink" title="MXSPyCom"></a>MXSPyCom</h5><ol>
-<li>下载GitHub的MXSPyComRelease包,<a target="_blank" rel="noopener" href="https://github.com/techartorg/MXSPyCOM/releases">链接</a></li>
-<li>解压，并将安装包内的<code>MXSPyCOM.exe</code>文件复制到自定义目录</li>
-<li><code>initialize_COM_server.ms</code>脚本放到max对应版本的startup目录中，默认路径是<code>%localappdata%\autodesk\3dsmax\scripts\startup</code></li>
-</ol>
-<h5 id="VsCode"><a href="#VsCode" class="headerlink" title="VsCode"></a>VsCode</h5><ol>
-<li><p>下载LanguageMaxScript插件<img src="https://img.supervj.top/img1.png"></p>
-</li>
-<li><p>设置工作区</p>
-</li>
-<li><p>创建/配置*<strong>task.json**<em>,可以</em></strong>ctrl+e***搜索框中输入<code>&gt;task</code>搜索到<code>Configure Default Build Task</code>,在文件内设置如下代码</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;label&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;process&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;C:/MXSPyCOM.exe&quot;</span>,  <span class="comment">//MXSPyCom.exe的路径</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;$&#123;file&#125;&quot;</span>],</span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;reveal&quot;</span>: <span class="string">&quot;always&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;panel&quot;</span>: <span class="string">&quot;new&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>更改快捷键配置,方便调试</p>
-<p><img src="https://img.supervj.top/imgmax2.png"></p>
-</li>
-</ol>
-   <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   [</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;ctrl+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.tasks.runTask&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;args&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>      <span class="comment">//对应任务的名称   </span></span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpen&quot;</span>  <span class="comment">//原来的ctrl+e功能</span></span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpenNavigateNextInFilePicker&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;inFilesPicker &amp;&amp; inQuickOpen&quot;</span></span><br><span class="line">       &#125;</span><br><span class="line">]</span><br><span class="line">   </span><br><span class="line">   </span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h5><ol>
-<li>在工作目录创建后缀为 ms格式的脚本文件</li>
-<li>启动max</li>
-<li>复制如下代码到脚本文件内，按 ctrl+e  调试</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rollout rename_rollout <span class="string">&quot;Enter New Base Name&quot;</span></span><br><span class="line">    (</span><br><span class="line">        edittext base_name <span class="string">&quot;&quot;</span></span><br><span class="line">        button rename_them <span class="string">&quot;RENAME&quot;</span></span><br><span class="line">        On rename_them pressed <span class="keyword">do</span> </span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">if</span> base_name.text!=<span class="string">&quot;&quot;</span> <span class="keyword">do</span> (</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> selection <span class="keyword">do</span> i.name=uniqueName base_name.text</span><br><span class="line">            ) </span><br><span class="line">        ) </span><br><span class="line">    )</span><br><span class="line">    CreateDialog rename_rollout <span class="number">250</span> <span class="number">50</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>max生成如下窗口</li>
-</ol>
-<p><img src="https://img.supervj.top/img2.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2483,14 +2486,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">406k</span>
+    <span title="站点总字数">455k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:09</span>
+    <span title="站点阅读时长">6:54</span>
   </span>
 </div>
 <div class="busuanzi-count">

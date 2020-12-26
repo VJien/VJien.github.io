@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,549 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">使用Hexo+GithubPages部署个人静态博客</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2020-12-04 00:00:00 / 修改时间：15:35:37" itemprop="dateCreated datePublished" datetime="2020-12-04T00:00:00+08:00">2020-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/" class="cy_cmt_count" data-xid="2020/12/04/Hexo+GitHub搭建个人静态博客/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>使用静态博客有些日子了, 前阵子博客文件被手残折腾没了(还好文章有备份), 重新部署一下有点生疏了.</p>
+<p>于是还是决定写一篇部署博客的文章重新记录一下部署流程</p>
+</blockquote>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>手动百度搜索node.js下载并安装</li>
+<li>下载并安装git</li>
+<li>注册github账户</li>
+</ul>
+<blockquote>
+<p>关于git和github的使用在另外一篇博客里有详细说明，点击<a href="https://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/?highlight=git">这里</a></p>
+</blockquote>
+<ul>
+<li>创建<code>你的用户名.github.io</code>的仓库,此仓库是用来保存博客文件的<ul>
+<li>虽然非绝对必要但是强烈将以注册一个自己的域名,如阿里云;否则可能导致访问速度过慢或者无效</li>
+<li>在setting中的<code>GitHubPages</code>栏填写自己的域名</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201204094746007.png" alt="image-20201204094746007"></p>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p><code>GitBash</code>模式下输入安装<code>hexo</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo</span><br></pre></td></tr></table></figure>
+
+<p>选择一个博客文件夹,输入如下代码初始化<code>hexo</code>环境</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+
+<p>初始化后在文件内会生成若干文件和文件夹,大致如下</p>
+<p><img src="https://img.supervj.top//img/image-20201204095336780.png" alt="image-20201204095336780"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/04/Hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/03/VS%E4%B8%AD%E4%BD%BF%E7%94%A8UE%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/03/VS%E4%B8%AD%E4%BD%BF%E7%94%A8UE%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="post-title-link" itemprop="url">VS中使用UE代码片段</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2020-12-03 00:00:00 / 修改时间：17:14:49" itemprop="dateCreated datePublished" datetime="2020-12-03T00:00:00+08:00">2020-12-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/03/VS%E4%B8%AD%E4%BD%BF%E7%94%A8UE%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/03/VS%E4%B8%AD%E4%BD%BF%E7%94%A8UE%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="cy_cmt_count" data-xid="2020/12/03/VS中使用UE代码片段/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>225</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="https://img.supervj.top//img/image-20201203141501722.png" alt="image-20201203141501722"></p>
+<p><img src="https://img.supervj.top//img/image-20201203141518954.png" alt="image-20201203141518954"></p>
+<p><img src="https://img.supervj.top//img/image-20201203141549721.png" alt="image-20201203141549721"></p>
+<p>需要打开源码版引擎,找到目录<code>Engine\Extras\VisualStudioSnippets</code>,里面有很多后缀是<code>snippet</code>的文件. 或者点击<a target="_blank" rel="noopener" href="https://shueducn-my.sharepoint.com/:f:/g/personal/rugbyuu_shu_edu_cn/Eotc_eWLFhRPl9Sx2HwJ5fQBCV9EJb-WJk-cjbzxGT_n3A?e=XJc3Ek">这里下载</a></p>
+<blockquote>
+<p>如果是非源码版需要使用代码片段可以把这个文件夹复制对应的目录</p>
+</blockquote>
+<ul>
+<li>VS导入UE代码片段</li>
+</ul>
+<p>在VS中打开<code>Tools(工具)</code>-<code>Code Snippets Manager(代码片段管理器)</code></p>
+<p><img src="https://img.supervj.top//img/image-20201203141902771.png" alt="image-20201203141902771"></p>
+<p>点击上图中的导入,找到之前所有<code>snippet</code>文件选择导入</p>
+<p>然后在VS中按下组合键<code>Ctrl+K</code>然后<code>Ctrl+X</code>就可以选择所有代码片段了</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/11/30/PureMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/11/30/PureMVC/" class="post-title-link" itemprop="url">PureMVC框架</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-30T00:00:00+08:00">2020-11-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-04 14:37:53" itemprop="dateModified" datetime="2020-12-04T14:37:53+08:00">2020-12-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/11/30/PureMVC/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/11/30/PureMVC/" class="cy_cmt_count" data-xid="2020/11/30/PureMVC/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>Pure MVC是在基于模型、视图和控制器的MVC模式建立的一个轻量级的应用框架.</p>
+<p>目前已经广泛应用于各类平台,常见用的语言如C#,Java等</p>
+<p>本文尝试根据标准的C++PureMVC框架魔改成UE4版本方便使用的UnrealPureMVC(UPM)框架插件</p>
+</blockquote>
+<p><a href="git@github.com:VJien/UnrealPureMVC.git">github:UnrealPureMVC </a></p>
+<ul>
+<li>参考文献</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/pureMVC/8328354?fr=aladdin">PureMVC百度百科</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/PureMVC/puremvc-cpp-multicore-framework">GitHub:puremvc-cpp-multicore-framework</a></p>
+<p><a target="_blank" rel="noopener" href="http://puremvc.org/docs/PureMVC_IIBP_Chinese.pdf">PureMVC官方中文文档</a></p>
+<p><img src="https://img.supervj.top//img/image-20201128123312313.png" alt="image-20201128123312313"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/30/PureMVC/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">资源注册模块AssetRegistry分析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-27T00:00:00+08:00">2020-11-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%95%E6%93%8E/" itemprop="url" rel="index"><span itemprop="name">引擎</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/" class="cy_cmt_count" data-xid="2020/11/27/资源注册模块分析/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>有的时候我们需要对当前工程下的特定资源进行一些操作,比如找到所有图片资源或者所有静态模型资源,然后把这些资源信息发到某个UI上进行操作等等</p>
+<p>本文对UE4资源注册模块<code>AssetRegistry</code>进行简单的分析</p>
+<p><em>目前蓝图已经封装了相应的库,可以非常方便的调用</em></p>
+</blockquote>
+<p><code>Asset Registry</code>模块负责处理引擎下的资源信息(收集/检索<code>*.uasset</code>),从这个模块中可以读取到所有资源信息(<code>FAssetData</code>)</p>
+<h3 id="FAssetData"><a href="#FAssetData" class="headerlink" title="FAssetData"></a>FAssetData</h3><p>主要参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*Obj的具体路径,比如 /Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter*/</span></span><br><span class="line">	FName ObjectPath;</span><br><span class="line"><span class="comment">//比如/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter</span></span><br><span class="line">	FName PackageName;</span><br><span class="line"><span class="comment">//比如: /Game/ThirdPersonCPP/Blueprints/</span></span><br><span class="line">	FName PackagePath;</span><br><span class="line"><span class="comment">//资源名称</span></span><br><span class="line">	FName AssetName;</span><br><span class="line"><span class="comment">//资源class的名称,如果是蓝图则是Blueprint</span></span><br><span class="line">	FName AssetClass;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">UProperty的名称和值的键值对</span></span><br><span class="line"><span class="comment">可以从此获取一些描述信息,比如蓝图资源的BlueprintType等</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	FAssetDataTagMapSharedView TagsAndValues;</span><br><span class="line"><span class="comment">//ChunkID</span></span><br><span class="line">	TArray&lt;int32&gt; ChunkIDs;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在获取<code>Asset</code>的时候需要填充一个结构体参数<code>FARFilter</code>,里面的参数部分类似上述参数,之后再看</p>
+</blockquote>
+<h3 id="FARFilter"><a href="#FARFilter" class="headerlink" title="FARFilter"></a>FARFilter</h3><p>对资源进行检索的时候的过滤参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参考FAssetData</span></span><br><span class="line">	TArray&lt;FName&gt; PackageNames;</span><br><span class="line"><span class="comment">//参考FAssetData</span></span><br><span class="line">	TArray&lt;FName&gt; PackagePaths;</span><br><span class="line"><span class="comment">//参考FAssetData</span></span><br><span class="line">	TArray&lt;FName&gt; ObjectPaths;</span><br><span class="line"><span class="comment">//参考FAssetData</span></span><br><span class="line">	TArray&lt;FName&gt; ClassNames;</span><br><span class="line"><span class="comment">//白名单,蓝图不可见</span></span><br><span class="line">	TMultiMap&lt;FName, TOptional&lt;FString&gt;&gt; TagsAndValues;</span><br><span class="line"><span class="comment">//黑名单</span></span><br><span class="line">	RecursiveClassesExclusionSet;</span><br><span class="line"><span class="comment">//是否递归查找路径</span></span><br><span class="line">	<span class="keyword">bool</span> bRecursivePaths;</span><br><span class="line"><span class="comment">//是否递归查找类继承</span></span><br><span class="line">	<span class="keyword">bool</span> bRecursiveClasses;</span><br><span class="line"><span class="comment">//是否只查询磁盘上的资源</span></span><br><span class="line">	<span class="keyword">bool</span> bIncludeOnlyOnDiskAssets;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>比较需要注意的是<code>ClassNames</code>这个参数,这个类型并不是我们场景中对象的类型,打个比方,我们场景里的玩家一般是<code>ACharacter</code>,但是我们的资源其实就是<code>Blueprint</code>,所以在填充这个结构体的时候并不能用<code>*.::StaticClass()</code>来给与<code>Class</code>类型</p>
+<p>一般情况资源的创建类型就是用右键创建出来的名称或类似的名称,并且都是继承自<code>Object</code></p>
+<h3 id="FAssetRegistryState"><a href="#FAssetRegistryState" class="headerlink" title="FAssetRegistryState"></a>FAssetRegistryState</h3><p>储存了读取asset后的相关信息，用作磁盘内容的cache数据，用于描述asset registry当前的状态，可以由IAssetRegistry进行使用和维护。把这些数据单独组成一个FAssetRegistryState类，是为了减少耦合性，因为引擎中除asset registry外的其他模块 也需要用到这些数据。</p>
+<h3 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h3><p>我们可以通过<code>static TScriptInterface&lt;IAssetRegistry&gt; GetAssetRegistry();</code>获取单例</p>
+<p>蓝图亦可以</p>
+<p><img src="https://img.supervj.top//img/image-20201127165818065.png" alt="image-20201127165818065"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UObject* <span class="title">GetAsset</span><span class="params">(<span class="keyword">const</span> FAssetData&amp; InAssetData)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>通过上述方法可以自定义的根据<code>FARFliter</code>参数来获取所需的资源数据</p>
+<p>如果不清楚每个参数的含义,可以反向的通过下面方法来查看</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> FAssetData <span class="title">CreateAssetData</span><span class="params">(<span class="keyword">const</span> UObject* InAsset, <span class="keyword">bool</span> bAllowBlueprintClass = <span class="literal">false</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetAssetsByPackageName</span><span class="params">(FName PackageName, TArray&lt;FAssetData&gt;&amp; OutAssetData, <span class="keyword">bool</span> bIncludeOnlyOnDiskAssets = <span class="literal">false</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetAssetsByPath</span><span class="params">(FName PackagePath, TArray&lt;FAssetData&gt;&amp; OutAssetData, <span class="keyword">bool</span> bRecursive = <span class="literal">false</span>, <span class="keyword">bool</span> bIncludeOnlyOnDiskAssets = <span class="literal">false</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetAssetsByClass</span><span class="params">(FName ClassName, TArray&lt;FAssetData&gt;&amp; OutAssetData, <span class="keyword">bool</span> bSearchSubClasses = <span class="literal">false</span>)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>上面三个方法根据不同方式来获取对应的资源</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GetSubPaths</span><span class="params">(<span class="keyword">const</span> FString&amp; InBasePath, TArray&lt;FString&gt;&amp; OutPathList, <span class="keyword">bool</span> bInRecurse)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>基于一个基础路径获取子路径,比较有用</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetReferencers</span><span class="params">(FName PackageName, TArray&lt;FName&gt;&amp; OutReferencers, EAssetRegistryDependencyType::Type InReferenceType = EAssetRegistryDependencyType::Packages)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">GetDependencies</span><span class="params">(FName PackageName, TArray&lt;FName&gt;&amp; OutDependencies, EAssetRegistryDependencyType::Type InDependencyType = EAssetRegistryDependencyType::Packages)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>获取引用和依赖关系,也很有用</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SearchAllAssets</span><span class="params">(<span class="keyword">bool</span> bSynchronousSearch)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">ScanFilesSynchronous</span><span class="params">(<span class="keyword">const</span> TArray&lt;FString&gt;&amp; InFilePaths, <span class="keyword">bool</span> bForceRescan = <span class="literal">false</span>)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">ScanPathsSynchronous</span><span class="params">(<span class="keyword">const</span> TArray&lt;FString&gt;&amp; InPaths, <span class="keyword">bool</span> bForceRescan = <span class="literal">false</span>)</span></span>;</span><br><span class="line"><span class="comment">//等等</span></span><br></pre></td></tr></table></figure>
+
+<p>扫描/搜索文件,不需要返回值,因为扫描以后文件就保存在<code>FAssetRegistryState</code>内了</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1493,692 +2036,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">UE4添加自定义项目设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-31 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-31T00:00:00+08:00">2020-08-31</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%89%A9%E5%B1%95/" itemprop="url" rel="index"><span itemprop="name">扩展</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/" class="cy_cmt_count" data-xid="2020/08/31/扩展游戏设置/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>我们在项目开发的过程中，经常需要在项目设置里面添加一些参数，本文介绍如何添加这些参数</p>
-<p>另外介绍一些特殊的资源类参数的添加和使用</p>
-</blockquote>
-<p>先上图</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200831114210083.png" alt="image-20200831114210083"></p>
-<h3 id="添加自定义项目设置"><a href="#添加自定义项目设置" class="headerlink" title="添加自定义项目设置"></a>添加自定义项目设置</h3><p>一般情况下，我们需要创建一个插件来添加这类属性，我们创建一个蓝图函数库模板的插件</p>
-<p>然后创建一个UObject类来添加属性</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">UCLASS(config = ExtensionSetting)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GAMESETTINGEXTENSION_API</span> <span class="title">USettingObj</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	UPROPERTY(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		FSoftClassPath SoftClassPath;</span><br><span class="line">	UPROPERTY(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		FSoftObjectPath SoftObjectPath;</span><br><span class="line">	UPROPERTY(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		TSoftObjectPtr&lt;AActor&gt; SoftObjectPtr;</span><br><span class="line">	UPROPERTY(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		TSoftClassPtr&lt;AActor&gt; SoftClassPtr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>关键信息是<code>UCLASS</code>和<code>UPROPERTY</code>后的<code>config</code>关键字，一般的值类型变量都没有什么问题，如<code>FString</code>,<code>FRotator</code>,<code>TSubclassOf</code>，但是不能添加继承于<code>UObject</code>的类,后面细说</p>
-<p>然后我们需要将此类注册到游戏设置里面，一般是在模块启动的时候添加，看下面代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameSettingExtensionModule::RegisterSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (ISettingsModule* SettingModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(<span class="string">&quot;Settings&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		SettingModule-&gt;RegisterSettings(<span class="string">&quot;Project&quot;</span>, <span class="string">&quot;Game&quot;</span>, <span class="string">&quot;ExtensionSetting&quot;</span>,</span><br><span class="line">			LOCTEXT(<span class="string">&quot;RuntimeSettingsName&quot;</span>, <span class="string">&quot;GameSetting&quot;</span>),</span><br><span class="line">			LOCTEXT(<span class="string">&quot;RuntimeSettingsDescription&quot;</span>, <span class="string">&quot;Configure my GameSetting&quot;</span>),</span><br><span class="line">			GetMutableDefault&lt;USettingObj&gt;()</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameSettingExtensionModule::UnregisterSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(<span class="string">&quot;Settings&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		SettingsModule-&gt;UnregisterSettings(<span class="string">&quot;Project&quot;</span>, <span class="string">&quot;Game&quot;</span>, <span class="string">&quot;ExtensionSetting&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面代码在模块启动和注销的时候分别调用</p>
-<ul>
-<li>“Game”:表示分类，对应的就是项目设置的Game标签</li>
-<li>“ExtensionSetting”:需要跟类上面config=的类型相对应</li>
-<li>“Configure my GameSetting”：上图中的文字描述</li>
-</ul>
-<h3 id="使用自定义设置"><a href="#使用自定义设置" class="headerlink" title="使用自定义设置"></a>使用自定义设置</h3><p>因为我们本身就是一个蓝图函数库插件，我们直接在函数库类里面添加新的方法，如果不是此类插件，自己新建一个蓝图函数库类</p>
-<blockquote>
-<p>需要注意的问题，编辑器类型的插件不能使用蓝图函数库</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UObject* <span class="title">GetObjBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftObjectPath&amp; softPath)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UObject* <span class="title">GetObjRefBySoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftObjectPtr&lt;UObject&gt;&amp; softPathPtr)</span></span>;</span><br><span class="line"></span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UClass* <span class="title">GetClassBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftClassPath&amp; softPath)</span></span>;</span><br><span class="line"></span><br><span class="line">	UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UClass* <span class="title">GetClassByClassSoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftClassPtr&lt;UObject&gt;&amp; softPathPtr)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>我们申明4个变量对应的4个函数，因为例如<code>FSoftObjectPath</code>类型的变量在蓝图里面不方便使用，所以需要我们用<code>C++</code>    封装一层</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UObject* <span class="title">UGameSettingExtensionBPLibrary::GetObjBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftObjectPath&amp; softPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UObject* obj = LoadObject&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.ToString());</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UObject* <span class="title">UGameSettingExtensionBPLibrary::GetObjRefBySoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftObjectPtr&lt;UObject&gt;&amp; softPathPtr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TSoftObjectPtr&lt;UObject&gt; p = TSoftObjectPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line">	<span class="keyword">return</span> p.Get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UClass* <span class="title">UGameSettingExtensionBPLibrary::GetClassBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftClassPath&amp; softPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UClass* c = LoadClass&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.ToString());</span><br><span class="line">	<span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UClass* <span class="title">UGameSettingExtensionBPLibrary::GetClassByClassSoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftClassPtr&lt;UObject&gt;&amp; softPathPtr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TSoftClassPtr&lt;UObject&gt; p = TSoftClassPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line">	<span class="keyword">return</span>  p.Get();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img.supervj.top/img/advVR/image-20200831115229327.png" alt="image-20200831115229327"></p>
-<p>这样我们就实现了蓝图里面调用项目设置内的属性了</p>
-<h3 id="资源加载属性"><a href="#资源加载属性" class="headerlink" title="资源加载属性"></a>资源加载属性</h3><h5 id="FSoftObjectPath"><a href="#FSoftObjectPath" class="headerlink" title="FSoftObjectPath"></a>FSoftObjectPath</h5><p>软对象路径，可以直接转换成<code>FString</code>然后从路径得到具体的类型</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UObject* obj = LoadObject&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.ToString());</span><br></pre></td></tr></table></figure>
-
-<p>用meta参数类刷选特定类</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">meta = (AllowedClasses =<span class="string">&quot;Material,StaticMesh&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h5 id="FSoftClassPath"><a href="#FSoftClassPath" class="headerlink" title="FSoftClassPath"></a>FSoftClassPath</h5><p>同上，得到一个蓝图类的UClass</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UClass* c = LoadClass&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.ToString());</span><br></pre></td></tr></table></figure>
-
-<p>可以用meta参数来刷选特定类，与<code>FSoftObjectPath</code>的meta参数不一样</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">meta = (MetaClass = <span class="string">&quot;MyActor&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="TSoftObjectPtr"><a href="#TSoftObjectPtr" class="headerlink" title="TSoftObjectPtr"></a>TSoftObjectPtr</h5><p>TSoftObjectPtr是封装了FSoftObjectPtr的模板，同样是用于“在给予文件路径下检测一个资源是否已经加载进了内存,获取资源对应的对象指针”，类似上面的一种写法, 直接帮我们省掉了“Cast”转为对象的过程</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSoftObjectPtr&lt;UObject&gt; p = TSoftObjectPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line"><span class="keyword">return</span> p.Get();<span class="comment">//UObject*</span></span><br></pre></td></tr></table></figure>
-
-<p>实测发现该变量指向的是场景中的具体对象，与<code>FSoftObjectPath</code>指向不同</p>
-<h5 id="TSoftClassPtr"><a href="#TSoftClassPtr" class="headerlink" title="TSoftClassPtr"></a>TSoftClassPtr</h5><p>跟TSoftObjectPtr类似，只不过TSoftClassPtr是仅仅用于UClass*</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSoftClassPtr&lt;UObject&gt; p = TSoftClassPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line"><span class="keyword">return</span>  p.Get();</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/" class="post-title-link" itemprop="url">UE4 4.25离线文档</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-28T00:00:00+08:00">2020-08-28</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%96%87%E6%A1%A3/" itemprop="url" rel="index"><span itemprop="name">文档</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/" class="cy_cmt_count" data-xid="2020/08/28/UE4离线文档/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>138</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>UE4 4.25离线文档，基于Dash文档源，使用Zeal查阅</p>
-</blockquote>
-<p><img src="https://img.supervj.top/img/advVR/image-20200828133618221.png" alt="image-20200828133618221"></p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200828133843396.png" alt="image-20200828133843396"></p>
-<p><a target="_blank" rel="noopener" href="https://shueducn-my.sharepoint.com/:u:/g/personal/rugbyuu_shu_edu_cn/EfJIQPZ_l-NOvi8yxHQvGkcBNDLnHBVcuhz2i7SMigJ9kQ?e=ZZFCmq">Zeal下载</a></p>
-<p><a target="_blank" rel="noopener" href="https://shueducn-my.sharepoint.com/:u:/g/personal/rugbyuu_shu_edu_cn/Eeis5FkxAVRFjqvj7LBf0vEBJJ2pKpMaKPFsP47PxKl5XA?e=YiQl5e">4.25文档下载</a></p>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>直接将压缩版解压到<code>Zeal\docsets\</code>路径内，没有文件夹请自行新建</p>
-<p>然后按照下图设置docsets路径</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200828134552604.png" alt="image-20200828134552604"></p>
-<h3 id="下载其他文档"><a href="#下载其他文档" class="headerlink" title="下载其他文档"></a>下载其他文档</h3><p>参考如下图方式下载，因为都是国外链接，所以请酌情使用交通工具✈</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200828155324943.png" alt="image-20200828155324943"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/20/ubuntu%E4%BF%AE%E6%94%B9IP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/08/20/ubuntu%E4%BF%AE%E6%94%B9IP/" class="post-title-link" itemprop="url">ubuntu修改静态IP</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-20T00:00:00+08:00">2020-08-20</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/08/20/ubuntu%E4%BF%AE%E6%94%B9IP/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/08/20/ubuntu%E4%BF%AE%E6%94%B9IP/" class="cy_cmt_count" data-xid="2020/08/20/ubuntu修改IP/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>569</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>第一步我们需要将虚拟机的网络模式修改为<code>桥接模式</code>,并且勾选<code>复制物理网络连接状态</code>选项</p>
-<p>ubuntu在20.4版本以后修改IP的方法与之前的有了比较大的区别，在之前的版本是通过编辑<code>/etc/network/interfaces</code>文件去修改IP，在新版本以后修改的配置文件是</p>
-<p><code>/etc/netplan/01-cloud-init.yaml</code>,这个<code>01</code>可能每个人不相同，网上有些人是00，我这边是01</p>
-<p>所以，我们用用<code>sudo vim /etc/netplan/01-network-manager-all.yaml</code>打开，输入以下指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Let NetworkManager manage all devices on this system</span><br><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  renderer: NetworkManager</span><br><span class="line">  ethernets:</span><br><span class="line">    ens33:</span><br><span class="line">      dhcp4: false</span><br><span class="line">      addresses: [192.168.1.222&#x2F;24]&#x2F;&#x2F;ip地址，后面的24不需要改，更掩码有关系</span><br><span class="line">      nameservers:</span><br><span class="line">        addresses: [8.8.8.8,192.168.0.1]</span><br><span class="line">~                                        </span><br></pre></td></tr></table></figure>
-
-<p>上面的222是你自己设定的IP地址，前面需要参考你真是物理IP的情况</p>
-<p>然后输入<code>sudo netplan --debug apply</code>应用</p>
-<p>然后通过<code>ifconfig</code>查看IP</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" class="post-title-link" itemprop="url">用GitLab搭建本地代码仓库</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-18T00:00:00+08:00">2020-08-18</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" class="cy_cmt_count" data-xid="2020/08/18/用GitLab搭建本地仓库/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>git 是一种基于命令的版本控制系统，全命令操作，没有可视化界面</p>
-<p>gitlab 是一个基于git实现的在线代码仓库软件，提供web可视化管理界面，通常用于企业团队内部协作开发</p>
-<p>当然还有github也可以用作代码仓库，较多用于个人</p>
-</blockquote>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><h5 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h5><p>git的使用和安装推荐本人另外一篇博客<a href="%5Bhttps://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/%5D(https://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/)">git使用指北</a></p>
-<h5 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h5><p>推荐下载VMwareWorkstation，可以到<a target="_blank" rel="noopener" href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html">官网下载</a>,然后百度搜索绿色方法</p>
-<p>然后我们安装Linux镜像，本人使用的是Ubuntu20.4版本，这个网上一搜一大堆，随意选择版本，初学者可以选择桌面版本，如这里<a target="_blank" rel="noopener" href="https://cn.ubuntu.com/download">下载</a></p>
-<p>然后一路安装，运行，设置root账户等</p>
-<p>这里推荐虚拟机的使用2核，至少使用超过4GB的内存，本人直接上40GB</p>
-<h3 id="搭建基本环境"><a href="#搭建基本环境" class="headerlink" title="搭建基本环境"></a>搭建基本环境</h3><h5 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h5><p>如果是桌面版，右键进入终端，非桌面版忽略</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install ca-certificates curl openssh-server postfix</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="安装GitLab"><a href="#安装GitLab" class="headerlink" title="安装GitLab"></a>安装GitLab</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;tmp</span><br><span class="line">curl -LO https:&#x2F;&#x2F;packages.gitlab.com&#x2F;install&#x2F;repositories&#x2F;gitlab&#x2F;gitlab-ce&#x2F;script.deb.sh</span><br></pre></td></tr></table></figure>
-
-<p>到<code>tmp</code>目录安装gitlab，当然你可以自己选择目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash &#x2F;tmp&#x2F;script.deb.sh</span><br></pre></td></tr></table></figure>
-
-<p>该脚本将设置您的服务器以使用GitLab维护的存储库。这使您可以使用与其他系统软件包相同的软件包管理工具来管理GitLab。完成后，您可以使用以下<code>apt</code>命令安装实际的GitLab应用程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gitlab-ce</span><br></pre></td></tr></table></figure>
-
-<p>此条命令将在系统上安装必要组件</p>
-<blockquote>
-<p>如果在安装gitlab使有如下报错，可以今夏如下操作</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># apt-get install gitlab-ce</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line">E: Unable to locate package gitlab-ce</span><br></pre></td></tr></table></figure>
-
-<p>修改安装脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list.d/gitlab_gitlab-ce.list</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-<p><strong>OLD</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main</span><br><span class="line">deb-src https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-
-<p><strong>NEW</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main</span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-
-<p>再次执行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install gitlab-ce</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-foss/-/issues/2370">https://gitlab.com/gitlab-org/gitlab-foss/-/issues/2370</a></p>
-<h5 id="修改防火墙"><a href="#修改防火墙" class="headerlink" title="修改防火墙"></a>修改防火墙</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw status</span><br></pre></td></tr></table></figure>
-
-<p>检查防火墙状态，如果没有防火墙需要apt安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow http</span><br><span class="line">sudo ufw allow https</span><br><span class="line">sudo ufw allow OpenSSH</span><br></pre></td></tr></table></figure>
-
-<p>然后通过上述3条命令让防火墙支持<code>http\https\OpenSSH</code></p>
-<p>再次检查以后大概会有如下状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Status: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">80                         ALLOW       Anywhere                  </span><br><span class="line">22                         ALLOW       Anywhere                  </span><br><span class="line">80&#x2F;tcp                     ALLOW       Anywhere                  </span><br><span class="line">443&#x2F;tcp                    ALLOW       Anywhere                  </span><br><span class="line">OpenSSH                    ALLOW       Anywhere                  </span><br><span class="line">80 (v6)                    ALLOW       Anywhere (v6)             </span><br><span class="line">22 (v6)                    ALLOW       Anywhere (v6)             </span><br><span class="line">80&#x2F;tcp (v6)                ALLOW       Anywhere (v6)             </span><br><span class="line">443&#x2F;tcp (v6)               ALLOW       Anywhere (v6)             </span><br><span class="line">OpenSSH (v6)               ALLOW       Anywhere (v6) </span><br></pre></td></tr></table></figure>
-
-<h5 id="修改GitLab配置文件"><a href="#修改GitLab配置文件" class="headerlink" title="修改GitLab配置文件"></a>修改GitLab配置文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;gitlab&#x2F;gitlab.rb</span><br></pre></td></tr></table></figure>
-
-<p>该文件比较大，在顶部找到``external_url `，按照如下注释修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url &#39;https:&#x2F;&#x2F;example.com&#39; &#x2F;&#x2F; 此处修改为您的域名或ip地址，不用加端口</span><br></pre></td></tr></table></figure>
-
-<p>然后查找<code>letsencrypt[&#39;contact_emails&#39;]</code>,如果没有先忽略跳过，如果有则进行如下修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">letsencrypt[&#39;contact_emails&#39;] &#x3D; [&#39;sammy@example.com&#39;] &#x2F;&#x2F; 此处修改为您的邮箱地址</span><br></pre></td></tr></table></figure>
-
-<p>然后重新配置GitLab</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure &#x2F;&#x2F; 每次修改配置文件都需要重新配置</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>本人在这一步遇到一个报错，最后一句是<code>Please upgrade your ACME client to a version that supports ACMEv2 / RFC</code></p>
-<p>解决方法是在 <code>/etc/gitlab/gitlab.rb</code> 中添加 <code>letsencrypt[&#39;enable&#39;] = false</code></p>
-</blockquote>
-<p>重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
-
-<h5 id="GitLab常用命令"><a href="#GitLab常用命令" class="headerlink" title="GitLab常用命令"></a>GitLab常用命令</h5><table>
-<thead>
-<tr>
-<th>常用命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sudo gitlab-ctl reconfigure</td>
-<td>重新加载配置，每次修改<code>/etc/gitlab/gitlab.rb</code>文件之后执行</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl status</td>
-<td>查看 GitLab 状态</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl start</td>
-<td>启动 GitLab</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl stop</td>
-<td>停止 GitLab</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl restart</td>
-<td>重启 GitLab</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl tail</td>
-<td>查看所有日志</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl tail nginx/gitlab_acces.log</td>
-<td>查看 nginx 访问日志</td>
-</tr>
-<tr>
-<td>sudo gitlab-ctl tail postgresql</td>
-<td>查看 postgresql 日志</td>
-</tr>
-<tr>
-<td>systemctl enable gitlab-runsvdir.service</td>
-<td>开机启动</td>
-</tr>
-<tr>
-<td>systemctl disable gitlab-runsvdir.service</td>
-<td>禁止开机自启动</td>
-</tr>
-</tbody></table>
-<h5 id="首次登陆"><a href="#首次登陆" class="headerlink" title="首次登陆"></a>首次登陆</h5><p>在Web浏览器中访问GitLab服务器的域名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;example.com &#x2F;&#x2F; 您external_url配置的地址</span><br></pre></td></tr></table></figure>
-
-<p>第一次访问需要设置管理员密码，记得保存，之后如果没有gitlab账户就需要创建一个并登陆，然后就可以正常创建项目了</p>
-<h3 id="证书问题"><a href="#证书问题" class="headerlink" title="证书问题"></a>证书问题</h3><p>有时候因为各种原因需要修改仓库端的虚拟机ip，也就意味着gitlab需要修改ip地址</p>
-<p>这些操作很基础，在上面也讲了，但是修改IP以后本人发现原有的证书就无效了，应该是第一次部署的时候默认会生成我们IP对应的证书，我这边的第一次部署的ip地址是<code>192.168.1.111</code>如下图</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20201021104015652.png" alt="image-20201021104015652"></p>
-<p>后面因为网段改为了2，所以整体把虚拟机和gitlab地址都改成了2段，然后运行gitlab就发现如下日志</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20201021104134810.png" alt="image-20201021104134810"></p>
-<p>直接告诉我招不到证书文件，于是翻遍资料最后找到一个粗暴的方法，手动生成证书文件</p>
-<ol>
-<li>创建私钥和证书请求</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -nodes -newkey rsa:<span class="number">2048</span> -keyout <span class="number">192.168</span><span class="number">.2</span><span class="number">.110</span>.key -out <span class="number">192.168</span><span class="number">.2</span><span class="number">.110</span>.csr</span><br></pre></td></tr></table></figure>
-
-<p>上面的ip地址需要替换你对应的地址</p>
-<p>私钥会提示输入密码，记住了跟着提示输入</p>
-<p>输入以后跟着提示输入你的信息，我这边老老实实的输入了正确信息，不确定可否随意输入</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Country Name (2 letter code) [XX]:CN</span><br><span class="line">State or Province Name (full name) []:zhejiang</span><br><span class="line">Locality Name (eg, city) [Default City]:hangzhou</span><br><span class="line">Organization Name (eg, company) [Default Company Ltd]:xiaoshan</span><br><span class="line">Organizational Unit Name (eg, section) []:xiaoshan</span><br><span class="line">Common Name (eg, your name or your server&#x27;s hostname) []:xiaoshan</span><br><span class="line">Email Address []:自己的邮箱地址</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>移除私钥的密码短语</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -v /etc/gitlab/ssl/192.168.2.110.&#123;key,original&#125;</span><br><span class="line">openssl rsa -in /etc/gitlab/ssl/192.168.2.110</span><br><span class="line">-out /etc/gitlab/ssl/192.168.2.110.key</span><br><span class="line">rm -v /etc/gitlab/ssl/192.168.2.110.original</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>创建证书</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -days 1460 -in /etc/gitlab/ssl/192.168.2.110.csr -signkey /etc/gitlab/ssl/192.168.2.110.key -out /etc/gitlab/ssl/192.168.2.110.crt</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>设置权限</li>
-</ol>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">chmod</span> <span class="number">600</span> /etc/gitlab/ssl/<span class="number">192.168.2.110</span>.*</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>有文章提示可以删除<code>.csr</code>文件，我这里没删除也没遇到问题</p>
-<p>如果需要删除，运行<code>rm -v /etc/gitlab/ssl/192.168.2.110.csr</code></p>
-</blockquote>
-<p>然后重新配置gitlab，重启gitlab就可以了</p>
-<h3 id="仓库操作"><a href="#仓库操作" class="headerlink" title="仓库操作"></a>仓库操作</h3><p>创建仓库流程于github非常类似而且非常简单</p>
-<p><img src="https://img.supervj.top/img/gitlab/image-20200818071803709.png" alt="image-20200818071803709"></p>
-<p>然后我们需要为项目添加成员，如下图输入其他成员的邮箱或者用户名，添加以后其他用户自己登陆后也能看到项目了</p>
-<p><img src="https://img.supervj.top/img/gitlab/image-20200818073638776.png" alt="image-20200818073638776"></p>
-<p>完成仓库操作以后可以添加SSH Key来允许用户提交</p>
-<p><img src="https://img.supervj.top/img/gitlab/image-20200818071718978.png" alt="image-20200818071718978"></p>
-<p>然后我们可以在windows端clone下来，就可以正常git流程操作了</p>
-<p><img src="https://img.supervj.top/img/oss/image-20200818071856868.png" alt="image-20200818071856868"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2224,14 +2083,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">406k</span>
+    <span title="站点总字数">455k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:09</span>
+    <span title="站点阅读时长">6:54</span>
   </span>
 </div>
 <div class="busuanzi-count">

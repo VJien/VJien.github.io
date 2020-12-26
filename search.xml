@@ -5910,13 +5910,13 @@
   <entry>
     <title>GameplayAbilitySystem(一):初始化</title>
     <url>/2020/12/19/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>此篇为<code>GameplayAbilitySystem(GAS)</code>相关文档的开篇,</p>
-<p>此系列文档打算从头记录用UE4 <code>GAS</code>插件为基础实战开发游戏的技术细节</p>
-</blockquote>
-<p>引用官网的一段话介绍一下<code>GAS</code>系统</p>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>引用官网的一段话介绍一下<code>GAS</code>系统</p>
 <blockquote>
 <p>Gameplay技能系统 是一个高度灵活的框架，可用于构建你可能会在RPG或MOBA游戏中看到的技能和属性类型。你可以构建可供游戏中的角色使用的动作或被动技能，使这些动作导致各种属性累积或损耗的状态效果，实现约束这些动作使用的”冷却”计时器或资源消耗，更改技能等级及每个技能等级的技能效果，激活粒子或音效，等等。简单来说，此系统可帮助你在任何现代RPG或MOBA游戏中设计、实现及高效关联各种游戏中的技能，既包括跳跃等简单技能，也包括你喜欢的角色的复杂技能集。</p>
+</blockquote>
+<blockquote>
+<p>此篇为<code>GameplayAbilitySystem入门</code>文档的开篇,</p>
+<p>此系列文档会从零开始记录用UE4 <code>GAS</code>插件为基础实战开发游戏的技术细节</p>
 </blockquote>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li>创建C++工程<code>SuperRoad</code>(也可以先创建蓝图工程,然后添加任意c++类), 目前引擎已经升级到4.26.0, 就以此版本为基础开发</li>
@@ -5933,7 +5933,7 @@
 
 
 
-<h2 id="初始化流程"><a href="#初始化流程" class="headerlink" title="初始化流程"></a>初始化流程</h2><p><code>GAS</code>系统必须使用c++, 这个是目前逃不掉的规则, 后续可以尽量使用蓝图来更直观的<code>连连看</code>, 但是基础设置还是必须要c++先完成</p>
+<h2 id="初始化流程"><a href="#初始化流程" class="headerlink" title="初始化流程"></a>初始化流程</h2><p><code>GAS</code>系统必须使用<code>c++</code>, 这个是目前逃不掉的规则, 后续可以考虑部分扩展成蓝图来更直观的<code>连连看</code>,</p>
 <h3 id="创建各种类"><a href="#创建各种类" class="headerlink" title="创建各种类"></a>创建各种类</h3><p>创建各种必要的基类和<code>GAS</code>相关类, 因为其中部分类初始化必须需要用到,下图仅供参考</p>
 <p><img src="https://img.supervj.top//img/image-20201209110513636.png" alt="image-20201209110513636"></p>
 <p>此项目多数类以<code>SR</code>为前缀</p>
@@ -6179,7 +6179,8 @@
   <entry>
     <title>GameplayAbilitySystem(三):几个有用的异步事件</title>
     <url>/2020/12/21/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%89)_%E5%BC%82%E6%AD%A5%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一篇单独创建几个非常有用的异步节点,如<code>UAsyncTask_ListenAttributeChanged</code>可以实时监听任意属性的更改情况,在初期我们用于临时UMG中,方便我们查询和debug</p>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一篇单独创建几个非常有用的异步节点,如<code>UAsyncTask_ListenAttributeChanged</code>可以实时监听任意属性的更改情况,在初期我们用于临时UMG中,方便我们查询和debug;</p>
+<p>可以使用继承自<code>UBlueprintAsyncActionBase</code>的基本异步类, 也可以使用<code>GAS</code>框架内的<code>UAbilityTask</code>来制作</p>
 <p><img src="https://img.supervj.top//img/image-20201214155057270.png" alt="image-20201214155057270"></p>
 <h2 id="异步事件-属性监听"><a href="#异步事件-属性监听" class="headerlink" title="异步事件:属性监听"></a>异步事件:属性监听</h2><p>这个节点相对比较简单, 原理就是通过<code>ASC</code>中的<code>GetGameplayAttributeValueChangeDelegate()</code>绑定对应属性的代理,然后简单的派发异步节点中的代理, 这是<code>GASD</code>项目采用的方案, </p>
 <a id="more"></a>
@@ -6282,6 +6283,994 @@
 <p>同理在移除的时候也广播</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAsyncTask_ListenGEStackChanged::OnActiveGameplayEffectAddedCallback</span><span class="params">(UAbilitySystemComponent* Target, <span class="keyword">const</span> FGameplayEffectSpec&amp; SpecApplied, FActiveGameplayEffectHandle ActiveHandle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FGameplayTagContainer AssetTags;</span><br><span class="line">	SpecApplied.GetAllAssetTags(AssetTags);</span><br><span class="line"></span><br><span class="line">	FGameplayTagContainer GrantedTags;</span><br><span class="line">	SpecApplied.GetAllGrantedTags(GrantedTags);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (AssetTags.HasTagExact(EffectGameplayTag) || GrantedTags.HasTagExact(EffectGameplayTag))</span><br><span class="line">	&#123;</span><br><span class="line">		ASC-&gt;OnGameplayEffectStackChangeDelegate(ActiveHandle)-&gt;AddUObject(<span class="keyword">this</span>, &amp;UAsyncTask_ListenGEStackChanged::GameplayEffectStackChanged);</span><br><span class="line">		OnGameplayEffectStackChange.Broadcast(EffectGameplayTag, ActiveHandle, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAsyncTask_ListenGEStackChanged::OnRemoveGameplayEffectCallback</span><span class="params">(<span class="keyword">const</span> FActiveGameplayEffect&amp; EffectRemoved)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FGameplayTagContainer AssetTags;</span><br><span class="line">	EffectRemoved.Spec.GetAllAssetTags(AssetTags);</span><br><span class="line"></span><br><span class="line">	FGameplayTagContainer GrantedTags;</span><br><span class="line">	EffectRemoved.Spec.GetAllGrantedTags(GrantedTags);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (AssetTags.HasTagExact(EffectGameplayTag) || GrantedTags.HasTagExact(EffectGameplayTag))</span><br><span class="line">	&#123;</span><br><span class="line">		OnGameplayEffectStackChange.Broadcast(EffectGameplayTag, EffectRemoved.Handle, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAsyncTask_ListenGEStackChanged::GameplayEffectStackChanged</span><span class="params">(FActiveGameplayEffectHandle EffectHandle, int32 NewStackCount, int32 PreviousStackCount)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	OnGameplayEffectStackChange.Broadcast(EffectGameplayTag, EffectHandle, NewStackCount, PreviousStackCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GameplayAbilitySystem(四):GameplayAbility(一)</title>
+    <url>/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在第一篇<a href="https://supervj.top/2020/12/19/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/">初始化</a>的时候简单讲解了技能的添加和使用, 但是没有对技能<code>GameplayAbility</code>(<code>GA</code>)做详细介绍,本片开始对<code>GA</code>中的主要功能注意剖析</p>
+<h2 id="注册-移除技能"><a href="#注册-移除技能" class="headerlink" title="注册/移除技能"></a>注册/移除技能</h2><p>之前我们通过配置的方式自动注册起始技能, 那么我们肯定需要动态的增加或者删除技能, 为了方便使用, 封装蓝图库</p>
+<a id="more"></a>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_AddAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level = <span class="number">1</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_RemoveAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以下3个非RPC事件</span></span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">AddNewAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level = <span class="number">1</span>)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span>;</span><br><span class="line">	UFUNCTION(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">RemoveAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">USRAbilitySystemComponent::AddNewAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (AbilitySpecMap.Num()&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (TPair&lt;FString, FGameplayAbilitySpec*&gt; p : AbilitySpecMap)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (p.Value-&gt;Ability-&gt;GetClass() == AbilityClass)</span><br><span class="line">			&#123;</span><br><span class="line">				UE_LOG(SRLog, Warning, TEXT(<span class="string">&quot;USRAbilitySystemComponent::AddNewAbility Failed!! Has Repeat Ability&quot;</span>));</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	FGameplayAbilitySpec spec = FGameplayAbilitySpec(AbilityClass, level, <span class="keyword">static_cast</span>&lt;int32&gt;(AbilityClass.GetDefaultObject()-&gt;InputID), GetOwnerActor());</span><br><span class="line">	GiveAbility(spec);</span><br><span class="line">	AbilitySpecMap.Add(AbilityClass.GetDefaultObject()-&gt;AbilityName, <span class="keyword">this</span>-&gt;FindAbilitySpecFromClass(AbilityClass));</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">USRAbilitySystemComponent::RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FGameplayAbilitySpec* spec = FindAbilitySpecFromClass(AbilityClass);</span><br><span class="line">	<span class="keyword">if</span> (spec)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;ClearAbility(spec-&gt;Handle);</span><br><span class="line">		<span class="keyword">for</span> (TPair&lt;FString, FGameplayAbilitySpec*&gt; p : AbilitySpecMap)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (p.Value-&gt;Ability-&gt;GetClass() == AbilityClass)</span><br><span class="line">			&#123;</span><br><span class="line">				AbilitySpecMap.Remove(p.Key);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	UE_LOG(SRLog, Warning, TEXT(<span class="string">&quot;USRAbilitySystemComponent::RemoveAbilityByClass Failed!! Do not has this ability&quot;</span>));</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个<code>Name</code>版本是我们在<code>GA</code>类中自定义的, 通过<code>TMap&lt;FString, FGameplayAbilitySpec*&gt; AbilitySpecMap</code>保存在我们<code>ASC</code>中</p>
+<p><img src="https://img.supervj.top//img/image-20201226141212117.png" alt="image-20201226141212117"></p>
+<h2 id="触发技能"><a href="#触发技能" class="headerlink" title="触发技能"></a>触发技能</h2><p>如果是已经用之前按键绑定的技能, 那么按键就会直接触发技能</p>
+<p>还有其他几个方法来手动触发技能</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, Category = <span class="string">&quot;Abilities&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbilitiesByTag</span><span class="params">(<span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">UFUNCTION(BlueprintCallable, Category = <span class="string">&quot;Abilities&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbilityByClass</span><span class="params">(TSubclassOf&lt;UGameplayAbility&gt; InAbilityToActivate, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbility</span><span class="params">(FGameplayAbilitySpecHandle AbilityToActivate, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TriggerAbilityFromGameplayEvent</span><span class="params">(FGameplayAbilitySpecHandle AbilityToTrigger, FGameplayAbilityActorInfo* ActorInfo, FGameplayTag Tag, <span class="keyword">const</span> FGameplayEventData* Payload, UAbilitySystemComponent&amp; Component)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">FGameplayAbilitySpecHandle <span class="title">GiveAbilityAndActivateOnce</span><span class="params">(<span class="keyword">const</span> FGameplayAbilitySpec&amp; AbilitySpec)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>到蓝图中就是如下</p>
+<p><img src="https://img.supervj.top//img/image-20201218084759424.png" alt="image-20201218084759424"></p>
+<p>激活技能的不同方法决定<code>GA</code>中的函数调用,  一般都是执行到<code>ActiveAbility</code>, </p>
+<p>如果通过事件的方式触发技能, 即上述中的<code>TriggerAbilityFromGameplayEvent</code>或者蓝图中的<code>SendGameplayEventToActor</code>,那么可以提供一个<code>Payload</code>参数作为扩展参数,这个非常有用</p>
+<p>那么在<code>GA</code>中可以重写函数<code>ActivateAbilityFromEvent</code>,前提是不要重写默认的<code>ActivateAbility</code>函数;</p>
+<p>通过事件触发的方式还会与后续的<code>tag</code>有关系, 这个后续再讲</p>
+<p><img src="https://img.supervj.top//img/image-20201203145317457.png" alt="image-20201203145317457"></p>
+<blockquote>
+<p> 技能逻辑没有固定规则, 完全可以自己脑洞, 不过千万不要忘记在技能完成以后调用<code>EndAbility</code>来结束技能,否则技能一直结束不了而类似一个被动技能一直存在</p>
+</blockquote>
+<h3 id="被动技能"><a href="#被动技能" class="headerlink" title="被动技能"></a>被动技能</h3><p>被动技能如果是默认就存在(触发),可以在<code>GA</code>中的<code>OnAvatarSet</code>事件中最判断处理,如果有必要就直接调用<code>TryActivateAbility</code>(我们之前已经申明了一个布尔变量<code>bAutoActive</code>), 然后不要调用<code>EndAbility</code>就可以了</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGGameplayAbility::OnAvatarSet</span><span class="params">(<span class="keyword">const</span> FGameplayAbilityActorInfo* ActorInfo, <span class="keyword">const</span> FGameplayAbilitySpec&amp; Spec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::OnAvatarSet(ActorInfo, Spec);</span><br><span class="line">	<span class="keyword">if</span> (bAutoActivate)<span class="comment">//bool变量交给蓝图配置</span></span><br><span class="line">	&#123;</span><br><span class="line">		ActorInfo-&gt;AbilitySystemComponent-&gt;TryActivateAbility(Spec.Handle, <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭-中断技能"><a href="#关闭-中断技能" class="headerlink" title="关闭/中断技能"></a>关闭/中断技能</h2><p>目前在<code>ASC</code>中有如下几个方法关闭技能,都未暴露给蓝图;</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbility</span><span class="params">(UGameplayAbility* Ability)</span></span>;	</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbilityHandle</span><span class="params">(<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; AbilityHandle)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbilities</span><span class="params">(<span class="keyword">const</span> FGameplayTagContainer* WithTags=<span class="literal">nullptr</span>, <span class="keyword">const</span> FGameplayTagContainer* WithoutTags=<span class="literal">nullptr</span>, UGameplayAbility* Ignore=<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAllAbilities</span><span class="params">(UGameplayAbility* Ignore=<span class="literal">nullptr</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在蓝图中只能在<code>GA</code>中自己调用<code>CancelAbility</code>关闭技能</p>
+<p>不过我们可以自己封装蓝图函数库,如下</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*稍微注意一点,这里的FGameplayTagContainer参数我们使用引用而不是AbilityComponent::CancelAbilities函数中的指针,顺便来个AutoCreateRef都是方便蓝图使用*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_GAS::CancelAbilityWithTag</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; WithTags, <span class="keyword">const</span> FGameplayTagContainer&amp; WithoutTags, UGameplayAbility* Ignore)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	AbilityComponent-&gt;CancelAbilities(&amp;WithTags, &amp;WithoutTags, Ignore);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_GAS::CancelAllAbilities</span><span class="params">(UAbilitySystemComponent* AbilityComponent, UGameplayAbility* Ignore <span class="comment">/*= nullptr*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	AbilityComponent-&gt;CancelAllAbilities(Ignore);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//************************************</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20201203164413337.png" alt="image-20201203164413337"></p>
+<blockquote>
+<p><code>GASDocumentation</code> 项目文档说 <code>CancelAllAbilities</code>有时候无法正常生效,但是我这边实测可以正常关闭技能</p>
+</blockquote>
+<h2 id="获取激活的技能"><a href="#获取激活的技能" class="headerlink" title="获取激活的技能"></a>获取激活的技能</h2><p>可以通过方法<code>    void GetActivatableGameplayAbilitySpecsByAllMatchingTags(const FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec* &gt;&amp; MatchingGameplayAbilities, bool bOnlyAbilitiesThatSatisfyTagRequirements = true) const;</code>根据<code>tag</code>获取正在运行的技能</p>
+<p>照样可以封装一个蓝图函数库</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;VGAS | FunctionLib&quot;</span>, meta = (AutoCreateRefTerm = <span class="string">&quot;GameplayTagContainer, WithTags&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetActivatableGameplayAbilitySpecsByAllMatchingTags</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec &gt;&amp; MatchingGameplayAbilities, <span class="keyword">bool</span> bOnlyAbilitiesThatSatisfyTagRequirements)</span></span>;</span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_VGAS::GetActivatableGameplayAbilitySpecsByAllMatchingTags</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec &gt;&amp; MatchingGameplayAbilities, <span class="keyword">bool</span> bOnlyAbilitiesThatSatisfyTagRequirements)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	TArray &lt;FGameplayAbilitySpec* &gt; returnAbilities;</span><br><span class="line"></span><br><span class="line">	AbilityComponent-&gt;GetActivatableGameplayAbilitySpecsByAllMatchingTags(GameplayTagContainer, returnAbilities, bOnlyAbilitiesThatSatisfyTagRequirements);</span><br><span class="line">	<span class="keyword">for</span> (FGameplayAbilitySpec* i : returnAbilities)</span><br><span class="line">	&#123;</span><br><span class="line">		MatchingGameplayAbilities.Add(*i);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里还是因为蓝图的原因,传参不能按照原版本传参,需要一个临时变量<code>returnAbilities</code>小小的加工一下</p>
+</blockquote>
+<p><img src="https://img.supervj.top//img/image-20201203173016089.png" alt="image-20201203173016089"></p>
+<a name = "实例化模式">
+
+<h2 id="实例化模式"><a href="#实例化模式" class="headerlink" title="实例化模式"></a>实例化模式</h2><p>技能的实例化模式分为3种,见下表</p>
+<table>
+<thead>
+<tr>
+<th><code>Instancing Policy</code></th>
+<th>Description</th>
+<th>Example of when to use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Instanced Per Actor</td>
+<td>每个<code>ASC</code>只会生成一个实例,每次触发<code>GA</code>时服用实例对象</td>
+<td>这个是最常用的方式</td>
+</tr>
+<tr>
+<td>Instanced Per Execution</td>
+<td>每次<code>GA</code>激活都会产生一个实例</td>
+<td>这个方式不太常用,但是可以每个技能都独立作用</td>
+</tr>
+<tr>
+<td>Non-Instanced</td>
+<td><code>GA</code>自己默认Obj来维护自身,不会生成实例</td>
+<td>这是三种方法中性能最好的，但是在使用的时候是最受限制的。<code>非实例化</code>的<code>GameplayAbilities</code>不能存储状态，这意味着没有动态变量，也没有绑定到<code>AbilityTask</code>委托。在MOBA或RTS中，最适合使用它们的是那些经常使用的简单技能，比如仆从基本攻击或者角色的<code>Jump</code></td>
+</tr>
+</tbody></table>
+<h2 id="网络方案"><a href="#网络方案" class="headerlink" title="网络方案"></a>网络方案</h2><p><img src="https://img.supervj.top//img/image-20201204152923024.png" alt="image-20201204152923024"></p>
+<table>
+<thead>
+<tr>
+<th><code>Net Execution Policy</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Local Only</code></td>
+<td>只运行在本地客户端,这个比较适合在只表现本地效果的技能,单人游戏中需要使用<code>Server Only</code></td>
+</tr>
+<tr>
+<td><code>Local Predicted</code></td>
+<td>先本地运行, 服务端会校准本地客户端错误的内容</td>
+</tr>
+<tr>
+<td><code>Server Only</code></td>
+<td>只在服务端运行, 本地技能适合运行在服务端,单人游戏也适合用此</td>
+</tr>
+<tr>
+<td><code>Server Initiated</code></td>
+<td>服务端先运行然后再运行在客户端,不常用</td>
+</tr>
+</tbody></table>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p><code>GA</code>的标签非常重要而且使用,包含如下标签</p>
+<table>
+<thead>
+<tr>
+<th><code>GameplayTag Container</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ability Tags</code></td>
+<td>当前技能拥有的标签, 也是通过<code>tag</code>来激活技能的凭证</td>
+</tr>
+<tr>
+<td><code>Cancel Abilities with Tag</code></td>
+<td>当前技能会关闭的拥有此类<code>tag</code>的正在运行技能</td>
+</tr>
+<tr>
+<td><code>Block Abilities with Tag</code></td>
+<td>运行技能的会阻挡拥有此类<code>tag</code>的技能(并不会返回失败)</td>
+</tr>
+<tr>
+<td><code>Activation Owned Tags</code></td>
+<td>此技能会激活的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Activation Required Tags</code></td>
+<td>激活技能所需要包含的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Activation Blocked Tags</code></td>
+<td>当拥有此类<code>tag</code>的技能正在运行时,该技能会被阻挡(并不会返回失败)</td>
+</tr>
+<tr>
+<td><code>Source Required Tags</code></td>
+<td>此标签包括如下共4个标签内,都是通过<code>ByEvent</code>的方式作用才有效; 此标签在输入的时候必须包含才能运行</td>
+</tr>
+<tr>
+<td><code>Source Blocked Tags</code></td>
+<td>同理会被阻挡的标签</td>
+</tr>
+<tr>
+<td><code>Target Required Tags</code></td>
+<td>同理目标必须包含的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Target Blocked Tags</code></td>
+<td>同理目标如果包含会被阻挡的<code>tag</code></td>
+</tr>
+</tbody></table>
+<p><img src="https://img.supervj.top//img/image-20201204170040609.png" alt="image-20201204170040609"></p>
+<h2 id="Gameplay-Ability-Spec"><a href="#Gameplay-Ability-Spec" class="headerlink" title="Gameplay Ability Spec"></a>Gameplay Ability Spec</h2><p><code>Gameplay Ability Spec</code>在<code>GA</code>正确激活后会创建, 内部提供了诸多<code>GA</code>中的数据如 <code>class</code>,<code>level</code>,<code>input bindings</code>等</p>
+<p>如果<code>GA</code>在服务端创建, 会同步到客户端</p>
+<p><code>Gameplay Ability Spec</code>创建实例规则请参考<a href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E6%A8%A1%E5%BC%8F">实例化模式 ↑</a></p>
+<h2 id="GA的传递数据"><a href="#GA的传递数据" class="headerlink" title="GA的传递数据"></a>GA的传递数据</h2><p><code>GA</code>传递外部数据有如下几种方式</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Activate <code>GameplayAbility</code> by Event</td>
+<td>通过此方法激活技能会有一个<code>Payload</code>参数, 可以用来传递诸多参数;如两个<code>UObject</code>参数更加方便扩展自定义数据</td>
+</tr>
+<tr>
+<td>Use <code>WaitGameplayEvent</code> <code>AbilityTask</code></td>
+<td>用这个方法可以监听其他<code>tag</code>技能的状态,以此类得到<code>payload</code>数据</td>
+</tr>
+<tr>
+<td>Use <code>TargetData</code></td>
+<td>用结构体 <code>TargetData</code> 传递数据是一个办法,具体以后补充</td>
+</tr>
+<tr>
+<td>Store Data on the <code>OwnerActor</code> or <code>AvatarActor</code></td>
+<td>把数据存到<code>GA</code>的<code>OwnerActor</code>或者角色中,但是你需要确保网络同步</td>
+</tr>
+</tbody></table>
+<p><img src="https://img.supervj.top//img/image-20201204171513695.png" alt="image-20201204171513695"></p>
+<h2 id="技能消耗-冷却"><a href="#技能消耗-冷却" class="headerlink" title="技能消耗/冷却"></a>技能消耗/冷却</h2><p>技能的消耗和冷却通过<code>GameplayEffect</code>实现, 详情可以查看<a href="">GameplayEffect篇</a></p>
+<h2 id="技能升级"><a href="#技能升级" class="headerlink" title="技能升级"></a>技能升级</h2><table>
+<thead>
+<tr>
+<th>Level Up Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ungrant and Regrant at the New Level</td>
+<td>移除<code>GA</code>,重新注册一个等级不一样的<code>GA</code>,此方式会终止<code>GA</code></td>
+</tr>
+<tr>
+<td>Increase the <code>GameplayAbilitySpec&#39;s</code> Level</td>
+<td>对<code>spec</code>中的<code>level</code>进行升级处理,这种方式不会终止<code>GA</code></td>
+</tr>
+</tbody></table>
+<p>蓝图中无法得到<code>GA</code>中的<code>Level</code>变量, 所以无论是对<code>GA</code>的<code>Level</code>进行处理还是<code>GE</code>都需要在cpp中</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::UpgradeAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name, int32 upLevel)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (AbilitySpecMap.Contains(name))</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayAbilitySpec* spec = *AbilitySpecMap.Find(name);</span><br><span class="line">		spec-&gt;Level += upLevel;</span><br><span class="line">		<span class="keyword">this</span>-&gt;MarkAbilitySpecDirty(*spec);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为添加的时候已经存放了<code>TMap&lt;FString, FGameplayAbilitySpec*&gt; AbilitySpecMap</code>, 直接对其进行操作即可, 按照<code>GAS</code>注释说明需要调用<code>MarkAbilitySpecDirty()</code></p>
+<h2 id="网络规则"><a href="#网络规则" class="headerlink" title="网络规则"></a>网络规则</h2><table>
+<thead>
+<tr>
+<th><code>NetSecurityPolicy</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ClientOrServer</code></td>
+<td>无要求,客户端和服务器都可以自由触发</td>
+</tr>
+<tr>
+<td><code>ServerOnlyExecution</code></td>
+<td>客户端请求执行将被服务器忽略。客户端仍然可以请求服务器取消或终止此功能。</td>
+</tr>
+<tr>
+<td><code>ServerOnlyTermination</code></td>
+<td>客户端可以请求执行, 但是不能请求终止或者取消</td>
+</tr>
+<tr>
+<td><code>ServerOnly</code></td>
+<td>只有服务端有权执行,客户端无法执行任何操作</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GameplayAbilitySystem(七):GameplayEffect(二)</title>
+    <url>/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇讲述了<code>GE</code>的一些基本概念, 非常概念化没有实战部分, 很容易混淆和忘记, 本片我们结合实际项目再配合<code>GA</code>的使用来模拟几个技能效果</p>
+<a name = "GEEC">
+
+<h2 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h2><p>我们在前面测试<code>GA</code>的时候已经简单测试了伤害,不过那个伤害就固定的一个值, 下面我们用自定义的类<code>GEEC</code>来计算这个伤害</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">USRGEEC_Damage : <span class="keyword">public</span> UGameplayEffectExecutionCalculation</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20201218172355966.png" alt="image-20201218172355966"></p>
+<p>给上我们的<code>GEEC</code></p>
+<p>在<code>GEEC</code>中只需要重写方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后我们需要捕获我们角色的一些数据, 比如我们捕获我们发起者的攻击以及目标的护甲</p>
+<p>为了方便使用, 我们自定义一个结构体</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>  <span class="title">SRDamageStatics</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	DECLARE_ATTRIBUTE_CAPTUREDEF(Attack);</span><br><span class="line">	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);</span><br><span class="line">	DECLARE_ATTRIBUTE_CAPTUREDEF(Health);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	SRDamageStatics()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//攻击力在创建GE时捕获, 因为技能可能有弹道, 需要在发射的时候就捕获而不是击中的时候,</span></span><br><span class="line">		<span class="comment">//类似的其他有关发射者的属性都所需要此时捕获</span></span><br><span class="line">		DEFINE_ATTRIBUTE_CAPTUREDEF(USRAttributeSetBase, Attack, Source, <span class="literal">true</span>);</span><br><span class="line">		<span class="comment">//目标的防御在应用的时候捕获</span></span><br><span class="line">		DEFINE_ATTRIBUTE_CAPTUREDEF(USRAttributeSetBase, Armor, Target, <span class="literal">false</span>);</span><br><span class="line">		DEFINE_ATTRIBUTE_CAPTUREDEF(USRAttributeSetBase, Health, Target, <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">const</span> SRDamageStatics&amp; <span class="title">DamageStatics</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">static</span> SRDamageStatics DmgStatics;</span><br><span class="line">	<span class="keyword">return</span> DmgStatics;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后设置捕获</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">USRGEEC_Damage::USRGEEC_Damage()</span><br><span class="line">&#123;</span><br><span class="line">	RelevantAttributesToCapture.Add(DamageStatics().AttackDef);</span><br><span class="line">	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);</span><br><span class="line">	RelevantAttributesToCapture.Add(DamageStatics().HealthDef);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面就是加加减减一下最终反馈到目标的血量(临时方案)</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRGEEC_Damage::Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAbilitySystemComponent* TargetAbilitySystemComponent = ExecutionParams.GetTargetAbilitySystemComponent();</span><br><span class="line">	UAbilitySystemComponent* SourceAbilitySystemComponent = ExecutionParams.GetSourceAbilitySystemComponent();</span><br><span class="line"></span><br><span class="line">	AActor* SourceActor = SourceAbilitySystemComponent ? SourceAbilitySystemComponent-&gt;GetAvatarActor() : <span class="literal">nullptr</span>;</span><br><span class="line">	AActor* TargetActor = TargetAbilitySystemComponent ? TargetAbilitySystemComponent-&gt;GetAvatarActor() : <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec = ExecutionParams.GetOwningSpec();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获取双方所有tag</span></span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();</span><br><span class="line"></span><br><span class="line">	FAggregatorEvaluateParameters EvaluationParameters;</span><br><span class="line">	EvaluationParameters.SourceTags = SourceTags;</span><br><span class="line">	EvaluationParameters.TargetTags = TargetTags;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> ArmorPower = <span class="number">0.f</span>;</span><br><span class="line">	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluationParameters, ArmorPower);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> AttackValue = <span class="number">0.f</span>;</span><br><span class="line">	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().AttackDef, EvaluationParameters, AttackValue);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> DamageDone = <span class="number">-1</span> * (AttackValue - ArmorPower);</span><br><span class="line">	<span class="keyword">if</span> (DamageDone &lt; <span class="number">0.f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().HealthProperty, EGameplayModOp::Additive, DamageDone));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201218175903444.png" alt="image-20201218175903444"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_17_57_55_376.gif" alt="录制_2020_12_18_17_57_55_376"></p>
+<p>运行正常,每次伤害为8(10-2)</p>
+<h2 id="自动回复"><a href="#自动回复" class="headerlink" title="自动回复"></a>自动回复</h2><p>我们属性里面有设置生命值和魔法值, 那么一般情况下这两种属性都有自动回复的机制,所以我们用<code>GE</code>来实现这个效果</p>
+<p><img src="https://img.supervj.top//img/image-20201221093148509.png" alt="image-20201221093148509"></p>
+<p>配置两个<code>GE</code>到我们的玩家角色的默认启动的<code>GE</code>内</p>
+<p><img src="https://img.supervj.top//img/image-20201221093257062.png" alt="image-20201221093257062"></p>
+<p>设置<code>GE</code>如上图, 设定持续事件为<code>Infinite</code>,计算方式是基于其他属性, 然后设置<code>Period</code>=1, 即每1秒执行一次</p>
+<p><img src="https://img.supervj.top//img/image-20201221093407727.png" alt="image-20201221093407727"></p>
+<p>在下面的移除标签内加上死亡状态, 即死亡了以后会移除自动回复效果</p>
+<p>接下来简单测试一下添加了死亡<code>tag</code>以后的情况</p>
+<p>我们用一个测试<code>GE</code>什么都不做,就添加一个<code>Death</code>标签</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_21_09_50_34_192.gif" alt="录制_2020_12_21_09_50_34_192"></p>
+<p>搞定!</p>
+<p>但是问题又来了, 这个生命回复到超过<code>MaxHealth</code>的时候就不对了, 我们必须在特定的地方对此做一个限制</p>
+<h2 id="属性Clamp"><a href="#属性Clamp" class="headerlink" title="属性Clamp"></a>属性Clamp</h2><p>在<a href="">属性篇</a>中我们提过一个<code>PostGameplayEffectExecute()</code>函数, 用此函数就是官方建议我们来做属性<code>Clamp</code>处理的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::PostGameplayEffectExecute</span><span class="params">(<span class="keyword">const</span> struct FGameplayEffectModCallbackData &amp;Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UE_LOG(SRLog, Log, TEXT(<span class="string">&quot;PostGameplayEffectExecute  &quot;</span>));</span><br><span class="line">	Super::PostGameplayEffectExecute(Data);</span><br><span class="line">	</span><br><span class="line">	FGameplayEffectContextHandle Context = Data.EffectSpec.GetContext();</span><br><span class="line">	UAbilitySystemComponent* SourceASC = Context.GetOriginalInstigatorAbilitySystemComponent();</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer&amp; SourceTags = *Data.EffectSpec.CapturedSourceTags.GetAggregatedTags();</span><br><span class="line">	FGameplayTagContainer SpecAssetTags;</span><br><span class="line">	Data.EffectSpec.GetAllAssetTags(SpecAssetTags);</span><br><span class="line"></span><br><span class="line">	AActor* TargetActor = <span class="literal">nullptr</span>;</span><br><span class="line">	AController* TargetController = <span class="literal">nullptr</span>;</span><br><span class="line">	ASRCharacterBase* TargetCharacter = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (Data.Target.AbilityActorInfo.IsValid() &amp;&amp; Data.Target.AbilityActorInfo-&gt;AvatarActor.IsValid())</span><br><span class="line">	&#123;</span><br><span class="line">		TargetActor = Data.Target.AbilityActorInfo-&gt;AvatarActor.Get();</span><br><span class="line">		TargetController = Data.Target.AbilityActorInfo-&gt;PlayerController.Get();</span><br><span class="line">		TargetCharacter = Cast&lt;ASRCharacterBase&gt;(TargetActor);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	AActor* SourceActor = <span class="literal">nullptr</span>;</span><br><span class="line">	AController* SourceController = <span class="literal">nullptr</span>;</span><br><span class="line">	ASRCharacterBase* SourceCharacter = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (SourceASC &amp;&amp; SourceASC-&gt;AbilityActorInfo.IsValid() &amp;&amp; SourceASC-&gt;AbilityActorInfo-&gt;AvatarActor.IsValid())</span><br><span class="line">	&#123;</span><br><span class="line">		SourceActor = SourceASC-&gt;AbilityActorInfo-&gt;AvatarActor.Get();</span><br><span class="line">		SourceController = SourceASC-&gt;AbilityActorInfo-&gt;PlayerController.Get();</span><br><span class="line">		<span class="keyword">if</span> (SourceController == <span class="literal">nullptr</span> &amp;&amp; SourceActor != <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (APawn* Pawn = Cast&lt;APawn&gt;(SourceActor))</span><br><span class="line">			&#123;</span><br><span class="line">				SourceController = Pawn-&gt;GetController();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (SourceController)</span><br><span class="line">		&#123;</span><br><span class="line">			SourceCharacter = Cast&lt;ASRCharacterBase&gt;(SourceController-&gt;GetPawn());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			SourceCharacter = Cast&lt;ASRCharacterBase&gt;(SourceActor);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (Context.GetEffectCauser())</span><br><span class="line">		&#123;</span><br><span class="line">			SourceActor = Context.GetEffectCauser();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (Data.EvaluatedData.Attribute == GetHealthAttribute())</span><br><span class="line">		&#123;</span><br><span class="line">			SetHealth(FMath::Clamp(GetHealth(), <span class="number">0.0f</span>, GetMaxHealth()));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (Data.EvaluatedData.Attribute ==  GetManaAttribute())</span><br><span class="line">		&#123;</span><br><span class="line">			SetMana(FMath::Clamp(GetMana(), <span class="number">0.0f</span>, GetMaxMana()));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面茫茫多的变量获取是为了后续做更多的内容, 如伤害处理等, 对于生命和魔法值的<code>Clamp</code>简单处理即可</p>
+<blockquote>
+<p>注意</p>
+<p>Source是发起者</p>
+<p>Target是作用目标, 即被修改属性的角色,</p>
+<p>两者可能会相同, 容易混淆概念</p>
+</blockquote>
+<h2 id="伤害随等级增加"><a href="#伤害随等级增加" class="headerlink" title="伤害随等级增加"></a>伤害随等级增加</h2><p>前面我们用一个<code>GEEC</code>通过攻击-防御得到最后的生命值</p>
+<p>我们继续扩展, 在下面的<code>ModifierMagnitude</code>内加入参数, 再给一个<code>CurveTable</code>参数,如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201222135917433.png" alt="image-20201222135917433"></p>
+<p>此举意味着我们计算时的<code>Attack</code>值会额外增加对应等级的攻击力</p>
+<p><code>CSV</code>表格的编辑如下</p>
+<p><strong><img src="https://img.supervj.top//img/image-20201222140009303.png" alt="image-20201222140009303"></strong></p>
+<p>然后可以得到不同等级对应的攻击力加成</p>
+<h2 id="伤害计算中的属性关联"><a href="#伤害计算中的属性关联" class="headerlink" title="伤害计算中的属性关联"></a>伤害计算中的属性关联</h2><p><code>PostGameplayEffectExecute()</code>函数会在引用<code>GE</code>以后调用, 同时也会触发属性改变的事件响应,</p>
+<p>同时这里需要注意, 我们的<code>Set***()</code>函数能触发事件响应.</p>
+<blockquote>
+<p> <strong>但是无法再次触发<code>PostGameplayEffectExecute()</code></strong></p>
+</blockquote>
+<p>意味着,加入我们希望通过修改<code>A</code>属性后来修改<code>B</code>属性可以在<code>PostGameplayEffectExecute()</code>函数内处理</p>
+<p>比如,<code> Attack</code>属性=<code>AttackA+AttackB</code>, 那么可以在<code>PostGameplayEffectExecute()</code>函数内实现</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Data.EvaluatedData.Attribute == GetAttackAAttribute() || ...)</span><br><span class="line">&#123;</span><br><span class="line">    SetAttack(GetAttackA()+GetAttackB());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似这种形式也可以触发<code>Attack</code>的事件响应, 方便UI的同步显示效果</p>
+<p>在案例里面, 我设置了5个主属性,如<code>力量,敏捷</code>等</p>
+<p>随着主属性的修改, 其他副属性如<code>攻击力,护甲值,暴击率</code>等会随之改变, 这些操作是可以放到<code>PostGameplayEffectExecute()</code>内处理的</p>
+<blockquote>
+<p>可否把上述内容放到<code>PreAttributeChange()</code>内?</p>
+<p><code>PreAttributeChange()</code>只是对属性的预处理, 此函数内不适合去<code>Get</code>其他函数的值, 不能保证此时这个值是否正确</p>
+<p><code>PreAttributeChange()</code>比较适合对确定的某些属性最一些自适应处理, 如前面已经讲过的对当前生命值和最大生命值做处理函数<code>AdjustAttributeForMaxChange()</code></p>
+</blockquote>
+<h2 id="伤害进阶处理"><a href="#伤害进阶处理" class="headerlink" title="伤害进阶处理"></a>伤害进阶处理</h2><blockquote>
+<p>现在有这么一个需求,先不考虑闪避, 格挡等因素, 但需要计算暴击</p>
+<p>玩家技能1:</p>
+<ul>
+<li>造成攻击力若干百分比的物理伤害</li>
+<li>造成攻击力若干百分比的火系伤害</li>
+</ul>
+<p>计算方式需求:</p>
+<ul>
+<li>物理伤害需计算护甲, 物理抗性等</li>
+<li>法系伤害需计算相对应的法术抗性</li>
+</ul>
+</blockquote>
+<p>首先需要在<code>Set</code>类内申明几个用于计算伤害的临时属性, 在<code>GASD</code>和<code>ActionRPG</code>项目中都采用了如此的方案</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//临时攻击数据, 通过技能初始化, 用于结算最终伤害</span></span><br><span class="line">	UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;AttackTemp&quot;</span>, ReplicatedUsing = OnRep_Attack_Physics)</span><br><span class="line">	FGameplayAttributeData Attack_Physics;</span><br><span class="line">ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Attack_Physics)</span><br><span class="line">	UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;AttackTemp&quot;</span>, ReplicatedUsing = OnRep_Attack_Fire)</span><br><span class="line">	FGameplayAttributeData Attack_Fire;</span><br><span class="line">ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Attack_Fire)</span><br><span class="line">       </span><br><span class="line">       <span class="comment">//临时受伤数据</span></span><br><span class="line">	UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;DamageTemp&quot;</span>, ReplicatedUsing = OnRep_Damage_Physics)</span><br><span class="line">	FGameplayAttributeData Damage_Physics;</span><br><span class="line">ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Damage_Physics)</span><br><span class="line">	UPROPERTY(BlueprintReadOnly, Category = <span class="string">&quot;DamageTemp&quot;</span>, ReplicatedUsing = OnRep_Damage_Fire)</span><br><span class="line">	FGameplayAttributeData Damage_Fire;</span><br><span class="line">ATTRIBUTE_ACCESSORS(USRAttributeSetBase, Damage_Fire)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>前面我们已经创建了一个<a href="#GEEC"><code>GEEC</code></a>, 然后我们进行扩展</p>
+<p><strong>已略过属性捕捉部分</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRGEEC_Damage::Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">float</span> PhysicsAttack = <span class="number">0.f</span>;</span><br><span class="line">    <span class="keyword">float</span> FireAttack = <span class="number">0.f</span>;</span><br><span class="line">  ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().Attack_PhysicsDef, EvaluationParameters, PhysicsAttack);</span><br><span class="line">ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().Attack_FireDef, EvaluationParameters, FireAttack);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> critPro = <span class="number">0.f</span>;</span><br><span class="line">	<span class="keyword">float</span> critMul = <span class="number">1.f</span>;</span><br><span class="line">ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CritProDef, EvaluationParameters, critPro);</span><br><span class="line">ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CritMulDef, EvaluationParameters, critMul);</span><br><span class="line">    </span><br><span class="line">    	<span class="keyword">float</span> ArmorValue = <span class="number">0.f</span>;</span><br><span class="line">ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluationParameters, ArmorValue);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> PhysicsResistance = <span class="number">0.f</span>;</span><br><span class="line">	<span class="keyword">float</span> FireResistance = <span class="number">0.f</span>;</span><br><span class="line">  ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().Resistance_PhysicsDef, EvaluationParameters, PhysicsResistance);	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().Resistance_FireDef, EvaluationParameters, FireResistance);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> PhysicsDamage = CalcPhysicsMitigatedDamage(PhysicsAttack, ArmorValue, DamageReduceValue, PhysicsResistance);</span><br><span class="line">	<span class="keyword">float</span> FireDamage = CalcMagicMitigatedDamage(FireAttack, DamageReduceValue, FireResistance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们捕获了所需要的属性, 同时通过两个辅助函数计算物理和法术伤害</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">USRGEEC_Damage::CalcPhysicsMitigatedDamage_Implementation</span><span class="params">(<span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> TargetArmor, <span class="keyword">float</span> critPro, <span class="keyword">float</span> critMul, <span class="keyword">float</span> ReducePercent <span class="comment">/*= 0.0f*/</span>, <span class="keyword">float</span> PhysicsResistance <span class="comment">/*= 0.0f*/</span>)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> outDamage = <span class="number">0.0f</span>;</span><br><span class="line">	<span class="keyword">bool</span> bIsCrit = UKismetMathLibrary::RandomBoolWithWeight(critPro);</span><br><span class="line">	<span class="keyword">float</span> armorPerc = <span class="number">1</span> - (TargetArmor / (TargetArmor + <span class="number">500</span>));</span><br><span class="line">	<span class="keyword">float</span> globlePerc = FMath::Clamp((<span class="number">1</span> - ReducePercent), <span class="number">0.01f</span>, <span class="number">100.f</span>);</span><br><span class="line">	<span class="keyword">float</span> resistancePerc = <span class="number">1</span> - (PhysicsResistance / (PhysicsResistance + <span class="number">50</span>));</span><br><span class="line">	<span class="keyword">float</span> critValue = FMath::Clamp((bIsCrit ? critMul : <span class="number">1.0f</span>),<span class="number">1.0f</span>,<span class="number">999.0f</span>);</span><br><span class="line">	</span><br><span class="line">	outDamage = UnmitigatedDamage * armorPerc * globlePerc * resistancePerc * critValue;</span><br><span class="line">	<span class="keyword">if</span> (bDebug &amp;&amp; outDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(SRLog, Log, TEXT(<span class="string">&quot;USRGEEC_Damage::CalcPhysicsMitigatedDamage, SourceDamage = %f, ArmorReduce = %f, GlobleReduce = %f, ResistanceReduce = %f , CritValue = %f, \n OutDamage = %f&quot;</span>),</span><br><span class="line">			UnmitigatedDamage, <span class="number">1</span> - armorPerc, <span class="number">1</span> - globlePerc, <span class="number">1</span> - resistancePerc, critValue, outDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> outDamage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">USRGEEC_Damage::CalcMagicMitigatedDamage_Implementation</span><span class="params">(<span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> critPro, <span class="keyword">float</span> critMul, <span class="keyword">float</span> ReducePercent <span class="comment">/*= 0.0f*/</span>, <span class="keyword">float</span> Resistance <span class="comment">/*= 0.0f*/</span>)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> outDamage = <span class="number">0.0f</span>;</span><br><span class="line">	<span class="keyword">bool</span> bIsCrit = UKismetMathLibrary::RandomBoolWithWeight(critPro);</span><br><span class="line">	<span class="keyword">float</span> globlePerc = FMath::Clamp((<span class="number">1</span> - ReducePercent), <span class="number">0.01f</span>, <span class="number">100.f</span>);</span><br><span class="line">	<span class="keyword">float</span> resistancePerc = <span class="number">1</span> - (Resistance / (Resistance + <span class="number">50</span>));</span><br><span class="line">	<span class="keyword">float</span> critValue = FMath::Clamp((bIsCrit ? critMul : <span class="number">1.0f</span>), <span class="number">1.0f</span>, <span class="number">999.0f</span>);</span><br><span class="line">	</span><br><span class="line">	outDamage = UnmitigatedDamage * globlePerc * resistancePerc * critValue;</span><br><span class="line">	<span class="keyword">if</span> (bDebug &amp;&amp; outDamage &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(SRLog, Log, TEXT(<span class="string">&quot;USRGEEC_Damage::CalcMagicMitigatedDamage, SourceDamage = %f, GlobleReduce = %f, ResistanceReduce = %f , CritValue = %f \n OutDamage = %f&quot;</span>), </span><br><span class="line">			UnmitigatedDamage, <span class="number">1</span> - globlePerc, <span class="number">1</span> - resistancePerc, critValue, outDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> outDamage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后添加到修改</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (PhysicsDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">if</span> (FireDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().Damage_FireProperty, EGameplayModOp::Additive, FireDamage));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>接下来会调用到目标单位的<code>AttributeSet</code>类中, 用一个函数<code>HandlDamage()</code>和宏<code>DAMAGE_HANDLE</code>来处理伤害和扣血</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::HandlDamage</span><span class="params">(FGameplayAttribute Attribute, ASRCharacterBase* TargetCharacter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> damage, newHp;</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Physics, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Fire, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Ice, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Poison, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Electricity, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Holy, damage, newHp);</span><br><span class="line">	DAMAGE_HANDLE(Attribute, TargetCharacter, Arcane, damage, newHp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DAMAGE_HANDLE(Attribute,C,Name,TempDamage,TempNewHp) \</span></span><br><span class="line">&#123;\</span><br><span class="line">	<span class="keyword">if</span>(Attribute == GetDamage_##Name##Attribute()) \</span><br><span class="line">	&#123;	\</span><br><span class="line">		TempDamage = GetDamage_##Name(); \</span><br><span class="line">		SetDamage_##Name(<span class="number">0</span>);	\</span><br><span class="line">		<span class="keyword">if</span>(TempDamage&gt;<span class="number">0</span>)	\</span><br><span class="line">		&#123;	\</span><br><span class="line">			ASRCharacterBase* character = Cast&lt;ASRCharacterBase&gt;(C);	\</span><br><span class="line">			<span class="keyword">if</span> (character&amp;&amp;character-&gt;IsAlive())\</span><br><span class="line">			&#123;\</span><br><span class="line">				TempNewHp = GetHealth() - TempDamage;\</span><br><span class="line">				SRLOGEX2(TEXT(<span class="string">&quot;USRAttributeSetBase::HandlDamage %s beDamage = %f&quot;</span>), *TargetCharacter-&gt;GetName(), TempDamage);\</span><br><span class="line">			    SetHealth(TempNewHp);\</span><br><span class="line">			&#125;\</span><br><span class="line">		&#125;	\</span><br><span class="line">	&#125; \</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后是设置测试<code>GE</code>类, 我们同时用一张表格来配置技能对应等级的系数</p>
+<p><img src="https://img.supervj.top//img/image-20201225172537711.png" alt="image-20201225172537711"></p>
+<p><img src="https://img.supervj.top//img/image-20201225172450545.png" alt="image-20201225172450545"></p>
+<blockquote>
+<p>测试样本: 初始10攻击力, 目标护甲10, 物理抗性10, 伤害减免10%</p>
+</blockquote>
+<p>分别用1级技能和10级技能攻击测试物理部分</p>
+<ul>
+<li>1级</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201225173327395.png" alt="image-20201225173327395"></p>
+<ul>
+<li>10级</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201225173355889.png" alt="image-20201225173355889"></p>
+<p>完成</p>
+<h2 id="伤害进阶处理-闪避和格挡"><a href="#伤害进阶处理-闪避和格挡" class="headerlink" title="伤害进阶处理:闪避和格挡"></a>伤害进阶处理:闪避和格挡</h2><blockquote>
+<p>接下来我们再考虑加入闪避和格挡因素,这两者一般游戏针对的都是物理攻击,当然不排除也有闪避法术的设定,我们这里采用的是前者</p>
+<p>还需要考虑一个设定, 格挡是格挡税前伤害还是税后, 即伤害减免是在格挡的前后问题,我们使用在税后(伤害减免后)在进行格挡计算, 这种情况下格挡的收益比较大</p>
+</blockquote>
+<p>因为<code>GEEC</code>不适合做格挡和闪避的效果处理, 比如播放动画之类的, 那么此类消息我们打算传递给<code>ASC</code>去做处理或者转发</p>
+<p>在<code>ASC</code>中申明几个代理和函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnRecieveEventDodge, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FString&amp;, ExtendInfo);</span><br><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnReceiveEventBlock, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FHitResult&amp;, HitResult, <span class="keyword">float</span>, UnmitigatedDamage,<span class="keyword">float</span>,BlockValue);</span><br><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FOnReceiveEventDamage, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FHitResult&amp;, HitResult, <span class="keyword">float</span>, UnmitigatedDamage,<span class="keyword">float</span>, MitigatedDamage, ESRDamageType,DamageType);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveDodge</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FString&amp; ExtendInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		SRLOGEX2(TEXT(<span class="string">&quot;%s 闪避了 %s 的攻击&quot;</span>), *GetAvatarActor()-&gt;GetName(), *SourceASC-&gt;GetAvatarActor()-&gt;GetName());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	OnDodge.Broadcast(SourceASC, ExtendInfo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveDamage</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FHitResult&amp; HitResult, <span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> MitigatedDamag, ESRDamageType DamageType)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		SRLOGEX5(TEXT(<span class="string">&quot;%s 收到 %s 的%s攻击, 税前伤害 = %f, 税后= %f&quot;</span>), *GetAvatarActor()-&gt;GetName(), *SourceASC-&gt;GetAvatarActor()-&gt;GetName(), </span><br><span class="line">			*UFlib_SRUtilities::DamageTypeToString(DamageType),UnmitigatedDamage, MitigatedDamag);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OnDamage.Broadcast(SourceASC, HitResult, UnmitigatedDamage, MitigatedDamag, DamageType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveBlock</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FHitResult&amp; HitResult, <span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> BlockValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		SRLOGEX4(TEXT(<span class="string">&quot;%s 格挡了 %s 攻击的 %f 点伤害(格挡前伤害= %f)&quot;</span>), *GetAvatarActor()-&gt;GetName(), *SourceASC-&gt;GetAvatarActor()-&gt;GetName(), BlockValue, UnmitigatedDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	OnBlock.Broadcast(SourceASC, HitResult, UnmitigatedDamage,BlockValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里用到了一个辅助函数, 我们在一个函数库中做了枚举和字符串的转换(蓝图自带的)</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">FString <span class="title">UFlib_SRUtilities::DamageTypeToString</span><span class="params">(ESRDamageType type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SREnumToString&lt;ESRDamageType&gt;(<span class="string">&quot;ESRDamageType&quot;</span>, type, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ESRDamageType <span class="title">UFlib_SRUtilities::StringToDamageType</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SRStringToEnum&lt;ESRDamageType&gt;(<span class="string">&quot;ESRDamageType&quot;</span>, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就是<code>GEEC</code>中额外加一些代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//闪避和格挡只能作用到物理伤害</span></span><br><span class="line">	<span class="keyword">if</span> (PhysicsDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//先计算闪避</span></span><br><span class="line">		<span class="keyword">float</span> dodge = <span class="number">0.0f</span>;</span><br><span class="line">		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DodgeProDef, EvaluationParameters, dodge);</span><br><span class="line">		<span class="keyword">if</span> (dodge &gt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">bool</span> bIsMiss = UKismetMathLibrary::RandomBoolWithWeight(dodge);</span><br><span class="line">			<span class="keyword">if</span> (bIsMiss)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (TargetAbilitySystemComponent&amp;&amp;SourceAbilitySystemComponent)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//如果闪避了, 那么不需要计算具体伤害</span></span><br><span class="line">					TargetAbilitySystemComponent-&gt;ReceiveDodge(SourceAbilitySystemComponent);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//再计算格挡;格挡计算在税后,如果是税前那么需要在计算物理伤害之前进行;</span></span><br><span class="line">		<span class="comment">//有些设定需要正面才能格挡, 那么还需要计算方向</span></span><br><span class="line">		<span class="keyword">float</span> blockPro = <span class="number">0.0f</span>;</span><br><span class="line">		<span class="keyword">float</span> blockValue = <span class="number">0.0f</span>;</span><br><span class="line">		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockProDef, EvaluationParameters, blockPro);</span><br><span class="line">		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockValueDef, EvaluationParameters, blockValue);</span><br><span class="line">		<span class="keyword">if</span> (blockPro &gt; <span class="number">0</span> &amp;&amp; blockValue&gt;<span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">bool</span> bBlocked = UKismetMathLibrary::RandomBoolWithWeight(blockPro);</span><br><span class="line">			<span class="keyword">if</span> (bBlocked)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (blockValue&gt;=PhysicsDamage)</span><br><span class="line">				&#123;</span><br><span class="line">					TargetAbilitySystemComponent-&gt;ReceiveBlock(SourceAbilitySystemComponent, hit, PhysicsDamage, blockValue);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">float</span> Unmi = PhysicsDamage;</span><br><span class="line">					PhysicsDamage = PhysicsDamage - blockValue;</span><br><span class="line">					TargetAbilitySystemComponent-&gt;ReceiveBlock(SourceAbilitySystemComponent, hit, Unmi,blockValue);</span><br><span class="line">					TargetAbilitySystemComponent-&gt;ReceiveDamage(SourceAbilitySystemComponent, hit, PhysicsAttack, PhysicsDamage,ESRDamageType::PHYSICS);</span><br><span class="line">					OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			TargetAbilitySystemComponent-&gt;ReceiveDamage(SourceAbilitySystemComponent, hit, PhysicsAttack,PhysicsDamage, ESRDamageType::PHYSICS);</span><br><span class="line">			OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201226110601324.png" alt="image-20201226110601324"></p>
+<p>完成!</p>
+<h2 id="伤害进阶处理-MMC"><a href="#伤害进阶处理-MMC" class="headerlink" title="伤害进阶处理:MMC"></a>伤害进阶处理:MMC</h2><blockquote>
+<p>需求: </p>
+<p>法术技能有额外加成, 比如某个装备上有词缀(火系伤害+50%),那么问题来了,</p>
+<p>我们之前测试的火系技能伤害最后就变成是 <code>FireDamage = 攻击力 * 等级系数 * (1 + 火系加成)</code></p>
+<p>如果还是用<code>AttributeBase</code>基于属性的方式是不行了, 这里我们用一个自定义的<code>MMC</code>类就比较方便了</p>
+</blockquote>
+<p>上一篇已经大概讲了,<code>MMC</code>需要封装几个蓝图函数方便使用, 不然就去<code>cpp</code>吧</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function">AActor* <span class="title">GetInstigator</span><span class="params">(<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function">FGameplayAttribute <span class="title">GetAttributeFromDef</span><span class="params">(<span class="keyword">const</span> FGameplayEffectAttributeCaptureDefinition&amp; _Def)</span><span class="keyword">const</span></span>;</span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">float</span> <span class="title">TryGetCapturedAttributeMagnitude</span><span class="params">(<span class="keyword">const</span> FGameplayEffectAttributeCaptureDefinition&amp; Def, <span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">float</span> <span class="title">GetLevel</span><span class="params">(<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img.supervj.top//img/image-20201226113630345.png" alt="image-20201226113630345"></p>
+<p>补充一个属性图, 我们初始化的时候给了50%的火系加成</p>
+<p><img src="https://img.supervj.top//img/image-20201226113716170.png" alt="image-20201226113716170"></p>
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201226113752690.png" alt="image-20201226113752690"></p>
+<p>重点看税前已经变成1.5的伤害了, 正确</p>
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GameplayAbilitySystem(五):GameplayAbility(二)</title>
+    <url>/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前文已经大概了解了<code>GA</code>的大致内容,本片结合项目来详细使用一下技能.</p>
+<p>因为技能可以是通过按键直接触发, 我们在<code>GA</code>中多数是播放动画来表示技能执行的, 所以我们需要一个一个方便我们<code>GA</code>使用的播放动画的节点</p>
+<p><code>GAS</code>中有很多已经封装好的异步节点, 很多都是非常有用的,如下图(太多无法截全)</p>
+<p><img src="https://img.supervj.top//img/image-20201217142941527.png" alt="image-20201217142941527"></p>
+<p>其中有一个<code>PlayMontageAndWait</code>的节点, 可以用这个来播放动画蒙太奇, 然后通过动画通知来开启攻击能力, 攻击者(或者武器)触发攻击事件, 然后触发对应的<code>GE</code>来达到伤害的目的</p>
+<a name = "前言">
+
+<p>那么我们重新捋一下, 我们在<code>GA</code>中播放动画, 然后外面的动画通知和检测我们不管, 我们还在<code>GA</code>这里监听某些<code>Tag</code>的事件, 响应以后我们在这里应用<code>GE</code>效果(<code>ActionRPG</code>的思路),这样是不是更简单直观一点</p>
+<p>照着这个思路我们来做一下</p>
+<a id="more"></a>
+
+
+
+
+
+
+
+
+
+
+
+<a name = "获取目标">
+
+<h2 id="获取目标"><a href="#获取目标" class="headerlink" title="获取目标"></a>获取目标</h2><p>思考一下, 我们释放技能的时候需要知道目标是谁, 最好需要有<code>HitResult</code>数据方便我们知道打击位置播放特效等效果</p>
+<p>那么各类技能或者普通攻击获取这个信息的方式都可能不一样,所以我们就自定义一个类专门来用于获取目标数据</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UCLASS(Blueprintable, meta = (ShowWorldContextPin))</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SUPERROAD_API</span> <span class="title">USRTargetType</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">	USRTargetType() &#123;&#125;</span><br><span class="line"></span><br><span class="line">	UFUNCTION(BlueprintNativeEvent)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">GetTargets</span><span class="params">(ASRCharacterBase* TargetingCharacter, AActor* TargetingActor, FGameplayEventData EventData, TArray&lt;FHitResult&gt;&amp; OutHitResults, TArray&lt;AActor*&gt;&amp; OutActors)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这个类就专门提供给蓝图重写, 默认不需要实现什么内容</p>
+<ul>
+<li>TargetingCharacter: 释放技能的角色</li>
+<li>TargetingActor: 释放技能的对象, 可能是角色,也可能是武器或者投掷物等</li>
+<li>EventData: 即<a href="#FGameplayEventData"><code>FGameplayEventData</code></a>,用于扩展参数</li>
+</ul>
+<ul>
+<li>蓝图重写</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201218102443161.png" alt="image-20201218102443161"></p>
+<p>如上图, 我们做一个最简单的box检测, 把找到的目标返回出去.</p>
+<p>至于怎么用, 我们后面将</p>
+<a name = "数据结构">
+
+<h2 id="创建新的数据结构"><a href="#创建新的数据结构" class="headerlink" title="创建新的数据结构"></a>创建新的数据结构</h2><p><a href="#%E5%89%8D%E8%A8%80">前言</a>说了, 我们播放动画然后需要收到事件信息, 理论上我们可以如下图这样做</p>
+<p><img src="https://img.supervj.top//img/image-20201218102759524.png" alt="image-20201218102759524"></p>
+<p>但是这样太笨拙, 而且<code>WaitGameplayEvent</code>返回的参数也不是很方便我们执行<code>GE</code>,所以我们把相关数据结构整合一下然后后面再创建一个新的整合版的异步事件</p>
+<h3 id="FSRGameplayEffectContainer"><a href="#FSRGameplayEffectContainer" class="headerlink" title="FSRGameplayEffectContainer"></a>FSRGameplayEffectContainer</h3><p>这个数据会作为<code>TMap</code>的值放到<code>GA</code>的配置中,保存了一个<code>SRTargetType</code>类,即前面讲的<a href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87">获取目标↑</a></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">USTRUCT(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SUPERROAD_API</span> <span class="title">FSRGameplayEffectContainer</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	FSRGameplayEffectContainer() &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/********** 目标类型*********/</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">		TSubclassOf&lt;USRTargetType&gt; TargetType;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 应用到目标上的GE */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">		TArray&lt;TSubclassOf&lt;UGameplayEffect&gt;&gt; TargetGameplayEffectClasses;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>然后我们到我们的<code>GA</code>基类<code>SRGameplayAbilityBase</code>中声明变量</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//标签对应的GE信息</span></span><br><span class="line">UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GameplayEffects)</span><br><span class="line">	TMap&lt;FGameplayTag, FSRGameplayEffectContainer&gt; EffectContainerMap;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="FSRGameplayEffectContainerSpec"><a href="#FSRGameplayEffectContainerSpec" class="headerlink" title="FSRGameplayEffectContainerSpec"></a>FSRGameplayEffectContainerSpec</h3><p>用来处理<code>SRGameplayEffectContainer</code>数据传递的结构体,参考GE和GA等都会有类似的Spec类</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** 目标数据 */</span></span><br><span class="line">UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">	FGameplayAbilityTargetDataHandle TargetData;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 应用到目标的GESpec */</span></span><br><span class="line">UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">	TArray&lt;FGameplayEffectSpecHandle&gt; TargetGameplayEffectSpecs;</span><br></pre></td></tr></table></figure>
+
+<p>几个函数有必要看一下, 因为后面马上我们会用到</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">FSRGameplayEffectContainerSpec::HasValidEffects</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> TargetGameplayEffectSpecs.Num() &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">FSRGameplayEffectContainerSpec::HasValidTargets</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> TargetData.Num() &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FSRGameplayEffectContainerSpec::AddTargets</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; HitResults, <span class="keyword">const</span> TArray&lt;AActor*&gt;&amp; TargetActors)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FHitResult&amp; HitResult : HitResults)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//hit类型的目标数据</span></span><br><span class="line">		FGameplayAbilityTargetData_SingleTargetHit* NewData = <span class="keyword">new</span> FGameplayAbilityTargetData_SingleTargetHit(HitResult);</span><br><span class="line">		TargetData.Add(NewData);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (TargetActors.Num() &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//actor数组的目标数据</span></span><br><span class="line">		FGameplayAbilityTargetData_ActorArray* NewData = <span class="keyword">new</span> FGameplayAbilityTargetData_ActorArray();</span><br><span class="line">		NewData-&gt;TargetActorArray.Append(TargetActors);</span><br><span class="line">		TargetData.Add(NewData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="异步事件"><a href="#异步事件" class="headerlink" title="异步事件"></a>异步事件</h2><p><a href="#%E5%89%8D%E8%A8%80">前言</a>大概提了一下<code>GAS</code>中已经封装了很多继承自<code>AbilityTask</code>的异步事件, 我们找到<code>UAbilityTask_PlayMontageAndWait</code>类, 在此基础上扩展一些参数就可以了</p>
+<p>创建类<code>UAbilityTask_PlayMontage : public UAbilityTask</code></p>
+<p>申明如下代理</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSRPlayMontageWaitEventDlg, FGameplayTag, EventTag, FGameplayEventData, EventData);</span><br></pre></td></tr></table></figure>
+
+<p>这个代理决定我们异步事件回调函数的参数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnCompleted;</span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnBlendOut;</span><br><span class="line">	<span class="comment">//打断</span></span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnInterrupted;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 被执行 CancelAbility */</span></span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnCancelled;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 触发匹配Tag的Event*/</span></span><br><span class="line">	UPROPERTY(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg EventReceived;</span><br></pre></td></tr></table></figure>
+
+<p>上面参数用了我们自己的代理, 除了最后一个其余是模仿<code>UAbilityTask_PlayMontageAndWait</code>的</p>
+<p>然后一路模仿, 实现关于事件监听和广播</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">FDelegateHandle EventHandle;			</span><br><span class="line">EventHandle = ASC-&gt;AddGameplayEventTagContainerDelegate(EventTags, FGameplayEventTagMulticastDelegate::FDelegate::CreateUObject(<span class="keyword">this</span>, &amp;UAbilityTask_PlayMontage::OnGameplayEvent));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAbilityTask_PlayMontage::OnGameplayEvent</span><span class="params">(FGameplayTag EventTag, <span class="keyword">const</span> FGameplayEventData* Payload)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (ShouldBroadcastAbilityTaskDelegates())</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayEventData TempData = *Payload;</span><br><span class="line">		TempData.EventTag = EventTag;</span><br><span class="line"></span><br><span class="line">		EventReceived.Broadcast(EventTag, TempData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>完成!</p>
+<p><img src="https://img.supervj.top//img/image-20201218154751973.png" alt="image-20201218154751973"></p>
+<h2 id="封装激活GE事件"><a href="#封装激活GE事件" class="headerlink" title="封装激活GE事件"></a>封装激活GE事件</h2><p>我们测试一下, 我们通过动画通知到角色, 然后角色调用<code>SendGameplayEventToActor</code>后成功走到了我们测试的<code>GA</code></p>
+<p><img src="https://img.supervj.top//img/image-20201218110426836.png" alt="image-20201218110426836"></p>
+<p><img src="https://img.supervj.top//img/image-20201218110739309.png" alt="image-20201218110739309"></p>
+<p>但是蓝图中用这个返回参数来应用<code>GE</code>还是够呛</p>
+<p>那么接下来就是封装可以利用这两个返回参数能执行相应<code>GE</code>效果的函数</p>
+<hr>
+<ul>
+<li><code>ApplyEffectContainerSpec</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TArray&lt;FActiveGameplayEffectHandle&gt; <span class="title">USRGameplayAbilityBase::ApplyEffectContainerSpec</span><span class="params">(<span class="keyword">const</span> FSRGameplayEffectContainerSpec&amp; ContainerSpec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TArray&lt;FActiveGameplayEffectHandle&gt; AllEffects;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 遍历GE并应用</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FGameplayEffectSpecHandle&amp; SpecHandle : ContainerSpec.TargetGameplayEffectSpecs)</span><br><span class="line">	&#123;</span><br><span class="line">		AllEffects.Append(K2_ApplyGameplayEffectSpecToTarget(SpecHandle, ContainerSpec.TargetData));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> AllEffects;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面我们已经申明了自己的<a href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>,通过这个<code>FSRGameplayEffectContainerSpec</code>用<code>K2_ApplyGameplayEffectSpecToTarget</code>执行<code>GE</code>, 那我们还需要一个构建这个<code>Spec</code>参数</p>
+<ul>
+<li><code>MakeEffectContainerSpecFromContainer</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">FSRGameplayEffectContainerSpec <span class="title">USRGameplayAbilityBase::MakeEffectContainerSpecFromContainer</span><span class="params">(<span class="keyword">const</span> FSRGameplayEffectContainer&amp; Container, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainerSpec resultSpec;</span><br><span class="line">	AActor* OwningActor = GetOwningActorFromActorInfo();</span><br><span class="line">	ASRCharacterBase* OwningChar = Cast&lt;ASRCharacterBase&gt;(OwningActor);</span><br><span class="line">	USRAbilitySystemComponent* OwningASC = Cast&lt;USRAbilitySystemComponent&gt;(GetAbilitySystemComponentFromActorInfo());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (OwningASC)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//TargetType有指定</span></span><br><span class="line">		<span class="keyword">if</span> (Container.TargetType.Get())</span><br><span class="line">		&#123;</span><br><span class="line">			TArray&lt;FHitResult&gt; HitResults;</span><br><span class="line">			TArray&lt;AActor*&gt; TargetActors;</span><br><span class="line">			<span class="keyword">const</span> USRTargetType* TargetTypeCDO = Container.TargetType.GetDefaultObject();</span><br><span class="line">			AActor* AvatarActor = GetAvatarActorFromActorInfo();</span><br><span class="line">			<span class="comment">//获取目标数据</span></span><br><span class="line">			TargetTypeCDO-&gt;GetTargets(OwningChar, AvatarActor, EventData, HitResults, TargetActors);</span><br><span class="line">			<span class="comment">//添加目标数据, 此目标会被应用GE</span></span><br><span class="line">			resultSpec.AddTargets(HitResults, TargetActors);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//OverrideGameplayLevel = -1</span></span><br><span class="line">		<span class="keyword">if</span> (OverrideGameplayLevel == INDEX_NONE)</span><br><span class="line">		&#123;</span><br><span class="line">			OverrideGameplayLevel = GetAbilityLevel();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">const</span>  TSubclassOf&lt;UGameplayEffect&gt;&amp; c : Container.TargetGameplayEffectClasses)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//构建并添加GE到Spec内</span></span><br><span class="line">			resultSpec.TargetGameplayEffectSpecs.Add(MakeOutgoingGameplayEffectSpec(c, OverrideGameplayLevel));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> resultSpec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法目标是从<code>SRTargetType</code>类得到目标类和<code>Hit</code>数据, 通过<code>FSRGameplayEffectContainerSpec::AddTargets</code>()添加到<code>TargetData</code>数据中</p>
+<p>但是这个函数是通过<code>FSRGameplayEffectContainer</code>和<code>EventData</code>创建<code>Spec</code>, 还不是特别的方便</p>
+<p>接下来我们补充一个通过<code>Tag</code>来构建<code>Spec</code>的辅助函数</p>
+<ul>
+<li><code>MakeEffectContainerSpec</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">FSRGameplayEffectContainerSpec <span class="title">USRGameplayAbilityBase::MakeEffectContainerSpec</span><span class="params">(FGameplayTag ContainerTag, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainer* FoundContainer = EffectContainerMap.Find(ContainerTag);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (FoundContainer)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> MakeEffectContainerSpecFromContainer(*FoundContainer, EventData, OverrideGameplayLevel);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> FSRGameplayEffectContainerSpec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关键就是从我们<code>GA</code>配置的<code>Map</code>变量去找到对应的值, 那这个函数就是我们比较方便使用的</p>
+<p>那如果我们希望通过异步事件的返回参数直接应用<code>GE</code>, 我们每次要执行两个函数, 比较麻烦,接下来把两个函数合到一起</p>
+<ul>
+<li><code>ApplyEffectContainer</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">TArray&lt;FActiveGameplayEffectHandle&gt; <span class="title">USRGameplayAbilityBase::ApplyEffectContainer</span><span class="params">(FGameplayTag ContainerTag, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainerSpec Spec = MakeEffectContainerSpec(ContainerTag, EventData, OverrideGameplayLevel);</span><br><span class="line">	<span class="keyword">return</span> ApplyEffectContainerSpec(Spec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>我们的测试<code>GE</code>就扣一点血,如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201218155846401.png" alt="image-20201218155846401"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_16_00_23_999.gif" alt="录制_2020_12_18_16_00_23_999"></p>
+<p>成功应用</p>
+<h2 id="补充若干重要的结构体数据"><a href="#补充若干重要的结构体数据" class="headerlink" title="补充若干重要的结构体数据"></a>补充若干重要的结构体数据</h2><a name = "FGameplayEventData">
+
+<h3 id="FGameplayEventData"><a href="#FGameplayEventData" class="headerlink" title="FGameplayEventData"></a>FGameplayEventData</h3><p>传递数据的一个结构体,包含了诸多信息, 也有两个专门针对<code>GA</code>的<code>Tag</code>栏的标记(<code>SourceTag</code>,<code>TargetTag</code>)</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//事件tag</span></span><br><span class="line">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTag EventTag;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 发起者 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> AActor* Instigator;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标*/</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> AActor* Target;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 扩展类 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> UObject* OptionalObject;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 扩展类2 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> UObject* OptionalObject2;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** GE上下文,请参考GE部分 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayEffectContextHandle ContextHandle;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**发起者的Tag */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTagContainer InstigatorTags;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标tag */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTagContainer TargetTags;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**这个事件的修改参数 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">float</span> EventMagnitude;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标数据 */</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayAbilityTargetDataHandle TargetData;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="目标数据-FGameplayAbilityTargetData"><a href="#目标数据-FGameplayAbilityTargetData" class="headerlink" title="目标数据/FGameplayAbilityTargetData"></a>目标数据/FGameplayAbilityTargetData</h3><p>这是一个基类,仅提供了一些虚函数</p>
+<p>目的是传递发起者和目标的基本信息</p>
+<h4 id="FGameplayAbilityTargetDataHandle"><a href="#FGameplayAbilityTargetDataHandle" class="headerlink" title="FGameplayAbilityTargetDataHandle"></a>FGameplayAbilityTargetDataHandle</h4><p>处理前者数据的类,一般在传递数据时候使用</p>
+<p>保存了<code>FGameplayAbilityTargetData</code>的数组</p>
+<h4 id="FGameplayAbilityTargetData-LocationInfo"><a href="#FGameplayAbilityTargetData-LocationInfo" class="headerlink" title="FGameplayAbilityTargetData_LocationInfo"></a>FGameplayAbilityTargetData_LocationInfo</h4><p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了发起者和目标的位置信息,用<code>FGameplayAbilityTargetingLocationInfo</code>保存</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo SourceLocation;</span><br><span class="line">UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo TargetLocation;</span><br></pre></td></tr></table></figure>
+
+<h4 id="FGameplayAbilityTargetData-ActorArray"><a href="#FGameplayAbilityTargetData-ActorArray" class="headerlink" title="FGameplayAbilityTargetData_ActorArray"></a>FGameplayAbilityTargetData_ActorArray</h4><p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了发起者和目标数组</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo SourceLocation;</span><br><span class="line">UPROPERTY(EditAnywhere, Category = Targeting)</span><br><span class="line">	TArray&lt;TWeakObjectPtr&lt;AActor&gt; &gt; TargetActorArray;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>####　FGameplayAbilityTargetData_SingleTargetHit</p>
+<p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了Hit信息</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY()</span><br><span class="line">	FHitResult	HitResult;</span><br><span class="line">UPROPERTY()</span><br><span class="line">	<span class="keyword">bool</span> bHitReplaced = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h4 id="FGameplayAbilityTargetingLocationInfo"><a href="#FGameplayAbilityTargetingLocationInfo" class="headerlink" title="FGameplayAbilityTargetingLocationInfo"></a>FGameplayAbilityTargetingLocationInfo</h4><p>用不同的格式保存位置信息</p>
+<ul>
+<li>位置类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">namespace</span> EGameplayAbilityTargetingLocationType</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">Type</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="comment">/** 提取实际位置信息,这是最后的备选方案 */</span></span><br><span class="line">		LiteralTransform		UMETA(DisplayName = &quot;Literal Transform&quot;),</span><br><span class="line"></span><br><span class="line">		<span class="comment">/**从相关actor中得到变换信息 */</span></span><br><span class="line">		ActorTransform			UMETA(DisplayName = &quot;Actor Transform&quot;),</span><br><span class="line"></span><br><span class="line">		<span class="comment">/**从骨骼模型中的插槽提取变换信息 */</span></span><br><span class="line">		SocketTransform			UMETA(DisplayName = &quot;Socket Transform&quot;),		</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//位置类型</span></span><br><span class="line">UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	TEnumAsByte&lt;EGameplayAbilityTargetingLocationType::Type&gt; LocationType;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 如果技能超过了计算范围, 那么会使用这个信息 */</span></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	FTransform LiteralTransform;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 基于actor的目标需要源actor，而基于socket的目标不需要源actor. */</span></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	AActor* SourceActor;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**基于插槽的目标需要骨架网格组件来检查指定。 */</span></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	UMeshComponent* SourceComponent;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 使用数据的GA */</span></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	UGameplayAbility* SourceAbility;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 如果SourceComponent有效，这是将使用的Socket转换的名称。如果没有提供Socket，将使用SourceComponent的转换。 */</span></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	FName SourceSocketName;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>实战</tag>
+        <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GameplayAbilitySystem(六):GameplayEffect(一)</title>
+    <url>/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>GameplayEffect</code>在<code>GAS</code>框架中的重要性不言而喻, 内容非常多,,但是本身基本上只作为一个数据载体而存在,蓝图中也无法重写和执行任何事件.</p>
+<p> 本篇梳理一下<code>GE</code>的常用属性和基本概念, 实战部分我们在下一篇展开</p>
+<h2 id="基础定义"><a href="#基础定义" class="headerlink" title="基础定义"></a>基础定义</h2><p><code>GE</code>是属性修改的容器, 分为如下几个类型</p>
+<table>
+<thead>
+<tr>
+<th>Duration Type</th>
+<th>GameplayCue Event</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Instant</code></td>
+<td>Execute</td>
+<td>对<code>BaseValue</code>的立即生效的处理,<code>GameplayTags</code> 不会被应用到, 即使在一帧之内</td>
+</tr>
+<tr>
+<td><code>Duration</code></td>
+<td>Add &amp; Remove</td>
+<td>对<code>CurrentValue</code>持续修改.可以应用<code>GameplayTags</code>.持续事件在GE类中指定</td>
+</tr>
+<tr>
+<td><code>Infinite</code></td>
+<td>Add &amp; Remove</td>
+<td>类似<code>Duration</code>,但是是永久的直到手动移除(如通过ASC)</td>
+</tr>
+</tbody></table>
+<p><code>Duration</code>和<code>Infinite</code>模式会出现<code>Period</code>选项</p>
+<p><img src="https://img.supervj.top//img/image-20201201143832164.png" alt="image-20201201143832164"></p>
+<p>如果<code>ExecutePeriodicEffectOnApplication</code>=true,那么每隔<code>Period</code>秒就执行</p>
+<p><code>periodic inhibition policy</code>刷新策略,如是否覆盖</p>
+<p>如果<code>Tag</code>匹配或者不匹配, GE可以临时性的关闭或者开启,这移除操作不会移除GE,只是临时的移除GE的修改效果</p>
+<p>如果要手动的直接应用GE的修改, 可以调用</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UAbilitySystemComponent::ActiveGameplayEffects.SetActiveGameplayEffectLevel(FActiveGameplayEffectHandle ActiveHandle, int32 NewLevel)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>GE</code>的属性设置一般建议在编辑器用蓝图编辑, 理论上可以用<code>cpp</code>设定参数, 但是不直观也比较麻烦</p>
+</blockquote>
+<hr>
+<h2 id="一些重要的数据结构"><a href="#一些重要的数据结构" class="headerlink" title="一些重要的数据结构"></a>一些重要的数据结构</h2><h3 id="FGameplayEffectContext"><a href="#FGameplayEffectContext" class="headerlink" title="FGameplayEffectContext"></a>FGameplayEffectContext</h3><p>保存了<code>GE</code>相关的所有数据, 用于在<code>GE</code>执行的过程中传递重要信息</p>
+<p>可以继承他用来扩展参数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//发起者,即拥有ASC的actor, 本项目是ASRCharacterBase类</span></span><br><span class="line">UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;AActor&gt; Instigator;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 应用GE的类, 可以是武器或者子弹 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;AActor&gt; EffectCauser;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 响应GE的默认GA对象 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;UGameplayAbility&gt; AbilityCDO;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 响应GE的GA实例化对象 */</span></span><br><span class="line">	UPROPERTY(NotReplicated)</span><br><span class="line">	TWeakObjectPtr&lt;UGameplayAbility&gt; AbilityInstanceNotReplicated;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 技能等级 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	int32 AbilityLevel;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 创建这个GE的对象, 可以是Actor或者其他对象 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TWeakObjectPtr&lt;UObject&gt; SourceObject;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**与发起者绑定的ASC */</span></span><br><span class="line">	UPROPERTY(NotReplicated)</span><br><span class="line">	TWeakObjectPtr&lt;UAbilitySystemComponent&gt; InstigatorAbilitySystemComponent;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 引用的Actor */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	TArray&lt;TWeakObjectPtr&lt;AActor&gt;&gt; Actors;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 射线数据 */</span></span><br><span class="line">	TSharedPtr&lt;FHitResult&gt;	HitResult;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**原始坐标 ,如果bHasWorldOrigin为否则为空*/</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	FVector	WorldOrigin;</span><br><span class="line"></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	uint8 bHasWorldOrigin:<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** SourceObject是否能同步, 这个布尔本身不同步 */</span></span><br><span class="line">	UPROPERTY()</span><br><span class="line">	uint8 bReplicateSourceObject:<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FGameplayEffectContextHandle"><a href="#FGameplayEffectContextHandle" class="headerlink" title="FGameplayEffectContextHandle"></a>FGameplayEffectContextHandle</h3><p>用来处理<code>FGameplayEffectContext</code>的数据,只保存了一个变量<code>TSharedPtr&lt;FGameplayEffectContext&gt; Data;</code></p>
+<p>可以直接用<code>FGameplayEffectContext</code>构造以及赋值, 以及可以通过此数据结构获取和修改<code>FGameplayEffectContext</code>中的大多数数据</p>
+<h3 id="GameplayEffectSpec"><a href="#GameplayEffectSpec" class="headerlink" title="GameplayEffectSpec"></a>GameplayEffectSpec</h3><ul>
+<li><code>GameplayEffectSpec</code> 是 <code>GameplayEffect</code> 创建的,可以通过方法<code>MakeOutgoingSpec()</code>创建</li>
+<li><code>GameplayEffectSpecs</code> 被成功创建后返回一个结构体<code>FActiveGameplayEffect</code>.</li>
+<li><code>GameplayEffectSpec</code>的级别 通常与创建“GameplayEffectSpec”的<code>GA</code>级别相同，但可以有所不同</li>
+<li><code>GameplayEffectSpec</code>的持续时间一般与<code>GE</code>相同,但是可以不同</li>
+<li>同样的 <code>GameplayEffectSpec</code> 的周期一般与<code>GE</code>相同但是也可以不同</li>
+<li><code>GameplayEffectSpec</code>的堆栈数量限制来自于<code>GE</code></li>
+<li><code>GameplayEffectContextHandle</code> 告诉我们谁创建了 <code>GameplayEffectSpec</code>.</li>
+<li><code>Attributes</code> 在 <code>GameplayEffectSpec</code>创建时就已经捕获了</li>
+<li>除了<code>GE</code>授予的<code>GameplayTags</code>之外，<code>GameplayEffectSpec</code>授予目标的<code>DynamicGrantedTags</code>。</li>
+<li><code>GE</code>拥有的<code>AssetTags</code>会被添加到 <code>GameplayEffectSpec</code> 的<code>DynamicAssetTags</code> </li>
+<li><code>SetByCaller</code> <code>TMaps</code>.</li>
+</ul>
+<h3 id="FGameplayEffectAttributeCaptureDefinition"><a href="#FGameplayEffectAttributeCaptureDefinition" class="headerlink" title="FGameplayEffectAttributeCaptureDefinition"></a>FGameplayEffectAttributeCaptureDefinition</h3><p>这是一个定义捕获数据的结构体</p>
+<p>也就是我们蓝图中在<code>GEEC</code>中可以看到的几个属性, 其中在类<code>UGameplayEffectCalculation</code>中申明了<code>TArray&lt;FGameplayEffectAttributeCaptureDefinition&gt; RelevantAttributesToCapture;</code> 在派生类<code>UGameplayEffectExecutionCalculation</code>中申明了<code>TArray&lt;FGameplayEffectAttributeCaptureDefinition&gt; InvalidScopedModifierAttributes;</code></p>
+<h3 id="FGameplayEffectCustomExecutionParameters"><a href="#FGameplayEffectCustomExecutionParameters" class="headerlink" title="FGameplayEffectCustomExecutionParameters"></a>FGameplayEffectCustomExecutionParameters</h3><p><code>GEEC</code>的输入参数</p>
+<p>成员变量基本都是私有的, 了解几个函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> FGameplayEffectSpec&amp; <span class="title">GetOwningSpec</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">UAbilitySystemComponent* <span class="title">GetTargetAbilitySystemComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function">UAbilitySystemComponent* <span class="title">GetSourceAbilitySystemComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>上面几个比较简单, 字面意思</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">AttemptCalculateCapturedAttributeMagnitude</span><span class="params">(<span class="keyword">const</span> FGameplayEffectAttributeCaptureDefinition&amp; InCaptureDef, <span class="keyword">const</span> FAggregatorEvaluateParameters&amp; InEvalParams, OUT <span class="keyword">float</span>&amp; OutMagnitude)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这个方法比较有用, 函数翻译过来是<code>尝试计算捕获属性量级</code>, 其实简单使用的话可以理解为<strong>把Def转换成浮点值</strong></p>
+<p>这里也用到了<a href="#FAggregatorEvaluateParameters%60">FAggregatorEvaluateParameters</a></p>
+<a name = "FAggregatorEvaluateParameters">
+
+<h3 id="FAggregatorEvaluateParameters"><a href="#FAggregatorEvaluateParameters" class="headerlink" title="FAggregatorEvaluateParameters"></a>FAggregatorEvaluateParameters</h3><p>寄存器计算时用于传递参数的结构体, 参数不多</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">GAMEPLAYABILITIES_API</span> <span class="title">FAggregatorEvaluateParameters</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	FAggregatorEvaluateParameters()</span><br><span class="line">		: SourceTags(<span class="literal">nullptr</span>)</span><br><span class="line">		, TargetTags(<span class="literal">nullptr</span>)</span><br><span class="line">		, IncludePredictiveMods(<span class="literal">false</span>) </span><br><span class="line">	&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* SourceTags;</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* TargetTags;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Any mods with one of these handles will be ignored during evaluation */</span></span><br><span class="line">	TArray&lt;FActiveGameplayEffectHandle&gt; IgnoreHandles;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** If any tags are specified in the filter, a mod&#x27;s owning active gameplay effect&#x27;s source tags must match ALL of them in order for the mod to count during evaluation */</span></span><br><span class="line">	FGameplayTagContainer AppliedSourceTagFilter;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** If any tags are specified in the filter, a mod&#x27;s owning active gameplay effect&#x27;s target tags must match ALL of them in order for the mod to count during evaluation */</span></span><br><span class="line">	FGameplayTagContainer AppliedTargetTagFilter;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">bool</span> IncludePredictiveMods;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><img src="https://img.supervj.top//img/image-20201201150412944.png" alt="image-20201201150412944">可以简单的用上述方法在GAS中应用GE</p>
+<p>如果想监听来自<code>ASC</code>的持续的GE效果,可以用如下方式</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;OnActiveGameplayEffectAddedDelegateToSelf.AddUObject(<span class="keyword">this</span>, &amp;AVGCharacterBase::OnActiveGameplayEffectAddedCallback);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnActiveGameplayEffectAddedCallback</span><span class="params">(UAbilitySystemComponent* Target, <span class="keyword">const</span> FGameplayEffectSpec&amp; SpecApplied, FActiveGameplayEffectHandle ActiveHandle)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>同样的可以通过各种方法移除,如</p>
+<p><img src="https://img.supervj.top//img/image-20201201151513828.png" alt="image-20201201151513828"></p>
+<p>通过如下方式监听移除事件</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AbilitySystemComponent-&gt;OnAnyGameplayEffectRemovedDelegate().AddUObject(<span class="keyword">this</span>, &amp;APACharacterBase::OnRemoveGameplayEffectCallback);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnRemoveGameplayEffectCallback</span><span class="params">(<span class="keyword">const</span> FActiveGameplayEffect&amp; EffectRemoved)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<ul>
+<li>cpp的方式应用GE</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始效果,用来初始化属性</span></span><br><span class="line">	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = <span class="string">&quot;VGAS | Abilities&quot;</span>)</span><br><span class="line">		TSubclassOf&lt;<span class="class"><span class="keyword">class</span> <span class="title">UGameplayEffect</span>&gt;</span> DefaultAttributeEffect;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent-&gt;MakeEffectContext();</span><br><span class="line">EffectContextHandle.AddSourceObject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent-&gt;MakeOutgoingSpec(DefaultAttributeEffect, GetCharacterLevel(), EffectContextHandle);</span><br><span class="line"><span class="keyword">if</span> (SpecHandle.IsValid())</span><br><span class="line">&#123;</span><br><span class="line">	FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent-&gt;ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), AbilitySystemComponent.Get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><p><img src="https://img.supervj.top//img/image-20201201151641620.png" alt="image-20201201151641620"></p>
+<p>如上图分为 <strong>加/乘/除/覆盖</strong> 4个方式</p>
+<ul>
+<li>修改模式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>Modifier</code> Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Scalable Float</code></td>
+<td><code>FScalableFloats</code> 一般可以用一个常量来定义,当然也可以用<code>CurveTable</code>来定义<img src="https://github.com/tranek/GASDocumentation/raw/master/Images/scalablefloats.png" alt="ScalableFloat"></td>
+</tr>
+<tr>
+<td><code>Attribute Based</code></td>
+<td>基于一个属性的修改</td>
+</tr>
+<tr>
+<td><code>Custom Calculation Class</code></td>
+<td>通过一个类自定义修改,一般需要在cpp中操作,蓝图无法展开结构体</td>
+</tr>
+<tr>
+<td><code>Set By Caller</code></td>
+<td><code>SetByCaller</code> 一般在外部需要实时修改值的时候用,比如玩家按键时间决定此GE参数大小的情况下</td>
+</tr>
+</tbody></table>
+<p>乘除方式会用如下方式计算,可以理解为都基于<em>1</em>计算,而非比较容易理解的叠加在一起</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> + (Mod1.Magnitude - <span class="number">1</span>) + (Mod2.Magnitude - <span class="number">1</span>) + ...</span><br></pre></td></tr></table></figure>
+
+<p>比如如果有2个乘法计算,参数都是1.5,那么得到的结果并不是<code>value*1.5*1.5</code>,而是<code>value*1*(0.5+0.5)</code></p>
+<p>这里会有几个问题存在(每个系统都有各自的计算方法)</p>
+<ul>
+<li>Multipliers:0.5<ul>
+<li>1+(0.5-1)=0.5; 正确</li>
+</ul>
+</li>
+<li>Multipliers:0.5,0.5<ul>
+<li>1 + (0.5 - 1) + (0.5 - 1) = 0; 错误</li>
+</ul>
+</li>
+</ul>
+<p>这里的问题在<code>Paragon</code>中是通过设计方面解决的,即在设计的时候就使用最多只有一个小于1的乘数</p>
+<p>源码计算的代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">float</span> Multiplicitive = SumMods(Mods[EGameplayModOp::Multiplicitive], GameplayEffectUtilities::GetModifierBiasByModifierOp(EGameplayModOp::Multiplicitive), Parameters);</span><br><span class="line"><span class="comment">//******************************</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">FAggregatorModChannel::SumMods</span><span class="params">(<span class="keyword">const</span> TArray&lt;FAggregatorMod&gt;&amp; InMods, <span class="keyword">float</span> Bias, <span class="keyword">const</span> FAggregatorEvaluateParameters&amp; Parameters)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> Sum = Bias;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FAggregatorMod&amp; Mod : InMods)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (Mod.Qualifies())</span><br><span class="line">		&#123;</span><br><span class="line">			Sum += (Mod.EvaluatedMagnitude - Bias); <span class="comment">//乘法的系数是通过加法</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> Sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果要修改算法</p>
+<p>那么需要修改引擎代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">FAggregatorModChannel::EvaluateWithBase</span><span class="params">(<span class="keyword">float</span> InlineBaseValue, <span class="keyword">const</span> FAggregatorEvaluateParameters&amp; Parameters)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">float</span> Multiplicitive = MultiplyMods(Mods[EGameplayModOp::Multiplicitive], Parameters);</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ((InlineBaseValue + Additive) * Multiplicitive) / Division;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">FAggregatorModChannel::MultiplyMods</span><span class="params">(<span class="keyword">const</span> TArray&lt;FAggregatorMod&gt;&amp; InMods, <span class="keyword">const</span> FAggregatorEvaluateParameters&amp; Parameters)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> Multiplier = <span class="number">1.0f</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FAggregatorMod&amp; Mod : InMods)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (Mod.Qualifies())</span><br><span class="line">		&#123;</span><br><span class="line">			Multiplier *= Mod.EvaluatedMagnitude;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> Multiplier;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注:  <code>MultiplyModes</code> 函数原本是没有的</p>
+</blockquote>
+<h3 id="修改相关标签"><a href="#修改相关标签" class="headerlink" title="修改相关标签"></a>修改相关标签</h3><p><code>SourceTags</code> 和<code>TargetTags</code>的运行机制跟<code>GA</code>类似, 如果是有持续时间的<code>GE</code>只会在第一次运行的时候执行<code>Tag</code>操作</p>
+<p><code>AttributeBase</code>模式会有2个<code>TagFilter</code>过滤变量</p>
+<h2 id="叠加-堆"><a href="#叠加-堆" class="headerlink" title="叠加/堆"></a>叠加/堆</h2><p>每一个GE会实例化一个<code>GameplayEffectsSpec</code>对象,无论之前是否已经存在</p>
+<p>从GE对象可以得到当前堆的数量</p>
+<p>堆类型有两种</p>
+<table>
+<thead>
+<tr>
+<th>Stacking Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aggregate by Source</td>
+<td>目标上的每个源“ASC”都有一个单独的实例。每个源可以应用X数量的堆</td>
+</tr>
+<tr>
+<td>Aggregate by Target</td>
+<td>无论源是什么，目标上只有一个堆实例。每个源都可以将堆应用到共享堆限制</td>
+</tr>
+</tbody></table>
+<p><img src="https://img.supervj.top//img/image-20201202092332123.png" alt="image-20201202092332123"></p>
+<h2 id="授予技能-Grant-Abilities"><a href="#授予技能-Grant-Abilities" class="headerlink" title="授予技能/Grant Abilities"></a>授予技能/Grant Abilities</h2><p><code>GE</code>可以给<code>ASC</code>新的技能</p>
+<p><img src="https://img.supervj.top//img/image-20201202092736123.png" alt="image-20201202092736123"></p>
+<table>
+<thead>
+<tr>
+<th>Removal Policy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cancel Ability Immediately</td>
+<td>当赋予该<code>GA</code>的<code>GE</code>从目标上移除时，该<code>GA</code>会立即被取消和移除</td>
+</tr>
+<tr>
+<td>Remove Ability on End</td>
+<td>被授予的<code>GA</code>被允许完成，然后从目标上移除。</td>
+</tr>
+<tr>
+<td>Do Nothing</td>
+<td>授予的<code>GA</code>不受从目标上移除<code>GE</code>的影响。目标具有永久的能力，直到后来被手动删除。</td>
+</tr>
+</tbody></table>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gameplay Effect Asset Tags</td>
+<td><code>GameplayEffect</code> 它们自己不做任何功能，只用于描述<code>GE</code></td>
+</tr>
+<tr>
+<td>Granted Tags</td>
+<td>此类标签伴随着<code>GE</code>的生命周期,同时也会添加到<code>ASC</code>中;在<code>GE</code>移除以后也会移除;只在有持续时间的<code>GE</code>中生效</td>
+</tr>
+<tr>
+<td>Ongoing Tag Requirements</td>
+<td>此类标签会将<code>GE</code>暂时性的开/关,只作用于有持续时间的<code>GE</code>,<br />举个例子: 一个<code>GE</code>来模拟一个5秒的恢复效果, 那么在此标签给与一个<code>Tag</code>, 其他无论是<code>GE</code>还是<code>GA</code>添加了这个<code>Tag</code>后这个恢复就触发了</td>
+</tr>
+<tr>
+<td>Application Tag Requirements</td>
+<td>跟目标相关的标签,如果不符合就不能作用到目标</td>
+</tr>
+<tr>
+<td>Remove Gameplay Effects with Tags</td>
+<td>如果目标<code>GE</code>拥有此类标签,那么在<code>GE</code>生效后会移除这些标签的<code>GE</code></td>
+</tr>
+</tbody></table>
+<h2 id="免疫-减免"><a href="#免疫-减免" class="headerlink" title="免疫/减免"></a>免疫/减免</h2><p><img src="https://img.supervj.top//img/image-20201202094459865.png" alt="image-20201202094459865"></p>
+<p>可以通过代理<code>FImmunityBlockGE OnImmunityBlockGameplayEffectDelegate</code>来监听免疫能力的改变</p>
+<h2 id="SetByCaller"><a href="#SetByCaller" class="headerlink" title="SetByCaller"></a>SetByCaller</h2><p>在<code>Modifiers</code>中,必须提前在<code>GE</code>中定义好,只能使用<code>GameplayTag</code>版本,如果<code>GE</code>定义后<code>GameplaySpec</code>没有拥有正确的tag,那么会报错</p>
+<p>如果在其他地方,那么不需要提前定义</p>
+<p>关于<code>SetByCaller</code>相关方法,在蓝图中可以用如下</p>
+<p><img src="https://img.supervj.top//img/image-20201202102139353.png" alt="image-20201202102139353"></p>
+<p> 在cpp中可以用</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameplayEffectSpec::SetSetByCallerMagnitude</span><span class="params">(FName DataName, <span class="keyword">float</span> Magnitude)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameplayEffectSpec::SetSetByCallerMagnitude</span><span class="params">(FGameplayTag DataTag, <span class="keyword">float</span> Magnitude)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">GetSetByCallerMagnitude</span><span class="params">(FName DataName, <span class="keyword">bool</span> WarnIfNotFound = <span class="literal">true</span>, <span class="keyword">float</span> DefaultIfNotFound = <span class="number">0.f</span>)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">GetSetByCallerMagnitude</span><span class="params">(FGameplayTag DataTag, <span class="keyword">bool</span> WarnIfNotFound = <span class="literal">true</span>, <span class="keyword">float</span> DefaultIfNotFound = <span class="number">0.f</span>)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Modifier-Magnitude-Calculation"><a href="#Modifier-Magnitude-Calculation" class="headerlink" title="Modifier Magnitude Calculation"></a>Modifier Magnitude Calculation</h2><p><code>Modifier Magnitude Calculation</code>与<code>GameplayEffectExecutionCalculations</code>有点类似,但是没有后者功能强大但是更重要</p>
+<p><code>MMC</code>的唯一目的就是通过方法<code>CalculateBaseMagnitude</code>返回一个浮点值</p>
+<p><img src="https://img.supervj.top//img/image-20201202103436539.png" alt="image-20201202103436539"></p>
+<p><code>MMC</code>可以在任意的<code>GE</code>中使用</p>
+<p><code>MMC</code>可以捕获任意的不管是<code>Source</code>还是<code>Target</code>的属性,并且完全访问<code>GameplayEffectSpec</code>对象来获取<code>GameplayTags</code>和<code>SetByCaller</code></p>
+<p><img src="https://img.supervj.top//img/image-20201202104135362.png" alt="image-20201202104135362"></p>
+<p><code>Snapshot</code>的属性会在<code>GE</code>创建的时候被捕获,反之在应用时被捕获</p>
+<table>
+<thead>
+<tr>
+<th>Snapshot</th>
+<th>Source or Target</th>
+<th>Captured on <code>GameplayEffectSpec</code></th>
+<th>Automatically updates when <code>Attribute</code> changes for <code>Infinite</code> or <code>Duration</code> <code>GE</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Yes</td>
+<td>Source</td>
+<td>Creation</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>Target</td>
+<td>Application</td>
+<td>No</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Source</td>
+<td>Application</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Target</td>
+<td>Application</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<p>重新计算不会触发函数<code>PreAttributeChange</code>,所以必须在这里进行必要的<code>Clamp</code>操作</p>
+<p><code>MMC</code>在蓝图中的使用不是很方便, 蓝图无法从<code>FGameplayEffectSpec</code>获取任何参数, 也无法调用<code>GetCapturedAttributeMagnitude()</code>获取捕获属性的值, 如果非要在蓝图中编辑 ,那么建议封装一个蓝图可见的函数包裹函数<code>GetCapturedAttributeMagnitude()</code>, 那么就可以获取到捕获属性的值了就可以魔改一些内容了,我们在下一篇会详细讲述</p>
+<blockquote>
+<p>注意, <code>CalculateBaseMagnitude()</code>函数是<code>const</code>函数</p>
+</blockquote>
+<h2 id="Gameplay-Effect-Execution-Calculation"><a href="#Gameplay-Effect-Execution-Calculation" class="headerlink" title="Gameplay Effect Execution Calculation"></a>Gameplay Effect Execution Calculation</h2><p><code>Gameplay Effect Execution Calculation</code>下文简称<code>GEEC</code>功能类似<code>MMC</code>, 但是功能更强大</p>
+<p>一般只应用于非持续性的<code>GE</code></p>
+<p>关于捕获方式如下表</p>
+<table>
+<thead>
+<tr>
+<th>Snapshot</th>
+<th>Source or Target</th>
+<th>Captured on <code>GameplayEffectSpec</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Yes</td>
+<td>Source</td>
+<td>Creation</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>Target</td>
+<td>Application</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Source</td>
+<td>Application</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Target</td>
+<td>Application</td>
+</tr>
+</tbody></table>
+<p>在蓝图中可以重写方法<code>Excute</code>,但是意义不大, 参数无法在蓝图中获取什么有用的数据</p>
+<p><img src="https://img.supervj.top//img/image-20201216152057021.png" alt="image-20201216152057021"></p>
+<p><strong>关于这个的详细应用我们会在后续展开</strong></p>
+<p>##　Custom Application Requirement</p>
+<p>自定义<code>GE</code>是否可以被应用</p>
+<p><img src="https://img.supervj.top//img/image-20201202110224455.png" alt="image-20201202110224455"></p>
+<h2 id="技能消耗-Cost-Gameplay-Effect"><a href="#技能消耗-Cost-Gameplay-Effect" class="headerlink" title="技能消耗/Cost Gameplay Effect"></a>技能消耗/Cost Gameplay Effect</h2><p><code>Cost Gameplay Effect(CTGE)</code>定义了<code>GA</code>释放所需要的消耗，</p>
+<p>当然可以直接定义一个浮点参数，记得给<strong>负值</strong>，必定消耗一般是扣除的</p>
+<p>目前有两种方式来扩展</p>
+<ol>
+<li>使用<code>MMC</code>，然后重写方法<code>CalculateBaseMagnitude</code></li>
+<li>重写<code>GA</code>中的<code>GetCostGameplayEffect</code>方法，手动动态创建一个<code>GE</code>，然后读取<code>Cost Value</code></li>
+</ol>
+<p><img src="https://img.supervj.top/img/gitlab/image-20201205091051810.png" alt="image-20201205091051810"></p>
+<blockquote>
+<p>因为默认情况下的<code>GameplayEffectSpec</code>的变量是没有暴露给蓝图的，上图中我重新定义了一个结构体然后暴露给蓝图使用</p>
+</blockquote>
+<h2 id="冷却系统-Cooldown-Gameplay-Effect"><a href="#冷却系统-Cooldown-Gameplay-Effect" class="headerlink" title="冷却系统/Cooldown Gameplay Effect"></a>冷却系统/Cooldown Gameplay Effect</h2><p><code>Cooldown Gameplay Effect(CDGE)</code>定义了技能的冷却时间，在<code>CDGE</code>中，我们可以不做任何属性修改，只需要提供一个<code>Tag</code>来标志冷却时间；当然类似<code>CTGE</code>，我们也可以用<code>MMC</code>来自定义算法</p>
+<p>多数情况下，可以为每一个<code>GA</code>提供一个唯一的<code>CDGE</code>，如果想要复用同一个<code>CDGE</code>，那么我们可以在对<code>GE</code>创建的<code>GameplayEffectSpec</code>中的数据进行修改，这种方式只能在实例化技能（<code>Instanced</code>）使用</p>
+<p>两种方式来扩展<code>CDGE</code>的计算</p>
+<ol>
+<li><p>使用<code>SetByCaller</code></p>
+<p>我们意图把对CD的控制放到<code>GA</code>中,那么我们在自定义的<code>GA</code>中声明一个<code>FScalableFloat</code>变量<code>CD</code>,然后声明<code>FGameplayTagContainer CDTags</code></p>
+<p>即</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UPROPERTY(BlueprintReadOnly,EditAnywhere)</span><br><span class="line">	FScalableFloat CD;</span><br><span class="line">UPROPERTY(BlueprintReadOnly, EditAnywhere)</span><br><span class="line">	FGameplayTagContainer CDTags;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>然后需要重写两个基类方法,需要一个临时变量<code>FGameplayTagContainer tempTags</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> FGameplayTagContainer* <span class="title">UGA_TestCpp1::GetCooldownTags</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FGameplayTagContainer* MutableTags = <span class="keyword">const_cast</span>&lt;FGameplayTagContainer*&gt;(&amp;tempTags);</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* ParentTags = Super::GetCooldownTags();</span><br><span class="line">	<span class="keyword">if</span> (ParentTags)</span><br><span class="line">	&#123;</span><br><span class="line">		MutableTags-&gt;AppendTags(*ParentTags);</span><br><span class="line">	&#125;</span><br><span class="line">	MutableTags-&gt;AppendTags(CDTags);</span><br><span class="line">	<span class="keyword">return</span> MutableTags;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UGA_TestCpp1::ApplyCooldown</span><span class="params">(<span class="keyword">const</span> FGameplayAbilitySpecHandle Handle, <span class="keyword">const</span> FGameplayAbilityActorInfo* ActorInfo, <span class="keyword">const</span> FGameplayAbilityActivationInfo ActivationInfo)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UGameplayEffect* CooldownGE = GetCooldownGameplayEffect();</span><br><span class="line">	<span class="keyword">if</span> (CooldownGE)</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGE-&gt;GetClass(), GetAbilityLevel());</span><br><span class="line">		SpecHandle.Data.Get()-&gt;DynamicGrantedTags.AppendTags(CDTags);</span><br><span class="line">		FName tagName = FName(*(CDTags.ToStringSimple()));</span><br><span class="line">		SpecHandle.Data.Get()-&gt;SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(tagName), CD.GetValueAtLevel(GetAbilityLevel()));</span><br><span class="line">		ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong></p>
+<p><code>FGameplayTagContainer</code>转<code>FName</code>用到的<code>FString</code>需要用<code>ToStringSimple()</code></p>
+<p><code>RequestGameplayTag()</code>方法在默认情况下如果找不到标签会直接导致引擎崩溃</p>
+</blockquote>
+<p>这样我们可以直接在<code>GA</code>中定义我们自己的冷却时间</p>
+<ol start="2">
+<li>使用<code>MMC</code></li>
+</ol>
+<p>方法类似对<code>Cost</code>的处理, 重写<code>MMC</code>中的<code>CalculateBaseMagnitude</code>方法, 无论从蓝图还是cpp中都可以通过对返回的<code>float</code>值作为<code>CD</code>处理</p>
 ]]></content>
       <categories>
         <category>插件</category>
