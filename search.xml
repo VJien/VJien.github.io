@@ -6579,7 +6579,7 @@
   </entry>
   <entry>
     <title>GameplayAbilitySystem入门与实战(七):GameplayEffect(二)</title>
-    <url>/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/</url>
+    <url>/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇讲述了<code>GE</code>的一些基本概念, 非常概念化没有实战部分, 很容易混淆和忘记, 本片我们结合实际项目再配合<code>GA</code>的使用来模拟几个技能效果</p>
 <a name = "GEEC">
 
@@ -6765,7 +6765,7 @@
   </entry>
   <entry>
     <title>GameplayAbilitySystem入门与实战(五):GameplayAbility(二)</title>
-    <url>/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/</url>
+    <url>/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前文已经大概了解了<code>GA</code>的大致内容,本片结合项目来详细使用一下技能.</p>
 <p>因为技能可以是通过按键直接触发, 我们在<code>GA</code>中多数是播放动画来表示技能执行的, 所以我们需要一个一个方便我们<code>GA</code>使用的播放动画的节点</p>
 <p><code>GAS</code>中有很多已经封装好的异步节点, 很多都是非常有用的,如下图(太多无法截全)</p>
@@ -6950,7 +6950,7 @@
   </entry>
   <entry>
     <title>GameplayAbilitySystem入门与实战(六):GameplayEffect(一)</title>
-    <url>/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/</url>
+    <url>/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>GameplayEffect</code>在<code>GAS</code>框架中的重要性不言而喻, 内容非常多,,但是本身基本上只作为一个数据载体而存在,蓝图中也无法重写和执行任何事件.</p>
 <p> 本篇梳理一下<code>GE</code>的常用属性和基本概念, 实战部分我们在下一篇展开</p>
 <h2 id="基础定义"><a href="#基础定义" class="headerlink" title="基础定义"></a>基础定义</h2><p><code>GE</code>是属性修改的容器, 分为如下几个类型</p>
@@ -7335,6 +7335,119 @@
         <tag>C++</tag>
         <tag>实战</tag>
         <tag>GAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AssetManager的使用</title>
+    <url>/2020/12/29/AssetManager/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>AssetManager(下面简称AM)</code>是一个全局单例类，用于管理各种<code>primary assets</code>和<code>asset bundles</code>。</p>
+<p>可以在运行时对<code>Primary Assets</code>进行加载和释放操作</p>
+<p>补充官方文档对于<code>AssetManager</code>的介绍</p>
+<blockquote>
+<p>虚幻引擎 4 自动处理 <a href="https://docs.unrealengine.com/zh-CN/Basics/AssetsAndPackages/index.html">资源</a> 加载与卸载，开发者无需编写系统代码告知引擎具体所需的资源。然而，某些情况下开发者可能需要更精确地掌控资源发现、加载与审核的时机与方法。在这些情况下，<strong>资源管理器（Asset Manager）</strong> 便能大显身手。资源管理器是存在于编辑器和打包游戏中的独特全局对象，可根据不同项目进行覆盖和自定义。它提供了一个管理资源的框架，可将内容划分为数据块，对应项目的上下文，而同时保证虚幻引擎 4 <a href="https://docs.unrealengine.com/zh-CN/Basics/AssetsAndPackages/index.html">松散打包架构</a> 的优势。它同时提供了一套工具，协助审核硬盘和内存使用，提供所需信息，以优化资源组织，在部署游戏时进行 <a href="https://docs.unrealengine.com/zh-CN/SharingAndReleasing/Patching/GeneralPatching/CookingAndChunking/index.html">烘焙和数据块划分</a> 。</p>
+</blockquote>
+<p>我们可以在项目设置中自定义<code>AM</code>类</p>
+<p><img src="https://img.supervj.top//img/image-20201228110451282.png" alt="image-20201228110451282"></p>
+<p>或者修改<code>DefaultEngine.ini</code>文件</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[/Script/Engine.Engine] AssetManagerClassName=/Script/Module.UClassName 其中<span class="string">&quot;Module&quot;</span>代表项目的模块名，<span class="string">&quot;UClassName&quot;</span>则代表希望使用的 UClass 名。</span><br></pre></td></tr></table></figure>
+
+
+
+<a id="more"></a>
+
+
+
+<h2 id="关于资源和注册"><a href="#关于资源和注册" class="headerlink" title="关于资源和注册"></a>关于资源和注册</h2><h3 id="Asset-Registry"><a href="#Asset-Registry" class="headerlink" title="Asset Registry"></a>Asset Registry</h3><p>Asset Registry是Asset注册表，位于Project Settings——AssetManager中(Primany Asset Types To Scan)，其中存储了每个的asset的有用信息。这些信息会在asset被储存的时候进行更新。</p>
+<blockquote>
+<p>之前的文章<a href="https://supervj.top/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/?highlight=regis">资源注册</a>简单分析了<code>IAssetRegistry</code>模块的一些基础数据和功能;</p>
+</blockquote>
+<h3 id="Asset"><a href="#Asset" class="headerlink" title="Asset"></a>Asset</h3><p>我们在编辑器<code>ContentBrowser</code>内看到的都是<code>Asset</code>,初学者容易混淆场景中真正生成的对象与<code>Asset</code>的关系,我们一般的蓝图类都是类型<code>Blueprint</code>的<code>Asset</code></p>
+<p>我们通过蓝图<code>IAssetRegistry</code>可以查找已经注册的<code>Asset</code>信息</p>
+<p><img src="https://img.supervj.top//img/image-20201228104718787.png" alt="image-20201228104718787"></p>
+<h2 id="主资源和次资源"><a href="#主资源和次资源" class="headerlink" title="主资源和次资源"></a>主资源和次资源</h2><p>UE4将所有资源分为两类：<strong>主资源</strong> 和 <strong>次资源</strong>, 即<code>PrimaryAsse</code>t和<code>SecondaryAsset</code></p>
+<p>默认只有目录<code>Content/Maps/</code>内的 <code>UWorld</code> 资源（关卡）为主资源；</p>
+<p>次资源不由资源管理器直接处理，但其被主资源引用或使用后引擎便会自动进行加载。</p>
+<p>调用 <code>GetPrimaryAssetId</code> 即可获得资源的 ID。如需将<strong>次资源</strong>指定为<strong>主资源</strong>，需要覆盖 <code>GetPrimaryAssetId</code> 即可返回一个有效的 <code>FPrimaryAssetId</code> 结构。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">FPrimaryAssetId <span class="title">USRItem::GetPrimaryAssetId</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> FPrimaryAssetId(ItemType, GetFName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="注册主资源"><a href="#注册主资源" class="headerlink" title="注册主资源"></a>注册主资源</h2><p>我们的主资源不仅需要重写<code>GetPrimaryAssetId()</code>方法, 还需要把对应<code>PrimaryAssetType</code>的字符串填写到项目设置中, 即<strong>用资源管理器注册主资源</strong>,如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201229172845276.png" alt="image-20201229172845276"></p>
+<p>这样引擎就会自动扫描对应目录下的对应类型的主资源</p>
+<p>在蓝图中可以用如下节点查看是否已经拥有该类型的标签</p>
+<p><img src="https://img.supervj.top//img/image-20201229172959486.png" alt="image-20201229172959486"></p>
+<p>这样我们就可以对资源进行加载和卸载操作了</p>
+<blockquote>
+<p>注意: 项目设置注册的类型名称与<code>GetPrimaryAssetId()</code>定义的名称必须一样, 不然找不到</p>
+</blockquote>
+<h2 id="PrimaryDataAsset"><a href="#PrimaryDataAsset" class="headerlink" title="PrimaryDataAsset"></a>PrimaryDataAsset</h2><p><code>PrimaryDataAsset</code>从 <code>UPrimaryDataAsset</code> 继承, 拥有加载和保存<a href="#%E8%B5%84%E6%BA%90%E6%9D%9F">资源束</a>的功能</p>
+<p>接用<em>Fortnite</em>的话</p>
+<blockquote>
+<p>大多数的Primary Asset由于可能会直接被美术或策划直接修改，因此通常都会有一个在磁盘上的表现形式。常用的手法是将其继承自<code>UPrimaryDataAsset</code>。通过这种手法就可以直接在引擎中添加新的Primary Data Asset</p>
+</blockquote>
+<p>在<code>ActionRPG</code>项目中, 项目用<code>URPGItem</code>继承自 <code>PrimaryDataAsset</code>, 管理了所有道具类的数据, 包括技能,武器, 消耗品等</p>
+<p>在<code>Item</code>基类里面可以设置一些通用的变量比如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//资源类型, 需要匹配项目设置对应的名称</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)</span><br><span class="line">		FPrimaryAssetType ItemType;</span><br><span class="line">	<span class="comment">//名称</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)</span><br><span class="line">		FText ItemName;</span><br><span class="line">	<span class="comment">//描述</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)</span><br><span class="line">		FText ItemDescription;</span><br><span class="line">	<span class="comment">//Icon</span></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)</span><br><span class="line">		FSlateBrush ItemIcon;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name = "资源束">
+
+<h2 id="资源束-AssetBundle"><a href="#资源束-AssetBundle" class="headerlink" title="资源束/AssetBundle"></a>资源束/AssetBundle</h2><p><code>AssetBundle</code>是一个<code>Asset</code>的列表，用于将一堆<code>Asset</code>在runtime的时候载入。</p>
+<ul>
+<li>FAssetBundleEntry</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** 保存了Asset的资源束信息 ,对于全局捆绑包，或者在保存的捆绑包信息中，这是空的 */</span></span><br><span class="line">	FPrimaryAssetId BundleScope;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 这个bundle的特定的唯一名称*/</span></span><br><span class="line">	FName BundleName;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 包含的资源软路径表 */</span></span><br><span class="line">	TArray&lt;FSoftObjectPath&gt; BundleAssets;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>FAssetBundleData</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** FAssetBundleEntry 数组 */</span></span><br><span class="line">	TArray&lt;FAssetBundleEntry&gt; Bundles;</span><br></pre></td></tr></table></figure>
+
+<p>举例几个方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">	<span class="comment">/** Returns pointer to an entry with given Scope/Name */</span></span><br><span class="line">	<span class="function">FAssetBundleEntry* <span class="title">FindEntry</span><span class="params">(<span class="keyword">const</span> FPrimaryAssetId&amp; SearchScope, FName SearchName)</span></span>;</span><br><span class="line"><span class="comment">/** Adds or updates an entry with the given BundleName -&gt; Path. Scope is empty and will be filled in later */</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddBundleAsset</span><span class="params">(FName BundleName, <span class="keyword">const</span> FSoftObjectPath&amp; AssetPath)</span></span>;</span><br><span class="line">..................</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h2><p>在cpp中, 可以在<code>AssetManager</code>中使用如下<code>API</code>使用资源</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">	 * Loads a list of Primary Assets. This will start an async load of those assets, calling callback on completion.</span></span><br><span class="line"><span class="comment">	 * These assets will stay in memory until explicitly unloaded.</span></span><br><span class="line"><span class="comment">	 * You can wait on the returned streamable request or poll as needed.</span></span><br><span class="line"><span class="comment">	 * If there is no work to do, returned handle will be null and delegate will get called before function returns.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * @param AssetsToLoad		List of primary assets to load</span></span><br><span class="line"><span class="comment">	 * @param LoadBundles		List of bundles to load for those assets</span></span><br><span class="line"><span class="comment">	 * @param DelegateToCall	Delegate that will be called on completion, may be called before function returns if assets are already loaded</span></span><br><span class="line"><span class="comment">	 * @param Priority			Async loading priority for this request</span></span><br><span class="line"><span class="comment">	 * @return					Streamable Handle that can be used to poll or wait. You do not need to keep this handle to stop the assets from being unloaded</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> TSharedPtr&lt;FStreamableHandle&gt; <span class="title">LoadPrimaryAssets</span><span class="params">(<span class="keyword">const</span> TArray&lt;FPrimaryAssetId&gt;&amp; AssetsToLoad, <span class="keyword">const</span> TArray&lt;FName&gt;&amp; LoadBundles = TArray&lt;FName&gt;(), FStreamableDelegate DelegateToCall = FStreamableDelegate(), TAsyncLoadPriority Priority = FStreamableManager::DefaultAsyncLoadPriority)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Single asset wrapper */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> TSharedPtr&lt;FStreamableHandle&gt; <span class="title">LoadPrimaryAsset</span><span class="params">(<span class="keyword">const</span> FPrimaryAssetId&amp; AssetToLoad, <span class="keyword">const</span> TArray&lt;FName&gt;&amp; LoadBundles = TArray&lt;FName&gt;(), FStreamableDelegate DelegateToCall = FStreamableDelegate(), TAsyncLoadPriority Priority = FStreamableManager::DefaultAsyncLoadPriority)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Loads all assets of a given type, useful for cooking */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> TSharedPtr&lt;FStreamableHandle&gt; <span class="title">LoadPrimaryAssetsWithType</span><span class="params">(FPrimaryAssetType PrimaryAssetType, <span class="keyword">const</span> TArray&lt;FName&gt;&amp; LoadBundles = TArray&lt;FName&gt;(), FStreamableDelegate DelegateToCall = FStreamableDelegate(), TAsyncLoadPriority Priority = FStreamableManager::DefaultAsyncLoadPriority)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">	 * Unloads a list of Primary Assets that were previously Loaded.</span></span><br><span class="line"><span class="comment">	 * If the only thing keeping these assets in memory was a prior Load call, they will be freed.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * @param AssetsToUnload	List of primary assets to load</span></span><br><span class="line"><span class="comment">	 * @return					Number of assets unloaded</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> int32 <span class="title">UnloadPrimaryAssets</span><span class="params">(<span class="keyword">const</span> TArray&lt;FPrimaryAssetId&gt;&amp; AssetsToUnload)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Single asset wrapper */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> int32 <span class="title">UnloadPrimaryAsset</span><span class="params">(<span class="keyword">const</span> FPrimaryAssetId&amp; AssetToUnload)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Loads all assets of a given type, useful for cooking */</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> int32 <span class="title">UnloadPrimaryAssetsWithType</span><span class="params">(FPrimaryAssetType PrimaryAssetType)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>在蓝图中, 使用下图所示方法</p>
+<p><img src="https://img.supervj.top//img/image-20201229174245630.png" alt="image-20201229174245630"></p>
+<h2 id="FPrimaryAssetData"><a href="#FPrimaryAssetData" class="headerlink" title="FPrimaryAssetData"></a>FPrimaryAssetData</h2><p>定义了资源的一般数据</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** Path used to look up cached asset data in the asset registry. This will be missing the _C for blueprint classes */</span></span><br><span class="line">	FName AssetDataPath;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Path to this asset on disk */</span></span><br><span class="line">	FSoftObjectPtr AssetPtr;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Current state of this asset */</span></span><br><span class="line">	FPrimaryAssetLoadState CurrentState;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Pending state of this asset, will be copied to CurrentState when load finishes */</span></span><br><span class="line">	FPrimaryAssetLoadState PendingState;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>​    </p>
+]]></content>
+      <categories>
+        <category>引擎</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>C++</tag>
+        <tag>资源</tag>
       </tags>
   </entry>
 </search>
