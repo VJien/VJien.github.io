@@ -3255,6 +3255,8 @@
 <p>这是我们最熟悉的编辑器模式下的AI_MoveTo节点，也就是那个自带OnSuccess和OnFailed的异步节点，在蓝图中大多数时候使用起来都得心应手非常方便，但是它有个最大的缺点，异步节点意味着他有自己的生命周期，不能放到函数中使用，同样的，在代码中也没有此类节点，那么接下来我们尝试解决这一问题</p>
 </blockquote>
 <p>翻看此节点的代码，没几行代码,主要看如下</p>
+<a id="more"></a>
+
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UK2Node_AIMoveTo::UK2Node_AIMoveTo(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer)</span><br><span class="line">	: Super(ObjectInitializer)</span><br><span class="line">&#123;</span><br><span class="line">	ProxyFactoryFunctionName = GET_FUNCTION_NAME_CHECKED(UAIBlueprintHelperLibrary, CreateMoveToProxyObject);</span><br><span class="line">	ProxyFactoryClass = UAIBlueprintHelperLibrary::StaticClass();</span><br><span class="line">	ProxyClass = UAIAsyncTaskBlueprintProxy::StaticClass();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>我们发现一个关键函数<code>CreateMoveToProxyObject</code>,找到该函数的原型 </p>
