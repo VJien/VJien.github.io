@@ -7597,4 +7597,49 @@
         <tag>编辑器扩展</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Paper2D第三方工具TexturerPacker</title>
+    <url>/2021/01/09/Paper2D%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7TexturerPacker/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Paper2D使用第三方工具<code>TexturerPacker</code>的简单使用方法记录</p>
+<blockquote>
+<p>从遥远的2019年搬运而来</p>
+</blockquote>
+<h2 id="第三方工具：TexturerPacker"><a href="#第三方工具：TexturerPacker" class="headerlink" title="第三方工具：TexturerPacker"></a>第三方工具：TexturerPacker</h2><ul>
+<li><a href="https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-with-unreal-paper2d">下载地址</a></li>
+</ul>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>TexturePacker流程</p>
+<p><img src="https://img.supervj.top//img/thumbnail.png" alt="thumbnail"></p>
+<ul>
+<li><p>将序列帧图片直接拖入软件中，也可以只能选择外部文件夹，一个文件夹内的图片会被全部导入</p>
+</li>
+<li><p>设置框架为<strong>UnrealEngine-Paper-2d</strong>,需要用Pro版本,免费使用7天😓</p>
+</li>
+<li><p>设置右上角的<strong>数据文件</strong>（导出数据），主要目的是设置路劲和文件名</p>
+</li>
+<li><p><strong>多文件打包</strong>一般不用设置，除非同一个动作序列帧非常多</p>
+</li>
+<li><p>发布为<strong>paper2dsprites</strong> 文件,可导入UE4</p>
+<hr>
+</li>
+</ul>
+<h2 id="UE4的Paper2D导入流程"><a href="#UE4的Paper2D导入流程" class="headerlink" title="UE4的Paper2D导入流程"></a>UE4的Paper2D导入流程</h2><ul>
+<li>导入paper2dsprites数据（亦可以直接导入PNG或者其他图片格式），以下按照paper2dsprites流程</li>
+<li>导入以后生成3个文件，如下</li>
+</ul>
+<p><img src="https://img.supervj.top//img/thumbnail%20(1).png" alt="thumbnail (1)"></p>
+<ul>
+<li>Texutres文件内包含一张x*y小图的PNG图片，格式自动设置为2D格式图片，如下图<br><img src="https://img.supervj.top//img/image-20191213134651199.png" alt="image-20191213134651199"></li>
+<li>Frames文件内自动生成UE4的**sprite-20191213134528934.png)<img src="https://img.supervj.top//img/image-20191213134528934.png" alt="image-20191213134528934"></li>
+<li><strong>FlipBook</strong>就是完整的一个序列动画文件，包含了对应的所有<strong>sprite</strong><br><img src="https://img.supervj.top//img/image-20191213135749674.png" alt="image-20191213135749674"></li>
+<li>**paper2dsprites **文件记录数据，以及用于重导入的操作</li>
+</ul>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>Paper2D</tag>
+      </tags>
+  </entry>
 </search>
