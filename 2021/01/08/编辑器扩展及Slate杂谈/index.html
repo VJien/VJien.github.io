@@ -25,19 +25,19 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="前言编辑器扩展和Slate相关内容大杂烩 自定义属性界面SObjectPropertyEntryBox用于选择资源的界面控件  直接上代码  .h  12345TSharedPtr&lt;FAssetThumbnailPool&gt; AssetThumbnailPool;UObject* SelectObject;TSharedPtr&lt;SObjectPropertyEntryBox&gt;">
+<meta name="description" content="前言编辑器扩展和Slate相关内容大杂烩, 不定期记录 自定义属性界面SObjectPropertyEntryBox用于选择资源的界面控件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编辑器扩展及Slate杂谈">
 <meta property="og:url" content="http://supervj.top/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/index.html">
 <meta property="og:site_name" content="V&amp;J&#39;s Blog">
-<meta property="og:description" content="前言编辑器扩展和Slate相关内容大杂烩 自定义属性界面SObjectPropertyEntryBox用于选择资源的界面控件  直接上代码  .h  12345TSharedPtr&lt;FAssetThumbnailPool&gt; AssetThumbnailPool;UObject* SelectObject;TSharedPtr&lt;SObjectPropertyEntryBox&gt;">
+<meta property="og:description" content="前言编辑器扩展和Slate相关内容大杂烩, 不定期记录 自定义属性界面SObjectPropertyEntryBox用于选择资源的界面控件">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img.supervj.top//img/image-20210106105801136.png">
 <meta property="og:image" content="https://img.supervj.top//img/image-20210106110849937.png">
 <meta property="og:image" content="https://img.supervj.top//img/image-20210106162756815.png">
 <meta property="og:image" content="https://img.supervj.top//img/image-20210108110520787.png">
 <meta property="article:published_time" content="2021-01-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-08T05:41:22.009Z">
+<meta property="article:modified_time" content="2021-01-08T05:53:55.003Z">
 <meta property="article:author" content="V&amp;J">
 <meta property="article:tag" content="UE4">
 <meta property="article:tag" content="Slate">
@@ -301,7 +301,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-01-08 00:00:00 / 修改时间：13:41:22" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
+      <time title="创建时间：2021-01-08 00:00:00 / 修改时间：13:53:55" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -362,9 +362,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>编辑器扩展和<code>Slate</code>相关内容大杂烩</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>编辑器扩展和<code>Slate</code>相关内容大杂烩, 不定期记录</p>
 <h2 id="自定义属性界面"><a href="#自定义属性界面" class="headerlink" title="自定义属性界面"></a>自定义属性界面</h2><h3 id="SObjectPropertyEntryBox"><a href="#SObjectPropertyEntryBox" class="headerlink" title="SObjectPropertyEntryBox"></a>SObjectPropertyEntryBox</h3><p>用于选择资源的界面控件</p>
 <p><img src="https://img.supervj.top//img/image-20210106105801136.png" alt="image-20210106105801136"></p>
+<a id="more"></a>
+
 <p>直接上代码</p>
 <ul>
 <li>.h</li>

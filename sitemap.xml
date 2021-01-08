@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/</loc>
+    <loc>http://supervj.top/about/index.html</loc>
     
     <lastmod>2021-01-08</lastmod>
     
@@ -10,6 +10,13 @@
   
   <url>
     <loc>http://supervj.top/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/</loc>
+    
+    <lastmod>2021-01-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/</loc>
     
     <lastmod>2021-01-08</lastmod>
     
@@ -143,13 +150,6 @@
   
   <url>
     <loc>http://supervj.top/categories/index.html</loc>
-    
-    <lastmod>2020-12-03</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://supervj.top/about/index.html</loc>
     
     <lastmod>2020-12-03</lastmod>
     
