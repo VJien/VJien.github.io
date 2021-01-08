@@ -201,20 +201,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,307 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/" class="post-title-link" itemprop="url">编辑器扩展及Slate杂谈</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-01-08 00:00:00 / 修改时间：13:41:22" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Slate/" itemprop="url" rel="index"><span itemprop="name">Slate</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/01/08/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E5%8F%8ASlate%E6%9D%82%E8%B0%88/" class="cy_cmt_count" data-xid="2021/01/08/编辑器扩展及Slate杂谈/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>编辑器扩展和<code>Slate</code>相关内容大杂烩</p>
+<h2 id="自定义属性界面"><a href="#自定义属性界面" class="headerlink" title="自定义属性界面"></a>自定义属性界面</h2><h3 id="SObjectPropertyEntryBox"><a href="#SObjectPropertyEntryBox" class="headerlink" title="SObjectPropertyEntryBox"></a>SObjectPropertyEntryBox</h3><p>用于选择资源的界面控件</p>
+<p><img src="https://img.supervj.top//img/image-20210106105801136.png" alt="image-20210106105801136"></p>
+<p>直接上代码</p>
+<ul>
+<li>.h</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">TSharedPtr&lt;FAssetThumbnailPool&gt; AssetThumbnailPool;</span><br><span class="line">UObject* SelectObject;</span><br><span class="line">TSharedPtr&lt;SObjectPropertyEntryBox&gt; EditWidgetBox;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cpp</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SOVR_Hud::Construct</span><span class="params">(<span class="keyword">const</span> FArguments&amp; InArgs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	AssetThumbnailPool = MakeShareable(<span class="keyword">new</span> FAssetThumbnailPool(<span class="number">24</span>));</span><br><span class="line">    ................................</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SAssignNew(EditWidgetBox,SObjectPropertyEntryBox)</span><br><span class="line">		.AllowedClass(UWidgetBlueprint::StaticClass())</span><br><span class="line">		.OnObjectChanged(<span class="keyword">this</span>, &amp;SOVR_Hud::OnSetObject)</span><br><span class="line">		.ObjectPath(<span class="keyword">this</span>,&amp;SOVR_Hud::GetPathName)</span><br><span class="line">		.OnShouldFilterAsset(<span class="keyword">this</span>,&amp;SOVR_Hud::ShouldFilterAsset)</span><br><span class="line">		.ThumbnailPool(AssetThumbnailPool)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SOVR_Hud::OnSetObject</span><span class="params">(<span class="keyword">const</span> FAssetData&amp; AssetData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SelectObject = AssetData.GetAsset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FString <span class="title">SOVR_Hud::GetPathName</span><span class="params">()</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SelectObject ? SelectObject-&gt;GetPathName() : TEXT(<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>AllowedClass : Class类型, 这个是资源的类型</li>
+<li>OnObjectChanged : 选择改变以后的代理</li>
+<li>ObjectPath : 提供资源的路径名称</li>
+<li>OnShouldFilterAsset : 过滤选项, 非必须</li>
+<li>ThumbnailPool: Icon的对象池, 如果不设置就没有Icon</li>
+</ul>
+<blockquote>
+<p>注意:</p>
+<p><code>GetPathName()</code>必须要返回真实的<code>PathName</code>,否则会导致界面显示还是<code>None</code>,如果没有正确的资源那么需要返回空或者<code>None</code>,否则会导致启动插件一次性卡顿并报警告</p>
+</blockquote>
+<h3 id="SClassPropertyEntryBox"><a href="#SClassPropertyEntryBox" class="headerlink" title="SClassPropertyEntryBox"></a>SClassPropertyEntryBox</h3><p>类似的, 用于选择<code>Class</code>的界面控件</p>
+<p><img src="https://img.supervj.top//img/image-20210106110849937.png" alt="image-20210106110849937"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SAssignNew(ClassBox, SClassPropertyEntryBox)</span><br><span class="line">			.MetaClass(AActor::StaticClass())</span><br><span class="line">		<span class="comment">//.RequiredInterface(UStaticMesh::StaticClass())</span></span><br><span class="line">		.IsBlueprintBaseOnly(<span class="literal">false</span>)</span><br><span class="line">		.ShowTreeView(<span class="literal">true</span>)</span><br><span class="line">		.SelectedClass(<span class="keyword">this</span>, &amp;SOVR_Hud::OnGetClass)</span><br><span class="line">		.OnSetClass(<span class="keyword">this</span>, &amp;SOVR_Hud::OnSetClass)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> UClass* <span class="title">SOVR_Hud::OnGetClass</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SelectedClass;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SOVR_Hud::OnSetClass</span><span class="params">(<span class="keyword">const</span> UClass* SetClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SelectedClass = SetClass;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="cpp运行EditorUtitlityWidget"><a href="#cpp运行EditorUtitlityWidget" class="headerlink" title="cpp运行EditorUtitlityWidget"></a>cpp运行EditorUtitlityWidget</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//SelectObject = 任意编辑器UMG资源</span></span><br><span class="line"></span><br><span class="line">UWidgetBlueprint* Blueprint = Cast&lt;UWidgetBlueprint&gt;(SelectObject);</span><br><span class="line">		<span class="keyword">if</span> (Blueprint &amp;&amp; Blueprint-&gt;GeneratedClass-&gt;IsChildOf(UEditorUtilityWidget::StaticClass())) &#123;</span><br><span class="line">			<span class="keyword">const</span> UEditorUtilityWidget* CDO = Blueprint-&gt;GeneratedClass-&gt;GetDefaultObject&lt;UEditorUtilityWidget&gt;();</span><br><span class="line">			<span class="keyword">if</span> (CDO-&gt;ShouldAutoRunDefaultAction()) &#123;</span><br><span class="line">				UEditorUtilityWidget* Instance = NewObject&lt;UEditorUtilityWidget&gt;(GetTransientPackage(), Blueprint-&gt;GeneratedClass);</span><br><span class="line">				Instance-&gt;ExecuteDefaultAction();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				FName RegistrationName = FName(*(Blueprint-&gt;GetPathName() + TEXT(<span class="string">&quot;_ActiveTab&quot;</span>)));</span><br><span class="line">				FText DisplayName = FText::FromString(Blueprint-&gt;GetName());</span><br><span class="line">				FLevelEditorModule&amp; LevelEditorModule = FModuleManager::GetModuleChecked&lt;FLevelEditorModule&gt;(TEXT(<span class="string">&quot;LevelEditor&quot;</span>));</span><br><span class="line">				TSharedPtr&lt;FTabManager&gt; LevelEditorTabManager = LevelEditorModule.GetLevelEditorTabManager();</span><br><span class="line">				TSharedRef&lt;SDockTab&gt; NewDockTab = LevelEditorTabManager-&gt;InvokeTab(RegistrationName);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方案有缺陷, 就是第一次还是需要在编辑器下右键运行一次才能用cpp来运行, 因为右键运行会调用到<code> UEditorUtilitySubsystem::SpawnAndRegisterTab()</code>, 在这个函数中会对<code>UMG</code>进行初始化, 而用上述方法是没法初始化的</p>
+<blockquote>
+<p>恶心的问题是, 此模块基本上都没有导出符号(即没法在自己的cpp中使用任何有关<code>UEditorUtilityWidget</code>的类),  没法自己初始化, 解决方法二选一</p>
+<ol>
+<li>手动右键先运行一次(不推荐)</li>
+<li>使用<code>AutoRunDefaultAction</code>, 然后在蓝图中自己运行自己的资源(这个资源还没法cast, 否则还能写个通用方法)</li>
+</ol>
+<p><img src="https://img.supervj.top//img/image-20210106162756815.png" alt="image-20210106162756815"></p>
+</blockquote>
+<h2 id="消息窗口"><a href="#消息窗口" class="headerlink" title="消息窗口"></a>消息窗口</h2><p>先看两个枚举</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> EAppMsgType</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Enumerates supported message dialog button types.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">Type</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		Ok,</span><br><span class="line">		YesNo,</span><br><span class="line">		OkCancel,</span><br><span class="line">		YesNoCancel,</span><br><span class="line">		CancelRetryContinue,</span><br><span class="line">		YesNoYesAllNoAll,</span><br><span class="line">		YesNoYesAllNoAllCancel,</span><br><span class="line">		YesNoYesAll,</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> EAppReturnType</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Enumerates message dialog return types.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">Type</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		No,</span><br><span class="line">		Yes,</span><br><span class="line">		YesAll,</span><br><span class="line">		NoAll,</span><br><span class="line">		Cancel,</span><br><span class="line">		Ok,</span><br><span class="line">		Retry,</span><br><span class="line">		Continue,</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>前者为输入,后者会返回</p>
+<p>可以通过返回类型的不同来做不同的逻辑</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EAppReturnType::Type ReturnType = FMessageDialog::Open(EAppMsgType::OkCancel, DialogText);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>强行封装蓝图库</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">EMsgType</span> :</span> uint8</span><br><span class="line">&#123;</span><br><span class="line">	Ok,</span><br><span class="line">	YesNo,</span><br><span class="line">	OkCancel,</span><br><span class="line">	YesNoCancel,</span><br><span class="line">	CancelRetryContinue,</span><br><span class="line">	YesNoYesAllNoAll,</span><br><span class="line">	YesNoYesAllNoAllCancel,</span><br><span class="line">	YesNoYesAll,</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">UENUM(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">EMsgRetType</span> :</span> uint8</span><br><span class="line">&#123;</span><br><span class="line">	No,</span><br><span class="line">	Yes,</span><br><span class="line">	YesAll,</span><br><span class="line">	NoAll,</span><br><span class="line">	Cancel,</span><br><span class="line">	Ok,</span><br><span class="line">	Retry,</span><br><span class="line">	Continue,</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">EMsgRetType <span class="title">UFlib_IO::OpenMessageWindow</span><span class="params">(EMsgType Type, FText Msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EAppMsgType::Type  tp;</span><br><span class="line">	<span class="keyword">switch</span> (Type)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::Ok:</span><br><span class="line">	tp = EAppMsgType::Ok; </span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::YesNo:</span><br><span class="line">		tp = EAppMsgType::YesNo;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::OkCancel:</span><br><span class="line">		tp = EAppMsgType::OkCancel;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::YesNoCancel:</span><br><span class="line">		tp = EAppMsgType::YesNoCancel;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::CancelRetryContinue:</span><br><span class="line">		tp = EAppMsgType::CancelRetryContinue;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::YesNoYesAllNoAll:</span><br><span class="line">		tp = EAppMsgType::YesNoYesAllNoAll;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::YesNoYesAllNoAllCancel:</span><br><span class="line">		tp = EAppMsgType::YesNoYesAllNoAllCancel;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EMsgType::YesNoYesAll:</span><br><span class="line">		tp = EAppMsgType::YesNoYesAll;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	EAppReturnType::Type retType = FMessageDialog::Open(tp, Msg);</span><br><span class="line">	EMsgRetType returnType = EMsgRetType::Ok;</span><br><span class="line">	<span class="keyword">switch</span> (retType)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::No:</span><br><span class="line">		returnType = EMsgRetType::No;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::Yes:</span><br><span class="line">		returnType = EMsgRetType::Yes;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::YesAll:</span><br><span class="line">		returnType = EMsgRetType::YesAll;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::NoAll:</span><br><span class="line">		returnType = EMsgRetType::NoAll;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::Cancel:</span><br><span class="line">		returnType = EMsgRetType::Cancel;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::Ok:</span><br><span class="line">		returnType = EMsgRetType::Ok;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::Retry:</span><br><span class="line">		returnType = EMsgRetType::Retry;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> EAppReturnType::Continue:</span><br><span class="line">		returnType = EMsgRetType::Continue;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> returnType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20210108110520787.png" alt="image-20210108110520787"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="V&J">
+      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V&J's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">UE4对windows文件的操作</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-08 13:50:51" itemprop="dateModified" datetime="2021-01-08T13:50:51+08:00">2021-01-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/" class="cy_cmt_count" data-xid="2021/01/07/UE4操作windows文件/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>此文简单记录UE4对windows文件的处理</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_01_08_13_50_01_590.gif" alt="录制_2021_01_08_13_50_01_590"></p>
+<h2 id="打开窗口读取文件"><a href="#打开窗口读取文件" class="headerlink" title="打开窗口读取文件"></a>打开窗口读取文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TArray&lt;FString&gt; <span class="title">UFlib_IO::OpenWindowsFilesDialog</span><span class="params">(<span class="keyword">const</span> FString&amp; Path, <span class="keyword">const</span> FString&amp; fileName, <span class="keyword">const</span> FString&amp; SufStr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TArray&lt;FString&gt; OpenFileNames;<span class="comment">//获取的文件绝对路径</span></span><br><span class="line"></span><br><span class="line">	FString ExtensionStr = SufStr.IsEmpty()?TEXT(<span class="string">&quot;*.*&quot;</span>):SufStr;<span class="comment">//文件类型</span></span><br><span class="line">	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();</span><br><span class="line">	DesktopPlatform-&gt;OpenFileDialog(<span class="literal">nullptr</span>, TEXT(<span class="string">&quot;打开文件&quot;</span>), Path, fileName,*SufStr, EFileDialogFlags::None,OpenFileNames);</span><br><span class="line">	<span class="keyword">return</span> OpenFileNames;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此方法最后返回的是文件的绝对路径,而非打开文件</p>
+<h2 id="打开窗口读取文件夹路径"><a href="#打开窗口读取文件夹路径" class="headerlink" title="打开窗口读取文件夹路径"></a>打开窗口读取文件夹路径</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FString <span class="title">UFlib_IO::OpenWindowsDirection</span><span class="params">(<span class="keyword">const</span> FString&amp; Path)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FString oldPath;</span><br><span class="line">	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();</span><br><span class="line">	DesktopPlatform-&gt;OpenDirectoryDialog(<span class="literal">nullptr</span>, TEXT(<span class="string">&quot;打开路径&quot;</span>), Path, oldPath);</span><br><span class="line">	<span class="keyword">return</span> oldPath;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同上, 不一样的是返回的是文件夹的路径</p>
+<h2 id="打开exe程序"><a href="#打开exe程序" class="headerlink" title="打开exe程序"></a>打开exe程序</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_IO::OpenWindowsExe</span><span class="params">(<span class="keyword">const</span> FString&amp; AbsolutePath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FWindowsPlatformProcess::CreateProc(*AbsolutePath, <span class="literal">nullptr</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">nullptr</span>, <span class="number">-1</span>, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比较简单, 但是需要注意的是只能运行<code>exe</code>, 其他比如<code>txt</code>等不能用此方式运行</p>
+<h2 id="打开文件夹"><a href="#打开文件夹" class="headerlink" title="打开文件夹"></a>打开文件夹</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_IO::OpenWindowsFolder</span><span class="params">(<span class="keyword">const</span> FString&amp; AbsolutePath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FWindowsPlatformProcess::ExploreFolder(*AbsolutePath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此为<code>windows</code>版本,类似的也有其他比如安卓版本的打开</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1285,246 +1586,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">边缘高光实现方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-15T00:00:00+08:00">2020-12-15</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-16 09:00:54" itemprop="dateModified" datetime="2020-12-16T09:00:54+08:00">2020-12-16</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%90%E8%B4%A8/" itemprop="url" rel="index"><span itemprop="name">材质</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" class="cy_cmt_count" data-xid="2020/12/15/边缘高光实现方案/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>模型的边缘高光应该是老生常谈的话题了, 不过还是有必要详细记录一下各种主流的两个实现方案, 同样的, 这个问题也经常在TA或者客户端面试中被问到</p>
-<h2 id="后期方案"><a href="#后期方案" class="headerlink" title="后期方案"></a>后期方案</h2><p>先看效果动图</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_15_16_03_11_453.gif" alt="录制_2020_12_15_16_03_11_453"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/15/%E8%BE%B9%E7%BC%98%E9%AB%98%E5%85%89%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="V&J">
-      <meta itemprop="description" content="走过的叫足迹 走不到的叫憧憬">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="V&J's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="post-title-link" itemprop="url">UE4运行时修改按键的解决方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2020-12-12 00:00:00 / 修改时间：16:00:42" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="cy_cmt_count" data-xid="2020/12/12/自定义按键/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
-<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
-<a name= "插件">
-
-<p><a target="_blank" rel="noopener" href="https://github.com/VJien/RuntimeInputMapping">RuntimeInputMapping</a></p>
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1559,8 +1620,8 @@
 
 
 <div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1572,14 +1633,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">469k</span>
+    <span title="站点总字数">476k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:07</span>
+    <span title="站点阅读时长">7:12</span>
   </span>
 </div>
 <div class="busuanzi-count">
