@@ -215,269 +215,6 @@
       </tags>
   </entry>
   <entry>
-    <title>AdvancedLocomotionSystemV4分析(五):镜头</title>
-    <url>/2020/10/31/AdvancedLocomotionSystem%E5%88%86%E6%9E%905_%E9%95%9C%E5%A4%B4/</url>
-    <content><![CDATA[<p><img src="https://i.loli.net/2020/10/31/oGuy1Ex9ajNzfQg.gif" alt="录制_2020_10_31_14_52_47_579~2"></p>
-<blockquote>
-<p>上一篇留下了一个镜头抖动问题，实际上ALS项目是通过自定义<code>CameraManager</code>实现的，本篇就此来展开一下</p>
-</blockquote>
-<p><a href="https://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">AdvancedLocomotionSysemV4分析(一):移动和脚步IK</a></p>
-<p><a href="https://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">AdvancedLocomotionSystem分析(二):攀爬系统</a></p>
-<p><a href="https://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">AdvancedLocomotionSystemV4分析(三):动作叠加</a></p>
-<p><a href="https://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a></p>
-<p>先大概简述一下<code>ALS</code>镜头控制的方法</p>
-<ul>
-<li>自定义<code>CameraManager</code>代替默认第三人称模板的<code>SpringArm</code>+<code>Camera</code>的方式</li>
-<li>重写<code>BlueprintUpdateCamera</code></li>
-<li><code>CameraManager</code>挂载骨骼模型相机，创建动画蓝图，用曲线来控制相机位置信息</li>
-</ul>
-<h3 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h3><p><code>ALS</code>巧妙的用动画蓝图来辅助相机位置的控制和切换，如何做到的？我们先来看一下这是个什么动画蓝图</p>
-<p><img src="https://i.loli.net/2020/10/31/vQ1OTbzS7JmA435.png" alt="image-20201031141203030"></p>
-<p>随便打开一个角落</p>
-<p><img src="https://i.loli.net/2020/10/31/qZLflKyOBEITbDg.png" alt="image-20201031141249269"></p>
-<p>所以说，动画蓝图没动画(lll￢ω￢)</p>
-<p>完全是用动画蓝图的状态机来自然过渡各类曲线数据，所以显而易见的可以知道在其他地方会 用到这些曲线</p>
-<blockquote>
-<p>ps.相机的骨骼模型你完全可以用一个球代替，曲线都是手动加的，不用到三维软件加</p>
-</blockquote>
-<h3 id="CameraManager"><a href="#CameraManager" class="headerlink" title="CameraManager"></a>CameraManager</h3><p><img src="https://i.loli.net/2020/10/31/GOxWNeguVfl2Ehb.png" alt="image-20201031141505810"></p>
-<p>先一个初始化方法把必要的参数给拿到，可以到<code>PlayerController</code>内初始化，毕竟<code>CamaraManager</code>本身就是配置在<code>PlayerController</code>内</p>
-<p><img src="https://i.loli.net/2020/10/31/2KXOuLNdSFeUjpD.png" alt="image-20201031141559486"></p>
-<p>然后重写<code>BlueprintUpdateCamera</code>方法，随意给一个判断，不满足就走默认的方式</p>
-<p><img src="https://i.loli.net/2020/10/31/HZkM9N5LtmFYa3P.png" alt="image-20201031141650530"></p>
-<p>在<code>CustomCameraBehavior</code>内有很多计算，我们逐一分析</p>
-<p><img src="https://i.loli.net/2020/10/31/ykfTUYdMzprCI3D.png" alt="image-20201031141736699"></p>
-<p>从角色内去获取必要的参数，<code>PivotTarget</code>是观察的目标点，<code>1PTarget</code>为第一人称的位置，第一人称会讲相机放到固定插槽位置，这里是眼睛的位置</p>
-<p><img src="https://i.loli.net/2020/10/31/Gh4ui29epCf6oPO.png" alt="image-20201031142246941"></p>
-<p>当前旋转向控制器旋转插值过去，速度由曲线<code>RotationLagSpeed</code>变量控制</p>
-<p><img src="https://i.loli.net/2020/10/31/LjN2QKumEPFlTVI.png" alt="image-20201031142342258"></p>
-<p><code>SmoothPivotTarget</code>其实是当前的相机变换信息，插值向第一条的目标点</p>
-<p>关于<code>CalclateAxisIndependentLag</code>内部是经过插值计算把<code>CurrentLocation</code>向<code>TargetLocation</code>插值过渡</p>
-<p>内部有一点不容易理解，如下图</p>
-<p><img src="https://i.loli.net/2020/10/31/QMlYCAxi5cj32So.png" alt="image-20201031143027445"></p>
-<p>位置先反向旋转最后又给转回来，如果觉得很难理解，其实可以不加这部操作，区别不大</p>
-<p><img src="https://i.loli.net/2020/10/31/TIdpo7camu8DkyC.png" alt="image-20201031143300660"></p>
-<p>然后再加上曲线<code>PivotOffset_*</code>的偏移后存为变量<code>PivotLocation</code>，简单粗暴</p>
-<p><img src="https://i.loli.net/2020/10/31/yQrHnYlhoMUAB3G.png" alt="image-20201031143348227"></p>
-<p>然后加上相机偏移曲线<code>CameraOffset_*</code>存为变量<code>TargetCameraLocation</code></p>
-<blockquote>
-<p>关于<code>CameraOffset</code>与<code>PivotOffset</code>的区别</p>
-<p>前者是相机的位置，后者是目标点的位置，其实换到大家熟悉的<code>SpringArm</code>来说，前者就是<code>SocketOffset</code>，后者就是<code>TargetOffset</code>，不熟悉的可以自己去试一试</p>
-</blockquote>
-<p><img src="https://i.loli.net/2020/10/31/BwZD4tEi36c7Ydp.png" alt="image-20201031143540131"></p>
-<p>第三人称下的射线检测，其实就是做了一个类似<code>SpringArm</code>的<code>DoTestCollision</code>的作用</p>
-<p><img src="https://i.loli.net/2020/10/31/E9gxYbDcpBuATKl.png" alt="image-20201031143628977"></p>
-<p>最后就是根据曲线返回第一人称还是第三人称的数据</p>
-]]></content>
-      <categories>
-        <category>动画</category>
-      </categories>
-      <tags>
-        <tag>动画</tag>
-        <tag>UE4</tag>
-        <tag>镜头</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++11新特性</title>
-    <url>/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/</url>
-    <content><![CDATA[<h5 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h5><ul>
-<li>自动类型推导</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; vec;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i = vec.begin(), i != vec.end(), ++i)</span><br><span class="line">&#123;……&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>定义模板函数时，推到依赖模板函数的变量类型</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;_typename _Tx, _typename _Ty&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> v = x * y;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;v&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>返回值</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">auto multipy(_Tx x, _Ty y)-&gt;decltype(x * y)</span><br><span class="line">	<span class="keyword">return</span> x * y;</span><br><span class="line"></span><br><span class="line">auto func1(int a)-&gt;bool</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>其他</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> a=<span class="number">10</span>,b=<span class="number">11.0</span>;<span class="comment">//报错，初始化必须统一类型</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;b =a;</span><br><span class="line"><span class="keyword">auto</span> c=b;<span class="comment">//c为int，去除&amp;</span></span><br><span class="line"><span class="keyword">auto</span> &amp;d=b;<span class="comment">//d为引用</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> e=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> f = e;<span class="comment">//去除const</span></span><br><span class="line"><span class="keyword">auto</span> &amp;g = e;<span class="comment">//用&amp;，不去除const</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> brr = arr;      <span class="comment">//brr 类型为int*</span></span><br><span class="line"><span class="keyword">auto</span> &amp;crr = arr; <span class="comment">//crr为数组，即crr=arr[3]</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h5><blockquote>
-<p>从变量或者表达式获取类型</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> var;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">int</span>&amp;&amp; <span class="title">fx</span><span class="params">()</span></span>; </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> &#123;</span> <span class="keyword">double</span> x; &#125;</span><br><span class="line"><span class="keyword">const</span> A* a = <span class="keyword">new</span> A();</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">decltype</span>(var);<span class="comment">//int</span></span><br><span class="line"><span class="keyword">decltype</span>(fx());<span class="comment">//const int&amp;&amp;</span></span><br><span class="line"><span class="keyword">decltype</span>(a-&gt;x);<span class="comment">//double</span></span><br><span class="line"><span class="keyword">decltype</span>((a-&gt;x));<span class="comment">//const double&amp;,内部括号导致语句作为表达式而不是成员访问计算。由于a声明为 const指针，因此类型是对const double的引用。</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>对于<code>decltype</code>所用的引用来说，如果变量名加上了一对括号，则得到的类型与不加括号时会有所不同。如果<code>decltype</code>使用的是一个不加括号的变量，则得到的结果就是该变量的类型；如果给变量加上了一层或多层括号，编译器就会把它当成是一个表达式。</p>
-</blockquote>
-<p>C++14可以使用不带尾随返回类型的 <code>decltype(auto)</code> 来声明其返回类型取决于其模板参数类型的模板函数。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span><br><span class="line"><span class="function"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="title">myFunc</span><span class="params">(T&amp;&amp; t, U&amp;&amp; u)</span> </span></span><br><span class="line"><span class="function">        </span>&#123; <span class="keyword">return</span> forward&lt;T&gt;(t) + forward&lt;U&gt;(u); &#125;;</span><br></pre></td></tr></table></figure>
-
-<h5 id="using"><a href="#using" class="headerlink" title="using"></a>using</h5><ul>
-<li>命名空间</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>定义别名，类似<code>typedef</code></li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> itType=<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;::iterator;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>using与typedef的差别是 using可以用于模板部分具体化，但是typedef不能</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line">    <span class="keyword">using</span> arr12=<span class="built_in">std</span>::<span class="built_in">array</span>&lt;T,<span class="number">12</span>&gt;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>当一个派生类私有继承基类时，基类的public和protected数据成员在派生类中是private的形式，如果想让这些继承而来的数据成员作为public或者protected成员，可以用using来重新声明。using声明语句中名字的访问权限由该using声明语句之前的访问说明符决定。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Basic</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">int</span> a;</span><br><span class="line">        <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk</span> :</span> <span class="keyword">private</span> Basic&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::a;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::b;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>关于重写重载函数</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;A1&quot;</span>; &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;a;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A2</span> :</span><span class="keyword">public</span> A1</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;A2&quot;</span>;&#125;;</span><br><span class="line">	<span class="keyword">using</span> A1::test;<span class="comment">//如果不加此行，A2将只保留test()部分，导致主函数内报错</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A2 a2;</span><br><span class="line">	a2.test(<span class="number">11</span>);<span class="comment">//如果不用using，此行报错</span></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="nullptr"><a href="#nullptr" class="headerlink" title="nullptr"></a>nullptr</h5><p><code>nullptr</code>比0更安全</p>
-<h5 id="枚举作用域"><a href="#枚举作用域" class="headerlink" title="枚举作用域"></a>枚举作用域</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,<span class="comment">//歧义，编译失败</span></span><br><span class="line">	P2<span class="comment">//歧义，编译失败</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>所以我们需要设置枚举的作用域,这样才可以编译的过</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">struct</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,</span><br><span class="line">	P2</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">	EnumB e2=EnumB::P2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h5><p>其实lambda实现的方法是创建一个简略的类。**这个类重载了operator()**，所以表现的像个普通函数。一个lambda函数是这个类的实例。当这个类构造的时候，所有捕获的变量被传送到类中并保存为成员变量。</p>
-<p>表达式</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[capture](parameters)-&gt;<span class="keyword">return</span>-type&#123;body&#125;</span><br></pre></td></tr></table></figure>
-
-<p>几个例子</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123; <span class="keyword">return</span> x + y; &#125; <span class="comment">// 隐式返回类型</span></span><br><span class="line">[](<span class="keyword">int</span>&amp; x) &#123; ++x; &#125;   <span class="comment">// 没有return语句 -&gt; lambda 函数的返回类型是&#x27;void&#x27;</span></span><br><span class="line">[]() &#123; ++global_x; &#125;  <span class="comment">// 没有参数,仅访问某个全局变量</span></span><br><span class="line">[]&#123; ++global_x; &#125;     <span class="comment">// 与上一个相同,省略了()</span></span><br><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) -&gt; <span class="keyword">int</span> &#123; <span class="keyword">int</span> z = x + y; <span class="keyword">return</span> z; &#125;<span class="comment">//指示了返回值int</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>关于<code>[]</code>的捕获信息</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[]        <span class="comment">//未定义变量.试图在Lambda内使用任何外部变量都是错误的.</span></span><br><span class="line">[x, &amp;y]   <span class="comment">//x 按值捕获, y 按引用捕获.</span></span><br><span class="line">[&amp;]       <span class="comment">//用到的任何外部变量都隐式按引用捕获</span></span><br><span class="line">[=]       <span class="comment">//用到的任何外部变量都隐式按值捕获</span></span><br><span class="line">[&amp;, x]    <span class="comment">//x显式地按值捕获. 其它变量按引用捕获</span></span><br><span class="line">[=, &amp;z]   <span class="comment">//z按引用捕获. 其它变量按值捕获</span></span><br><span class="line">[<span class="keyword">this</span>] <span class="comment">//截取当前类中的this指针。如果已经使用了&amp;或者=就默认添加此选项。</span></span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">A1* a1=<span class="keyword">new</span> A1();</span><br><span class="line"><span class="keyword">int</span> a2=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)&#123;a1-&gt;num=v;a2++;&#125;;<span class="comment">//错误，a2按值传递，不能修改</span></span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)<span class="keyword">mutable</span> &#123;a2++;a1-&gt;num=v+a2;;&#125;;<span class="comment">//增加mutable后可以修改，但是对原数据无影响，输出结果a1-&gt;num : 15</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="explicit"><a href="#explicit" class="headerlink" title="explicit"></a>explicit</h5><p>显式转换，禁止单参数构造函数导致的自动转换</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">plebe</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    plebe(<span class="keyword">int</span>);</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">plebe</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plebe a,b;</span><br><span class="line">a=<span class="number">1</span>;<span class="comment">//隐式转换</span></span><br><span class="line">b=<span class="number">0.5</span>;<span class="comment">//错误</span></span><br><span class="line">b=plebe(<span class="number">0.5</span>);<span class="comment">//显式转换</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="default-delete"><a href="#default-delete" class="headerlink" title="default,delete"></a>default,delete</h5><ul>
-<li>default</li>
-</ul>
-<p>4类特殊函数可以用default，即默认构造函数、析构函数、拷贝构造函数以及拷贝赋值运算符</p>
-<blockquote>
-<p>特殊情况，如果类内有指针成员，特殊函数都用default，以下情况会导致错误</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">testA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	testA() =<span class="keyword">default</span>;</span><br><span class="line">	testA(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line">	~testA()=<span class="keyword">default</span>;</span><br><span class="line">	testA&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> num=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> *p=&amp;num;</span><br><span class="line">&#125;;	</span><br><span class="line"></span><br><span class="line">testA *a1= <span class="keyword">new</span> testA(<span class="number">1</span>);</span><br><span class="line">testA *a2 =a1;</span><br><span class="line"><span class="keyword">delete</span> a1;<span class="comment">//a2的p也被释放了</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*a2-&gt;p&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>delete</li>
-</ul>
-<h5 id="类内成员初始化"><a href="#类内成员初始化" class="headerlink" title="类内成员初始化"></a>类内成员初始化</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">se</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> mem1=<span class="number">10</span>;<span class="comment">//类内初始化</span></span><br><span class="line">    <span class="keyword">double</span> mem2&#123;<span class="number">123.65</span>&#125;;<span class="comment">//同上</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h5><ul>
-<li>  左值、右值</li>
-</ul>
-<p>在C++11中可以取地址的、有名字的就是左值，反之，不能取地址的、没有名字的就是右值（将亡值或纯右值）</p>
-<ul>
-<li>右值、将亡值</li>
-</ul>
-<ol>
-<li><p>C++98中右值是纯右值，纯右值指的是临时变量值、不跟对象关联的字面量值。</p>
-</li>
-<li><p>将亡值则是C++11新增的跟右值引用相关的表达式，这样表达式通常是将要被移动的对象（移为他用），比如返回右值引用T&amp;&amp;的函数返回值、std::move的返回值，或者转换为T&amp;&amp;的类型转换函数的返回值。</p>
-</li>
-</ol>
-<ul>
-<li>左值引用、右值引用</li>
-</ul>
-<ol>
-<li>左值引用就是对一个左值进行引用的类型。右值引用就是对一个右值进行引用的类型，事实上，由于右值通常不具有名字，我们也只能通过引用的方式找到它的存在</li>
-<li>右值引用和左值引用都是属于引用类型。无论是声明一个左值引用还是右值引用，都必须立即进行<strong>初始化</strong></li>
-<li>引用类型本身自己并不拥有所绑定对象的内存，只是该对象的一个别名。左值引用是具名变量值的别名，而右值引用则是不具名（匿名）变量的别名。</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//int &amp;a =2;//左值引用绑定右值，fail</span></span><br><span class="line"><span class="keyword">int</span> b=<span class="number">1</span>;<span class="comment">//非常量左值绑定右值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;c=b;<span class="comment">//常量左值引用绑定非常量左值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;d=<span class="number">2</span>;<span class="comment">//常量左值引用绑定常量左值,ok</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp; f=<span class="number">10</span>;<span class="comment">//右值引用绑定右值,ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;g=f;<span class="comment">//常量左值引用绑定右值引用,ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;h=b;//右值引用绑定非常量左值，fail</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;h=<span class="built_in">std</span>::move(b);<span class="comment">//move把左值转换为右值，ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;i=h;//变量是左值，h是左值,fail</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img.supervj.top/img/DX/image-20200707151813950.png" alt="image-20200707151813950"></p>
-<h5 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h5><p>智能指针是用对象去管理一个资源指针，同时用一个计数器计算引用当前指针对象的个数，当管理指针的对象增加或减少时，计数器也相应加1或减1，当最后一个指针管理对象销毁时，计数器为1，此时在销毁指针管理对象的同时，也对指针管理对象所管理的指针进行delete操作。</p>
-<ul>
-<li>shared_ptr</li>
-</ul>
-<p>std::shared_ptr包装了new操作符动态分配的内存，可以自由拷贝复制，基本上是使用最多的一个智能指针类型。</p>
-<blockquote>
-<p>注意事项</p>
-<p>我们尽量使用shared_ptr构造函数或者make_shared的方式创建shared_ptr，禁止使用裸指针赋值的方式，这样会shared_ptr难于管理指针的生命周期。</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用裸指针赋值构造，不推荐，裸指针被释放后，shared_ptr就野了，不能完全控制裸指针的生命周期，失去了智能指针价值</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">10</span>);</span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp = p;</span><br><span class="line"><span class="keyword">delete</span> p; <span class="comment">// sp将成为野指针，使用sp将crash</span></span><br><span class="line"><span class="comment">// 将裸指针作为匿名指针传入构造函数，一般做法，让shared_ptr接管裸指针的生命周期，更安全</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp1(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">10</span>));</span><br><span class="line"><span class="comment">// 使用make_shared，推荐做法，更符合工厂模式，可以连代码中的所有new，更高效；方法的参数是用来初始化模板类</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp2 = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
-
-<p>禁止使用指向shared_ptr的裸指针，也就是智能指针的指针，使用shared_ptr的指针指向一个shared_ptr时，<strong>引用计数并不会加一</strong>，操作shared_ptr的指针很容易就发生野指针异常。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; sp.use_count() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出1</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; *sp1 = &amp;sp;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; (*sp1).use_count() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出依然是1</span></span><br><span class="line">(*sp1).reset(); <span class="comment">//sp成为野指针</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *sp &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//crash</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<ul>
-<li>weak_ptr</li>
-</ul>
-<p>与std::shared_ptr最大的差别是在赋值的时候，不会引起智能指针计数增加。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;B&gt; b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	weak_ptr&lt;A&gt; a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;A&gt; spa = make_shared&lt;A&gt;();</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;B&gt; spb = make_shared&lt;B&gt;();</span><br><span class="line">	spa-&gt;b = spb; <span class="comment">//spb强引用计数为2，弱引用计数为1</span></span><br><span class="line">	spb-&gt;a = spa; <span class="comment">//spa强引用计数为1，弱引用计数为2</span></span><br><span class="line"></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p> weak_ptr的一些用法</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">weak_ptr&lt;T&gt; w;  <span class="comment">//空weak_ptr可以指向类型为T的对象</span></span><br><span class="line"><span class="function">weak_ptr&lt;T&gt; <span class="title">w</span><span class="params">(<span class="built_in">shared_ptr</span> sp)</span></span>;   <span class="comment">//与sp指向相同对象的weak_ptr, T必须能转换为sp指向的类型</span></span><br><span class="line">w = p;  <span class="comment">//p可以是shared_ptr或者weak_ptr，赋值后w和p共享对象</span></span><br><span class="line">w.reset();  <span class="comment">//weak_ptr置为空</span></span><br><span class="line">w.use_count();  <span class="comment">//与w共享对象的shared_ptr的计数</span></span><br><span class="line">w.expired();    <span class="comment">//w.use_count()为0则返回true，否则返回false</span></span><br><span class="line">w.lock();   <span class="comment">//w.expired()为true，返回空的shared_ptr;否则返回指向w的shared_ptr</span></span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>unique_ptr</li>
-</ul>
-<p>unique_ptr是auto_ptr的继承者，对于同一块内存只能有一个持有者，而unique_ptr和auto_ptr唯一区别就是unique_ptr不允许赋值操作，也就是不能放在等号的右边（函数的参数和返回值例外），这一定程度避免了一些误操作导致指针所有权转移，然而，unique_str依然有提供所有权转移的方法move，调用move后，原unique_ptr就会失效</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p1=make_unique&lt;<span class="keyword">int</span>&gt;(<span class="number">11</span>);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*p1&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//11</span></span><br><span class="line"><span class="keyword">auto</span> p2=move(p1);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*p1&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//访问空指针，崩溃</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h5 id="模板和STL方面的修改"><a href="#模板和STL方面的修改" class="headerlink" title="模板和STL方面的修改"></a>模板和STL方面的修改</h5><h6 id="基于范围的for循环"><a href="#基于范围的for循环" class="headerlink" title="基于范围的for循环"></a>基于范围的for循环</h6><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span> price[<span class="number">5</span>]=&#123;<span class="number">1.1</span>,<span class="number">2.2</span>,<span class="number">3.3</span>,<span class="number">4.4</span>,<span class="number">5.5</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">double</span> x:prices)<span class="comment">//也可以使用auto来申明x，编译器将自动推断</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;x&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
-
-<h6 id="新的STL容器"><a href="#新的STL容器" class="headerlink" title="新的STL容器"></a>新的STL容器</h6><p>C++11新增的容器：forward_list,unordered_map,unordered_multimap,unordered_set,unordered_multiset</p>
-<ul>
-<li>关于unordered_map与map</li>
-</ul>
-<p>两者的接口差不多，基本可以互换。</p>
-<p>一般来说unordered_map的综合性能比map要好，因此，通常我们可以使用unorderd_map代替map。</p>
-<p>以下情况推荐使用map：</p>
-<p>关键字类型的hash函数设计的很差， 或者==运算符的性能极差， 导致hash过程太耗时；<br>对内存使用有严格要求, 不能接受存储hash table的额外内存开销；<br>元素要求按顺序存储， 或者常常需要关联访问一个元素的上一个/下一个元素， 或者需要遍历整个map。</p>
-<h6 id="新的STL方法"><a href="#新的STL方法" class="headerlink" title="新的STL方法"></a>新的STL方法</h6><p>新增了STL方法<code>cbegin()</code>和<code>cend()</code>，这些方法也返回一个迭代器，指向容器的第一个元素和最后一个元素的后面，因此可以用于指定包含全部元素的区间；这些新方法将元素视为const。类似的，crbegin()和crend()是rbegin()和rend()的const版本</p>
-<h6 id="valarray升级"><a href="#valarray升级" class="headerlink" title="valarray升级"></a>valarray升级</h6><p>C++11添加了两个函数begin()和end()，都接受valarray作为参数并且返回迭代器</p>
-<h6 id="摒弃export"><a href="#摒弃export" class="headerlink" title="摒弃export"></a>摒弃export</h6><p>C++98增加了关键字export，C++11摒弃了这个特性但是保留了关键字export</p>
-<h6 id="尖括号"><a href="#尖括号" class="headerlink" title="尖括号"></a>尖括号</h6><p>为了避免与运算符&gt;&gt;混淆，C++要求在申明嵌套模板时使用空格将尖括号分开</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;&gt; vl;<span class="comment">//C++11开始不再强求空格</span></span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AssetManager的使用</title>
     <url>/2020/12/29/AssetManager/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>AssetManager(下面简称AM)</code>是一个全局单例类，用于管理各种<code>primary assets</code>和<code>asset bundles</code>。</p>
@@ -747,6 +484,269 @@
         <tag>C++</tag>
         <tag>GAS</tag>
         <tag>实战</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++11新特性</title>
+    <url>/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/</url>
+    <content><![CDATA[<h5 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h5><ul>
+<li>自动类型推导</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; vec;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i = vec.begin(), i != vec.end(), ++i)</span><br><span class="line">&#123;……&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义模板函数时，推到依赖模板函数的变量类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;_typename _Tx, _typename _Ty&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> v = x * y;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;v&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回值</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">auto multipy(_Tx x, _Ty y)-&gt;decltype(x * y)</span><br><span class="line">	<span class="keyword">return</span> x * y;</span><br><span class="line"></span><br><span class="line">auto func1(int a)-&gt;bool</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其他</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> a=<span class="number">10</span>,b=<span class="number">11.0</span>;<span class="comment">//报错，初始化必须统一类型</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;b =a;</span><br><span class="line"><span class="keyword">auto</span> c=b;<span class="comment">//c为int，去除&amp;</span></span><br><span class="line"><span class="keyword">auto</span> &amp;d=b;<span class="comment">//d为引用</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> e=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> f = e;<span class="comment">//去除const</span></span><br><span class="line"><span class="keyword">auto</span> &amp;g = e;<span class="comment">//用&amp;，不去除const</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> brr = arr;      <span class="comment">//brr 类型为int*</span></span><br><span class="line"><span class="keyword">auto</span> &amp;crr = arr; <span class="comment">//crr为数组，即crr=arr[3]</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h5><blockquote>
+<p>从变量或者表达式获取类型</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> var;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">int</span>&amp;&amp; <span class="title">fx</span><span class="params">()</span></span>; </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> &#123;</span> <span class="keyword">double</span> x; &#125;</span><br><span class="line"><span class="keyword">const</span> A* a = <span class="keyword">new</span> A();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">decltype</span>(var);<span class="comment">//int</span></span><br><span class="line"><span class="keyword">decltype</span>(fx());<span class="comment">//const int&amp;&amp;</span></span><br><span class="line"><span class="keyword">decltype</span>(a-&gt;x);<span class="comment">//double</span></span><br><span class="line"><span class="keyword">decltype</span>((a-&gt;x));<span class="comment">//const double&amp;,内部括号导致语句作为表达式而不是成员访问计算。由于a声明为 const指针，因此类型是对const double的引用。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于<code>decltype</code>所用的引用来说，如果变量名加上了一对括号，则得到的类型与不加括号时会有所不同。如果<code>decltype</code>使用的是一个不加括号的变量，则得到的结果就是该变量的类型；如果给变量加上了一层或多层括号，编译器就会把它当成是一个表达式。</p>
+</blockquote>
+<p>C++14可以使用不带尾随返回类型的 <code>decltype(auto)</code> 来声明其返回类型取决于其模板参数类型的模板函数。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span><br><span class="line"><span class="function"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="title">myFunc</span><span class="params">(T&amp;&amp; t, U&amp;&amp; u)</span> </span></span><br><span class="line"><span class="function">        </span>&#123; <span class="keyword">return</span> forward&lt;T&gt;(t) + forward&lt;U&gt;(u); &#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="using"><a href="#using" class="headerlink" title="using"></a>using</h5><ul>
+<li>命名空间</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义别名，类似<code>typedef</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> itType=<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;::iterator;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>using与typedef的差别是 using可以用于模板部分具体化，但是typedef不能</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line">    <span class="keyword">using</span> arr12=<span class="built_in">std</span>::<span class="built_in">array</span>&lt;T,<span class="number">12</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当一个派生类私有继承基类时，基类的public和protected数据成员在派生类中是private的形式，如果想让这些继承而来的数据成员作为public或者protected成员，可以用using来重新声明。using声明语句中名字的访问权限由该using声明语句之前的访问说明符决定。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Basic</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">int</span> a;</span><br><span class="line">        <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk</span> :</span> <span class="keyword">private</span> Basic&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::a;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::b;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关于重写重载函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;A1&quot;</span>; &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;a;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A2</span> :</span><span class="keyword">public</span> A1</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;A2&quot;</span>;&#125;;</span><br><span class="line">	<span class="keyword">using</span> A1::test;<span class="comment">//如果不加此行，A2将只保留test()部分，导致主函数内报错</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A2 a2;</span><br><span class="line">	a2.test(<span class="number">11</span>);<span class="comment">//如果不用using，此行报错</span></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="nullptr"><a href="#nullptr" class="headerlink" title="nullptr"></a>nullptr</h5><p><code>nullptr</code>比0更安全</p>
+<h5 id="枚举作用域"><a href="#枚举作用域" class="headerlink" title="枚举作用域"></a>枚举作用域</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,<span class="comment">//歧义，编译失败</span></span><br><span class="line">	P2<span class="comment">//歧义，编译失败</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们需要设置枚举的作用域,这样才可以编译的过</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">struct</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,</span><br><span class="line">	P2</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">	EnumB e2=EnumB::P2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h5><p>其实lambda实现的方法是创建一个简略的类。**这个类重载了operator()**，所以表现的像个普通函数。一个lambda函数是这个类的实例。当这个类构造的时候，所有捕获的变量被传送到类中并保存为成员变量。</p>
+<p>表达式</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[capture](parameters)-&gt;<span class="keyword">return</span>-type&#123;body&#125;</span><br></pre></td></tr></table></figure>
+
+<p>几个例子</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123; <span class="keyword">return</span> x + y; &#125; <span class="comment">// 隐式返回类型</span></span><br><span class="line">[](<span class="keyword">int</span>&amp; x) &#123; ++x; &#125;   <span class="comment">// 没有return语句 -&gt; lambda 函数的返回类型是&#x27;void&#x27;</span></span><br><span class="line">[]() &#123; ++global_x; &#125;  <span class="comment">// 没有参数,仅访问某个全局变量</span></span><br><span class="line">[]&#123; ++global_x; &#125;     <span class="comment">// 与上一个相同,省略了()</span></span><br><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) -&gt; <span class="keyword">int</span> &#123; <span class="keyword">int</span> z = x + y; <span class="keyword">return</span> z; &#125;<span class="comment">//指示了返回值int</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关于<code>[]</code>的捕获信息</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">[]        <span class="comment">//未定义变量.试图在Lambda内使用任何外部变量都是错误的.</span></span><br><span class="line">[x, &amp;y]   <span class="comment">//x 按值捕获, y 按引用捕获.</span></span><br><span class="line">[&amp;]       <span class="comment">//用到的任何外部变量都隐式按引用捕获</span></span><br><span class="line">[=]       <span class="comment">//用到的任何外部变量都隐式按值捕获</span></span><br><span class="line">[&amp;, x]    <span class="comment">//x显式地按值捕获. 其它变量按引用捕获</span></span><br><span class="line">[=, &amp;z]   <span class="comment">//z按引用捕获. 其它变量按值捕获</span></span><br><span class="line">[<span class="keyword">this</span>] <span class="comment">//截取当前类中的this指针。如果已经使用了&amp;或者=就默认添加此选项。</span></span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">A1* a1=<span class="keyword">new</span> A1();</span><br><span class="line"><span class="keyword">int</span> a2=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)&#123;a1-&gt;num=v;a2++;&#125;;<span class="comment">//错误，a2按值传递，不能修改</span></span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)<span class="keyword">mutable</span> &#123;a2++;a1-&gt;num=v+a2;;&#125;;<span class="comment">//增加mutable后可以修改，但是对原数据无影响，输出结果a1-&gt;num : 15</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="explicit"><a href="#explicit" class="headerlink" title="explicit"></a>explicit</h5><p>显式转换，禁止单参数构造函数导致的自动转换</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">plebe</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    plebe(<span class="keyword">int</span>);</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">plebe</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plebe a,b;</span><br><span class="line">a=<span class="number">1</span>;<span class="comment">//隐式转换</span></span><br><span class="line">b=<span class="number">0.5</span>;<span class="comment">//错误</span></span><br><span class="line">b=plebe(<span class="number">0.5</span>);<span class="comment">//显式转换</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="default-delete"><a href="#default-delete" class="headerlink" title="default,delete"></a>default,delete</h5><ul>
+<li>default</li>
+</ul>
+<p>4类特殊函数可以用default，即默认构造函数、析构函数、拷贝构造函数以及拷贝赋值运算符</p>
+<blockquote>
+<p>特殊情况，如果类内有指针成员，特殊函数都用default，以下情况会导致错误</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">testA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	testA() =<span class="keyword">default</span>;</span><br><span class="line">	testA(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line">	~testA()=<span class="keyword">default</span>;</span><br><span class="line">	testA&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> num=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> *p=&amp;num;</span><br><span class="line">&#125;;	</span><br><span class="line"></span><br><span class="line">testA *a1= <span class="keyword">new</span> testA(<span class="number">1</span>);</span><br><span class="line">testA *a2 =a1;</span><br><span class="line"><span class="keyword">delete</span> a1;<span class="comment">//a2的p也被释放了</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*a2-&gt;p&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>delete</li>
+</ul>
+<h5 id="类内成员初始化"><a href="#类内成员初始化" class="headerlink" title="类内成员初始化"></a>类内成员初始化</h5><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">se</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> mem1=<span class="number">10</span>;<span class="comment">//类内初始化</span></span><br><span class="line">    <span class="keyword">double</span> mem2&#123;<span class="number">123.65</span>&#125;;<span class="comment">//同上</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h5><ul>
+<li>  左值、右值</li>
+</ul>
+<p>在C++11中可以取地址的、有名字的就是左值，反之，不能取地址的、没有名字的就是右值（将亡值或纯右值）</p>
+<ul>
+<li>右值、将亡值</li>
+</ul>
+<ol>
+<li><p>C++98中右值是纯右值，纯右值指的是临时变量值、不跟对象关联的字面量值。</p>
+</li>
+<li><p>将亡值则是C++11新增的跟右值引用相关的表达式，这样表达式通常是将要被移动的对象（移为他用），比如返回右值引用T&amp;&amp;的函数返回值、std::move的返回值，或者转换为T&amp;&amp;的类型转换函数的返回值。</p>
+</li>
+</ol>
+<ul>
+<li>左值引用、右值引用</li>
+</ul>
+<ol>
+<li>左值引用就是对一个左值进行引用的类型。右值引用就是对一个右值进行引用的类型，事实上，由于右值通常不具有名字，我们也只能通过引用的方式找到它的存在</li>
+<li>右值引用和左值引用都是属于引用类型。无论是声明一个左值引用还是右值引用，都必须立即进行<strong>初始化</strong></li>
+<li>引用类型本身自己并不拥有所绑定对象的内存，只是该对象的一个别名。左值引用是具名变量值的别名，而右值引用则是不具名（匿名）变量的别名。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//int &amp;a =2;//左值引用绑定右值，fail</span></span><br><span class="line"><span class="keyword">int</span> b=<span class="number">1</span>;<span class="comment">//非常量左值绑定右值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;c=b;<span class="comment">//常量左值引用绑定非常量左值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;d=<span class="number">2</span>;<span class="comment">//常量左值引用绑定常量左值,ok</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp; f=<span class="number">10</span>;<span class="comment">//右值引用绑定右值,ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;g=f;<span class="comment">//常量左值引用绑定右值引用,ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;h=b;//右值引用绑定非常量左值，fail</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;h=<span class="built_in">std</span>::move(b);<span class="comment">//move把左值转换为右值，ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;i=h;//变量是左值，h是左值,fail</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top/img/DX/image-20200707151813950.png" alt="image-20200707151813950"></p>
+<h5 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h5><p>智能指针是用对象去管理一个资源指针，同时用一个计数器计算引用当前指针对象的个数，当管理指针的对象增加或减少时，计数器也相应加1或减1，当最后一个指针管理对象销毁时，计数器为1，此时在销毁指针管理对象的同时，也对指针管理对象所管理的指针进行delete操作。</p>
+<ul>
+<li>shared_ptr</li>
+</ul>
+<p>std::shared_ptr包装了new操作符动态分配的内存，可以自由拷贝复制，基本上是使用最多的一个智能指针类型。</p>
+<blockquote>
+<p>注意事项</p>
+<p>我们尽量使用shared_ptr构造函数或者make_shared的方式创建shared_ptr，禁止使用裸指针赋值的方式，这样会shared_ptr难于管理指针的生命周期。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用裸指针赋值构造，不推荐，裸指针被释放后，shared_ptr就野了，不能完全控制裸指针的生命周期，失去了智能指针价值</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">10</span>);</span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp = p;</span><br><span class="line"><span class="keyword">delete</span> p; <span class="comment">// sp将成为野指针，使用sp将crash</span></span><br><span class="line"><span class="comment">// 将裸指针作为匿名指针传入构造函数，一般做法，让shared_ptr接管裸指针的生命周期，更安全</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp1(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">10</span>));</span><br><span class="line"><span class="comment">// 使用make_shared，推荐做法，更符合工厂模式，可以连代码中的所有new，更高效；方法的参数是用来初始化模板类</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp2 = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>禁止使用指向shared_ptr的裸指针，也就是智能指针的指针，使用shared_ptr的指针指向一个shared_ptr时，<strong>引用计数并不会加一</strong>，操作shared_ptr的指针很容易就发生野指针异常。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;sp = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; sp.use_count() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出1</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; *sp1 = &amp;sp;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; (*sp1).use_count() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出依然是1</span></span><br><span class="line">(*sp1).reset(); <span class="comment">//sp成为野指针</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *sp &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//crash</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<ul>
+<li>weak_ptr</li>
+</ul>
+<p>与std::shared_ptr最大的差别是在赋值的时候，不会引起智能指针计数增加。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;B&gt; b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	weak_ptr&lt;A&gt; a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;A&gt; spa = make_shared&lt;A&gt;();</span><br><span class="line">	<span class="built_in">shared_ptr</span>&lt;B&gt; spb = make_shared&lt;B&gt;();</span><br><span class="line">	spa-&gt;b = spb; <span class="comment">//spb强引用计数为2，弱引用计数为1</span></span><br><span class="line">	spb-&gt;a = spa; <span class="comment">//spa强引用计数为1，弱引用计数为2</span></span><br><span class="line"></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> weak_ptr的一些用法</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">weak_ptr&lt;T&gt; w;  <span class="comment">//空weak_ptr可以指向类型为T的对象</span></span><br><span class="line"><span class="function">weak_ptr&lt;T&gt; <span class="title">w</span><span class="params">(<span class="built_in">shared_ptr</span> sp)</span></span>;   <span class="comment">//与sp指向相同对象的weak_ptr, T必须能转换为sp指向的类型</span></span><br><span class="line">w = p;  <span class="comment">//p可以是shared_ptr或者weak_ptr，赋值后w和p共享对象</span></span><br><span class="line">w.reset();  <span class="comment">//weak_ptr置为空</span></span><br><span class="line">w.use_count();  <span class="comment">//与w共享对象的shared_ptr的计数</span></span><br><span class="line">w.expired();    <span class="comment">//w.use_count()为0则返回true，否则返回false</span></span><br><span class="line">w.lock();   <span class="comment">//w.expired()为true，返回空的shared_ptr;否则返回指向w的shared_ptr</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>unique_ptr</li>
+</ul>
+<p>unique_ptr是auto_ptr的继承者，对于同一块内存只能有一个持有者，而unique_ptr和auto_ptr唯一区别就是unique_ptr不允许赋值操作，也就是不能放在等号的右边（函数的参数和返回值例外），这一定程度避免了一些误操作导致指针所有权转移，然而，unique_str依然有提供所有权转移的方法move，调用move后，原unique_ptr就会失效</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p1=make_unique&lt;<span class="keyword">int</span>&gt;(<span class="number">11</span>);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*p1&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//11</span></span><br><span class="line"><span class="keyword">auto</span> p2=move(p1);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*p1&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//访问空指针，崩溃</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="模板和STL方面的修改"><a href="#模板和STL方面的修改" class="headerlink" title="模板和STL方面的修改"></a>模板和STL方面的修改</h5><h6 id="基于范围的for循环"><a href="#基于范围的for循环" class="headerlink" title="基于范围的for循环"></a>基于范围的for循环</h6><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span> price[<span class="number">5</span>]=&#123;<span class="number">1.1</span>,<span class="number">2.2</span>,<span class="number">3.3</span>,<span class="number">4.4</span>,<span class="number">5.5</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">double</span> x:prices)<span class="comment">//也可以使用auto来申明x，编译器将自动推断</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;x&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="新的STL容器"><a href="#新的STL容器" class="headerlink" title="新的STL容器"></a>新的STL容器</h6><p>C++11新增的容器：forward_list,unordered_map,unordered_multimap,unordered_set,unordered_multiset</p>
+<ul>
+<li>关于unordered_map与map</li>
+</ul>
+<p>两者的接口差不多，基本可以互换。</p>
+<p>一般来说unordered_map的综合性能比map要好，因此，通常我们可以使用unorderd_map代替map。</p>
+<p>以下情况推荐使用map：</p>
+<p>关键字类型的hash函数设计的很差， 或者==运算符的性能极差， 导致hash过程太耗时；<br>对内存使用有严格要求, 不能接受存储hash table的额外内存开销；<br>元素要求按顺序存储， 或者常常需要关联访问一个元素的上一个/下一个元素， 或者需要遍历整个map。</p>
+<h6 id="新的STL方法"><a href="#新的STL方法" class="headerlink" title="新的STL方法"></a>新的STL方法</h6><p>新增了STL方法<code>cbegin()</code>和<code>cend()</code>，这些方法也返回一个迭代器，指向容器的第一个元素和最后一个元素的后面，因此可以用于指定包含全部元素的区间；这些新方法将元素视为const。类似的，crbegin()和crend()是rbegin()和rend()的const版本</p>
+<h6 id="valarray升级"><a href="#valarray升级" class="headerlink" title="valarray升级"></a>valarray升级</h6><p>C++11添加了两个函数begin()和end()，都接受valarray作为参数并且返回迭代器</p>
+<h6 id="摒弃export"><a href="#摒弃export" class="headerlink" title="摒弃export"></a>摒弃export</h6><p>C++98增加了关键字export，C++11摒弃了这个特性但是保留了关键字export</p>
+<h6 id="尖括号"><a href="#尖括号" class="headerlink" title="尖括号"></a>尖括号</h6><p>为了避免与运算符&gt;&gt;混淆，C++要求在申明嵌套模板时使用空格将尖括号分开</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;&gt; vl;<span class="comment">//C++11开始不再强求空格</span></span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AdvancedLocomotionSystemV4分析(五):镜头</title>
+    <url>/2020/10/31/AdvancedLocomotionSystem%E5%88%86%E6%9E%905_%E9%95%9C%E5%A4%B4/</url>
+    <content><![CDATA[<p><img src="https://i.loli.net/2020/10/31/oGuy1Ex9ajNzfQg.gif" alt="录制_2020_10_31_14_52_47_579~2"></p>
+<blockquote>
+<p>上一篇留下了一个镜头抖动问题，实际上ALS项目是通过自定义<code>CameraManager</code>实现的，本篇就此来展开一下</p>
+</blockquote>
+<p><a href="https://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">AdvancedLocomotionSysemV4分析(一):移动和脚步IK</a></p>
+<p><a href="https://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">AdvancedLocomotionSystem分析(二):攀爬系统</a></p>
+<p><a href="https://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">AdvancedLocomotionSystemV4分析(三):动作叠加</a></p>
+<p><a href="https://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a></p>
+<p>先大概简述一下<code>ALS</code>镜头控制的方法</p>
+<ul>
+<li>自定义<code>CameraManager</code>代替默认第三人称模板的<code>SpringArm</code>+<code>Camera</code>的方式</li>
+<li>重写<code>BlueprintUpdateCamera</code></li>
+<li><code>CameraManager</code>挂载骨骼模型相机，创建动画蓝图，用曲线来控制相机位置信息</li>
+</ul>
+<h3 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h3><p><code>ALS</code>巧妙的用动画蓝图来辅助相机位置的控制和切换，如何做到的？我们先来看一下这是个什么动画蓝图</p>
+<p><img src="https://i.loli.net/2020/10/31/vQ1OTbzS7JmA435.png" alt="image-20201031141203030"></p>
+<p>随便打开一个角落</p>
+<p><img src="https://i.loli.net/2020/10/31/qZLflKyOBEITbDg.png" alt="image-20201031141249269"></p>
+<p>所以说，动画蓝图没动画(lll￢ω￢)</p>
+<p>完全是用动画蓝图的状态机来自然过渡各类曲线数据，所以显而易见的可以知道在其他地方会 用到这些曲线</p>
+<blockquote>
+<p>ps.相机的骨骼模型你完全可以用一个球代替，曲线都是手动加的，不用到三维软件加</p>
+</blockquote>
+<h3 id="CameraManager"><a href="#CameraManager" class="headerlink" title="CameraManager"></a>CameraManager</h3><p><img src="https://i.loli.net/2020/10/31/GOxWNeguVfl2Ehb.png" alt="image-20201031141505810"></p>
+<p>先一个初始化方法把必要的参数给拿到，可以到<code>PlayerController</code>内初始化，毕竟<code>CamaraManager</code>本身就是配置在<code>PlayerController</code>内</p>
+<p><img src="https://i.loli.net/2020/10/31/2KXOuLNdSFeUjpD.png" alt="image-20201031141559486"></p>
+<p>然后重写<code>BlueprintUpdateCamera</code>方法，随意给一个判断，不满足就走默认的方式</p>
+<p><img src="https://i.loli.net/2020/10/31/HZkM9N5LtmFYa3P.png" alt="image-20201031141650530"></p>
+<p>在<code>CustomCameraBehavior</code>内有很多计算，我们逐一分析</p>
+<p><img src="https://i.loli.net/2020/10/31/ykfTUYdMzprCI3D.png" alt="image-20201031141736699"></p>
+<p>从角色内去获取必要的参数，<code>PivotTarget</code>是观察的目标点，<code>1PTarget</code>为第一人称的位置，第一人称会讲相机放到固定插槽位置，这里是眼睛的位置</p>
+<p><img src="https://i.loli.net/2020/10/31/Gh4ui29epCf6oPO.png" alt="image-20201031142246941"></p>
+<p>当前旋转向控制器旋转插值过去，速度由曲线<code>RotationLagSpeed</code>变量控制</p>
+<p><img src="https://i.loli.net/2020/10/31/LjN2QKumEPFlTVI.png" alt="image-20201031142342258"></p>
+<p><code>SmoothPivotTarget</code>其实是当前的相机变换信息，插值向第一条的目标点</p>
+<p>关于<code>CalclateAxisIndependentLag</code>内部是经过插值计算把<code>CurrentLocation</code>向<code>TargetLocation</code>插值过渡</p>
+<p>内部有一点不容易理解，如下图</p>
+<p><img src="https://i.loli.net/2020/10/31/QMlYCAxi5cj32So.png" alt="image-20201031143027445"></p>
+<p>位置先反向旋转最后又给转回来，如果觉得很难理解，其实可以不加这部操作，区别不大</p>
+<p><img src="https://i.loli.net/2020/10/31/TIdpo7camu8DkyC.png" alt="image-20201031143300660"></p>
+<p>然后再加上曲线<code>PivotOffset_*</code>的偏移后存为变量<code>PivotLocation</code>，简单粗暴</p>
+<p><img src="https://i.loli.net/2020/10/31/yQrHnYlhoMUAB3G.png" alt="image-20201031143348227"></p>
+<p>然后加上相机偏移曲线<code>CameraOffset_*</code>存为变量<code>TargetCameraLocation</code></p>
+<blockquote>
+<p>关于<code>CameraOffset</code>与<code>PivotOffset</code>的区别</p>
+<p>前者是相机的位置，后者是目标点的位置，其实换到大家熟悉的<code>SpringArm</code>来说，前者就是<code>SocketOffset</code>，后者就是<code>TargetOffset</code>，不熟悉的可以自己去试一试</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/10/31/BwZD4tEi36c7Ydp.png" alt="image-20201031143540131"></p>
+<p>第三人称下的射线检测，其实就是做了一个类似<code>SpringArm</code>的<code>DoTestCollision</code>的作用</p>
+<p><img src="https://i.loli.net/2020/10/31/E9gxYbDcpBuATKl.png" alt="image-20201031143628977"></p>
+<p>最后就是根据曲线返回第一人称还是第三人称的数据</p>
+]]></content>
+      <categories>
+        <category>动画</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+        <tag>UE4</tag>
+        <tag>镜头</tag>
       </tags>
   </entry>
   <entry>
@@ -1680,52 +1680,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Picgo+GitHub搭建免费图床</title>
-    <url>/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/</url>
-    <content><![CDATA[<blockquote>
-<p>本文介绍如何用Picgo+GitHub搭建免费的图床</p>
-<p>可用于个人Markdown文档的图片外链</p>
-<p>Github图床优点：免费，安全；缺点：网络不稳定，偶尔上传失败</p>
-</blockquote>
-<h3 id="关于Picgo"><a href="#关于Picgo" class="headerlink" title="关于Picgo"></a>关于Picgo</h3><p>这是一款图片上传的工具，目前支持<code>七牛图床</code>，<code>腾讯云</code>，<code>阿里oss</code>，<code>GitHub</code>等图床，未来将支持更多图床。</p>
-<p>所以解决问题的思路就是，将本地的文件，或者剪切板上面的截图发送图床，然后生成在线图片的链接，这样就可以随时随地使用图片外链了</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
-<li><p>git和github使用请参考本人另一篇文章<a href="%5Bhttps://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/%5D(https://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/)">《Git使用指北》</a></p>
-</li>
-<li><p><a href="https://github.com/Molunerfinn/PicGo/releases">下载picgo软件</a></p>
-</li>
-</ul>
-<h3 id="GitHub流程"><a href="#GitHub流程" class="headerlink" title="GitHub流程"></a>GitHub流程</h3><ol>
-<li><p>新建一个<code>Repository</code>，建议命名成<code>img</code>之类的方便记忆</p>
-</li>
-<li><p>生成一个Token用于操作GitHub repository，流程如下</p>
-<blockquote>
-<p>Settings-&gt;Developer settings-&gt;Personnal access tokens-&gt;Generate new token</p>
-</blockquote>
-<p> 注：创建成功后，会生成一串token，这串token之后不会再显示，所以第一次看到的时候，就要好好保存</p>
-</li>
-</ol>
-<h3 id="配置Picgo"><a href="#配置Picgo" class="headerlink" title="配置Picgo"></a>配置Picgo</h3><p><img src="https://img.supervj.top/imgpicgo_github_3.jpg"></p>
-<ul>
-<li>仓库名：即你<code>github</code>仓库的名称</li>
-<li>设定分支：对应仓库的分支，默认是<code>master</code></li>
-<li>设定Token：之前保存的<code>Token</code></li>
-<li>指定存储路径：保存到仓库的路径</li>
-<li>设定自定义域名：见如下</li>
-</ul>
-<h5 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h5><p>默认不指定域名，这样生成的是<code>github</code>地址，部分情况会被墙掉，对于图片访问不是特别友善</p>
-<p>有自己域名的同学强烈建议使用自定义域名</p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-        <tag>博客</tag>
-        <tag>图床</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Paper2D第三方工具TexturerPacker</title>
     <url>/2021/01/08/Paper2D%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7TexturerPacker/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Paper2D使用第三方工具<code>TexturerPacker</code>的简单使用方法记录</p>
@@ -1770,6 +1724,52 @@
       <tags>
         <tag>UE4</tag>
         <tag>Paper2D</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Picgo+GitHub搭建免费图床</title>
+    <url>/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/</url>
+    <content><![CDATA[<blockquote>
+<p>本文介绍如何用Picgo+GitHub搭建免费的图床</p>
+<p>可用于个人Markdown文档的图片外链</p>
+<p>Github图床优点：免费，安全；缺点：网络不稳定，偶尔上传失败</p>
+</blockquote>
+<h3 id="关于Picgo"><a href="#关于Picgo" class="headerlink" title="关于Picgo"></a>关于Picgo</h3><p>这是一款图片上传的工具，目前支持<code>七牛图床</code>，<code>腾讯云</code>，<code>阿里oss</code>，<code>GitHub</code>等图床，未来将支持更多图床。</p>
+<p>所以解决问题的思路就是，将本地的文件，或者剪切板上面的截图发送图床，然后生成在线图片的链接，这样就可以随时随地使用图片外链了</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li><p>git和github使用请参考本人另一篇文章<a href="%5Bhttps://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/%5D(https://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/)">《Git使用指北》</a></p>
+</li>
+<li><p><a href="https://github.com/Molunerfinn/PicGo/releases">下载picgo软件</a></p>
+</li>
+</ul>
+<h3 id="GitHub流程"><a href="#GitHub流程" class="headerlink" title="GitHub流程"></a>GitHub流程</h3><ol>
+<li><p>新建一个<code>Repository</code>，建议命名成<code>img</code>之类的方便记忆</p>
+</li>
+<li><p>生成一个Token用于操作GitHub repository，流程如下</p>
+<blockquote>
+<p>Settings-&gt;Developer settings-&gt;Personnal access tokens-&gt;Generate new token</p>
+</blockquote>
+<p> 注：创建成功后，会生成一串token，这串token之后不会再显示，所以第一次看到的时候，就要好好保存</p>
+</li>
+</ol>
+<h3 id="配置Picgo"><a href="#配置Picgo" class="headerlink" title="配置Picgo"></a>配置Picgo</h3><p><img src="https://img.supervj.top/imgpicgo_github_3.jpg"></p>
+<ul>
+<li>仓库名：即你<code>github</code>仓库的名称</li>
+<li>设定分支：对应仓库的分支，默认是<code>master</code></li>
+<li>设定Token：之前保存的<code>Token</code></li>
+<li>指定存储路径：保存到仓库的路径</li>
+<li>设定自定义域名：见如下</li>
+</ul>
+<h5 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h5><p>默认不指定域名，这样生成的是<code>github</code>地址，部分情况会被墙掉，对于图片访问不是特别友善</p>
+<p>有自己域名的同学强烈建议使用自定义域名</p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+        <tag>博客</tag>
+        <tag>图床</tag>
       </tags>
   </entry>
   <entry>
@@ -3863,6 +3863,124 @@
       </tags>
   </entry>
   <entry>
+    <title>《Multiplayer RPG Template》Documentation</title>
+    <url>/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</url>
+    <content><![CDATA[<blockquote>
+<p>This is <a href="https://www.unrealengine.com/marketplace/zh-CN/product/multiplayer-rpg-template">Multiplayer RPG Template</a> Documentation,its about configuration and production method of the main system</p>
+<p>This case is based on UE4’s  ListerServer  built-in LAN online game demo, refer to the work WOW</p>
+<p>Based on UE4 version 4.25</p>
+<p>There are still some imperfections in the demo, which will be followed up for optimization and repair</p>
+</blockquote>
+<h3 id="Skill-system"><a href="#Skill-system" class="headerlink" title="Skill system"></a>Skill system</h3><p><img src="https://img.supervj.top/imgchao4_skill1.jpg"></p>
+<p>As shown in the above figure, this figure is the configuration information of the skill table. The important parameters are briefly described below</p>
+<ul>
+<li>Action: This variable represents the unique ID of this behavior. In principle, it is the same as the RowName of the table. In many logics, you need to use the ID to find all information about the skill, or use the ID to execute the skill</li>
+<li>Display(struct)：3 parameters are used to display the general information of this skill, such as the display of the name or description and icons, which are related to the UMG, of course, you can also customize<ul>
+<li><img src="https://img.supervj.top/imgchao4_skill4.jpg"></li>
+<li><img src="https://img.supervj.top/imgchao4_skill5.jpg"></li>
+</ul>
+</li>
+<li>CastData(struct)：This is a spell-casting structure, which mainly sets the method and conditions of the spell-casting<ul>
+<li>Type:For example, the default reading spell casting, continuous casting, attack superimposing casting and other methods</li>
+<li>Time:The time it takes to cast, 0 means instant</li>
+<li>Duration:If it is a continuous cast, then this parameter means the lead time</li>
+<li>KeepAttackStat:After the cast is finished, the normal attack will continue</li>
+<li>MotionCast:Move cast, if set to No, you must stand cast, once you move, interrupt cast</li>
+<li>NotTargetCast:Does not require target casting, and is generally used for range skills such as Fire and Rain</li>
+</ul>
+</li>
+<li>Mp:Mana cost, Warrior Rage</li>
+<li>CD:Cooling time</li>
+<li>MaxRange：Maximum release range, calculated in Unreal Units, 0 means unlimited</li>
+<li>LearnGold/Level:Prerequisites for learning this skill, 0 means no requirement</li>
+<li>RangeSelectRange:If it is a skill selected by range, this parameter indicates the radius of the effect</li>
+<li>TargetType:Target type, place of action or friend</li>
+<li>SkillClass:Skill class, no need to create manually</li>
+</ul>
+<h5 id="SkillRef"><a href="#SkillRef" class="headerlink" title="SkillRef"></a>SkillRef</h5><blockquote>
+<p>This is created by the SkillClass configured in the table, there is no need to manually create it, you only need to make the logic and effects of this class</p>
+<p>This class is inherited from <code>BP_BaseSkill</code>, which has some messy blueprint logic, but not all are necessary to use. In this case, you can freely play in many cases. Anyway, after the skill is released, you can control this skill through this class Running the instance</p>
+<p>Let’s explain it through the skill class of <code>IceBullet</code></p>
+</blockquote>
+<p><img src="https://img.supervj.top/imgchao4_skill2.jpg"></p>
+<p><code>IceBullet</code>Inherit from<code>ProjectileBase</code>，As shown in the figure above, this is the basic parameter type of this class</p>
+<ul>
+<li>speed: flight speed, depends on <code>ProjectileComponent</code></li>
+<li>StopDistance: the distance to stop, because this class is to track the target flight, so there will always be when approaching and reaching the target, a logic will be generated after reaching the target and stopping</li>
+<li>Duration: Duration, if there is no hit, the time will destroy yourself</li>
+<li>Sound / FX: related special effects configuration, Start can be used to play when it is generated, Hit can be used to play after hitting the target, but all need to be manually released<br>   - The effect of calling Start after <code>ProjectileBase</code> has realized<code> BeginPlay</code><br>   - The Hit effect has been achieved after hitting the target</li>
+<li>BuffData: If this skill has buff / debuff, you can set this class, you need to manually call the method to create and run the buff class, as shown below</li>
+</ul>
+<p><img src="https://img.supervj.top/imgchao4_skill3.jpg"></p>
+<h5 id="BuffRef"><a href="#BuffRef" class="headerlink" title="BuffRef"></a>BuffRef</h5><blockquote>
+<p>This is an instance class of Buff, created by internally calling <code>CreateBuff</code> method of SkillRef</p>
+<p>By rewriting the <code>BuffInit</code> and<code> BuffEnd</code> methods to achieve custom logic, if it has a continuous effect, then you can rewrite the <code>BuffDelta</code> method to make the logic of continuous calls</p>
+</blockquote>
+<h3 id="EquipSystem"><a href="#EquipSystem" class="headerlink" title="EquipSystem"></a>EquipSystem</h3><p><img src="https://img.supervj.top/imgchao4_equp1.jpg"></p>
+<blockquote>
+<p>As shown in the figure above, this is the configuration table of the equipment information. The following briefly introduces the role of the main parameters</p>
+</blockquote>
+<ul>
+<li>BodyPart： the corresponding position of the equipment</li>
+<li>Mesh/Mat: Used to display the model of this equipment entity, equipped on the character or discarded into the world</li>
+<li>Property: literally means 2 kinds of properties, of which Adv property will change with the change of Base</li>
+</ul>
+<h3 id="PropSystem"><a href="#PropSystem" class="headerlink" title="PropSystem"></a>PropSystem</h3><p><img src="https://img.supervj.top/imgchao4_prop1.jpg"></p>
+<blockquote>
+<p>The prop system is similar to the equipment system</p>
+</blockquote>
+<ul>
+<li>EffectType:Effect type, this case only made the healing effect and the effect of increasing magic</li>
+<li>Value: You can set the range value of the effect, of course, this is not necessary, specifically the internal implementation of the following prop class</li>
+<li>CanBeStacked:If one item occupies one space in the backpack bar, otherwise it can be stacked together</li>
+<li>ActionClass:Prop class implement logic class, refer to Skill instance implementation, specific logic can be written into this class</li>
+</ul>
+<h3 id="DropSystem"><a href="#DropSystem" class="headerlink" title="DropSystem"></a>DropSystem</h3><p><img src="https://img.supervj.top/imgchao4_drop1.jpg"></p>
+<blockquote>
+<p>As shown in the figure above, the configuration of the drop system is placed in the <code>DataSystem</code> class. Why is there no configuration table? O (∩_∩) O</p>
+<p>Of course, you can create a similar table yourself and replace the logic in it. This is very simple.</p>
+</blockquote>
+<p>This configuration information is a Map key-value pair, the key corresponds to the role class, and the value is the drop information array</p>
+<ul>
+<li>Action:Select the action name of equipment / props, etc.</li>
+<li>Type:Choose equipment / props. Of course, if you want to drop skills, you can theoretically do it. Please play freely.</li>
+<li>Amount:number of drops</li>
+<li>Probability:Probability, this probability calculation is done when the character is created, when not kill</li>
+</ul>
+<h3 id="TaskSystem"><a href="#TaskSystem" class="headerlink" title="TaskSystem"></a>TaskSystem</h3><p><img src="https://img.supervj.top/imgchao4_task1.jpg"></p>
+<blockquote>
+<p> As shown in the figure above, this is the configuration information of the task table</p>
+</blockquote>
+<ul>
+<li>Titile：the title of the task, which will be displayed in the header section of the task bar</li>
+<li>Target：the target of the task</li>
+<li>DynamicTargetStat:This will be refreshed dynamically, the specific implementation logic is in the following TaskClass</li>
+</ul>
+<h5 id="TaskRef"><a href="#TaskRef" class="headerlink" title="TaskRef"></a>TaskRef</h5><p><img src="https://img.supervj.top/imgchao4_task2.jpg"></p>
+<p><img src="https://img.supervj.top/imgchao4_task3.jpg"></p>
+<blockquote>
+<p>As shown in the figure above, each time a task is accepted, a task class will be generated as an observer (agent) of the task</p>
+<p>Specifically what the task is for, you can manage it by implementing the logic in this class, while setting the dynamic information in the task goal</p>
+</blockquote>
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><h5 id="Monster-refresh"><a href="#Monster-refresh" class="headerlink" title="Monster refresh"></a>Monster refresh</h5><p><img src="https://img.supervj.top/imgchao4_aigenerat1.jpg"></p>
+<blockquote>
+<p>Monster refresh is done by placing a <code>BP_AIGenerator</code> management class in the scene</p>
+</blockquote>
+<ul>
+<li>MaxNum: the maximum number of refreshes</li>
+<li>AIClass: Set the class for refreshing the character, if more than one, it will be randomly refreshed from it</li>
+<li>Range: refresh monsters within a radius centered on the position of the management class</li>
+</ul>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>实战</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《Fightting Game Template》Documentation</title>
     <url>/2020/06/15/%E8%B6%855%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</url>
     <content><![CDATA[<h2 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h2><ul>
@@ -3989,124 +4107,6 @@
       <tags>
         <tag>教程</tag>
         <tag>案例</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>《Multiplayer RPG Template》Documentation</title>
-    <url>/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</url>
-    <content><![CDATA[<blockquote>
-<p>This is <a href="https://www.unrealengine.com/marketplace/zh-CN/product/multiplayer-rpg-template">Multiplayer RPG Template</a> Documentation,its about configuration and production method of the main system</p>
-<p>This case is based on UE4’s  ListerServer  built-in LAN online game demo, refer to the work WOW</p>
-<p>Based on UE4 version 4.25</p>
-<p>There are still some imperfections in the demo, which will be followed up for optimization and repair</p>
-</blockquote>
-<h3 id="Skill-system"><a href="#Skill-system" class="headerlink" title="Skill system"></a>Skill system</h3><p><img src="https://img.supervj.top/imgchao4_skill1.jpg"></p>
-<p>As shown in the above figure, this figure is the configuration information of the skill table. The important parameters are briefly described below</p>
-<ul>
-<li>Action: This variable represents the unique ID of this behavior. In principle, it is the same as the RowName of the table. In many logics, you need to use the ID to find all information about the skill, or use the ID to execute the skill</li>
-<li>Display(struct)：3 parameters are used to display the general information of this skill, such as the display of the name or description and icons, which are related to the UMG, of course, you can also customize<ul>
-<li><img src="https://img.supervj.top/imgchao4_skill4.jpg"></li>
-<li><img src="https://img.supervj.top/imgchao4_skill5.jpg"></li>
-</ul>
-</li>
-<li>CastData(struct)：This is a spell-casting structure, which mainly sets the method and conditions of the spell-casting<ul>
-<li>Type:For example, the default reading spell casting, continuous casting, attack superimposing casting and other methods</li>
-<li>Time:The time it takes to cast, 0 means instant</li>
-<li>Duration:If it is a continuous cast, then this parameter means the lead time</li>
-<li>KeepAttackStat:After the cast is finished, the normal attack will continue</li>
-<li>MotionCast:Move cast, if set to No, you must stand cast, once you move, interrupt cast</li>
-<li>NotTargetCast:Does not require target casting, and is generally used for range skills such as Fire and Rain</li>
-</ul>
-</li>
-<li>Mp:Mana cost, Warrior Rage</li>
-<li>CD:Cooling time</li>
-<li>MaxRange：Maximum release range, calculated in Unreal Units, 0 means unlimited</li>
-<li>LearnGold/Level:Prerequisites for learning this skill, 0 means no requirement</li>
-<li>RangeSelectRange:If it is a skill selected by range, this parameter indicates the radius of the effect</li>
-<li>TargetType:Target type, place of action or friend</li>
-<li>SkillClass:Skill class, no need to create manually</li>
-</ul>
-<h5 id="SkillRef"><a href="#SkillRef" class="headerlink" title="SkillRef"></a>SkillRef</h5><blockquote>
-<p>This is created by the SkillClass configured in the table, there is no need to manually create it, you only need to make the logic and effects of this class</p>
-<p>This class is inherited from <code>BP_BaseSkill</code>, which has some messy blueprint logic, but not all are necessary to use. In this case, you can freely play in many cases. Anyway, after the skill is released, you can control this skill through this class Running the instance</p>
-<p>Let’s explain it through the skill class of <code>IceBullet</code></p>
-</blockquote>
-<p><img src="https://img.supervj.top/imgchao4_skill2.jpg"></p>
-<p><code>IceBullet</code>Inherit from<code>ProjectileBase</code>，As shown in the figure above, this is the basic parameter type of this class</p>
-<ul>
-<li>speed: flight speed, depends on <code>ProjectileComponent</code></li>
-<li>StopDistance: the distance to stop, because this class is to track the target flight, so there will always be when approaching and reaching the target, a logic will be generated after reaching the target and stopping</li>
-<li>Duration: Duration, if there is no hit, the time will destroy yourself</li>
-<li>Sound / FX: related special effects configuration, Start can be used to play when it is generated, Hit can be used to play after hitting the target, but all need to be manually released<br>   - The effect of calling Start after <code>ProjectileBase</code> has realized<code> BeginPlay</code><br>   - The Hit effect has been achieved after hitting the target</li>
-<li>BuffData: If this skill has buff / debuff, you can set this class, you need to manually call the method to create and run the buff class, as shown below</li>
-</ul>
-<p><img src="https://img.supervj.top/imgchao4_skill3.jpg"></p>
-<h5 id="BuffRef"><a href="#BuffRef" class="headerlink" title="BuffRef"></a>BuffRef</h5><blockquote>
-<p>This is an instance class of Buff, created by internally calling <code>CreateBuff</code> method of SkillRef</p>
-<p>By rewriting the <code>BuffInit</code> and<code> BuffEnd</code> methods to achieve custom logic, if it has a continuous effect, then you can rewrite the <code>BuffDelta</code> method to make the logic of continuous calls</p>
-</blockquote>
-<h3 id="EquipSystem"><a href="#EquipSystem" class="headerlink" title="EquipSystem"></a>EquipSystem</h3><p><img src="https://img.supervj.top/imgchao4_equp1.jpg"></p>
-<blockquote>
-<p>As shown in the figure above, this is the configuration table of the equipment information. The following briefly introduces the role of the main parameters</p>
-</blockquote>
-<ul>
-<li>BodyPart： the corresponding position of the equipment</li>
-<li>Mesh/Mat: Used to display the model of this equipment entity, equipped on the character or discarded into the world</li>
-<li>Property: literally means 2 kinds of properties, of which Adv property will change with the change of Base</li>
-</ul>
-<h3 id="PropSystem"><a href="#PropSystem" class="headerlink" title="PropSystem"></a>PropSystem</h3><p><img src="https://img.supervj.top/imgchao4_prop1.jpg"></p>
-<blockquote>
-<p>The prop system is similar to the equipment system</p>
-</blockquote>
-<ul>
-<li>EffectType:Effect type, this case only made the healing effect and the effect of increasing magic</li>
-<li>Value: You can set the range value of the effect, of course, this is not necessary, specifically the internal implementation of the following prop class</li>
-<li>CanBeStacked:If one item occupies one space in the backpack bar, otherwise it can be stacked together</li>
-<li>ActionClass:Prop class implement logic class, refer to Skill instance implementation, specific logic can be written into this class</li>
-</ul>
-<h3 id="DropSystem"><a href="#DropSystem" class="headerlink" title="DropSystem"></a>DropSystem</h3><p><img src="https://img.supervj.top/imgchao4_drop1.jpg"></p>
-<blockquote>
-<p>As shown in the figure above, the configuration of the drop system is placed in the <code>DataSystem</code> class. Why is there no configuration table? O (∩_∩) O</p>
-<p>Of course, you can create a similar table yourself and replace the logic in it. This is very simple.</p>
-</blockquote>
-<p>This configuration information is a Map key-value pair, the key corresponds to the role class, and the value is the drop information array</p>
-<ul>
-<li>Action:Select the action name of equipment / props, etc.</li>
-<li>Type:Choose equipment / props. Of course, if you want to drop skills, you can theoretically do it. Please play freely.</li>
-<li>Amount:number of drops</li>
-<li>Probability:Probability, this probability calculation is done when the character is created, when not kill</li>
-</ul>
-<h3 id="TaskSystem"><a href="#TaskSystem" class="headerlink" title="TaskSystem"></a>TaskSystem</h3><p><img src="https://img.supervj.top/imgchao4_task1.jpg"></p>
-<blockquote>
-<p> As shown in the figure above, this is the configuration information of the task table</p>
-</blockquote>
-<ul>
-<li>Titile：the title of the task, which will be displayed in the header section of the task bar</li>
-<li>Target：the target of the task</li>
-<li>DynamicTargetStat:This will be refreshed dynamically, the specific implementation logic is in the following TaskClass</li>
-</ul>
-<h5 id="TaskRef"><a href="#TaskRef" class="headerlink" title="TaskRef"></a>TaskRef</h5><p><img src="https://img.supervj.top/imgchao4_task2.jpg"></p>
-<p><img src="https://img.supervj.top/imgchao4_task3.jpg"></p>
-<blockquote>
-<p>As shown in the figure above, each time a task is accepted, a task class will be generated as an observer (agent) of the task</p>
-<p>Specifically what the task is for, you can manage it by implementing the logic in this class, while setting the dynamic information in the task goal</p>
-</blockquote>
-<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><h5 id="Monster-refresh"><a href="#Monster-refresh" class="headerlink" title="Monster refresh"></a>Monster refresh</h5><p><img src="https://img.supervj.top/imgchao4_aigenerat1.jpg"></p>
-<blockquote>
-<p>Monster refresh is done by placing a <code>BP_AIGenerator</code> management class in the scene</p>
-</blockquote>
-<ul>
-<li>MaxNum: the maximum number of refreshes</li>
-<li>AIClass: Set the class for refreshing the character, if more than one, it will be randomly refreshed from it</li>
-<li>Range: refresh monsters within a radius centered on the position of the management class</li>
-</ul>
-]]></content>
-      <categories>
-        <category>教程</category>
-      </categories>
-      <tags>
-        <tag>实战</tag>
-        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -4270,137 +4270,18 @@
   <entry>
     <title>UE4骨骼共享插件AnimationSharingPlugin</title>
     <url>/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>从遥远的2019年搬运而来, 作为记录, 不确定是否有更新</p>
-</blockquote>
-<p><a href="https://docs.unrealengine.com/zh-CN/Engine/Animation/AnimationSharing/index.html">官方文档</a></p>
-<ul>
-<li>引用文档的结构图</li>
-</ul>
-<p><img src="https://img.supervj.top//img/AnimSharingDiagram-1.jpg" alt="Alt text"></p>
-<ul>
-<li> 插件已经启用，如果关闭到插件栏启用</li>
-</ul>
-<a id="more"></a>
-
-<h2 id="Setup文件"><a href="#Setup文件" class="headerlink" title="Setup文件"></a>Setup文件</h2><p><img src="https://img.supervj.top//img/AnimSharingSetup.jpg" alt="Alt text"></p>
-<p><img src="https://img.supervj.top//img/NewAnimSharingAsset.jpg" alt="Alt text"></p>
-<ul>
-<li>简单配置以后如下图</li>
-</ul>
-<p><img src="https://img.supervj.top//img/image-20191223145213446.png" alt="image-20191223145213446"></p>
-<ul>
-<li>一个SkeltonSetup数据在UAnimationSharingManager::Register方法里会生成一个<strong>UObject&lt;UAnimationSharingInstance*&gt;</strong>,这个UObj会spawn一个场景里的<strong>单例Actor</strong>，同时存放所有实例对象以及对应的所有参数；这个Actor会根据上图中AnimationStates的数据量创建若干USkeletalMeshComponent维护动画</li>
-</ul>
-<h2 id="AnimationBlurprintForBlending-图中的ABP-Trans"><a href="#AnimationBlurprintForBlending-图中的ABP-Trans" class="headerlink" title="AnimationBlurprintForBlending(图中的ABP_Trans)"></a>AnimationBlurprintForBlending(图中的ABP_Trans)</h2><p><img src="https://img.supervj.top//img/image-20191223145517613.png" alt="image-20191223145517613"></p>
-<ul>
-<li>这个蓝图简单理解为用于动画切换，owner就是那个Actor单例</li>
-<li>逻辑很简单，直接拷贝就可以<img src="https://img.supervj.top//img/image-20191223145820707.png" alt="image-20191223145820707"></li>
-</ul>
-<h2 id="StateProcessorClass"><a href="#StateProcessorClass" class="headerlink" title="StateProcessorClass"></a>StateProcessorClass</h2><ul>
-<li><p><strong>必须配置一个枚举</strong>，对应所有状态，否则无法配置动画（AnimationStates数据）</p>
-</li>
-<li><p><img src="https://img.supervj.top//img/image-20191223150355965.png" alt="image-20191223150355965"></p>
-</li>
-<li><p>每隔场景中的实例都会拥有一个对应的Object，一直在Tick得到这个实例的状态，主要逻辑如下</p>
-</li>
-</ul>
-<p><img src="https://img.supervj.top//img/image-20191223150033324.png" alt="image-20191223150033324"></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UStatProc::ProcessActorState_Implementation</span><span class="params">(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, <span class="keyword">bool</span>&amp; bShouldProcess)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole = Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	<span class="keyword">if</span> (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat = shareRole-&gt;GetStat();	</span><br><span class="line">		OutState = int32(stat);</span><br><span class="line">		bShouldProcess = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	OutState =<span class="number">-1</span>;</span><br><span class="line">	bShouldProcess = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>这个函数可以理解为状态的起始点，这个方法决定了每个实例的具体状态枚举，从而才有动画</li>
-</ul>
-<h2 id="AnimationStates"><a href="#AnimationStates" class="headerlink" title="AnimationStates"></a>AnimationStates</h2><p><img src="https://img.supervj.top//img/image-20191223150551638.png" alt="image-20191223150551638"></p>
-<ul>
-<li><p>Processor配置的枚举对应的动画参数</p>
-<h2 id="AnimBlueprint"><a href="#AnimBlueprint" class="headerlink" title="AnimBlueprint"></a>AnimBlueprint</h2></li>
-<li><p>用于播放动画序列的简单动画蓝图，继承于AnimSharingStateInstance</p>
-</li>
-</ul>
-<p><img src="https://img.supervj.top//img/image-20191223150729515.png" alt="image-20191223150729515"></p>
-<p><img src="https://img.supervj.top//img/image-20191223150819957.png" alt="image-20191223150819957"></p>
-<ul>
-<li>这个ABP只负责播放动画序列，至于专门播放，可以自行扩展</li>
-<li><strong>Offset参数用于控制实例动画的差异性</strong>，系统会算，对应的是<strong>NumRandomizedInstances</strong>参数</li>
-<li>单例Actor会独立创建<strong>NumRandomizedInstances</strong>数量的SKMesh组件用于控制动画表现，同时设置不同的Offset参数</li>
-</ul>
-<h3 id="同一个状态设置多个动画"><a href="#同一个状态设置多个动画" class="headerlink" title="同一个状态设置多个动画"></a>同一个状态设置多个动画</h3><p><img src="https://img.supervj.top//img/image-20191223152554826.png" alt="image-20191223152554826"></p>
-<ul>
-<li>如上图，Idle设置了2个动画，同时对Run动画对应的实例数量设置了<strong>10</strong>，造成的结果是场景中大约是10比1的生成2个动画的实例，其中Run动作的偏移参数也有若干份（根据场景中的实例个数换算比例）</li>
-</ul>
-<h3 id="OnDemand（指令模式）"><a href="#OnDemand（指令模式）" class="headerlink" title="OnDemand（指令模式）"></a>OnDemand（指令模式）</h3><ul>
-<li>简单理解<ul>
-<li>如果正在播放的是普通动画，切换到指令模式的动画是瞬间切换</li>
-<li>如果现在播放的是指令动画，切换到普通动画需要等指令动画播放完毕</li>
-<li>如果前后都是指令动画或者普通动画，都是瞬间切换</li>
-</ul>
-</li>
-</ul>
-<h4 id="Additve"><a href="#Additve" class="headerlink" title="Additve"></a>Additve</h4><ul>
-<li>基于OnDemand开启以后才能选择的模式</li>
-<li>开启以后隐藏了部分Demand选项</li>
-<li>开启以后上方的AdditveBlueprint可以设置</li>
-</ul>
-<h4 id="AddtiveABP"><a href="#AddtiveABP" class="headerlink" title="AddtiveABP"></a>AddtiveABP</h4><p><img src="https://img.supervj.top//img/image-20191223160102804.png" alt="image-20191223160102804"></p>
-<p><img src="https://img.supervj.top//img/image-20191223160046344.png" alt="image-20191223160046344"></p>
-<ul>
-<li><p>文档给的方案是如图的连线方式，进入此状态后StateBool就设置为true，开始叠加</p>
-</li>
-<li><p>Add的最大数量参数如果少于实例数量，部分实例就没有叠加动画<img src="https://img.supervj.top//img/image-20191223160951498.png" alt="image-20191223160951498"></p>
-</li>
-<li><p>一些思考</p>
-<ul>
-<li><p>叠加动画多数用于受伤或者姿势上面的扩展</p>
-</li>
-<li><p>叠加受伤无法用这套方案执行，甚至无法用这个插件执行，ABP无法get到控制实例的状态,下面是头文件所有申明，当然可以魔改掉插件内容</p>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ANIMATIONSHARING_API</span> <span class="title">FAdditiveAnimationInstance</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	FAdditiveAnimationInstance();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Initialise</span><span class="params">(USkeletalMeshComponent* InSkeletalMeshComponent, UClass* InAnimationBP)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Setup</span><span class="params">(USkeletalMeshComponent* InBaseComponent, UAnimSequence* InAnimSequence)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateBaseComponent</span><span class="params">(USkeletalMeshComponent* InBaseComponent)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Stop</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">USkeletalMeshComponent* <span class="title">GetComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">	<span class="function">USkeletalMeshComponent* <span class="title">GetBaseComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;	</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	USkeletalMeshComponent * SkeletalMeshComponent;</span><br><span class="line">	UAnimSharingAdditiveInstance* AdditiveInstance;</span><br><span class="line">	UAnimSequence* AdditiveAnimationSequence;</span><br><span class="line">	USkeletalMeshComponent* BaseComponent;</span><br><span class="line">	<span class="keyword">bool</span> bLoopingState;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li><p>姿势扩展比如Idle叠加一些额外动作可以使用这一套方案，但是，有必要用专门一个枚举来提供这个动作？？</p>
-</li>
-<li><p>一个的方案是提供接口可以得到控制实例的状态，但是跨度有点大，可能会有更多没想到的问题</p>
-</li>
-</ul>
-<h2 id="Bug-缺陷"><a href="#Bug-缺陷" class="headerlink" title="Bug/缺陷"></a>Bug/缺陷</h2><ul>
-<li><p>Demand动画设置了大于0的BlendTime，如果在BlendTime期间切换了，Demand动画大概率出不去；怀疑是普通动画等待Demand动画结束的通知跟动画本身结束的时间点发生时间方面的错误</p>
-<ul>
-<li>多次测试发现，2个动画（无所谓是否Demand）发生混合，要么都设置BlendTime=0，要么都设置非0切相等，则不会发生卡顿或者卡住；如果参数不一样，会发生切换的时候卡顿</li>
-</ul>
-</li>
-<li><p>特殊情况，demand情况下的<strong>ReturnToPreviousStat</strong>（结束以后返回之前的状态）或者<strong>SetNextState</strong>（结束以后进入下一个指定状态）有问题;参考Processor的默认代码如下</p>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UStatProc::ProcessActorState_Implementation</span><span class="params">(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, <span class="keyword">bool</span>&amp; bShouldProcess)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole = Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	<span class="keyword">if</span> (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat = shareRole-&gt;GetStat();</span><br><span class="line">		OutState = int32(stat);</span><br><span class="line">		bShouldProcess = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OutState =<span class="number">-1</span>;</span><br><span class="line">	bShouldProcess = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>解释：</p>
-<ul>
-<li><p>发起点是Actor中自己维护的<strong>状态枚举</strong>，通过设置到OutState然后引起一系列的动画计算和播放，然后下一帧才会通过2个uint8反馈过来</p>
-</li>
-<li><p>如果用默认方案，ReturnToPreviousStat等方式在动画最后一帧确实把动画的状态设置了，但是第二帧又被Actor的状态给覆盖了</p>
-</li>
-<li><p>解决方案是如果是特殊情况（ReturnToPreviousStat或者SetNextState），需要反向设置Actor的状态枚举，但是默认没法得到这个特殊情况变量，而且反向设置可能会导致一系列的问题</p>
-<blockquote>
-<p> manager里面的有一个每个骨骼的对应的Instance数据是Protected的，也没有方法可以拿到</p>
- <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AnimationSharingManager.h</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">//***//</span></span><br><span class="line">	<span class="comment">/** Sharing data required for the unique Skeleton setups */</span></span><br><span class="line">	UPROPERTY(VisibleAnywhere, Transient, Category = AnimationSharing)</span><br><span class="line">	TArray&lt;UAnimSharingInstance*&gt; PerSkeletonData;</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>&gt; 这个数据里面每个UAnimaSharingInstance里有所有Setup数据
-&gt;
-&gt; <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** Actors currently registered to be animation driven by the AnimManager using this setup */</span></span><br><span class="line">	UPROPERTY(VisibleAnywhere, Transient, Category = AnimationSharing)</span><br><span class="line">	TArray&lt;AActor*&gt; RegisteredActors;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/** Per actor data, matches RegisteredActors*/</span></span><br><span class="line">	TArray&lt;FPerActorData&gt; PerActorData;</span><br><span class="line">	<span class="comment">/** Per component state data indexed from FPerActorData.ComponentIndices */</span></span><br><span class="line">	TArray&lt;FPerComponentData&gt; PerComponentData;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Array of unique state data */</span></span><br><span class="line">	TArray&lt;FPerStateData&gt; PerStateData;</span><br></pre></td></tr></table></figure>
-&gt;
-&gt; </code></pre>
-]]></content>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="cd87e7a6167597f6559d16de4d3eee2a21d62967fabf24047e1c60461ef1d967">9fb538cd474948928f9461083e24492169052f33363cbc97b28ec252ee72fc7055f73e36ddbc481daadaf6ba821e03c0220c7ce3048f3914d075319d8f6b16797dcbb2550e999b59182284f53226c2e4dd95a5980b2269168db9766988aeaebdee1b56e2a41c5b4af034f97f4c475f07f6072339a6888af2eed4cd27710c2315e385357f41ff5a9b6ec57363d89c25f72d59f2c08815aaeca8a543821962c02fd6a7e868ff4cfefdf98cca2a03622cc540e851bd959a5f682522aff18a15fe290b48045a00de927cc64bbc0e4e48957d6c546508b525657f632a3bac2ad61ff63b98cb9df89ed7ae716674bffd3aa74ecc84d4da67b49c3ce0f63c4ff6aff7ba4a647f6943d58882c9f1b0ca29873485fbf8006e3c2b5bc1fb362409f2ee17b8d653810e432cef309ca52f0aafe3f10e5bbd308706b09b166b939b45fd8f5cd41d0685f380d04398bb64f427f3b6624b59e068afc553e28ee5cd5522aad70deab0c87a4be907bc285eceeac2d97ab3393ce8f3e98d156729e5ce413dffb388d8716d2c2a3b492b903f25396b9bfc9daf5dbcc5d2db99d5546ab5fecafc4c87431170a2827d33cf914e34a49c9e99778845ddc14af0aed47b345564f29f848f01bdc6bbb3e38ec0931da1425423646ffda512e1ba8345e9704df6855f4811d0bc629984a9a06554b52241ee61e2d255137e4850435690ce9020f690eafa931b0d995ea9f1eea648c0aca8e9ffddfed740b2f6a502cc4c9988828a32e6e15666c321dc4b2f7c6f1f0221f1a914aadbe9f96a9df30b88e45893787dcbdc78d79ef78be2f8fb785f25b478cd65c6b86c5e170dbad3684a0a1616c017a9028148744d8fa8f4b2f6cc8c573bcd79e224c27dbb1840876bca071008ea30e8d050e3e5dab953e9cb0161b7a7cf8a829b3197c3adc0fdc9c52eef2458ec6665c1b7dbc3eac09efb664fba43a5ddf7bb416c7fa1bb9574b7744af45068272357294fe72c6a667227d1a48866821fa825f8f3ff9bc3747134b47ffc273772e930c775d76928abf800917d43afdc201d8de09f74c18457aec4f02b7bfb11283cf6b17498d467a98bd9bdbc1801584b5613ae3b8304b0c90357b662ebfaaa9a0c8ce1b2fb242496b2d8ac946c00c324fde446c66c61788d4b3dde9f7f9983e9264bfab0786f99ddcfec03a0794ac12bcb9d8f0e87f988815f9e1cbe3eb518454633b471122f4c84394e3800497867f72184ed64f59f471bc26af0ab46d5078ee75d50fd7738cbe421d487c920da429e2a5bd99624a75b5ccddcc119e9f4a5c9e1e60e39977445e7e927b2da9dead14f351d2d5e7da4c8c844a3a6a5934eff1a4555270f772ba4648c4e99040050b99b0bddd49249317e38b14d933832f804f9deda69b9999b73e49db32861289b490b425835630e12505a4fb571f1fe2fe84f1d9997aa35853a5007e8a6da076aab7928782edb7becc6dfaefffd597479b0a6e6c269e5f54f780203183ef4ff5df7df5ef7adf314512bb25cb6695a81b3efa66b3ffc976cbe2616dff224409193d9efad65e38d928d05ac822b86e6674b49fec9961c63f732228315a6a354090e9540d8fa47f1174e51f4f1fe5e9ffdb46033376eb6b02af54a9b3c8e3f5fd20502010c4e0e7c3dd526bebca9b06ac2a08897cee0440c4f62e0e6c206da146a661a38c78a797c34ebc740fc13836dfbd0713b4087efda815fc9a64747ea6496f427c9f86a90f9447ad1c299901ba1a56f028eac583d73dc07069a6b3dce7c115460cfad7b721497c73bfe3a3fd8c61b1e57bc57f5a61718fa99eabd952a659297f66e8552139143c6554d9c40c535902881599aa614ea83d8c71daf70db42a5c163bcdf92afe8ed2bd11ad39b641684d35359e9442d64601bfc4b91d00a773a8c591638e3b4a326ecf97b2a8a8dceec030857694901b151ee2bb5f378c5639a554c86ffdd4e31cdb4f5da2c4de90dccdd3ad5e335683c0f00e7e13d950e02d72a50503d95cec6e995f0b2c83da56f6442333bee25a4e17aa93fe4cf27fa8058431ec7263e12dc8e844dd4fd32f47c618bd937d4a6e2e35ff2443d000f528b6f66e0b498c959bce2762cbd404f3281c6cc3c5fd4e79568aa41d1f162da2cc9b0666bea56afbc9f2807883e020f5fa02e30956ce03394875dcffac96bde1abb8d82a8d23c4ce686576e6ea1e4c73d56cbc73b6705bda0c90d33c07bec5e42af6ba2909a45aa542c9c32dd87e515c17124bc51fcd744c4dfb7fcea21ed5a42ca8737f4d1c8c02e7ca5b88647d05315446fb359dcfd8c99a687e294c69f5dba4d3176099e0a7cd3800e523b4f2811f22ddeb10eb993dbf29dcd0f6c56fdf3897cebf3af8e553a80aff141ecbec2e0e310916664c73d515903d1312782fd2f66c35695445b3872e379f06c855a54a952d5a4589e2b485fada792ab8ff510c06f28bbad1324382aaa50d30364a7eaa3aeb0b3770b2f1f37947618b92e265d21b347bf9351f3bb6a59805c13913ede32836fd65bfc97f389c13f025009fbf4feaab6a3f387bd6098071790df3541d4c3a5c4950655155529ecf5e24acdd20c06a6b5a45ea3be9f51bc6719e259be5baa73d3b93fae096f2677617eafa951a8786dd6899a95e59fb3ee7c8745a04b2b0ec07ecc6b698eae6a345f0d8e7a51afea3407c648282a84f512a5da2dbba065261d7c39c5343fd25b4a3a62d67dd41ef3a935ee262c1ce058afb98ec28b9d19e6a89dcb78160957fc72555a7e54a988882f6413e06e947b5517dce47cc65e8148c721aef315955ac280ada5113d29c486d0599f9c506d97548f0da6f62155341d7f1eb729009707bbdf0433fe81ac5a20675d4f83b835abc5b8652bc4c8d4990683d04a0d4d206eeee226403262e98c0fecbde18af686447ec8b09e060cae86e930e83b587040ae38019321eb4c926b45ae23c3f36044822c9d4b071d964d421a1181399e1408934a975fbfd25234c67bb72a4e4352ccfd1e90818875630e7ededa0fa9838dd1e7e65811986a7e3d64383da7bd9fdba6fa459f7f4f7ba6a6c48d530ca3d60c5c45f38edc34cb6130cea4877963aa7b275296bd8a5082e777e7b09ebdf3eaed72f30f0eafb1e1b5f64f7beee4777a93fa665b1ccf74763f2fdb71187eaaf88a0f625419189e206b8448dcd8479f15b821290ef80be0a84f406f25a1b76ee85d2b852518165288093faef00865fb7ba9af7a97a6e2bf68337d41ad552b2f4ff4c49ff07e6d5de1b089948f96d9ce7e8c6d2fc17c1ab3368d11198b849bbf5e7800c30dd67f6bd57669ab017279cdef0e1d893f28584f96058f689e01280dcd11164b939735156d924cce1d4d8f484b63fc969907b62ee272d615ef5a718ec252edc9136f9c377f6f717cb9253769c5473054e7eb24123966f372d648811944f8de7b4128aa8cfdc78de531eece455d01b785f159717c2df5dcbf37865bdd6e2f13a4f1379743856650956aa96ec1b10faf40f03edc3628a84347f4d95a7f5fb8b6cce09d42142e31656f8684db569b8c1680215ac4957bf0662c9031c7a8326d1e6cc05b51d5ffd706b5c82a84e847f1945cbfc11007df20d44661587f2d9ed6b0509006a5ca5f45a162e2c7724a02ee3e62cbfdea6dd0fac21edfb3c0320d1ec1bc2b22299202d87e80be3b5b96fef253440df872805e651c9311267a1d23d3a53b70df0f8806ca0641ca8d7db2160503801c04b78b3a33a94d45d97b4a34868540119fed7a0e6a68dd29140fe028c188a93b3eb67f7fa61abe8d78e1961b9885f85251eb8f3792541ce1ec9f55a7706173d4df01a6ac2393d2fc02c62c0cc5fa0c9cc682a7de694a0f9242caef7a403ce5451e0706f4fcc4bdee9ad22a207fe252434187d9eaaa72ae157121e61d8a441e072db41a4c3abffd55254b1af705114fb1aed983dc6e5c7df91faed5454ffc214cb3de2f87ffed0147a35cf58151bb2d16da02ab40ed7ed902847cacc6d5c7fc0964eeabe743ce1258d410bdeaa264acc06025b9815acc47177bb91c3e8a536959b0b20488fbd8568a59f07d44adbb8825d9ffceaeae936329926a4e5530bb7783a900f28ee76df37c86aea197457b02e3bb10f11c8a095b4ce1f32a672cc12a0c66e8aef44bf60dae06cf37904242eebbafb657cbbddfa9b122121ba6975264e478b318f091adffb2cffd06239bcf48395eaf64ab64c1e104ae010cff9da3bf7070e82cf21079caa3d4b4bd2f17f8b73c11e8ed6eaae238f9f510cd64a8f75142a4ef87f20e47df5c9802ede2b220b6ac5398556205953589ffe2e1ea6458c926349d012aba7cdaa2ae8620a81831eaccf63765b3f5f20fc52fa2f32b6fecfd5b3791f8d7d18e1e31e665441fd5125bc88376ed95ca14c2aa306e5d330fdb2b63be7827e4fe467b7beadc6a5b2a9ac9572ab6807f89c33f1edb229f4609415044c44a908892d64e786b6f64584714e5571d5d84f8f17240e037e8abf0d0c82a54cf1b4bf6d148b84c5cc9d7ce277f1dd511748738b87529a3376b38b3bc29f97e37a5644598ac227201a248b4f7b9040a8236a51d3b1a3a97156105183ab13016593097692f463813d26c5373311ad7dc4d812c86c2a8ee725d9babd64fe224843a268d5038b8951cfc86366dd96efae343acc91aec65d303989725531c42656d8649b764402838f61169446c9a4d4f32f8958d9afdec89b1cede956c657a4b5a2986cbd4f92ce777c2303555cfa642acf23de816152d02dbd59b09e40575c9fc8edffd509f557bb091f538f8b99465e40892c5a8c1c0c57406f423837ba1a268580f7228e485df901f98142cadefe043b4c71752fe642af423fa41d51ebf797b8064f6df25b2f18d49838daebd3a4e3bee95c62dfd42af60754d15ad524d60c25f76447b7a9d77ba88ba9e70c8c0107afe3da63d056c8d7ef14af57b85dfa612b2c217bd402caf838f302ae0a61d03199e4b12340743c666bd28d75530ec1cb8d0985648ee1794ffe980770c5d3a6283f82be4ce560ae9b2f5a4e73c2aeb8c1c5ba1dddb0569bcaef5e39cd50bcae8f77228b557ea1b5b3ac6fc0fefcdace203f9fe4061de36e323612583ba4561d02b93b83fce0ebd9f8420837a5d9cdc9947f94f83f7715627e14d89971a2a6b87c9e1c2e545ba82b83239f44ebc5bdbf7ef79d3e2eb211bf4f7cae9cedf7c9d5a03d9b17f6f6a22d46f3f4fce600f6df418e329f4c5818a5e9f5e14ecab40c9659737875d53699e9dad1b91259e024f595e8ab29671e81f8b88997dae1139c34dbfcc8327cbae649777b9c0520b67b9543bd5878436792a3ba74482a6f7212490621b6df30664d4481dce92b433621e32de292e89c44efc2a76be2f730a405a7d5b58f2901d62842e516305e14eae85043da8defdc3e93a3cd0a2b3ec8699114f4d1415a9f19b35ff25a792e6ea006c99e7a9e1263aeeb7d389d89cb12c623804a30e709c6fecc63629504a87b70e585157b4912e5677708a3e39bf10269bef19e93fc973f9be9ab85621e064f96d1f7e26bdfbb9a489e9679816cccc445198933eb4b00fdfc0b4a8d53077a20f048ea9e4945f077dc522f04a0684ae657c8511266929079b2a2de7e60d4f7f353df684ef2e922e1093f47dce176c64f9aede90d4a389d93fdd288214dab7770d8d5cd5c50279d5700161678b8abc61a6e72307aa108db68c1aed855ea4b510d5dd046d34b16c86997db4f21d1e392990efb7f737cc5be81717294e3d2db750cf2b9f7ce3eef74023a4c0cfeaf197fb6483e60504e99d947fec50948da1777e2a5250ae5700a7844f6b504196b753e5186dc65067e842f3dbdcbf150741b4b6f8debffb7f9309347bcf87c90660b2a5127112cfbe70a9a251bbfe40665d9c9b088daad7a28a1a89e42e3c1367b643306378c6cbdaaaf7452c119c08e389bdb095a4107cbec9d70782890d05357270c532aa8f7536f0034f41c00694c4464764f4e6ce577531ee04a7eb6a908918e0d41345ae53a12e97c3afdbcc50ea591a4b52213a088b81a109aa4c34abe88549c2c284e876976abd7a4fc0526f7fae9f4bfa30cc3a1abbe4a417e260c756e1b896ef6b7b94402dbf6e33cbe938d2de7e04bc9f7e30068a2046bcd051bda5ec591ff712302368835c741b826d8a52bf977e6f7740d11d9429ca054dd32e8f31603080086121cb79956f467c75fd6792e5320ef96d5b881b498bee3b5c23ede10c28006b91f5bfee1d5ab1f4e78bcac8f896ae5e9afb1e313fdeeb701161b7f3b9710ade4fe5bb19c3f3fd1b269b1152846172d7c5d08561fd935719290efe7c0a13af0d00e7f7e0a976c01792b8502f7db6eb9e054bee80aaed99c85b21a8ee88dd207eefc675788ecce0e685050d7a8390cf00130d460810287b799bab4681d1fc3188fb8122f0fed4ed3b03945912acfda33cd58e9eacd535d5d5c9a3a09188e2da50dc3c5a842dbe333d61625f6c229b5a2c9885eb0b8cd996feed0d6a84f8abdeba9720344adbe0010239bff4cb305b38b7c4562c8642f177ad9ab2c64d94d51b5e72140ea5c4ec848b92a0c73ef9a328a3ce9afc2109993443d9feecb42099369521e9def3269606fb710a187f9559202240343c65cbe8d0d0a8cb3cf941f6520e9a0f8c30b949d628f10825e5408dd715245b57f23dce3a5d98d9c96de28e8396b360ee3a920eaa8ed4e1ae836906b65be7164ec73bf36e7999cd91498940e8d66421284e30514b542b2285924963b58862b71a6c075f90c4943be49776d498faa9b3c45e555392bda4e958d332c12779f2f22a063156f1d431c44af29e2c405b6bababba1c969da6386e0c47438bc8a10536955830dee48fd3c6c0c21c4dc0f5f0587c67ae05eeb3b4d3ecc9360e9f2c96c1f9694218706d67ab3c7a0c63ca0fa22c768eaa6c03b30444bd1479d874da0db7ca202667c1fe380ba780239e9633eaf9e7a757fece710a4e808c6b493f2ca0772b7e40f3152b99502ca92e94115fb22a63076f6f6edd7bbf203ece738e690f55d5e824ad97273489be525c3d0006a0295c1cb5093b6d67bee88b748b71cb5d25cfe168b1c434873c8c86544423c751147d4284ec58037ba106e1e9229f18cc9e8fc34dd6e35749afa6b2a26e7e4086fb9352a5265928a7f5c770b0b277884e6a57e105ab347adfd83cad8266a759f9910804bd4dc883094656d96ab8c9effb994c9240cec6b928fc03a5bbb07f41282bbcaf469d8a975d650c5347f22d479502d93e4149ebaeb15dc404915bb5ed195d31698c507179a19320a81808101a6b22cb669f78f648aabee3690e1318951495c67d90b39b2070bbf2537019906ad76adeda3fc3b47effae1c1a50bada8ccc0c98e993472c31755a69ec13cf83630b55e77f7e906ff1c35701d6856070f7eaa0f8950186de5163f70a36e1b675fa2addc6ee73300bc2ee0e548077935a8e96dd807416ce5af3f22af3d4f125c6f94a06d476c980c8f469f2c011ad96d902f985f22b3e5f7ce7ab5c1563ffd4474e48de8375f701bbcbbe21c32e2efe5779a6a5c5d1cb2e8f63bbcd72a14373e4a6ea3d7a88c9e5f32e3e72c133570c0d529e2531c6310ee0f928f3b289a233fdb5646a4c27d03d9d2638b8b1c1474faa79377cde94e522d2c2b784798f7540c27afef52a9d5fdd6151cd113de4078a9195d4b6e4c9dfe5077f955b387a6326439bd6abd586e78d2c8b384519c1717c8237442de2c585d2dcc4947d9524ff0f3d8b7ee9aedbd86ddbd013676c09d2ab79a42d108c6dc9ec447e8ddf5d3f48113dc056f16de11fc64cb4b07e06d8fee878aaa03d50a4fa987f64202a51b6cbd2b1c05e797e5896ef5598dfe030e3d83358353a49a528b209f43715d751ede93fb0f61428148df8f49f81a93c12822e7867a45fd0dbfb92d4dd3528205e1d6c574a5e867b816bdcd79d36cf45525c2b8f41c9b18381778c407adcb25dc9f577e660f6dfae4ce61a11afe7058e8b35528be55a909aa73899bec0b15bd3c0acca8beb323730e9ddb9fb7413717c12ac12e514275b9e9847740347afe21b193effded12fa0c8d3875eaf29334212a8107fde33b5658ecea543f112441fb090b3b64a63451717719416d876b4d7b4f105b716dabddf27fe0fcd0ad3a334e3c0caf8e9fab3b0739b6be49efa2555e037767d105882c84d39c896ba08b84c5da6340251d7fd405aeead8a9149ff6b212b2ec632efb839481fe0dfe530b14881ff46a05cceb57f6563764855fa679c0e818b71cea77e9742f6b46274959c5df6e923477fcd0e1b7a5ed48ada0cc860e5766fc14b41b1ae247cc02635847581b0ca7b6469c7cc49d5392b3d0bffe29e8ac813ab20c0129182a1a8f417a41a63fb8ba6735480971377dfddacf81b6b199a160e3e5c868a0b9682791f8ad20407610d77ef87e6341f2be543ea45a85ec1c2e81cfde518c6acf1cdfb0d506f245409046359d2e58b180d6c5f7bd740b4d1b371e36ee202acf960f9c91222d623ac12302cbf18ec916b7a0a8df929dfe6a57a5eba9b68ce9de642ecb5eb9949856e59ee099368e1b2b5e30ba01849f62ec9f123342fed2751ac39cbcbed84281f1eb995a38f88c85572324fc27a51508f5cb79982fa9e791ab96a22963636f021b09576054b34e2f6a496789a650e23349b9e4530bd95bb7c3ee383b17ac17040500c0e871e899f2c1dc6c76c2b998f33ec4df8dd1ba8255d9903881b44984bc4baff1ba7e3da3bafadb6ba152d542c77273d47c7415ee7ec2ba1fd8403d5d2386d2e32fb16eac781e12f185d6e6306eafaf69b6b95676ea73365825b4db61ff1f663099a73a58e35cbb9be9e421595e2b76f7cd1e8664bdac9733b429e59e14821ae1e47faa3622feec640c2773be671baf6e4c4d8013700cedabae4bba3974519fb10275247094c63b1e5483b8e2754a26db523012c475f2096aade781b03c34c26b29b349a68ce6a7a27090476ea2320a5354ed7f41960c8dd160353ad900240ce30dafb5b3183392b08667a653a164a26e1a668e043054d8ea20df6e501f60f315173cfa9f767374b0615477b17a0f80f96aea223848b08d5c57a5e85021bf5e5896974e75cace345a11e878360b4c2f37fade1dd69bc71f204d44e38854aa51828b5a79bd4ef79917f25fa09ca0634508878bcd86c31f85da034b640e6cec38ec658feff37301c512b4d4aac3ea9aeed6b8b863c1a8ea96f9edd29503e3fc68bb9a4884c10fff0026e05081e173a36fd18062e3768379505c82c397f8762804c71742b3c8ebe6ce8d37a23f4333ad660e7d9b326e7cce028122a99da8896be08a3517d10b3d837987451d39f5ba9b890a111335737800409c828b39c7ac5717c52605233f8e8bbf0406ee6aa3be94803d924f7ad54597085ddd810d3692a3dab7107c16548ec6d37367ab90d9f4a1edc01d1688c93312b7808139b299cc633cd27cd4684e0c43939f94ffa8c3bbd9ccfa016a49e8e303a8422f3becda0a4a24476b69d448e140b4920436f32b0b3533869925c01dff6c9fb8843e45140a6a9ce2c3da0b51da7779afed7bdb28e46e33562ea8fa3b53f24c1472d8d0283cb5c869a70bf679cb72eb8fedd34ad1de93335d5a638e59910cec973cc72c7a30fdc2fb07e427e8484fae294110f96911fd31f56c96f1fcb07ee901141d606d1461badce1c493789a2d986c8bba73311e9383a2189e9e9a2d865c566bc802616e0c227832fce3b13e37f7ca429bd2d87109144e8a8ab5397063c9032b99be806c20c3f9b96b2b5d70c5191c7d9b388008183c347b967593feda7f2e0c1d3fefb47b44bbd9ad0db952ef3e9651f7e9c72f576bc54a586ca032064c58c1a16488ad79d35761de859f2218487be46a51b948568899c264fc094522ff39a97e3c526577c2181d187f828fc07b1f9f90115efc24aa8681d1303c22a1b4d6d55ca3df42e50bc701da7831f0a28d6ccade3b23beea4bf211794665792da92b53cd1f0fc3a56a05afda12d79401c94700e4b0250b97ec6a761563b023f6954be4c04aba57895efd0d706f3d83a4c913e3295db54504aa5f3168c1abd58d1f1be9613f217c1e669be204b719fb831ef36ac91789e51a4e789ae143e2ebd4638cf1d3b33035b56a21d5bf2a73e56a1ab4edca4ab8def456dd321c6f510e6fb8c6220103ada621f19bbfa045880c048b9b1de3ae9ed72e488c0b244bc094d6bdc53d499633d2870df0b3be1f9e86dc21918814d4877e95663ce780efc6d4b405076604ce1dfab85c0d98f81f5072381e89c1149cee8ce3d9f3214419478207b3db2c3208c7eeea5366e580f274fd2ed2958e601e0c1d5b6371471eb8ff217522d498dac857839512bc206b6a6bd1f98db2fe68289e200545e5a0ea405a1cd5bdd920aad623720d324366de82637e351a3b2ad67fb906d8c2b9ea7e3b71728c3ba9b0ac0ea89f6aed6b233ad8fcd42f07d10979f825f6ac95cd84ddd3b560af00b1c73f22722501caa42dc506c1c20f8ef3c1bc0ac4c175e624b5becdf93e83b2c1a0dbbfc3f5d5220e92d9c331da29b9a0972ad63652c16521ef612b16b459351eb9ccfb44828611333173d610f2c3938fc76c6eac19372c645c777264cc656685aca318cda20f767b9627b136dc6765ca88b5cadfd570c2a181d0da9af890e48255dd9fbcf45e0cca1047b52865780241599654be799706f19f50790dc0b2fa5ad9b1564f70206cb4258242a4a8a6c55f22b3072cf5de12392864fc4d78a6c02258a18a8b32e93b02fbc21514211040b599347796494cb6ae5c16424b860921fde8cf717deeb80c26cae40b5f92cdb1d56cb863832d7d488b89d1fc3c99638fcd610c41798ecd4e2acd04e1dfe73b3d21ee323c885d41b1bd7520347e49c744dc159ef59d2e697f5f877855ab82bb1ecb8ddbee0df1a92516d6dd4b3a2fd2457491a26e93157cf998775045783acd57c3c8b3676ad1553ce2f62ccb3e2fc336e22fcf8b11a907475c420c0ce5d2f2b6e699356604308b5f755a4ba6221e218647181cdced8e72272368d8d5aa4a8133e245f7b05db7fb2ff3a9ea20ac4e3292951b7e976232e774f911bff55bfc682f4a8109217d88976dca75337e06a4c611818f99aaf17f665c333477ca76f3be7e7d184d5aaa624fea2f32835d386e3a02938da0417cf9ac8ff32dbbc4b51c7726d138f05c1a99896bca991c22954903307ea22b07bb3fa0dc171befbb6062dec2d2286253e3fe74528e260ae9c41c4d3b6ac5c9de4c1dcd63b4f23cc4f9edb449ccce207a6aebd55e4015366f540a681733b2188011511f5d9ad329977e178b0ea19bc2bbc94533b0579df3397befb3f11bfcd70e208b1e05fbbb490622addffc460cd79bf2717ce5d3daad2d823ad1f519f662d13d62a8c3706f017a704ce32024b1a80f296b79156dba7c7103b273c4edd9dd77bf4f5539a01b573f6fe6d1eaa7577aabbf999af98f228f2b7738d4f1d2d47772e36e9c806e0171481e6b516477a46e6d1bc19dfc240a0fd4b13ae9afa452bbf61569e98df52295b11cfb3f3950fecc7fae2bb7f353f17d01e2b62cb712b9be939c69df15efe9b8a137052f2a17000ac70db0ef976c53f73c6e2e79764f4a34c242f64f29827ed2944e0ec875c16de08f285bca7f7e1d02b9d3eef91f517a8a681cb35ded722512df5011ab9b8560b2e42b8c830a24f16b2b1c9bb876bbdc25d020759438eed78a6af57df5bfa6c0782e15f5cd9ecbd49166a8382ba3652bea0ba92b17872dddfabf9a53031f8a6bef5adc152308302c05736ac3c7d85586cab74bada1468f221fcb5c6b8d3d79e80592b7d24f8720a259486a8b46cb70387b8aab6de9e88d7bf983621b8b6ae171a6ac6790397448ed1178ff48428f4269eacda68d80d50f65671eefbc29398f7973d8b517c55bb40d4af2ded129273a3d2bc18e4bcdd71016752b862540086b738c9651e8f5bcd7b4b21df69141c90932d07463ed08d5f92e7218fbdbb4624552986b92ba81a6de44c21148e46ddcad363e31805559c00ddd3c4945131f7eb9f04e0b956cd3a3a10b350a05344f14386f4bfde035cefca8bc7cbd219f9ca94b3a19a29ca4cdb016233a07b23c6d72e4dc8fa4213e99586812e26e59aaaf286576f1bbafad43021519dff0201906eb0fe9aed34b05a3db8a0c4cae0f22790c30d6fadb0fc959501323e830c398d1a2d51b3492a17fc5fb0da5f583d02fece519428f0ebf90d338d5b2ddef377902d3a447f32862cdd8e3097d91e37694f9835712364440789f4caf17671a977d0cacc2eaff24855a0f80d2457b71a61b3567326b5e8cdd0837b738d34366c63616e5e30d30803b4316acf13234071943eb2b6f7dfbda9e103ddd8b2e4a624339210b8b0667f3c34463fa826ad9f6c0c46f1e119971ac2ca1aee518c09ef438ee21d3cfeeafc09b3b0c867b367976e90787f2575bdb82b75af2a6f85bdbcb238838d0870c655299ccafbe4eb7d87157a0e944944f70a0abe505bb94bf06aa7cd9ed623df4d8f87d6124ab511d245c9fb3a2c85aa776eb464cbfa0101be74d140a8cc10557e1850f682d8e0f6af557310b0f6e498de427d0e84366db2790e91ada212953cf9e6926b48423640d8c9e978151041019106ea905bfea2177ee04fdf406b8786a074c0b03a11816c19b87a8a0a8b342ebcb5e6e681b4f1689ebde74c2ae08935a5ea2458404fe12baeca7b72a1dc8af30b9c0e0ebc354703173126f9a55ba53a0722be6cfa54a863424b027d0b69b71c96e4771a2dae6c80eaeea57252a76926cd737340ce85fbd56448ec7b681ebcab9e406df6d6bcc1984a6b0022692c83bb0996e793b624d7dbcd98604c915849bdd98af41b00b82cb7054f0e1d4358d472f34aecc35c1872abf7018dd2c611a224469cdf8e7664fb4767fe57aebcb789fecadedfe41e2ef4103499b133ac426645d70d3ac4522f82f1a349be2bddaaec9298362b17f50eb43263f9cd7fe34b1ce6a595fbf39a45ebb9d986b1c3553691de5c9807b37989b28ee6b80c3596eb82a3394006a8c943a8862ad585425f79239d17b1083ce144c5616bb89072ac94d85b42d139597f904795cf64a26cd7bc5816a14da1842ae45ea503e50aa4357719816096f6c919b9e2f177bba312a1b9b7f915757fd0dbd5e0a0dfc54a9f43f4183506eff8fd57c810a5d99f1ed6a62a97a960d2cff64713f694ec0da28f9ab621fe7dfc3c02db2f7ee6c268d249b37f1d318d94a4e811b80cbc7996c58d512e2a936f709fe5226b6e2051b8716a18ddaf46d56b1e3860430789d2f7eddd9158b2f987ab2c4940efee97cabe39ed005e4bc38e19f08050973ed7abd727adb1ddf12a3321a8ff4c2e30f9fa2a7e97be9053dfd0801fdfa99c212b4df49f90956fb95ad7440a81bbcccc1a2aee47b0c5a99d60587253d55d71638dcddaf713e2d8af7f316180b325f1c4a00371cd05ceda3a801b1f499c9401cf138286c62bcb726ce37e5d474aeb3f24d862e22f1989f0c82c4b1cea28a28b4072422237f148addc1ee92b320316015f2900264de089e053cdcf5ee5857bee10213393f81d06155f82f7dc689d629ad3362f5863482bd4977ef1f3426b82b076c3f57ba38a5966b2e9136ad13f2a5992530ca1bcdf2de0764cddd14f3825c3a28ffafe9cda8564c1b310268083e8fc41683f6ad557069a6851b1ac18b0a7d7d0394dc6de6eed6232d7812ad66a6103b9fa9686bc723ed9a0a301ab37e84cb317e349c0b54a28940f19d4e097909b62ca2192b13f571df59d65e4686b1a7dfcdb61efdc50a33d9e2c2b4f7129b0054a4389cb11dad48bb1542c6c05703958f091657da3ea6dd19a70fd00e28e301b88e13a368cc2a5bc1dd153b9af0263956b7b8b717f52b46f60d6cd28c8fb01615f7d958da5208dd6b3da098b7ad75c98aef6e41b25ec5cf6e117837a61eff4ba5750a081057b6d0efc13c81416e7fa9520c837d42df70e959e2bea199d276787835484eccaffcf54cc0ccdace65de5847035aa60a8cddbfe3961951fe708bb6ccb64e88b77597e2bec7dccccf0de0254f5e6b0377c673f85dbe3f33f491b02ecc01778c376f82fcf5845b7b80aefae33a4f94170927a0654fa683e80c73676e26f448a087c023aa0799fc4c7baeba62bbd2bbacff6745d5230e83d076d65f6f8a5b5ee529ee809e4d176334c5850d92a8e00bad55ebe217145776d902eb9740c8c16ec0978c13d2bca479386abb47c23d31c6edd1d2b3dcc3edda2c0fd7ea7b9812050d9630c270b88274dfafe25f262c6715baec4376d74703dda4efaae5dcd59d03a4c3c45b8b0d14498463713af497c4e7976848565c5794d1e70803f037882d36b77a399e1092af0caf65e4b2e4ddd1f1c31a2e700c33a88058b77934f31e93562a2d0147ad2819d1ee7d116daff1107798440988cf521c070c9dca498c5acd5fab88972cb7fad14fa3001ee466ea3c92369c1388fcf0a73fa41aa11fccdf42a0a0d2e76f5679d06045a1779b83e37604627975a79c9ce62f5cb67778b4740897dfb76c6aa6bfe7eca85a6e8d5869bca8d730686739230bfb97be72fd1bd5b17def4dbe0cd2ff1dad3ad3ef1941dbf23826626ddac81c326765959823f3c06b3fd92c6f302a0a5fd8fdf8b810cfd5863c6c5dcf5c08629abd0ff34d21ab1e7a392e27a144035ccc63ac25eea7084e1602d3b3f5588f804cc43836ff34bc5ed19be159c08e8600384694d9c633f742992f35c62e09204f8799ff11fa3ab9027fc1ae5d9074e268d3180a97dd1cafacece79c1ef4a5f976d85d36f2604d4830b1265ff1c6565872bd0f92848ae8b3286dc7836d9de83c41c958793520e17dd6d8ede93ae044b0d35d6a59b4ab684d8077cee6f3d0cdfa8b614f42b18855ff7e777158c61f8765432d4d29eafde8bc05204791f44c1e313052beb45a8e8ce28e5dc883219dcfefd70e3704d455696c97ada21872306aacca7d22f63428c7e30ea7ec07b029506e80247006930e76324ac02d6818d4231fa4849aec23ebf0f48afdd518143731d0ffbb6a2930e6ea4587823affeb246c9bea7b463ce06285d2cfe84406d5d3da3539a2b43b8b5e59bedc68a57fee83c0999a108d7bb0d9375e1b463e66075290a8ad5d5f232af1f6688e44e654e00aa7782970a6bac9086b05ece623e2534faa264abc5886dbec6e1bb5cfd4ee0688eeedb0b1bcc37c0f089cedc4e4bc8e312a4a3e5ac1b7f839b48f22e5d63b6e6d6a33fd08654580e9e7776cc9a7bf25eb7b1b6733e4ef92b09289b44e1a8af1110c73ce4b7c601d1267a17bd433ced8327bd0a054d511784d28183d720c144c515071b31fb55d9d2a2c1417aeced4131f3d6046644ac687b30c480f2ae94f7a9b115ad9ea10ab09cd0d7e08a7fe65a9141a2f99421117cbf5c1448e3df204b815f38de69e5e748c709d05fad14d0009801538705b213a597289139006eb56ef37522aa7e7f06e76f104008b061de3cc6104a2a5aa92726053fde1144ccef688a7d32005070632390fbe34d0aa7f508cd7d60f4d5e427b9f382c45546d2357094d3e8bab3747536d418bac8fdb89dc0acb7848057f053ab709b56b6c0a16ef05269e6ff9820435b724a8c1bf1024d3ba5f59f7dd5a4348568c80593f87ce0080d5aec2a659352faa100771d23d324021298f6f8a30e54341dbda9144f76b3d1dd5b571306e8fa4214721bae642be6936d53cadc8385e5d09bc59e62c42952b75855b7eeabaadcebf37a065b85e00abb86a4b60ee384ecba829a146a0db8053a41f5b262e876ca389dfc73ba4d923ecb6c3700a45250d4ec028d29d3a3e011faba4be6924da647a2e79270d01cf1766dc76257fc97a995be624e4720d51e8ac877446a2d620c1a77aafd0fad478007e7b6c6ae10bc88f9a053a3f4a7c1b1aa284f7560d00f68542c41459d182c495d648799bae8793dcea665a4416fb746730da8d4541637abd86f1f40e5ea767f67bbc369c3fd991c208636a2692ba51b98f90c8ea5595c62c826f2b199e9493e4873a65e1941e4903450d8aedb0f415562b10731e9473e43c89cd4a9b4f009179aef0559e19837dd9188e49dcc64dc06bef6fbedb5038b2508fe36bca8cc36228a7c6d4a5b8f1aa00f1446eaf0726caa22b93ee586c5d6860e61a6da9ccf384ad14fdf093511fad2f7847d148ba9b4cc0931b461c0ead65991da2a5fb971677692371c2066b5a6fcc04196f3090cb5b1bb2544ea6d65818afdb4c2619fc0ff5a411932656fce965dee56c9917760009788c75fee927de1b31399317f6d696791f1b013af12fa8c0e8d09d3ca77438b7207aa0dd034fb58e1cf9a7a21c092da716045ff5730d6f900b6f5c4ebd4349fad988a7a4eb571635f2a7f533fdd399ac7839f49aa0215fbef8dd31d6389fbbc991f3fb36c349eec66fd96fd6864c799f853a1ea171198add9e37e81d97f575f306ce460756b39af08d9c2adcf3d7c5f2bcec036f76a21c47a0f7d5431d0b646b11c42475cea612ecdbc95cc06fe48e052d262001bb3322ff7974b86d7b0bb7c9fec46ea14529bf7aff7653074b2f859cf88edf5fe4e8a1ebf0d29fc269141f298d7dc2de94d659b7ef67c4c2c4ae2811156cb2fe63156d1d1450d5433aecf823eb9d6d8e4e553bfe283c0584fedd77d51f3248b6868ffa3df39003d00b16f9f599b04d4c5f1efb98622af08dff113a7786e4922aabebc453352364ce4df13a1458513bcb2f2b55d3e75d809de4ce6b0c8db052674553e0b0324e3082083b25f744923c5d57554001706b54d129b0335d981426d704e13bcca2e3f9d14fc27bb22f8fab14ba6b044f54b5138c4ca47e7fab284cfa3c4a1a81f92957db571876808bb9ffeaa925c394d7ae493af63c5f44d9f940a72c9a9c0096c79d69e8a78c5ba0178ec2e3bc47ec3b8e4f00e69de2f6470ee89b060d78daf077ff875539393ec4fa268e6c7fa6055ba10aed902a6c1ea6d5fc5595cc1b7c398844da76092d9a8fe80519bdb8337793e3d4951beaa2ed6f3dba174e94192a348d3b47c3ba3d1d2d186a12b25f95e10d7ffe0d83870caf8b3fc30b782c513afa820b0719d4760c0abc124e8622148465784bc229a7d6bad7580c88fda0d1f92f02c867d8d07db52c231d472b866c1f211fc68ca0035f46afbf4e8b6facc4bd1fd7ed1b5c99d7c9df07ea2e3b3185222a15c23efea795f2edfc10a1c7656c14e9d658b5e6f524f3d8fb2c70e9742325c6adbeb5d8aafdba71780b26758f6ed6588f954a6b419fa0404ef9a76776b32fb71ed27ff38b58a687ed29a0a8bf1f8606769158c89fd5095dc12718346ad021f28247ec5e31c3f974f5a3da86792a024e575e9335480936c92cfc0e2f66befa5f76abd5b5d26633db5e2b6fd72da7d1275122a4b59a67895b6c2c2ee6c96bdfabcf4d5a06cf54d395b5d668816ea24de076109daa619c017e3a32a9acd67247ab3fec49f265dd92de6f111e54f0c636c42e77806ce997384bd838686aa35b8643b1a1cabc2aa786e406938e4127e28f866b2be43b479d5adeb53247ed03fabcad6d1094f9ee75018ccea316f4938c22b46eeb9bb958913b56344d99643f7f417c776c63631b8b751270bd42807aba019f8b47f0395d19177038cf6b5c19e7771dc34b9c66e7ded901de42a683c0ee9f8a5cf758c22f28a506bae3427a613a3426b57431e60e6ae287c91c3338d5d816ae9678d46882765f08f53b15ae0682b3519d52876ad16fc52fcdea5132cc2f68f7470afd5ff7c3a46977cc79c2b4145297dcf8a6b417373070d930a77d7b74ab785a9f7f658aa13a39d8979547062305a871abb2d85d2402c4654d2e1279c0af980d537593c3a50c6fa064ae1f9e48ad119ebcf9998d31257f02a464995dedf48b67d963e68b0676edef4ae744b9e62b309e0a0c89d0b4257c2749cc59b5196a62b062c3ca97a4cf920059d35c9a82d8e612f29340c86420e7990a7f81033a31155ddc270892ea5f4befeabe9ead881415816777c649f7b29a4e13fdfe77c998576bf5c582ffa692fc2165b665acd558d99f657d6d68ff6eb46d0bf0bac146cb286541bd5ac965a91ec731fda12e51465d24fd7d213f256d5adffd61522eae7d9dc6bb0bdc3355fa1441414855523d793281070869e77b207831c76d6e4ac899be961a72915642d21a20b22b2a3d7e16dceb35c1ea536738e2f111fb299ed1424a3e52520e77bc5f7b279b12298134c368a59bcb1349b3e204fe38cf8877d6fe3d3f3a9b175425bed3438c6987ac40c9f8b38bde1647fc1564a588c0a0328ed0ec13d012eda0126c4528bb0d79ab3699fb544a04d1e3b846478ee1e4b0dbc7e720ba9a54c1d79dc62aa93b1b7830d787c76a868c7ac126c20a8e60cb8372778677614ac1c2a3aaea97270bd9ca729d95a8a5252e5215a3e8df2216d3e83342cadda8720e1f5110fee36e59a0e2d06f701278da02af83079d7a9ac7da194b7b1935cacb06d9149f2d02accfb40cda431e7757abd07b5e4ca5dadd4d23e22770ad0b8cc8c306d2f34cbbe4d46f8956015c6659f491b8d1d8dcedbd76af3ba0d2f8880695269a2873662aa46b78ac7e08f2e8473b33abe382fd779ab8495abea012ab0cb93f0cb884d21e0bfcdd1f6d306ff9036cd0537c28d6d171a060e805b6154cc5b3723cb1b4e4e09c88727918a0583509d03273a52ccc8b5a400122965298a5180b4f14c5dafbed49fb3423675b0548f4587079366d3b7af8ccea47040149f7f78004e0f0aa89c49966398554439bc63976d93e0583737ef9f159f94de09e61394b6a9ee829247f029a89b7182d26df838649e14cb7662c550da9cf8cca192400b2f1aace8887a25d455861a475ab5b1bb92aa0c2037f59e0b6332e5d7423bcca05d6c5db770d0db419dff53e077d50f311e20c8bf5475b8f236a4430f320bbd4583f574b117ff3a0c2fdc3d64ee702adbda4ee2b69531a840224fc71421cc089dae1f9e125c658a78d826cd0e43e60512fc616babf91fe083c9822047f8bf4200c9d122446357c3cf83b1119bcae53e149438a8f64eac95d4726c00f9f58efafd36ac78e9c35be89347bdf70384823c5e2f3e3f877edee92d35c7d45fc9327f4ad628cbfa20362a2625a2c0319e091192b20ce1b008fc32085813ef331345738699b97a40d12369a696778ab3b6d096f2875c0f1781e85ea93e19a139d7a8fc8bc26d913efa6fa5cf18d30722dfd92aee443e64fe57a637ed1730ea7bf612e1f3e5cefed94b35a7c9dd6778c96ce93ed5e60073522440d68e63eef7442ece2f69641d68e3553701cfad9e1c54faf473371c04dd6eddbe263118dac5671182770b6c34239a853865ba24990010cfee23435e2d6b2d388da24a6ef6df023dc91ca72000104c43e13e4ae449d6c5891fbba7b4a429f7d2c8e39cf91468f2dae7bb8ed4270058de3018e1c6f5a5de787ddd29e96270ba0331d9494cf277d328aafbd5c9b3e232b852f087ae728cea729b854bf43b94fcd08f6459250a43337c73d168e053b280341c9f93e85cfcf82db0729ec38b4c8d787a4a654429362ff433f9f1951da4ad40afe62b3e926f448c1fb1558809b7034345e54fa475e39f849d4b2622a5281858689541007ef66fbde5315d529693c7d134dae075383e9e9849f3f806b83930259b75650b1bbbfa6d6df822ff4163a0703538545e3896fe205b71207885992774a843ec59f7ea07ffad7d16e713e090d674c22fd003b985405b088b725af643d72fcd71c89bd4d4a228cddc37be989dee2086f8fbe32908e687f44479c91189655de85292dd0bb849c6f3dc344bb94bf2587d90262e4efa625c0f13c052d0af57b0fbbbae36cdcb81b8951708e54f1ccecc40ec1ab26dcaae83debd0771c5f24442db16d26c5b1e5298e7bbb17dfe5b92b4229733d00598c284743b52d862f975fd4c79c45b3ff5f0b582eca9e45f1d13f152dabcac954e1b18b926795b713b65d99157d8036166ed9e622d70470901a7d4fb031346f290293fb2c8272823e6b18bfdd162f00482870c3bd54c448c04dc6bcdcddc590b5ad539d4de5fa44332e29cc19aa4aeff8c19ca45ef8afd15458bfa1e91d6381bc6f84c22a42a8696b96977f1f115fad9c52a016ba52d0620db410ba50cdd4a84ccf4694570d8eab79424acd2c11b7036037e121a1beb6241399f395f837f25470a49a77edce952fff956c73e50ba9f55be2766266015983e1c59a6a40d640ec79cf6bdaba0acbfaf39bb5af93aab58db63c040908724753d2072e5abf89668b0256655e87d286da8788c4168561c3e2631459bf204efb9507cf52d686dec270e5396084488d288a55bc650f67ccbb9db53b34fc53573a4bdd9d0b52942ef18228c37be2996756a8071293af47e43022dfe9c3983c392509d8cb77cee0d62c5a1dccd12cdad9e1b2751314af311982445cd55b428330e555a6b91d74f7ed6c9c6f850ca9ae8940c4ce97e96d1ecda74229ebda2c94ed4dc652dce4eb417a4a43764071b919f7852d05feda9895e5a4229aaf41d45aaf7214cc682636dd4eb2c27eade544b7f50625fe2b6904f146f7277164cefd44f5a1d4052c2dce8ad697270e6ec9538bf4b5d4d084e5f07a69ae2defed9dfdeb11cf0b8df8caca13260cc583317016f876d62b5ca17fbfb9f02d6f3b8773bd87100f94c8cb8537fed32495decc986993fadc8be803e420c6a1d8a92c21032948b8d0a8dd9fb5d2ad97c8de8b157ea08884e9b048807ee5b381a33203ba9fd67a08c430d9c5fc339c16b4f7f5d8410a4ae02fd95dbf323b4c6d150e7385e3ccfca5276f9faa386f529b3004fae2d292bfb6d9c9bdef7a4418af80ca8e9e88649cd71c1d4d849c665c23671e80db3793df0839ea3209999036a1e83f932f5dabb7d40519a5e2128e0934a0c9e163b208fa025d6ec74b5867bb29c593c7bd3a2d309688402e66e293756dadc2fb935aba2a5962a509184b7a732da359910ff16b9e21090ad95d9becff9bfb8ccd6a09d07207f3cafa3396a80ee24bdbff93d53fcaa8fc53b70122ecd07decb1fc2771b981dc77b5d74aaa5eaedf42cc52fda9fea6f78d351d5c2b077afb1e9c17553dc5fb1366217a0345b0910059f95e8e0c93b44719bd7ea8d5374267119d20386e94839b57a43496ba814eed2d403c1f034d0e4828cb941e0016d47e02da4856f280431f8aae15b3348f756cb5f9816549f530e19f3c79f0c38de8016c01b169239d3bce63dcd747cd4681f0ffbb105f08c89add833b27612a4f45309d6724be8eea9a5aea273293175ba334319b90ab19d542d5861772f936740b6b2002f810731fa39f01adeadefeab78ec14648644fb0042e4ee0afee09381f9893796c7689ed4a4999e252f44b8a32430f18c6ac4cbea554a3e7bcab09d7bf95673585ca2af108c78bef28c8e1f41be96b849f78c72c94c8042fa9efe5e1c7007f602f8655279916bb3d3756bb09827065193900410a44d6205df3268762677c693e513c7cb3185bd62de285afe0bbfc39e5210f16b5c72445074a27623f578bc71276bed018071f10e34b4d30c9f985a06de6ea93f307c7429f87a57e198620642d908329f864d79a9afd158a560c8a675bed35be5ea6071c93b197ef94211cb7c49d9614683141f25154288ef4c75cfb080d46623e241cbb010c98224e276df78092dd81e9183ce46060c864548977bedfd00077c9935b6d9fe2db10af73b10e76a1d7fe75cd5311dc6a2771819d8612b67e7ace6e10b8bc823e1c201284836fb59abdb1d0a9a4f29405c1a399fd281fb3e8a67d55fc3de93b66fde3d6b08ea299aebcd0061167dcb060a0ade132cd5289b88895a89d3ea924c490938729f6e066a8929d288b69f9bf996e910a80517fe98a8315f94cec27dd25d4eec541d12a9cf329d3321a17ecc16c25db3dc18396284d401bbbe58d929d54fd54db40a73710fc50c22f30a0f280050846c8e990b51e73767db8a2eccc4cb353d8567cf430f40f6a158b225ef01c510bd5b697460c643e4749fe61038ac8f8a98f188eb488002ea092fdf9b890ef69a447c12123586b1f29dfe356419aa728125ce165023fd5a7fd186a86b46d79898f0221f0283eaaeb10a36fd4f7c6d61fbd527d63a1743cd26e35a894df4a1defe5171cee57204cc6749fcdb67a1d49d9e242e54751b3b79a87c1b73fa0d6df98407f3a2398779966f7fef7cdf1e941cfe1b6354464ab5792b311d583e6929b22c23c9c13368be6091af1a64e398e3f4c818519e3275eea1a4aab149e82bf4c6ddead07c8c3e4f546a2f26b0c5705a75a697c8d2f9d3418d6d9fb2012e55ef5b9e9e38d073a3f479788e1aa1e4a2d03d95d052b5405fde8c75b1360011fc948da607c06298dde59759873cfe553a94df2b89bdef5dddd5a90983ad33daedcf4a0aedd071c9830a39f91c0b0b780db41a9f8e6205c401f04d4aec972419820abc33eef8b463c9e0a2632d867542557c0663c65359f9f6c0bcd65ce97c015cd3b44c180ff8ab7b0b1c3a5dc57434ff8594d16b5103c7138f27d7d9596d3eea88687c4db3d483d8bf8e69ea1fe5858082d63ad70ba56aef2ee6d65e40b076b6d277369d0c558a070613307c2512595e665b9bd7036f4f5bb03cad88f81bd2ca95d4ea495a1431d3932f2cf86fb272f4d1ff59cc935e22c568729d58f2a95c85f9e323c46cafec1f22dc06c4a472cf2cea523ca7ece6c26f346fd85a739a1fb947aad386dc051e288e63c877850c3e018ff6c2c1f5057ffd766343b1a5d17d1f5b0852b8b45b0f26fedbba0529533335baa0809f6d675b50e634b039500a987ba2486b82f7eac82193acce97a3f22b74f94b2a24f6c09027cd2534964c3b9fdd5313981ca6f6ce332ba842e79839c7e62102dbe8b32cd63e90ed890c10a39c9511c08b84f233e084a85cbc942c7ab0214d170ec4e2254f875e903c97c9557bdcfe9e9b350eb0f6b2a6baefc8ea5998bb4f9afdb7d505c2ae965cabdfc7833bf28b54f7a1e37b087f478f7b17f84a0e003511c3d5af14688a54db300ea2d3036faa9e99020172f5230385b5c13cdee2bd49732ce28a98d4ed9eb447eda896d7c8aad5391a25b2d6eb614f63e7933f67f0e6e22294b4de2f768c3f83f7d937121c0d58381a6806bdf7f6bc2ef2b42f99940a144878e6e908787b357eaf181cb10538792f30387fca0f1401294d4b5a8b793d46d93f2c037b5b2bd11974baf501a9ad4498943415ca63e9ed2577d001fa59e4d08a67d39e263de16ae4524523270815bfd0b7d431d57621b0605cc14470d45c5509044e323c9c1177989c1169335bc479dcaac6357621c9cfe6ec8148526f38dac6c93fc10fc9f26957a06070fac44ca302b7b5a2b912c82885eca8df754a49ea43c4a996c194838bfb82a01a39c4131ba05d46490a0e4dca484ed90f648ba115d3da2f52ac2ba1d7250c62640a6c56f0020664f784e0e074a34cc057ab5d6278f5138c0251db56cb2f501c9e2ea63a5895392639cebaf659d8d0a13d15100f342ebaa2e88c98f04dbbd4586762f81dfec5fd149388a9a43df30f559fdc322895209e59d6589103507d19cb837dc815b3d0a3c6145e3522887a503a35b0c7f519d71a781b1eb48d678759f7a3adfda5e166943088fac3d208537052eb5f42ce795c37e4372007762af83612212f8d2d2c81f3be18e3b9a9f492a8b8fea0f62725e29af8a2884a14efacbd54d6355a9f1713f76d64d63926b2324c90d0504292737b87ae341edbed2a3fd0da72dfb71cedfb30ae103b936bdcb2fcc863ef1497509079b420a7f09e5929e2ceae402db802c11c7a69cebab348aaea28f9009c851e585082754e95dcfb4417f131ea647acd6092701cae0e13e28954b6a79f9855e257964608d22d9f4a22cc6a4cc1273b63c7e4aae6412cfa400fe9ba858a4f8567d2075bec91b40816b8a61a0d004ce343a4030c5d733bf25fc84b9cc730ee5738b9ad9cbc22bcbfe3eeb7706fc81df1bbb9e6a1273dedfe91804472cfd336a3a05b0aa8308594c5ab8c516f4d0fce1d7e9317423e29db2a8263032e4aa4c519a1e0e961aae3aa9a0af2c9006d192282d9ec3dbbef87bb10d0002e4675379d7c78c87314b9508dda746f1d607d7a58f639a16cffb1f3fb4132150375b0dd6ad81b40c08db612a9efe33655cc2e9fc12d8cab22061bbd47d54e2a3a9fe4dcc939eb36e1e9690006375486aff0ccfb8dedc266fd786180ad6926c0aa6e25153446b9335250fa810fea8373a9221e5eb47dd2e7baf8cfa4f0f8de69a18d6567739f5ab8481fc696be049d4445905b41d921a36161174fbe8587d754617345ab2a4ba92ac3f419ae149feecd47f3df76407be78d3</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">密码输入框上描述性内容</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
       <categories>
         <category>动画</category>
       </categories>

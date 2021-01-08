@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://supervj.top/about/index.html</loc>
+    <loc>http://supervj.top/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/</loc>
     
     <lastmod>2021-01-08</lastmod>
     
   </url>
   
   <url>
-    <loc>http://supervj.top/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/</loc>
+    <loc>http://supervj.top/about/index.html</loc>
     
     <lastmod>2021-01-08</lastmod>
     
@@ -198,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://supervj.top/2020/06/15/%E8%B6%855%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</loc>
+    <loc>http://supervj.top/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</loc>
     
     <lastmod>2020-12-03</lastmod>
     
   </url>
   
   <url>
-    <loc>http://supervj.top/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</loc>
+    <loc>http://supervj.top/2020/06/15/%E8%B6%855%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/</loc>
     
     <lastmod>2020-12-03</lastmod>
     
@@ -466,21 +466,7 @@
   </url>
   
   <url>
-    <loc>http://supervj.top/tags/%E9%95%9C%E5%A4%B4/</loc>
-    <lastmod>2021-01-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://supervj.top/tags/C/</loc>
-    <lastmod>2021-01-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://supervj.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -502,6 +488,20 @@
   
   <url>
     <loc>http://supervj.top/tags/%E5%AE%9E%E6%88%98/</loc>
+    <lastmod>2021-01-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://supervj.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2021-01-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://supervj.top/tags/%E9%95%9C%E5%A4%B4/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -550,14 +550,14 @@
   </url>
   
   <url>
-    <loc>http://supervj.top/tags/%E5%9B%BE%E5%BA%8A/</loc>
+    <loc>http://supervj.top/tags/Paper2D/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://supervj.top/tags/Paper2D/</loc>
+    <loc>http://supervj.top/tags/%E5%9B%BE%E5%BA%8A/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -832,13 +832,6 @@
   </url>
   
   <url>
-    <loc>http://supervj.top/categories/C/</loc>
-    <lastmod>2021-01-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://supervj.top/categories/%E5%BC%95%E6%93%8E/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
@@ -847,6 +840,13 @@
   
   <url>
     <loc>http://supervj.top/categories/%E6%8F%92%E4%BB%B6/</loc>
+    <lastmod>2021-01-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://supervj.top/categories/C/</loc>
     <lastmod>2021-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
