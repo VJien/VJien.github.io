@@ -7599,11 +7599,13 @@
   </entry>
   <entry>
     <title>Paper2D第三方工具TexturerPacker</title>
-    <url>/2021/01/09/Paper2D%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7TexturerPacker/</url>
+    <url>/2021/01/08/Paper2D%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7TexturerPacker/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Paper2D使用第三方工具<code>TexturerPacker</code>的简单使用方法记录</p>
 <blockquote>
 <p>从遥远的2019年搬运而来</p>
 </blockquote>
+<a id="more"></a>
+
 <h2 id="第三方工具：TexturerPacker"><a href="#第三方工具：TexturerPacker" class="headerlink" title="第三方工具：TexturerPacker"></a>第三方工具：TexturerPacker</h2><ul>
 <li><a href="https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-with-unreal-paper2d">下载地址</a></li>
 </ul>
@@ -7640,6 +7642,148 @@
       <tags>
         <tag>UE4</tag>
         <tag>Paper2D</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UE4骨骼共享插件AnimationSharingPlugin</title>
+    <url>/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>从遥远的2019年搬运而来, 作为记录, 不确定是否有更新</p>
+</blockquote>
+<p><a href="https://docs.unrealengine.com/zh-CN/Engine/Animation/AnimationSharing/index.html">官方文档</a></p>
+<ul>
+<li>引用文档的结构图</li>
+</ul>
+<p><img src="https://img.supervj.top//img/AnimSharingDiagram-1.jpg" alt="Alt text"></p>
+<ul>
+<li> 插件已经启用，如果关闭到插件栏启用</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Setup文件"><a href="#Setup文件" class="headerlink" title="Setup文件"></a>Setup文件</h2><p><img src="https://img.supervj.top//img/AnimSharingSetup.jpg" alt="Alt text"></p>
+<p><img src="https://img.supervj.top//img/NewAnimSharingAsset.jpg" alt="Alt text"></p>
+<ul>
+<li>简单配置以后如下图</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20191223145213446.png" alt="image-20191223145213446"></p>
+<ul>
+<li>一个SkeltonSetup数据在UAnimationSharingManager::Register方法里会生成一个<strong>UObject&lt;UAnimationSharingInstance*&gt;</strong>,这个UObj会spawn一个场景里的<strong>单例Actor</strong>，同时存放所有实例对象以及对应的所有参数；这个Actor会根据上图中AnimationStates的数据量创建若干USkeletalMeshComponent维护动画</li>
+</ul>
+<h2 id="AnimationBlurprintForBlending-图中的ABP-Trans"><a href="#AnimationBlurprintForBlending-图中的ABP-Trans" class="headerlink" title="AnimationBlurprintForBlending(图中的ABP_Trans)"></a>AnimationBlurprintForBlending(图中的ABP_Trans)</h2><p><img src="https://img.supervj.top//img/image-20191223145517613.png" alt="image-20191223145517613"></p>
+<ul>
+<li>这个蓝图简单理解为用于动画切换，owner就是那个Actor单例</li>
+<li>逻辑很简单，直接拷贝就可以<img src="https://img.supervj.top//img/image-20191223145820707.png" alt="image-20191223145820707"></li>
+</ul>
+<h2 id="StateProcessorClass"><a href="#StateProcessorClass" class="headerlink" title="StateProcessorClass"></a>StateProcessorClass</h2><ul>
+<li><p><strong>必须配置一个枚举</strong>，对应所有状态，否则无法配置动画（AnimationStates数据）</p>
+</li>
+<li><p><img src="https://img.supervj.top//img/image-20191223150355965.png" alt="image-20191223150355965"></p>
+</li>
+<li><p>每隔场景中的实例都会拥有一个对应的Object，一直在Tick得到这个实例的状态，主要逻辑如下</p>
+</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20191223150033324.png" alt="image-20191223150033324"></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UStatProc::ProcessActorState_Implementation</span><span class="params">(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, <span class="keyword">bool</span>&amp; bShouldProcess)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole = Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	<span class="keyword">if</span> (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat = shareRole-&gt;GetStat();	</span><br><span class="line">		OutState = int32(stat);</span><br><span class="line">		bShouldProcess = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	OutState =<span class="number">-1</span>;</span><br><span class="line">	bShouldProcess = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个函数可以理解为状态的起始点，这个方法决定了每个实例的具体状态枚举，从而才有动画</li>
+</ul>
+<h2 id="AnimationStates"><a href="#AnimationStates" class="headerlink" title="AnimationStates"></a>AnimationStates</h2><p><img src="https://img.supervj.top//img/image-20191223150551638.png" alt="image-20191223150551638"></p>
+<ul>
+<li><p>Processor配置的枚举对应的动画参数</p>
+<h2 id="AnimBlueprint"><a href="#AnimBlueprint" class="headerlink" title="AnimBlueprint"></a>AnimBlueprint</h2></li>
+<li><p>用于播放动画序列的简单动画蓝图，继承于AnimSharingStateInstance</p>
+</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20191223150729515.png" alt="image-20191223150729515"></p>
+<p><img src="https://img.supervj.top//img/image-20191223150819957.png" alt="image-20191223150819957"></p>
+<ul>
+<li>这个ABP只负责播放动画序列，至于专门播放，可以自行扩展</li>
+<li><strong>Offset参数用于控制实例动画的差异性</strong>，系统会算，对应的是<strong>NumRandomizedInstances</strong>参数</li>
+<li>单例Actor会独立创建<strong>NumRandomizedInstances</strong>数量的SKMesh组件用于控制动画表现，同时设置不同的Offset参数</li>
+</ul>
+<h3 id="同一个状态设置多个动画"><a href="#同一个状态设置多个动画" class="headerlink" title="同一个状态设置多个动画"></a>同一个状态设置多个动画</h3><p><img src="https://img.supervj.top//img/image-20191223152554826.png" alt="image-20191223152554826"></p>
+<ul>
+<li>如上图，Idle设置了2个动画，同时对Run动画对应的实例数量设置了<strong>10</strong>，造成的结果是场景中大约是10比1的生成2个动画的实例，其中Run动作的偏移参数也有若干份（根据场景中的实例个数换算比例）</li>
+</ul>
+<h3 id="OnDemand（指令模式）"><a href="#OnDemand（指令模式）" class="headerlink" title="OnDemand（指令模式）"></a>OnDemand（指令模式）</h3><ul>
+<li>简单理解<ul>
+<li>如果正在播放的是普通动画，切换到指令模式的动画是瞬间切换</li>
+<li>如果现在播放的是指令动画，切换到普通动画需要等指令动画播放完毕</li>
+<li>如果前后都是指令动画或者普通动画，都是瞬间切换</li>
+</ul>
+</li>
+</ul>
+<h4 id="Additve"><a href="#Additve" class="headerlink" title="Additve"></a>Additve</h4><ul>
+<li>基于OnDemand开启以后才能选择的模式</li>
+<li>开启以后隐藏了部分Demand选项</li>
+<li>开启以后上方的AdditveBlueprint可以设置</li>
+</ul>
+<h4 id="AddtiveABP"><a href="#AddtiveABP" class="headerlink" title="AddtiveABP"></a>AddtiveABP</h4><p><img src="https://img.supervj.top//img/image-20191223160102804.png" alt="image-20191223160102804"></p>
+<p><img src="https://img.supervj.top//img/image-20191223160046344.png" alt="image-20191223160046344"></p>
+<ul>
+<li><p>文档给的方案是如图的连线方式，进入此状态后StateBool就设置为true，开始叠加</p>
+</li>
+<li><p>Add的最大数量参数如果少于实例数量，部分实例就没有叠加动画<img src="https://img.supervj.top//img/image-20191223160951498.png" alt="image-20191223160951498"></p>
+</li>
+<li><p>一些思考</p>
+<ul>
+<li><p>叠加动画多数用于受伤或者姿势上面的扩展</p>
+</li>
+<li><p>叠加受伤无法用这套方案执行，甚至无法用这个插件执行，ABP无法get到控制实例的状态,下面是头文件所有申明，当然可以魔改掉插件内容</p>
+</li>
+<li><pre><code class="cpp">struct ANIMATIONSHARING_API FAdditiveAnimationInstance
+&#123;
+public:
+    FAdditiveAnimationInstance();
+
+    void Initialise(USkeletalMeshComponent* InSkeletalMeshComponent, UClass* InAnimationBP);
+    void Setup(USkeletalMeshComponent* InBaseComponent, UAnimSequence* InAnimSequence);
+    void UpdateBaseComponent(USkeletalMeshComponent* InBaseComponent);
+    void Stop();
+    void Start();
+
+    USkeletalMeshComponent* GetComponent() const;
+    USkeletalMeshComponent* GetBaseComponent() const;    
+
+protected:
+    USkeletalMeshComponent * SkeletalMeshComponent;
+    UAnimSharingAdditiveInstance* AdditiveInstance;
+    UAnimSequence* AdditiveAnimationSequence;
+    USkeletalMeshComponent* BaseComponent;
+    bool bLoopingState;
+&#125;;
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - 姿势扩展比如Idle叠加一些额外动作可以使用这一套方案，但是，有必要用专门一个枚举来提供这个动作？？</span><br><span class="line"></span><br><span class="line">  - 一个的方案是提供接口可以得到控制实例的状态，但是跨度有点大，可能会有更多没想到的问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## Bug&#x2F;缺陷</span><br><span class="line"></span><br><span class="line">- Demand动画设置了大于0的BlendTime，如果在BlendTime期间切换了，Demand动画大概率出不去；怀疑是普通动画等待Demand动画结束的通知跟动画本身结束的时间点发生时间方面的错误</span><br><span class="line"></span><br><span class="line">  - 多次测试发现，2个动画（无所谓是否Demand）发生混合，要么都设置BlendTime&#x3D;0，要么都设置非0切相等，则不会发生卡顿或者卡住；如果参数不一样，会发生切换的时候卡顿</span><br><span class="line">- 特殊情况，demand情况下的**ReturnToPreviousStat**（结束以后返回之前的状态）或者**SetNextState**（结束以后进入下一个指定状态）有问题;参考Processor的默认代码如下</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;cpp</span><br><span class="line">void UStatProc::ProcessActorState_Implementation(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, bool&amp; bShouldProcess)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole &#x3D; Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	if (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat &#x3D; shareRole-&gt;GetStat();</span><br><span class="line">		OutState &#x3D; int32(stat);</span><br><span class="line">		bShouldProcess &#x3D; true;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OutState &#x3D;-1;</span><br><span class="line">	bShouldProcess &#x3D; false;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre>
+</li>
+</ul>
+</li>
+<li><p>解释：</p>
+<ul>
+<li><p>发起点是Actor中自己维护的<strong>状态枚举</strong>，通过设置到OutState然后引起一系列的动画计算和播放，然后下一帧才会通过2个uint8反馈过来</p>
+</li>
+<li><p>如果用默认方案，ReturnToPreviousStat等方式在动画最后一帧确实把动画的状态设置了，但是第二帧又被Actor的状态给覆盖了</p>
+</li>
+<li><p>解决方案是如果是特殊情况（ReturnToPreviousStat或者SetNextState），需要反向设置Actor的状态枚举，但是默认没法得到这个特殊情况变量，而且反向设置可能会导致一系列的问题</p>
+<blockquote>
+<p> manager里面的有一个每个骨骼的对应的Instance数据是Protected的，也没有方法可以拿到</p>
+ <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AnimationSharingManager.h</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">	<span class="comment">//***//</span></span><br><span class="line">	<span class="comment">/** Sharing data required for the unique Skeleton setups */</span></span><br><span class="line">	UPROPERTY(VisibleAnywhere, Transient, Category = AnimationSharing)</span><br><span class="line">	TArray&lt;UAnimSharingInstance*&gt; PerSkeletonData;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>&gt; 这个数据里面每个UAnimaSharingInstance里有所有Setup数据
+&gt;
+&gt; <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** Actors currently registered to be animation driven by the AnimManager using this setup */</span></span><br><span class="line">	UPROPERTY(VisibleAnywhere, Transient, Category = AnimationSharing)</span><br><span class="line">	TArray&lt;AActor*&gt; RegisteredActors;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/** Per actor data, matches RegisteredActors*/</span></span><br><span class="line">	TArray&lt;FPerActorData&gt; PerActorData;</span><br><span class="line">	<span class="comment">/** Per component state data indexed from FPerActorData.ComponentIndices */</span></span><br><span class="line">	TArray&lt;FPerComponentData&gt; PerComponentData;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Array of unique state data */</span></span><br><span class="line">	TArray&lt;FPerStateData&gt; PerStateData;</span><br></pre></td></tr></table></figure>
+&gt;
+&gt; </code></pre>
+]]></content>
+      <categories>
+        <category>动画</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+        <tag>UE4</tag>
       </tags>
   </entry>
 </search>
