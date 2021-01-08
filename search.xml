@@ -7786,4 +7786,100 @@ protected:
         <tag>UE4</tag>
       </tags>
   </entry>
+  <entry>
+    <title>地形及关卡流简单记录</title>
+    <url>/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>从遥远的2019年搬运而来, 仅作为记录,后续视情况补充</p>
+</blockquote>
+<p>[官方文档][<a href="https://docs.unrealengine.com/zh-CN/Engine/Landscape/index.html]">https://docs.unrealengine.com/zh-CN/Engine/Landscape/index.html]</a></p>
+<h2 id="地形的内存"><a href="#地形的内存" class="headerlink" title="地形的内存"></a>地形的内存</h2><ul>
+<li><p>对于顶点数据，Landscape为每个顶点使用4个字节。静态网格体（Static Mesh）以12字节矢量的形式存储位置，每个切线X和Z矢量封装为4个字节，并为每个顶点的共24或28个字节存储16位或32位浮点UV。</p>
+</li>
+<li><p>这意味着，对于相同的顶点密度，<strong>静态网格体（Static Mesh）将使用6或7倍于Landscape的内存</strong>。Landscape还将它们的数据存储为纹理，并且可以为遥远的区域流送未使用的LOD关卡，并在您接近它们时从后台的磁盘加载它们。Landscape使用一个常规的高度场，因此其碰撞数据也能够比静态网格体（Static Mesh）的碰撞数据更高效地存储。</p>
+</li>
+</ul>
+<h3 id="地形存储方式"><a href="#地形存储方式" class="headerlink" title="地形存储方式"></a>地形存储方式</h3><ul>
+<li>Landscape系统在GPU内存中以纹理的形式存储地形的渲染数据，允许在顶点着色器中查找数据。数据被打包成32位纹理，<strong>高度以R和G信道的形式占据16位</strong>，<strong>X和Y偏移量以8位数值分别存储在B和A信道中</strong>。</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="地形创建"><a href="#地形创建" class="headerlink" title="地形创建"></a>地形创建</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SectionSize</td>
+<td>用于设置地形 LOD 和消隐的分段尺寸。<strong>较小的尺寸使地形更积极地对分段设置 LOD</strong>，但 CPU 的消耗将增大。较大的尺寸即意味着组件较少，CPU 的消耗较小。创建<strong>大型地形时须使用较大的分段尺寸</strong>，因为在较小的分段尺寸下放大地形比例对 CPU 的消耗过大。</td>
+</tr>
+<tr>
+<td>SectionPerComponent</td>
+<td>此属性对地形 LOD 有辅助作用。每个分段都是地形 LOD 的基础单元。一个组件可能拥有 2 x 2 的分段，意味着<strong>一个组件一次可渲染四个不同的 LOD</strong>。<u>使用较大的分段尺寸可减少 CPU 计算时间</u>，从而获得额外的益处。然而，地形同时渲染数量过多的顶点时可能出现问题。使用超大的地形区域时问题将普遍存在。这些问题在移动设备上可能尤为严重，因为绘制调用的数量将受到硬件限制。</td>
+</tr>
+<tr>
+<td>Numbers of Components</td>
+<td>和 section size 一同用于地形尺寸的设置。此数值的上限为 32 x 32，因为每个组件均会产生 CPU 消耗；超过此上限可能引起地形的性能问题。</td>
+</tr>
+<tr>
+<td>OverallResolution</td>
+<td>顶点数</td>
+</tr>
+<tr>
+<td>TotalComponents</td>
+<td>组件数，CPU消耗主要决定因素</td>
+</tr>
+</tbody></table>
+<ul>
+<li>以下是简单理解</li>
+<li>Component：地形基本单元，一个Component会被整体裁剪或者渲染以及处理碰撞</li>
+<li>Section：Lod基本单元</li>
+<li>Quad：网格数量，或者说顶点数</li>
+</ul>
+<h2 id="地形碰撞"><a href="#地形碰撞" class="headerlink" title="地形碰撞"></a>地形碰撞</h2><h3 id="CollisionMipLevel"><a href="#CollisionMipLevel" class="headerlink" title="CollisionMipLevel"></a>CollisionMipLevel</h3><p>处理<strong>复杂</strong>碰撞精细度，越高越不精确</p>
+<h3 id="SimpleCollisionMipLevel"><a href="#SimpleCollisionMipLevel" class="headerlink" title="SimpleCollisionMipLevel"></a>SimpleCollisionMipLevel</h3><p><strong>简单</strong>碰撞的处理精细度，越高越不精确</p>
+<blockquote>
+<p><img src="https://img.supervj.top//img/01.png" alt="01"></p>
+</blockquote>
+<blockquote>
+<p><img src="https://img.supervj.top//img/02.png" alt="02"></p>
+</blockquote>
+<ul>
+<li>上图是用playerCollision模式查看简单碰撞模式，分别是0，3的显示结果</li>
+<li>用VisibilityCollision模式查看复杂碰撞的结果类似</li>
+<li>同理可以对不同地形component的碰撞精细度进行处理</li>
+</ul>
+<h2 id="关卡流"><a href="#关卡流" class="headerlink" title="关卡流"></a>关卡流</h2><p>目前提供两种加载方式</p>
+<ul>
+<li>蓝图或者c++手动加载</li>
+<li>LevelStreamingVolume盒子自动加载</li>
+</ul>
+<h3 id="蓝图加载"><a href="#蓝图加载" class="headerlink" title="蓝图加载"></a>蓝图加载</h3><blockquote>
+<p><img src="https://img.supervj.top//img/image-20191211152428687.png" alt="image-20191211152428687"></p>
+</blockquote>
+<h3 id="C-加载"><a href="#C-加载" class="headerlink" title="C++加载"></a>C++加载</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UGameplayStatics::LoadStreamLevel(GEngine-&gt;GetWorld(), LevelName, <span class="number">1</span>, <span class="number">0</span>, FLatentActionInfo&#123;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数定义</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UGameplayStatics::LoadStreamLevel</span><span class="params">(<span class="keyword">const</span> UObject* WorldContextObject, FName LevelName,<span class="keyword">bool</span> bMakeVisibleAfterLoad,<span class="keyword">bool</span> bShouldBlockOnLoad,FLatentActionInfo LatentInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (UWorld* World = GEngine-&gt;GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))</span><br><span class="line">	&#123;</span><br><span class="line">		FLatentActionManager&amp; LatentManager = World-&gt;GetLatentActionManager();</span><br><span class="line">		<span class="keyword">if</span> (LatentManager.FindExistingAction&lt;FStreamLevelAction&gt;(LatentInfo.CallbackTarget, LatentInfo.UUID) == <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			FStreamLevelAction* NewAction = <span class="keyword">new</span> FStreamLevelAction(<span class="literal">true</span>, LevelName, bMakeVisibleAfterLoad, bShouldBlockOnLoad, LatentInfo, World);</span><br><span class="line">			LatentManager.AddNewAction(LatentInfo.CallbackTarget, LatentInfo.UUID, NewAction);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LevelStreamingVolume"><a href="#LevelStreamingVolume" class="headerlink" title="LevelStreamingVolume"></a>LevelStreamingVolume</h3><blockquote>
+<p><img src="https://img.supervj.top//img/image-20191211152559630.png" alt="image-20191211152559630"></p>
+</blockquote>
+<ul>
+<li>如上图，在关卡细节里面需要指定子关卡对应的盒子（绑定）</li>
+<li>多个盒子可以一起作用</li>
+</ul>
+<hr>
+<ul>
+<li>两者不能同时作用，必须把盒子disable后才可以用方法去控制</li>
+</ul>
+]]></content>
+      <categories>
+        <category>地形</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>地形</tag>
+        <tag>流关卡</tag>
+      </tags>
+  </entry>
 </search>
