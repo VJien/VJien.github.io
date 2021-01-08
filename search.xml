@@ -7732,31 +7732,31 @@
 </li>
 <li><p>叠加受伤无法用这套方案执行，甚至无法用这个插件执行，ABP无法get到控制实例的状态,下面是头文件所有申明，当然可以魔改掉插件内容</p>
 </li>
-<li><pre><code class="cpp">struct ANIMATIONSHARING_API FAdditiveAnimationInstance
-&#123;
-public:
-    FAdditiveAnimationInstance();
-
-    void Initialise(USkeletalMeshComponent* InSkeletalMeshComponent, UClass* InAnimationBP);
-    void Setup(USkeletalMeshComponent* InBaseComponent, UAnimSequence* InAnimSequence);
-    void UpdateBaseComponent(USkeletalMeshComponent* InBaseComponent);
-    void Stop();
-    void Start();
-
-    USkeletalMeshComponent* GetComponent() const;
-    USkeletalMeshComponent* GetBaseComponent() const;    
-
-protected:
-    USkeletalMeshComponent * SkeletalMeshComponent;
-    UAnimSharingAdditiveInstance* AdditiveInstance;
-    UAnimSequence* AdditiveAnimationSequence;
-    USkeletalMeshComponent* BaseComponent;
-    bool bLoopingState;
-&#125;;
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - 姿势扩展比如Idle叠加一些额外动作可以使用这一套方案，但是，有必要用专门一个枚举来提供这个动作？？</span><br><span class="line"></span><br><span class="line">  - 一个的方案是提供接口可以得到控制实例的状态，但是跨度有点大，可能会有更多没想到的问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## Bug&#x2F;缺陷</span><br><span class="line"></span><br><span class="line">- Demand动画设置了大于0的BlendTime，如果在BlendTime期间切换了，Demand动画大概率出不去；怀疑是普通动画等待Demand动画结束的通知跟动画本身结束的时间点发生时间方面的错误</span><br><span class="line"></span><br><span class="line">  - 多次测试发现，2个动画（无所谓是否Demand）发生混合，要么都设置BlendTime&#x3D;0，要么都设置非0切相等，则不会发生卡顿或者卡住；如果参数不一样，会发生切换的时候卡顿</span><br><span class="line">- 特殊情况，demand情况下的**ReturnToPreviousStat**（结束以后返回之前的状态）或者**SetNextState**（结束以后进入下一个指定状态）有问题;参考Processor的默认代码如下</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;cpp</span><br><span class="line">void UStatProc::ProcessActorState_Implementation(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, bool&amp; bShouldProcess)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole &#x3D; Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	if (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat &#x3D; shareRole-&gt;GetStat();</span><br><span class="line">		OutState &#x3D; int32(stat);</span><br><span class="line">		bShouldProcess &#x3D; true;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OutState &#x3D;-1;</span><br><span class="line">	bShouldProcess &#x3D; false;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre>
-</li>
 </ul>
 </li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ANIMATIONSHARING_API</span> <span class="title">FAdditiveAnimationInstance</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	FAdditiveAnimationInstance();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Initialise</span><span class="params">(USkeletalMeshComponent* InSkeletalMeshComponent, UClass* InAnimationBP)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Setup</span><span class="params">(USkeletalMeshComponent* InBaseComponent, UAnimSequence* InAnimSequence)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateBaseComponent</span><span class="params">(USkeletalMeshComponent* InBaseComponent)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Stop</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">USkeletalMeshComponent* <span class="title">GetComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">	<span class="function">USkeletalMeshComponent* <span class="title">GetBaseComponent</span><span class="params">()</span> <span class="keyword">const</span></span>;	</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	USkeletalMeshComponent * SkeletalMeshComponent;</span><br><span class="line">	UAnimSharingAdditiveInstance* AdditiveInstance;</span><br><span class="line">	UAnimSequence* AdditiveAnimationSequence;</span><br><span class="line">	USkeletalMeshComponent* BaseComponent;</span><br><span class="line">	<span class="keyword">bool</span> bLoopingState;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>姿势扩展比如Idle叠加一些额外动作可以使用这一套方案，但是，有必要用专门一个枚举来提供这个动作？？</p>
+</li>
+<li><p>一个的方案是提供接口可以得到控制实例的状态，但是跨度有点大，可能会有更多没想到的问题</p>
+</li>
+</ul>
+<h2 id="Bug-缺陷"><a href="#Bug-缺陷" class="headerlink" title="Bug/缺陷"></a>Bug/缺陷</h2><ul>
+<li><p>Demand动画设置了大于0的BlendTime，如果在BlendTime期间切换了，Demand动画大概率出不去；怀疑是普通动画等待Demand动画结束的通知跟动画本身结束的时间点发生时间方面的错误</p>
+<ul>
+<li>多次测试发现，2个动画（无所谓是否Demand）发生混合，要么都设置BlendTime=0，要么都设置非0切相等，则不会发生卡顿或者卡住；如果参数不一样，会发生切换的时候卡顿</li>
+</ul>
+</li>
+<li><p>特殊情况，demand情况下的<strong>ReturnToPreviousStat</strong>（结束以后返回之前的状态）或者<strong>SetNextState</strong>（结束以后进入下一个指定状态）有问题;参考Processor的默认代码如下</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UStatProc::ProcessActorState_Implementation</span><span class="params">(int32&amp; OutState, AActor* InActor, uint8 CurrentState, uint8 OnDemandState, <span class="keyword">bool</span>&amp; bShouldProcess)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	ATestShareRole* shareRole = Cast&lt;ATestShareRole&gt;(InActor);</span><br><span class="line">	<span class="keyword">if</span> (shareRole)</span><br><span class="line">	&#123;</span><br><span class="line">		EShareEnum stat = shareRole-&gt;GetStat();</span><br><span class="line">		OutState = int32(stat);</span><br><span class="line">		bShouldProcess = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OutState =<span class="number">-1</span>;</span><br><span class="line">	bShouldProcess = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li><p>解释：</p>
 <ul>
 <li><p>发起点是Actor中自己维护的<strong>状态枚举</strong>，通过设置到OutState然后引起一系列的动画计算和播放，然后下一帧才会通过2个uint8反馈过来</p>
