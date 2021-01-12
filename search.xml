@@ -7901,7 +7901,7 @@
   </entry>
   <entry>
     <title>UE4使用第三方静态库和动态库</title>
-    <url>/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/</url>
+    <url>/2021/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文介绍一下UE4使用第三方库的简单用法, 即<code>DLL</code>动态库和<code>Lib</code>静态库的使用</p>
 <p>我们用插件的形式封装起来, 便于以后移植到其他项目中去;</p>
 <p>所以在开始之前先新建一个空或者蓝图库插件</p>

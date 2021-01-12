@@ -264,7 +264,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
@@ -277,7 +277,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/" class="post-title-link" itemprop="url">UE4使用第三方静态库和动态库</a>
+          <a href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="post-title-link" itemprop="url">VsCode配置MaxScript开发环境</a>
         </h2>
 
         <div class="post-meta-container">
@@ -288,14 +288,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-01-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-09T00:00:00+08:00">2020-01-09</time>
+      <time title="创建时间：2020-04-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-30T00:00:00+08:00">2020-04-30</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-12 09:58:30" itemprop="dateModified" datetime="2021-01-12T09:58:30+08:00">2021-01-12</time>
+        <time title="修改时间：2020-12-03 17:14:49" itemprop="dateModified" datetime="2020-12-03T17:14:49+08:00">2020-12-03</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -317,8 +317,8 @@
       <span class="post-meta-item-text">Changyan：</span>
     
     
-      <a title="changyan" href="/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/" class="cy_cmt_count" data-xid="2020/01/09/UE4使用第三方静态库和动态库/" itemprop="commentCount"></span>
+      <a title="changyan" href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="cy_cmt_count" data-xid="2020/04/30/vscode配置max/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -331,14 +331,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.6k</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -349,17 +349,39 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文介绍一下UE4使用第三方库的简单用法, 即<code>DLL</code>动态库和<code>Lib</code>静态库的使用</p>
-<p>我们用插件的形式封装起来, 便于以后移植到其他项目中去;</p>
-<p>所以在开始之前先新建一个空或者蓝图库插件</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h3 id="开发环境配置流程"><a href="#开发环境配置流程" class="headerlink" title="开发环境配置流程"></a>开发环境配置流程</h3><h5 id="MXSPyCom"><a href="#MXSPyCom" class="headerlink" title="MXSPyCom"></a>MXSPyCom</h5><ol>
+<li>下载GitHub的MXSPyComRelease包,<a target="_blank" rel="noopener" href="https://github.com/techartorg/MXSPyCOM/releases">链接</a></li>
+<li>解压，并将安装包内的<code>MXSPyCOM.exe</code>文件复制到自定义目录</li>
+<li><code>initialize_COM_server.ms</code>脚本放到max对应版本的startup目录中，默认路径是<code>%localappdata%\autodesk\3dsmax\scripts\startup</code></li>
+</ol>
+<h5 id="VsCode"><a href="#VsCode" class="headerlink" title="VsCode"></a>VsCode</h5><ol>
+<li><p>下载LanguageMaxScript插件<img src="https://img.supervj.top/img1.png"></p>
+</li>
+<li><p>设置工作区</p>
+</li>
+<li><p>创建/配置*<strong>task.json**<em>,可以</em></strong>ctrl+e***搜索框中输入<code>&gt;task</code>搜索到<code>Configure Default Build Task</code>,在文件内设置如下代码</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;label&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;process&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;C:/MXSPyCOM.exe&quot;</span>,  <span class="comment">//MXSPyCom.exe的路径</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;$&#123;file&#125;&quot;</span>],</span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;reveal&quot;</span>: <span class="string">&quot;always&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;panel&quot;</span>: <span class="string">&quot;new&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改快捷键配置,方便调试</p>
+<p><img src="https://img.supervj.top/imgmax2.png"></p>
+</li>
+</ol>
+   <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   [</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;ctrl+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.tasks.runTask&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;args&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>      <span class="comment">//对应任务的名称   </span></span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpen&quot;</span>  <span class="comment">//原来的ctrl+e功能</span></span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpenNavigateNextInFilePicker&quot;</span>,</span><br><span class="line">           <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;inFilesPicker &amp;&amp; inQuickOpen&quot;</span></span><br><span class="line">       &#125;</span><br><span class="line">]</span><br><span class="line">   </span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h5><ol>
+<li>在工作目录创建后缀为 ms格式的脚本文件</li>
+<li>启动max</li>
+<li>复制如下代码到脚本文件内，按 ctrl+e  调试</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rollout rename_rollout <span class="string">&quot;Enter New Base Name&quot;</span></span><br><span class="line">    (</span><br><span class="line">        edittext base_name <span class="string">&quot;&quot;</span></span><br><span class="line">        button rename_them <span class="string">&quot;RENAME&quot;</span></span><br><span class="line">        On rename_them pressed <span class="keyword">do</span> </span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">if</span> base_name.text!=<span class="string">&quot;&quot;</span> <span class="keyword">do</span> (</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> selection <span class="keyword">do</span> i.name=uniqueName base_name.text</span><br><span class="line">            ) </span><br><span class="line">        ) </span><br><span class="line">    )</span><br><span class="line">    CreateDialog rename_rollout <span class="number">250</span> <span class="number">50</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>max生成如下窗口</li>
+</ol>
+<p><img src="https://img.supervj.top/img2.png"></p>
+
       
     </div>
 
