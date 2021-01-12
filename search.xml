@@ -2081,7 +2081,7 @@
   </entry>
   <entry>
     <title>UE4使用第三方静态库和动态库</title>
-    <url>/2020/01/10/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/</url>
+    <url>/2020/01/11/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文介绍一下UE4使用第三方库的简单用法, 即<code>DLL</code>动态库和<code>Lib</code>静态库的使用</p>
 <p>我们用插件的形式封装起来, 便于以后移植到其他项目中去;</p>
 <p>所以在开始之前先新建一个空或者蓝图库插件</p>
@@ -2129,15 +2129,19 @@
 <p><img src="https://img.supervj.top//img/image-20210111165817017.png" alt="image-20210111165817017"></p>
 <p><img src="https://img.supervj.top//img/image-20210111165829392.png" alt="image-20210111165829392"></p>
 <p>运行正常,打包以后也正常</p>
-<h3 id="动态方法"><a href="#动态方法" class="headerlink" title="动态方法"></a>动态方法</h3><p>动态获取<code>DLL</code>的方式不需要模块设置包含内容, 我们直接在函数库中使用</p>
+<h3 id="动态方法"><a href="#动态方法" class="headerlink" title="动态方法"></a>动态方法</h3><p>动态获取<code>DLL</code>, 我们可以直接在函数库中使用</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;Flib|DllHelper&quot;</span>, meta = (DisplayName = <span class="string">&quot;GetMacDLL&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> FString <span class="title">GetMacFromDLL</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span><span class="params">(*_getMac)</span><span class="params">(<span class="keyword">char</span> * mac)</span></span>;</span><br><span class="line">_getMac funcGetMac; <span class="comment">//函数指针</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> *v_dllHandle; <span class="comment">//DLL句柄</span></span><br><span class="line"></span><br><span class="line"><span class="function">FString <span class="title">UFlib_DllHelper::GetMacFromDLL</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//我们基于插件目录找到DLL文件</span></span><br><span class="line">	FString folder =<span class="string">&quot;DllImporter//ThirdParty//DLL&quot;</span>;</span><br><span class="line">	FString file = <span class="string">&quot;ThirdPartyDLL.dll&quot;</span>;</span><br><span class="line">	FString filePath = *FPaths::ProjectPluginsDir() + folder + <span class="string">&quot;/&quot;</span> + file;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (FPaths::FileExists(filePath))</span><br><span class="line">	&#123;</span><br><span class="line">		v_dllHandle = FPlatformProcess::GetDllHandle(*filePath);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (v_dllHandle != <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			funcGetMac = <span class="literal">nullptr</span>;</span><br><span class="line">			FString procName = <span class="string">&quot;GetMac&quot;</span>;</span><br><span class="line">			funcGetMac = (_getMac)FPlatformProcess::GetDllExport(v_dllHandle, *procName);</span><br><span class="line">			<span class="keyword">if</span> (funcGetMac != <span class="literal">nullptr</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> idx = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">char</span>   mac[<span class="number">200</span>];</span><br><span class="line">				idx = <span class="keyword">int</span>(funcGetMac(mac));</span><br><span class="line">				<span class="keyword">return</span> FString(mac);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> TEXT(<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://img.supervj.top//img/image-20210111171736080.png" alt="image-20210111171736080"></p>
 <blockquote>
-<p>但是发现打包以后动态库无法正确运行, 此坑待填</p>
+<p>但是如果只是这样的话, 编辑器模式下没有问题, 打包以后会找不到DLL文件</p>
 </blockquote>
+<p>解决方法是在<code>*.build.cs</code>内对动态库添加包含</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">PublicLibraryPaths.Add(Path.Combine(ThirdPartyPath, <span class="string">&quot;DLL&quot;</span>));</span><br><span class="line">RuntimeDependencies.Add(<span class="keyword">new</span> RuntimeDependency(Path.Combine(ThirdPartyPath, <span class="string">&quot;DLL&quot;</span>,<span class="string">&quot;ThirdPartyDLL.dll&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>成功</p>
 ]]></content>
       <categories>
         <category>其他</category>
