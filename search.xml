@@ -8139,10 +8139,8 @@
 </ul>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">DlgDyMul_1P.Broadcast(number);</span><br></pre></td></tr></table></figure>
 
-
-
-
-
+<p>如果定义的时候加入了<code>BlueprintAssignable, BlueprintCallable</code>即可以作为蓝图变量, 类似蓝图的<code>Dispatcher</code>的使用</p>
+<p><img src="https://img.supervj.top//img/UE4Editor_o15wfc0YJ4.png" alt="UE4Editor_o15wfc0YJ4"></p>
 <h2 id="关于Payload"><a href="#关于Payload" class="headerlink" title="关于Payload"></a>关于Payload</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">DECLARE_DELEGATE_OneParam(FTestDlg, <span class="keyword">int</span>);</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">TestPayload</span><span class="params">(<span class="keyword">int</span> number, FString txt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    UE_LOG(LogTemp, Log, TEXT(<span class="string">&quot;TestPayload : %d  %s&quot;</span>), number,  *txt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">FTestDlg TestDlg;</span><br><span class="line">TestDlg.BindStatic(TestPayload, TEXT(<span class="string">&quot;Hello&quot;</span>)); </span><br><span class="line">TestDlg.ExecuteIfBound(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 
 ]]></content>
