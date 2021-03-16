@@ -277,7 +277,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/15/Draco/" class="post-title-link" itemprop="url">Draco</a>
+          <a href="/2021/03/15/Draco/" class="post-title-link" itemprop="url">Google开源压缩库Draco</a>
         </h2>
 
         <div class="post-meta-container">
@@ -287,10 +287,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-03-15 00:00:00 / 修改时间：17:11:27" itemprop="dateCreated datePublished" datetime="2021-03-15T00:00:00+08:00">2021-03-15</time>
+      <time title="创建时间：2021-03-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-15T00:00:00+08:00">2021-03-15</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-16 09:48:55" itemprop="dateModified" datetime="2021-03-16T09:48:55+08:00">2021-03-16</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -344,7 +350,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Draco是谷歌在2017年1月发布的一个3D图形开源压缩库，提供了多种算法进行压缩和解压缩。<br>对于encoder过程，Draco整体思路是将网格的连接信息和几何信息进行分别编码并进行存储。<br>其中，连接信息使用了edgebreaker等算法进行了编码压缩，几何信息对数据进行量化、预测压缩、熵编码。其中熵编码采用了rANS算法。<br>本文对Draco源码进行分析, 另外对其进行封装成UE插件</p>
-<p><img src="https://img.supervj.top//img/image-20210315154842169.png"></p>
+<p><img src="https://img.supervj.top//img/image-20210316094313248.png" alt="image-20210316094313248"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/15/Draco/#more" rel="contents">

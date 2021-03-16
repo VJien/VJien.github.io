@@ -8257,10 +8257,10 @@
       </tags>
   </entry>
   <entry>
-    <title>Draco</title>
+    <title>Google开源压缩库Draco</title>
     <url>/2021/03/15/Draco/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Draco是谷歌在2017年1月发布的一个3D图形开源压缩库，提供了多种算法进行压缩和解压缩。<br>对于encoder过程，Draco整体思路是将网格的连接信息和几何信息进行分别编码并进行存储。<br>其中，连接信息使用了edgebreaker等算法进行了编码压缩，几何信息对数据进行量化、预测压缩、熵编码。其中熵编码采用了rANS算法。<br>本文对Draco源码进行分析, 另外对其进行封装成UE插件</p>
-<p><img src="https://img.supervj.top//img/image-20210315154842169.png"></p>
+<p><img src="https://img.supervj.top//img/image-20210316094313248.png" alt="image-20210316094313248"></p>
 <a id="more"></a>
 
 
