@@ -201,14 +201,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -255,6 +255,125 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 颤抖吧,凡人 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="提瑞法斯议会">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="post-title-link" itemprop="url">UE4运行时修改按键的解决方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2020-12-12 00:00:00 / 修改时间：16:00:42" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8F%92%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">插件</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="cy_cmt_count" data-xid="2020/12/12/自定义按键/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
+<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
+<a name= "插件">
+
+<p><a target="_blank" rel="noopener" href="https://github.com/VJien/RuntimeInputMapping">RuntimeInputMapping</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1605,370 +1724,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 颤抖吧,凡人 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="提瑞法斯议会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/" class="post-title-link" itemprop="url">AdvancedLocomotionSystemV4分析(一):移动和脚步IK</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-26 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-26T00:00:00+08:00">2020-10-26</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-12 15:58:34" itemprop="dateModified" datetime="2020-12-12T15:58:34+08:00">2020-12-12</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8A%A8%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">动画</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/10/26/AdvancedLocomotionSystem%E5%88%86%E6%9E%901_%E5%9F%BA%E7%A1%80%E7%A7%BB%E5%8A%A8%E5%92%8C%E8%84%9A%E6%AD%A5IK/" class="cy_cmt_count" data-xid="2020/10/26/AdvancedLocomotionSystem分析1_基础移动和脚步IK/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.8k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>最近对UE4商城<code>AdvancedLocomotionSysemV4</code>进行了一波初步分析，感觉这个项目已经包含了大多数情况能用得到的动画表现，从移动表现中比较容易出问题的脚步问题到IK、攀爬、翻滚、布娃娃以及动作叠加等模块都有讲到</p>
-<p>打算参考这个项目的思路重新实现一边动画逻辑，顺便对其中重要的模块和知识点记录一下</p>
-<p>这一篇先从基础的移动逻辑，包括转身、起跳等，再顺带看一下脚步IK的实现</p>
-</blockquote>
-<p><a href="https://supervj.top/2020/10/27/AdvancedLocomotionSystem%E5%88%86%E6%9E%902_%E6%94%80%E7%88%AC%E7%B3%BB%E7%BB%9F/">AdvancedLocomotionSystem分析(二):攀爬系统</a></p>
-<p><a href="https://supervj.top/2020/10/28/AdvancedLocomotionSystem%E5%88%86%E6%9E%903_%E5%8A%A8%E4%BD%9C%E5%8F%A0%E5%8A%A0/">AdvancedLocomotionSystemV4分析(三):动作叠加</a></p>
-<p><a href="https://supervj.top/2020/10/29/AdvancedLocomotionSystem%E5%88%86%E6%9E%904_%E5%B8%83%E5%A8%83%E5%A8%83%E5%92%8C%E8%B5%B7%E8%BA%AB/">AdvancedLocomotionSystemV4分析(四):布娃娃和起身</a></p>
-<p><a href="https://supervj.top/2020/10/31/AdvancedLocomotionSystem%E5%88%86%E6%9E%905_%E9%95%9C%E5%A4%B4/">AdvancedLocomotionSystemV4分析(五):镜头</a></p>
-<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>首先先把移动和姿态相关的数据结构拎出来看一看，会用到很多枚举和结构体</p>
-<h4 id="Enum"><a href="#Enum" class="headerlink" title="Enum"></a>Enum</h4><h5 id="MovementState-移动状态"><a href="#MovementState-移动状态" class="headerlink" title="MovementState/移动状态"></a>MovementState/移动状态</h5><ul>
-<li>Grounded</li>
-<li>InAir</li>
-<li>Mantling(攀爬)</li>
-<li>Ragdoll</li>
-</ul>
-<h5 id="MovementAction-移动行为"><a href="#MovementAction-移动行为" class="headerlink" title="MovementAction/移动行为"></a>MovementAction/移动行为</h5><ul>
-<li>LowMantle</li>
-<li>HighMantle</li>
-<li>Rolling</li>
-<li>GetUp</li>
-</ul>
-<h5 id="RotationMode"><a href="#RotationMode" class="headerlink" title="RotationMode"></a>RotationMode</h5><ul>
-<li>LockingDirection</li>
-<li>VelocityDirection</li>
-<li>Aimming</li>
-</ul>
-<h5 id="Gait-步态"><a href="#Gait-步态" class="headerlink" title="Gait/步态"></a>Gait/步态</h5><ul>
-<li>Walking</li>
-<li>Running</li>
-<li>Sprinting</li>
-</ul>
-<h5 id="ViewMode"><a href="#ViewMode" class="headerlink" title="ViewMode"></a>ViewMode</h5><ul>
-<li>FirstPerson</li>
-<li>ThirdPerson</li>
-</ul>
-<hr>
-<h4 id="Struct"><a href="#Struct" class="headerlink" title="Struct"></a>Struct</h4><h5 id="FDynamicMontage"><a href="#FDynamicMontage" class="headerlink" title="FDynamicMontage"></a>FDynamicMontage</h5><p>用于动态播放蒙太奇，这个是鼠标拖动视角后的脚步的蒙太奇动画</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027150639437.png" alt="image-20201027150639437"></p>
-<h5 id="FLean"><a href="#FLean" class="headerlink" title="FLean"></a>FLean</h5><p>倾斜参数</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027150817198.png" alt="image-20201027150817198"></p>
-<h5 id="FMovementSetting"><a href="#FMovementSetting" class="headerlink" title="FMovementSetting"></a>FMovementSetting</h5><p>移动数据，配置各种移动速度和移动旋转相关的曲线参数</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027150903150.png" alt="image-20201027150903150"></p>
-<p>这边还包括了2层，分别对应3种旋转模式和2种视角的数据</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151004574.png" alt="image-20201027151004574"></p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151010318.png" alt="image-20201027151010318"></p>
-<p>然后到表格里配置3种形式的参数</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151037012.png" alt="image-20201027151037012"></p>
-<h5 id="FTurnInPlaceAssets"><a href="#FTurnInPlaceAssets" class="headerlink" title="FTurnInPlaceAssets"></a>FTurnInPlaceAssets</h5><p>转身参数，也是用于播放蒙太奇，这个是移动视角到一定角度以后的转身动作</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151249527.png" alt="image-20201027151249527"></p>
-<h5 id="FVelocityBlend"><a href="#FVelocityBlend" class="headerlink" title="FVelocityBlend"></a>FVelocityBlend</h5><p>4方向的权重值（混合值），非常不同于一般理解的用一个方向的概念，这里用了一4方向单独的浮点值来控制混合</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151312094.png" alt="image-20201027151312094"></p>
-<hr>
-<h3 id="角色逻辑"><a href="#角色逻辑" class="headerlink" title="角色逻辑"></a>角色逻辑</h3><h4 id="Tick"><a href="#Tick" class="headerlink" title="Tick"></a>Tick</h4><p><img src="https://i.loli.net/2020/10/29/zrMiHFIQkCU7a4V.png" alt="image-20201027151612359"></p>
-<p>现关的<code>tick</code>逻辑就以上几个</p>
-<h5 id="设置必要参数-SetEssentialValue"><a href="#设置必要参数-SetEssentialValue" class="headerlink" title="设置必要参数/SetEssentialValue"></a>设置必要参数/SetEssentialValue</h5><p>这个函数主要目的是计算并设置一些动画蓝图必要的参数，比如加速度、速度等</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151724768.png" alt="image-20201027151724768"></p>
-<ul>
-<li>加速度</li>
-</ul>
-<p>并非直接去移动组件拿实时加速度，而是自己计算2帧之间的速度差来计算加速度</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151822567.png" alt="image-20201027151822567"></p>
-<ul>
-<li>速度</li>
-</ul>
-<p>这个比较简单</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027151856919.png" alt="image-20201027151856919"></p>
-<ul>
-<li>移动输入值</li>
-</ul>
-<p><img src="https://i.loli.net/2020/10/29/JuTa9dB1rFngwHP.png" alt="image-20201027151931872"></p>
-<p>一个用当前加速度来设置的移动输入浮点值和布尔值，在动画蓝图里也是蛮重要的</p>
-<ul>
-<li>视口旋转速率</li>
-</ul>
-<p>2帧之间的朝向插值来得到的旋转速率</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027152033799.png" alt="image-20201027152033799"></p>
-<h5 id="步态设置-UpdateMovement"><a href="#步态设置-UpdateMovement" class="headerlink" title="步态设置/UpdateMovement"></a>步态设置/UpdateMovement</h5><p>主要设置枚举<code>Gait</code>，这里需要提一下，按键得到的步态并不一定是最终的步态</p>
-<p><code>DesiredGait</code>期望步态来自于事件输入，可以自定义</p>
-<p><img src="https://i.loli.net/2020/10/29/WBDzSe24NwclhdI.png" alt="image-20201027152208555"></p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027175148982.png" alt="image-20201027152353930"></p>
-<p>上图对不同姿态不同视口等做了一定约束/筛选，比如在<code>Aimming</code>姿势下不能出现<code>Sprint</code></p>
-<p><img src="https://i.loli.net/2020/10/29/dMsYBrKSwTk1GX9.png" alt="image-20201027152515614"></p>
-<p>上图种，根据实际速度来决定真实的步态，跟期望步态可能会不同，因为有加速减速的存在，直到这个过程到达所需的速度才真的设置步态</p>
-<p><img src="https://i.loli.net/2020/10/29/dMsYBrKSwTk1GX9.png" alt="image-20201027152613123"></p>
-<p>然后根据不同的情况设置不同的<strong>真正</strong>的速度、加速度、摩擦力等参数</p>
-<h5 id="更新旋转-updateRotation"><a href="#更新旋转-updateRotation" class="headerlink" title="更新旋转/updateRotation"></a>更新旋转/updateRotation</h5><p>说到角色旋转，我们要看一下角色几个很关键的参数</p>
-<ul>
-<li>bUseControllerRotationYaw : false</li>
-<li>CharacterMovement.bOrientRotationToMovement：false</li>
-</ul>
-<p>以上2个参数都是false，意味着我们角色的朝向全靠我们逻辑来控制了</p>
-<p>先看一个简单的插值计算函数</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027153053725.png" alt="image-20201027153053725"></p>
-<p>基本上大多数的角色旋转都是用这个函数实现的，做了2步插值计算</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027153221577.png" alt="image-20201027153221577"></p>
-<p>然后对于地面的速度做了一个计算，读取了配置参数的曲线信息，我们任意打开一个曲线看一下</p>
-<p><img src="https://i.loli.net/2020/10/29/Bx2Zzh8oKIHt4b3.png" alt="image-20201027153330854"></p>
-<p>上图是不同状态下的旋转速率，0=5，3=20</p>
-<blockquote>
-<p>移动数据是BeginPlay的时候读表获取的</p>
-</blockquote>
-<p>然后根据不同视角、旋转模式等进行不同的插值计算</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027154624163.png" alt="image-20201027154624163"></p>
-<p><img src="https://i.loli.net/2020/10/29/2Wn9KDv7Z5xLT6u.png" alt="image-20201027153809298"></p>
-<hr>
-<p>然后还有一种旋转方式稍微不容易理解一点，需要注意的是如果动画制作的时候不是用30帧的，下图中的30帧处需要替换为对应的帧数</p>
-<p><img src="https://i.loli.net/2020/10/29/3zOMLZnAPpaXIlf.png" alt="image-20201027154033617"></p>
-<p>从曲线等到值来动态设置旋转值</p>
-<p>这个曲线挂在转身动画里面，比如右转90度的曲线</p>
-<p><img src="https://i.loli.net/2020/10/29/f9R7gkF3v8jZOWw.png" alt="image-20201027154357794"></p>
-<h6 id="动画修改器-添加根骨骼运动曲线"><a href="#动画修改器-添加根骨骼运动曲线" class="headerlink" title="动画修改器:添加根骨骼运动曲线"></a>动画修改器:添加根骨骼运动曲线</h6><p>根骨骼旋转信息的曲线我们用修改器来制作，思路就是对比2帧之间的旋转插值然后添加数据点</p>
-<p><img src="https://i.loli.net/2020/10/29/79MDr1lR36Qstac.png" alt="image-20201023175214668"></p>
-<h5 id="缓存数据-CacheValus"><a href="#缓存数据-CacheValus" class="headerlink" title="缓存数据/CacheValus"></a>缓存数据/CacheValus</h5><p>就是存一下2个旧的数据，上述逻辑中用到的对比2帧数据差的</p>
-<p><img src="https://i.loli.net/2020/10/29/AeXJmYTbNM6Dpnd.png" alt="image-20201027154830956"></p>
-<h5 id="数据接口"><a href="#数据接口" class="headerlink" title="数据接口"></a>数据接口</h5><p><img src="https://i.loli.net/2020/10/29/tVsNZgQHRr6hIyu.png" alt="image-20201027154851355"></p>
-<p><img src="https://i.loli.net/2020/10/29/OHhZG63SI1jUYnK.png" alt="image-20201027154857475"></p>
-<p>如图所示，把必要参数都通过接口得到</p>
-<h3 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h3><h4 id="逻辑视图"><a href="#逻辑视图" class="headerlink" title="逻辑视图"></a>逻辑视图</h4><p>主要逻辑就是Tick和通知两部分</p>
-<p>在Tick中主要是如下几个方法</p>
-<h5 id="UpdateCharacterInfo"><a href="#UpdateCharacterInfo" class="headerlink" title="UpdateCharacterInfo"></a>UpdateCharacterInfo</h5><p>从角色要到必要的参数</p>
-<p><img src="https://i.loli.net/2020/10/29/VNEPmuoLJrekdvC.png" alt="image-20201027161533966"></p>
-<h5 id="UpdateMovementValues"><a href="#UpdateMovementValues" class="headerlink" title="UpdateMovementValues"></a>UpdateMovementValues</h5><p><img src="https://i.loli.net/2020/10/29/sURjtTcDxkw6VY5.png" alt="image-20201027161738837"></p>
-<p>这里比较有用的是计算<code>VelocityBlend</code>的思路</p>
-<p><img src="https://i.loli.net/2020/10/29/Vptef8HAE4GrNTd.png" alt="image-20201027161814570"></p>
-<p><img src="https://i.loli.net/2020/10/29/ImV7sT5NuEokaWq.png" alt="image-20201027161826756"></p>
-<p>如上图，重点是把世界速度转换成本地的归一化速度</p>
-<hr>
-<p>然后是计算本地加速度和倾斜角度，加速度直接决定了倾斜角度</p>
-<p><img src="https://i.loli.net/2020/10/29/rcXyIL5bHY2suTn.png" alt="image-20201027162041292"></p>
-<p><img src="https://i.loli.net/2020/10/29/AXUDuWM5BVs3JyG.png" alt="image-20201027162048573"></p>
-<p>然后是计算步长，跟速度挂钩，从曲线中获取信息，下图中表示了曲线对应的大概的速度范围</p>
-<p><img src="https://i.loli.net/2020/10/29/XK8lqpnd9T3IRsb.png" alt="image-20201027162222030"></p>
-<p>计算站立动画播放速率：跟曲线<code>Weight_Gait</code>有关联，一般设置2为跑步，3为冲刺的速率</p>
-<p><img src="https://i.loli.net/2020/10/29/vdaXK9YZkMLODrl.png" alt="image-20201027162326824"></p>
-<h5 id="UpdateRotation"><a href="#UpdateRotation" class="headerlink" title="UpdateRotation"></a>UpdateRotation</h5><p>旋转相关的参数，下图所示比较简单</p>
-<p><img src="https://i.loli.net/2020/10/29/v5sDWEwHQgBz78C.png" alt="image-20201027162423055"></p>
-<p><img src="https://i.loli.net/2020/10/29/tBjdCSxi8UKFX71.png" alt="image-20201027162444761"></p>
-<p><img src="https://i.loli.net/2020/10/29/X75lKRt1hYBJS8O.png" alt="image-20201027162457635"></p>
-<blockquote>
-<p> 后面还有关于转身的方法和通知，留到下面单独讲</p>
-</blockquote>
-<h4 id="动画视图"><a href="#动画视图" class="headerlink" title="动画视图"></a>动画视图</h4><p>先来看一下动画视图的跟移动和IK有关系的主视图，原版工程还有很多层级，现在先不拿进来</p>
-<p><img src="https://i.loli.net/2020/10/29/HlIBdQcCS93Kxsg.png" alt="image-20201027162753661"></p>
-<h4 id="BaseLayer"><a href="#BaseLayer" class="headerlink" title="BaseLayer"></a>BaseLayer</h4><p><img src="https://i.loli.net/2020/10/29/ayHSuLrlgEfP142.png" alt="image-20201027163331816"></p>
-<h5 id="LocomotionCycles"><a href="#LocomotionCycles" class="headerlink" title="LocomotionCycles"></a>LocomotionCycles</h5><p><img src="https://i.loli.net/2020/10/29/QbUTAMaYzNytr3H.png" alt="image-20201027163407630"></p>
-<p>这里就直接进入对应的动画层</p>
-<p><img src="https://i.loli.net/2020/10/29/TZ3YyD4ol5hzOUk.png" alt="image-20201027163438437"></p>
-<p>第一下有点难以理解，为什么要分6个，一般理解上要么4个要么8个</p>
-<p>理性分析以后，我们需要考虑一个穿帮问题，拿我们一般用的单个混合空间，横竖轴分别对应移动方向和移动速度来说，经常在4个斜角中的2个斜角会出现脚步严重穿插问题，用过的应该都能理解，现在这个设计思路就是几乎完美的解决了这个问题</p>
-<p>比如走路一共有6个动作</p>
-<img src="https://i.loli.net/2020/10/29/M2WPZNsIHlYV7mz.png" alt="image-20201027163809113" style="zoom:100%;" />
-
-<blockquote>
-<p>我们如果的移动顺序是  前-&gt;右-&gt;后</p>
-<p>那么动画的播放顺序是 F-&gt;RF-&gt;RB-&gt;B</p>
-<p>如果是前-&gt;左-&gt;后</p>
-<p>动画顺序是F-&gt;LF-&gt;LB-&gt;B</p>
-</blockquote>
-<p>我们再去看动画具体表现</p>
-<p>LF和RB都是右脚在前左脚在后，如下图</p>
-<p><img src="https://i.loli.net/2020/10/29/aNtJ7mBHYkV9Zrq.png" alt="image-20201027164541218"><img src="https://i.loli.net/2020/10/29/1tEQj8oqGLcaeuN.png" alt="image-20201027164555146"></p>
-<p>RF和LR如下图</p>
-<p><img src="https://i.loli.net/2020/10/29/Tgm6kq9pyoRDAnh.png" alt="image-20201027164629282"><img src="https://i.loli.net/2020/10/29/WVOL3YauJNhgiko.png" alt="image-20201027164640634"></p>
-<p>而前和后都是正面朝向的就不贴图了</p>
-<p>所以这种混合方式就避免了左右脚前后问题的混合，当然也意味着动画师得多做几份动画了</p>
-<p><img src="https://i.loli.net/2020/10/29/sYptHKqJh7a9D3C.png" alt="image-20201028090323058"></p>
-<p>上图是MoveRF的状态机，需要注意的是RF对立面混合的就是前面所说的，脚步前后一致的LB，当然一般情况下，<code>VelocityBlend</code>的R值和L值也不会同时大于0</p>
-<hr>
-<p>每个状态机的进入都有一个通知，直接设置了方向枚举，这个枚举变量用于<strong>停步</strong>的逻辑,后面细讲</p>
-<p><img src="https://i.loli.net/2020/10/29/fMFNBZHzktX38wS.png" alt="image-20201027165201291"></p>
-<p>在这个动画层还有一些逻辑，如下图所示比较容易理解</p>
-<p><img src="https://i.loli.net/2020/10/29/UXON3fuwtrks5Lv.png" alt="image-20201027165436452"></p>
-<h5 id="LocomotionDetail"><a href="#LocomotionDetail" class="headerlink" title="LocomotionDetail"></a>LocomotionDetail</h5><p><img src="https://i.loli.net/2020/10/29/veJY5KRwuNODIWy.png" alt="image-20201027170302476"></p>
-<p><img src="https://img.supervj.top/img/temp/run%20add.gif" alt="run add"></p>
-<p>主要叠加了走路到跑步或者冲刺的启动动画叠加，如上面的动图</p>
-<p><img src="https://i.loli.net/2020/10/29/wVrFKc2x8mgjv4I.png" alt="image-20201027171642190"></p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027171649329.png" alt="image-20201027171649329"></p>
-<p>2个类似的状态机区别主要就是直接从静态到跑步还是从完整的走路姿势切换到跑步，从叠加上区别就是<code>StartPostion</code>的不同</p>
-<h5 id="LocomotionStates"><a href="#LocomotionStates" class="headerlink" title="LocomotionStates"></a>LocomotionStates</h5><p><img src="https://img.supervj.top/img/temp/image-20201027171904903.png" alt="image-20201027171904903"></p>
-<p>这里主要实现了2部分内容</p>
-<ol>
-<li>原地/移动/停步的切换</li>
-<li>原地转身动画</li>
-</ol>
-<ul>
-<li>Stop</li>
-</ul>
-<p><img src="https://img.supervj.top/img/temp/image-20201027172526588.png" alt="image-20201027172526588"></p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027172418385.png" alt="image-20201027172418385"></p>
-<p>用动画曲线来判定脚的位置，如下图</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027172622022.png" alt="image-20201027172622022"></p>
-<p>上图是跑步的位置曲线，重定向过来的曲线信息会有些许区别，比如直线变曲线，但是大致相同</p>
-<p>基本上是右脚踩下=1，左脚踩下=-1</p>
-<p>对于脚没有完全踩下的节点会复杂一些，先看一个全图</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027173024455.png" alt="image-20201027173024455"></p>
-<p>看一下骨骼分层</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027173037908.png" alt="image-20201027173037908"></p>
-<p>那么下面的混合大概思路就是根据不同的移动方向和不同的方向枚举，这2个变量之前都讲过，这里分别处理</p>
-<p>混合的动作都是各个方向的走路动画的某个时间点的单帧动画</p>
-<ul>
-<li>转身</li>
-</ul>
-<p>转身动作是特殊情况的拖动，循环播放的形式</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027173516992.png" alt="image-20201027173516992"></p>
-<p>动画速率跟镜头旋转速度有关系</p>
-<p>看一下具体的判定条件</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027173619244.png" alt="image-20201027173619244"></p>
-<p>言下之意就是瞄准方式或者第一人称的模式都是这样旋转的</p>
-<h5 id="MainMovement"><a href="#MainMovement" class="headerlink" title="MainMovement"></a>MainMovement</h5><p>此状态机用来控制地面和空中的姿势切换</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027173736606.png" alt="image-20201027173736606"></p>
-<p>用<code>MovementState</code>和<code>Jumped</code>分别判断是主动起跳和是被动自由落体</p>
-<p>逻辑上主动起跳是先修改布尔值再更新枚举值</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201027174004729.png" alt="image-20201027174004729"></p>
-<ul>
-<li>起跳</li>
-</ul>
-<p><img src="https://img.supervj.top/img/temp/image-20201028094937513.png" alt="image-20201028094937513"></p>
-<p>几个必要的变量计算</p>
-<p>思路是在下落过程中计算得到速度和地面预判值</p>
-<p>预判值用射线检测得到，最后得到效果是落地的瞬间叠加了手臂上扬的动作</p>
-<p><img src="https://img.supervj.top/img/temp/image-20201028093655072.png" alt="image-20201028093655072"></p>
-<p><img src="https://img.supervj.top/img/temp/image-20201028094318721.png" alt="image-20201028094318721"></p>
-<p><img src="https://img.supervj.top/img/temp/image-20201028094405280.png" alt="image-20201028094405280"></p>
-<p>内部状态机如上图</p>
-<p>根据起跳时脚的位置来决定起跳初始动画，即一般意义上的JumpStart的动作，此动作为过渡性动作，结束以后自动跳转到下一个状态机</p>
-<p>下一个状态机是空中循环，虽然是循环播放，但是无条件跳转到<code>Flai</code>动作(一个手舞足蹈的下落动作)</p>
-<h4 id="脚步IK"><a href="#脚步IK" class="headerlink" title="脚步IK"></a>脚步IK</h4><p>脚步IK和停步其实要放一起说，因为停步的时候也用到了IK的一部分功能用来把脚收回去</p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027174115844.png" alt="image-20201027174115844"></p>
-<p>这里加了很多虚拟骨骼</p>
-<ul>
-<li>foot_target_r:用来判断跨步是否比较大</li>
-<li>ik_foot_r_Offset：控制<code>TwoBoneIK</code>的<code>Effector</code>，即IK效果的主要控制节点</li>
-<li>ik_knee_target_r:膝盖位置，<code>TwoBoneIK</code>的<code>Joint</code>节点，即IK效果的方向参考点</li>
-</ul>
-<p><img src="https://img.supervj.top/img/tempimage-20201027174459766.png" alt="image-20201027174459766"></p>
-<hr>
-<ul>
-<li>IK动画视图</li>
-</ul>
-<p><img src="https://img.supervj.top/img/temp/image-20201027174715349.png" alt="image-20201027174715349"></p>
-<p>动画视图比较简单，难点是计算方式</p>
-<p>找到Tick逻辑里的<code>UpdateFootIK</code>方法</p>
-<p>从里面一点点分析</p>
-<h5 id="SetFootLocking"><a href="#SetFootLocking" class="headerlink" title="SetFootLocking"></a>SetFootLocking</h5><p><img src="https://img.supervj.top/img/tempimage-20201027174825245.png" alt="image-20201027174825245"></p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027174845182.png" alt="image-20201027174845182"></p>
-<p>这里不细究了，思路就是得到当前动画的<code>FootLock</code>曲线信息，有权重就意味着需要锁定脚步位置，锁定的时候即抵消了<code>TwoBone IK</code>的<code>Effector</code>骨骼的影响</p>
-<h5 id="SetFootOffset"><a href="#SetFootOffset" class="headerlink" title="SetFootOffset"></a>SetFootOffset</h5><p><img src="https://img.supervj.top/img/temp/image-20201027175052583.png" alt="image-20201027175052583"></p>
-<p><img src="https://img.supervj.top/img/tempimage-20201027175148982.png" alt="image-20201027175148982"></p>
-<p>这里会一直打射线计算地面点，得到具体的脚步的位置，然后插值计算放置跳帧</p>
-<blockquote>
-<p>脚步IK逻辑不是很多，但是我这里重新实现的时候发现了很多细节问题，效果很难到达预期，具体可以详细参考工程</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -2016,14 +1771,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">506k</span>
+    <span title="站点总字数">514k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:40</span>
+    <span title="站点阅读时长">7:47</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -8344,4 +8344,99 @@
         <tag>DirectX</tag>
       </tags>
   </entry>
+  <entry>
+    <title>开源图形库Assimp</title>
+    <url>/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>引用一段介绍</p>
+<blockquote>
+<p>Assimp,开源图形库(Open Asset Import Library)是一种便携式的可支持读取多种模型资源的开源库，它可以用统一的方式输入各种格式的3D模型，而其最新版本能实现输出3D模型的文件，因此该资源库也作为通用的3D模型转换器。assimp旨在提供用于游戏引擎实时渲染系统的一种完整的资源转换管道，但它不局限于这个目的，但在过去已被广泛应用。Assimp是用C++编写的，可以基于C语言应用程序编程接口或者绑定其它其它语言，如C#、.net、Python。为了进一步处理资源，Assimp加载了输入的模型格式为一个简单的数据结构，这个功能是由后处理工具加强的，包括一些常用的操作比如计算正常和切向量。</p>
+<p>assimp是一种库，它主要用来加载和处理各种数据格式的几何场景。它主要针对的是那些支持节点层次、静态表层网格、材料、具有质感的动画和潜在纹理数据。assimp库不是为了提高速度而设计的，它最重要的用处就是，将每一个不同来源的资源导入并且在每一次的加载中以一种特殊的格式将它方便、快捷的存储起来。assimp也能够运用各种后处理步骤导入相应的数据，如转换为索引网格，计算法线和切线/双切线或转换从右手到左手坐标系统。assimp目前支持以下文件格式（请注意，一些装载机缺乏格式的一些特点，因为有些文件格式包含assimp不支持的数据，所以会需要很多的转换工作，而因此缺乏适当的格式规范并没有实现）</p>
+</blockquote>
+<p>本文主要对库本身的主要内容进行一波分析, 然后顺手封装成UE的蓝图插件</p>
+<a id="more"></a>
+
+<p><a href="https://github.com/assimp/assimp">github官方</a></p>
+<h2 id="支持格式"><a href="#支持格式" class="headerlink" title="支持格式"></a>支持格式</h2><p>Collada ( <em>.dae;</em>.xml )<br>Blender ( <em>.blend ) 3<br>Biovision BVH ( *.bvh )<br>3D Studio Max 3DS ( *.3ds )<br>3D Studio Max ASE ( *.ase )<br>Wavefront Object ( *.obj )<br>Stanford Polygon Library ( *.ply )<br>AutoCAD DXF ( *.dxf )<br>IFC-STEP, Industry Foundation Classes ( *.ifc )<br>Neutral File Format ( *.nff )<br>Sense8 WorldToolkit ( *.nff )<br>Valve Model ( *.smd,</em>.vta ) 3<br>Quake I ( <em>.mdl )<br>Quake II ( <em>.md2 )<br>Quake III ( *.md3 )<br>Quake 3 BSP ( *.pk3 ) 1<br>RtCW ( *.mdc )<br>Doom 3 ( *.md5mesh;</em>.md5anim;</em>.md5camera )<br>DirectX X ( <em>.x ).<br>Quick3D ( <em>.q3o;q3s ).<br>Raw Triangles ( .raw ).<br>AC3D ( *.ac ).<br>Stereolithography ( *.stl ).<br>Autodesk DXF ( *.dxf ).<br>Irrlicht Mesh ( *.irrmesh;</em>.xml ).<br>Irrlicht Scene ( <em>.irr;</em>.xml ).<br>Object File Format ( *.off ).<br>Terragen Terrain ( *.ter )<br>3D GameStudio Model ( *.mdl )<br>3D GameStudio Terrain ( *.hmp )<br>Ogre (</em>.mesh.xml, *.skeleton.xml, *.material)3<br>Milkshape 3D ( *.ms3d )<br>LightWave Model ( *.lwo )<br>LightWave Scene ( *.lws )<br>Modo Model ( *.lxo )<br>CharacterStudio Motion ( *.csm )<br>Stanford Ply ( *.ply )<br>TrueSpace ( *.cob, *.scn )2<br>XGL ( *.xgl, *.zgl )<br>支持以下格式的导出：<br>Collada(.dae)<br>Wavefront Object(.obj)<br>Stereolithography(.stl)<br>Stanford Polygon Library(.ply)</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><img src="https://img.supervj.top//img/20200630154409945.png" alt="20200630154409945"></p>
+<p>引用OpenGL的图片, <code>Assimp&#39;</code>从文件读取数据以后的数据结构就如上图所示, 所有数据都包含在<code>aiScene</code>指针内</p>
+<p><img src="https://img.supervj.top//img/image-20210319180134014.png" alt="image-20210319180134014"></p>
+<p>从此图可以大概看到<code>aiScene</code>内有哪些成员变量和函数,后面我们从实例中逐步分析</p>
+<h2 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Assimp::Importer Importer;<span class="comment">//导入器</span></span><br><span class="line">	<span class="keyword">const</span> aiScene* scene = Importer.ReadFile(FilePath, 配置参数);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>aiProcess_SplitLargeMeshes : 将比较大的网格分割成更小的子网格，如果你的渲染有最大顶点数限制，只能渲染较小的网格，那么它会非常有用</p>
+</li>
+<li><p>aiProcess_OptimizeMeshes: 和上个选项相反，它会将多个小网格拼接为一个大的网格，减少绘制调用从而进行优化。</p>
+</li>
+<li><p>aiProcess_FlipUVsv: 沿着y方向翻转纹理坐标，这在渲染quake模型时候是必须的</p>
+</li>
+<li><p>aiProcess_SortByPType: 将不同图元放置到不同的模型中去，图片类型可能是点、直线、三角形等</p>
+</li>
+<li><p>aiProcess_JoinIdenticalVertices :自动合并相同的顶点 </p>
+</li>
+<li><p>aiProcess_GenSmoothNormals :如果原始顶点没有法向数据，Assimp会为顶点产生法向数据</p>
+</li>
+<li><p>aiProcess_CalcTangentSpace:自动计算切线和副法线</p>
+</li>
+<li><p>aiProcess_Triangulate  :自动将四边形面转换为三角面</p>
+</li>
+<li><p>aiProcess_MakeLeftHanded: 使用作手坐标系</p>
+</li>
+</ul>
+<h2 id="获取模型信息"><a href="#获取模型信息" class="headerlink" title="获取模型信息"></a>获取模型信息</h2><p>模型的基本信息保存在 <code>aiScene.mMeshes[]</code>数组中,每个<code>aiNode</code>内也保存了每个<code>aiNode</code>所对应的模型信息</p>
+<p>我们先声明一个USTRUCT来保存相应数据</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">USTRUCT(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FMeshData</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	GENERATED_BODY()</span><br><span class="line">		FMeshData()</span><br><span class="line">		&#123;&#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector&gt; Vertices;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;int32&gt; Triangles;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector&gt; Normals;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector2D&gt; UV0;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FLinearColor&gt; VertexColors;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FProcMeshTangent&gt; Tangents;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		FTransform RelativeTransform;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过一个方法获取对应<code>aiNode</code>的模型数据</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindMeshData</span><span class="params">(<span class="keyword">const</span> aiScene* scene, aiNode* node, FLoadedMeshData&amp; outLoadedMeshData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (scene == <span class="literal">nullptr</span> || node == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(RIELog, Warning, TEXT(<span class="string">&quot;FindMeshData Failed : invalid scene or node!&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; node-&gt;mNumMeshes; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		UE_LOG(RIELog, Log, TEXT(<span class="string">&quot;FindMeshData : %s&quot;</span>), node-&gt;mName.C_Str());</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        此成员保存了node对应mesh的序号</span></span><br><span class="line"><span class="comment">        unsigned int* mMeshes;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">		<span class="keyword">int</span> meshesIdx = *node-&gt;mMeshes;</span><br><span class="line">		aiMesh* mesh = scene-&gt;mMeshes[meshesIdx];</span><br><span class="line">		FMeshData&amp; meshData = outLoadedMeshData.meshData[meshesIdx];</span><br><span class="line"></span><br><span class="line">		<span class="comment">//conv aiMatrix4x4 to FTransform</span></span><br><span class="line">		aiMatrix4x4 trans = node-&gt;mTransformation;</span><br><span class="line">		FMatrix matrix;</span><br><span class="line">		matrix.M[<span class="number">0</span>][<span class="number">0</span>] = trans.a1; matrix.M[<span class="number">0</span>][<span class="number">1</span>] = trans.b1; matrix.M[<span class="number">0</span>][<span class="number">2</span>] = trans.c1; matrix.M[<span class="number">0</span>][<span class="number">3</span>] = trans.d1;</span><br><span class="line">		matrix.M[<span class="number">1</span>][<span class="number">0</span>] = trans.a2; matrix.M[<span class="number">1</span>][<span class="number">1</span>] = trans.b2; matrix.M[<span class="number">1</span>][<span class="number">2</span>] = trans.c2; matrix.M[<span class="number">1</span>][<span class="number">3</span>] = trans.d2;</span><br><span class="line">		matrix.M[<span class="number">2</span>][<span class="number">0</span>] = trans.a3; matrix.M[<span class="number">2</span>][<span class="number">1</span>] = trans.b3; matrix.M[<span class="number">2</span>][<span class="number">2</span>] = trans.c3; matrix.M[<span class="number">2</span>][<span class="number">3</span>] = trans.d3;</span><br><span class="line">		matrix.M[<span class="number">3</span>][<span class="number">0</span>] = trans.a4; matrix.M[<span class="number">3</span>][<span class="number">1</span>] = trans.b4; matrix.M[<span class="number">3</span>][<span class="number">2</span>] = trans.c4; matrix.M[<span class="number">3</span>][<span class="number">3</span>] = trans.d4;</span><br><span class="line">		meshData.RelativeTransform = FTransform(matrix);</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">		<span class="comment">//vertex</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">unsigned</span> j = <span class="number">0</span> ; j &lt; mesh-&gt;mNumVertices; ++j)</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			FVector vertex = FVector(mesh-&gt;mVertices[j].x, mesh-&gt;mVertices[j].y, mesh-&gt;mVertices[j].z);</span><br><span class="line">			vertex = meshData.RelativeTransform.TransformFVector4(vertex);</span><br><span class="line">			meshData.Vertices.Push(vertex);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//normal</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;HasNormals())</span><br><span class="line">			&#123;</span><br><span class="line">				FVector normal = FVector(mesh-&gt;mNormals[j].x, mesh-&gt;mNormals[j].y, mesh-&gt;mNormals[j].z);</span><br><span class="line">				meshData.Normals.Push(normal);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				meshData.Normals.Push(FVector::ZeroVector);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//UV</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;HasTextureCoords(<span class="number">0</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				FVector2D uv = FVector2D(mesh-&gt;mTextureCoords[<span class="number">0</span>][j].x, mesh-&gt;mTextureCoords[<span class="number">0</span>][j].y);</span><br><span class="line">				meshData.UV0.Push(uv);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//tangent</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;HasTangentsAndBitangents())</span><br><span class="line">			&#123;</span><br><span class="line">				FProcMeshTangent tangent = FProcMeshTangent(mesh-&gt;mTangents[j].x, mesh-&gt;mTangents[j].y, mesh-&gt;mTangents[j].z);</span><br><span class="line">				meshData.Tangents.Push(tangent);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;HasVertexColors(<span class="number">0</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				FLinearColor color = FLinearColor(mesh-&gt;mColors[<span class="number">0</span>][j].r, mesh-&gt;mColors[<span class="number">0</span>][j].g,</span><br><span class="line">					mesh-&gt;mColors[<span class="number">0</span>][j].b,mesh-&gt;mColors[<span class="number">0</span>][j].a);</span><br><span class="line">				meshData.VertexColors.Push(color);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过一个递归方法来获取所有的节点模型信息</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindMeshDataRecursive</span><span class="params">(<span class="keyword">const</span> aiScene* scene, aiNode* node, FLoadedMeshData&amp; outLoadedMeshData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FindMeshData(scene, node, outLoadedMeshData);</span><br><span class="line">	<span class="keyword">for</span> (uint32 i = <span class="number">0</span>; i &lt; node-&gt;mNumChildren; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		FindMeshDataRecursive(scene, node-&gt;mChildren[i], outLoadedMeshData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后从递归得到的数据再得到顶点序号</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (uint32 i = <span class="number">0</span>; i &lt; Scene-&gt;mNumMeshes; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//Triangle number</span></span><br><span class="line">			<span class="keyword">for</span> (uint32 l = <span class="number">0</span>; l &lt; Scene-&gt;mMeshes[i]-&gt;mNumFaces; ++l)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">for</span> (uint32 m = <span class="number">0</span>; m &lt; Scene-&gt;mMeshes[i]-&gt;mFaces[l].mNumIndices; ++m)</span><br><span class="line">				&#123;</span><br><span class="line">					out.meshData[i].Triangles.Push(Scene-&gt;mMeshes[i]-&gt;mFaces[l].mIndices[m]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		out.bSuccess = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="https://img.supervj.top//img/UE4Editor_AWsxBHcz2H.png" alt="UE4Editor_AWsxBHcz2H"></p>
+<p>我们用<code>ProceduralMesh</code>正好可以创建出模型,如上图所示即可</p>
+<h2 id="获取材质信息"><a href="#获取材质信息" class="headerlink" title="获取材质信息"></a>获取材质信息</h2><p>材质信息保存在<code>aiScene.mMaterials</code>中, 官方文档中说了可以获取是所有材质属性</p>
+<p>下图截取一部分</p>
+<p><img src="https://img.supervj.top//img/chrome_A0rKxl2bTt.png" alt="chrome_A0rKxl2bTt"></p>
+<p>通过如下方式获取材质, 其中类型前面统一加上<code>AI_MATKEY_</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">aiMaterial* mat = .....</span><br><span class="line"></span><br><span class="line"><span class="comment">// The generic way</span></span><br><span class="line"><span class="keyword">if</span>(AI_SUCCESS != mat-&gt;Get(&lt;material-key&gt;,&lt;where-to-store&gt;)) &#123;</span><br><span class="line">   <span class="comment">// handle epic failure here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>又比如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">aiColor3D <span class="title">color</span> <span class="params">(<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">0.f</span>)</span></span>;</span><br><span class="line">mat-&gt;Get(AI_MATKEY_COLOR_DIFFUSE,color);</span><br></pre></td></tr></table></figure>
+
+<p>所以我们就可以通过此封装UE库</p>
+<p>但是考虑到各个类型的返回值不同, 我们就干脆一口气封装成K2Node泛型节点来方便使用,具体效果如下</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif" alt="录制_2021_03_22_10_06_11_380"></p>
+<p>对于这里图片的返回值的字符串表示的是路径信心, 但是这个还有个问题, 参考文档中的一段话</p>
+<blockquote>
+<p>There are two cases:</p>
+<ul>
+<li>The texture is NOT compressed. Its color data is directly stored in the aiTexture structure as an array of aiTexture::mWidth * aiTexture::mHeight aiTexel structures. Each aiTexel represents a pixel (or “texel”) of the texture image. The color data is stored in an unsigned RGBA8888 format, which can be easily used for both Direct3D and OpenGL (swizzling the order of the color components might be necessary). RGBA8888 has been chosen because it is well-known, easy to use and natively supported by nearly all graphics APIs.</li>
+<li>This applies if aiTexture::mHeight == 0 is fulfilled. Then, texture is stored in a compressed format such as DDS or PNG. The term “compressed” does not mean that the texture data must actually be compressed, however the texture was found in the model file as if it was stored in a separate file on the harddisk. Appropriate decoders (such as libjpeg, libpng, D3DX, DevIL) are required to load theses textures. aiTexture::mWidth specifies the size of the texture data in bytes, aiTexture::pcData is a pointer to the raw image data and aiTexture::achFormatHint is either zeroed or contains the most common file extension of the embedded texture’s format. This value is only set if assimp is able to determine the file format.</li>
+</ul>
+</blockquote>
+<p>我们一般情况下都是使用的注入<code>PNG</code>或者<code>JPG</code>等压缩格式的图片, 那么在获取图片信息的时候基本都是 上述第二种情况, 从返回的数据和路径信息都是不能直接使用的,需要借助其他工具来解析这些数据,此文就不讨论这个问题了</p>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><p><img src="https://img.supervj.top//img/3dsmax_fHQyk1D1Jg.png" alt="3dsmax_fHQyk1D1Jg"></p>
+<p>如上图, 在max内创建一个简单的box和材质,贴上一个简单的贴图</p>
+<p><img src="https://img.supervj.top//img/image-20210322104048429.png" alt="image-20210322104048429"></p>
+<p><img src="https://img.supervj.top//img/UE4Editor_qdTxG1JLQB.png" alt="UE4Editor_qdTxG1JLQB"></p>
+<blockquote>
+<p> 打印得到opacity值为0.94</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+        <tag>插件</tag>
+        <tag>资源</tag>
+        <tag>图形</tag>
+      </tags>
+  </entry>
 </search>
