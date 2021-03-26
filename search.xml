@@ -8912,4 +8912,39 @@
         <tag>MaxScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>UE4压缩和解压缩工具</title>
+    <url>/2021/03/26/UE4%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UE4编辑器和运行时使用解压缩和压缩功能, 一个简单的蓝图库, 源代码来自GitHub的<a href="https://github.com/getnamo/ZipUtility-ue4">ZipUtility Plugin</a></p>
+<p>对其做了稍微修改, 修复了部分因为版本更新的报错信息(大量头文件包含问题)</p>
+<p><a href="https://github.com/VJien/ZipUtility-UE4-Extra"> ZipUtility-UE4-Extra</a></p>
+<p>本文简单介绍这个插件的使用方式</p>
+<p><img src="https://img.supervj.top//img/UE4Editor_Eenx6GKDoT.png" alt="UE4Editor_Eenx6GKDoT"></p>
+<a id="more"></a>
+
+
+
+
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li>下载/克隆</li>
+<li>放到目录 <code>项目/Plugins/</code>内</li>
+<li>刷新项目</li>
+<li>检查VS是否安装了最新的<code>ATL</code>和<code>MFC</code>组件,否则会提示<code>atlbase.h</code>找不到<ul>
+<li>如果已经安装了还是报错, 尝试在 <code>Property-&gt;VC++ Directories-&gt;Include Directories</code>中加入类似<code>Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\atlmfc\include</code>的路径</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img.supervj.top//img/UE4Editor_md5TmgDXhY.png" alt="UE4Editor_md5TmgDXhY"></p>
+<p><img src="https://img.supervj.top//img/image-20210326134323995.png" alt="image-20210326134323995"></p>
+<p>每个方法都需要提供一个<code>UObject</code>类对象, 该对象如果挂上接口就可以获取回调事件</p>
+]]></content>
+      <categories>
+        <category>工具开发</category>
+      </categories>
+      <tags>
+        <tag>解压缩</tag>
+        <tag>第三方工具</tag>
+      </tags>
+  </entry>
 </search>
