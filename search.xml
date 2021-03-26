@@ -70,11 +70,10 @@
 <p><img src="https://i.loli.net/2020/10/29/EWjvQAIOVdP9tXs.png" alt="image-20201029093239908"></p>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
       </tags>
   </entry>
   <entry>
@@ -133,11 +132,10 @@
 <p>最后就是根据曲线返回第一人称还是第三人称的数据</p>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
         <tag>镜头</tag>
       </tags>
   </entry>
@@ -201,11 +199,10 @@
 <p>另外，目前阶段的切换站姿会导致视角抖动，因为UE4本身<code>Crouch</code>的瞬间会把胶囊体的大小缩放为<code>CrouchHalfHeight</code>的高度，解决方法是把相机独立出去，即不挂载在角色身上，后续分析</p>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
       </tags>
   </entry>
   <entry>
@@ -470,11 +467,10 @@
 <p>按照正常情况站姿的情况下该值应该一直处于1才对，然后手动在基础动画层的最后节点之前手动<code>ModifyCurves</code>把此曲线值先设为1。</p>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
       </tags>
   </entry>
   <entry>
@@ -557,7 +553,7 @@
 <p>4边面变为3边面, 平滑组感觉有些许不同, 其余正常</p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>工具开发</category>
       </categories>
       <tags>
         <tag>插件</tag>
@@ -670,12 +666,11 @@
 <p>​    </p>
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>资源</tag>
+        <tag>模块分析</tag>
       </tags>
   </entry>
   <entry>
@@ -779,13 +774,10 @@
 <p>因为还涉及到很多后续的内容, 这里先不展开</p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -938,13 +930,10 @@
 <p>完成!!!</p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -1392,13 +1381,10 @@
 </tbody></table>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -1463,12 +1449,10 @@
 
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>客户端</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
-        <tag>JSON</tag>
+        <tag>Json</tag>
       </tags>
   </entry>
   <entry>
@@ -1511,11 +1495,11 @@
 </ul>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>Paper2D</tag>
+        <tag>TexturerPacker</tag>
       </tags>
   </entry>
   <entry>
@@ -1769,10 +1753,9 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术研究</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>UBT</tag>
       </tags>
   </entry>
@@ -1886,7 +1869,6 @@
         <category>其他</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>steam</tag>
       </tags>
   </entry>
@@ -1963,12 +1945,11 @@
 <p>如上图打包以后就放到了正确的目录</p>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>插件</tag>
-        <tag>c++</tag>
+        <tag>第三方库</tag>
       </tags>
   </entry>
   <entry>
@@ -1992,10 +1973,9 @@
 <p>此为<code>windows</code>版本,类似的也有其他比如安卓版本的打开</p>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>功能开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>Windows</tag>
         <tag>文件</tag>
         <tag>json</tag>
@@ -2018,11 +1998,11 @@
 <p><img src="https://img.supervj.top/img/advVR/image-20200828155324943.png" alt="image-20200828155324943"></p>
 ]]></content>
       <categories>
-        <category>文档</category>
+        <category>其他</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>API</tag>
+        <tag>Zeal</tag>
       </tags>
   </entry>
   <entry>
@@ -2112,11 +2092,10 @@
 
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
+        <tag>异步节点</tag>
       </tags>
   </entry>
   <entry>
@@ -2229,11 +2208,9 @@
 </ul>
 <figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">fn renderOutTheTextures = (	</span><br><span class="line">				  </span><br><span class="line">				fopenexr.SetCompression CompressionType  <span class="comment">--压缩格式，一般不压缩</span></span><br><span class="line">				<span class="built_in">print</span>(<span class="string">&quot;输出压缩格式:&quot;</span>+(CompressionType as <span class="built_in">string</span>))</span><br><span class="line">				fopenexr.setLayerOutputType <span class="number">0</span> OutputType <span class="comment">-- 输出通道，一般就是RPG</span></span><br><span class="line">				<span class="built_in">print</span>(<span class="string">&quot;输出通道:&quot;</span>+(OutputType as <span class="built_in">string</span>))</span><br><span class="line">				fopenexr.setLayerOutputFormat <span class="number">0</span> OutputFormat <span class="comment">--输出格式，一般FLOAT16够用</span></span><br><span class="line">				global TextureName = getSaveFileName types:<span class="string">&quot;EXR (*.EXR)|*.EXR&quot;</span></span><br><span class="line">				<span class="keyword">if</span> TextureName == undefined <span class="keyword">then</span> (</span><br><span class="line">					messagebox <span class="string">&quot;需要选择一个路径&quot;</span></span><br><span class="line">				)</span><br><span class="line">				<span class="keyword">else</span>(</span><br><span class="line">					uvString=<span class="string">&quot;_UV&quot;</span>+((targetMorphUV<span class="number">-1</span>) as <span class="built_in">string</span>)</span><br><span class="line">					TextureNameNormal= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;_Normals.BMP&quot;</span>)</span><br><span class="line">					TextureNameOffset= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;.EXR&quot;</span>)</span><br><span class="line">					global FinalTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameOffset hdr:<span class="literal">true</span>;</span><br><span class="line">					global FinalMorphTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameNormal hdr:<span class="literal">true</span>  gamma:<span class="number">1.0</span> ;</span><br><span class="line">					<span class="keyword">for</span> i=<span class="number">0</span> to (MorphVertOffsetArray.count<span class="number">-1</span>) <span class="keyword">do</span> (</span><br><span class="line">						setPixels FinalTexture [<span class="number">0</span>, i] MorphVertOffsetArray[(i+<span class="number">1</span>)]</span><br><span class="line">						setPixels FinalMorphTexture [<span class="number">0</span>, i] MorphNormalArray[(i+<span class="number">1</span>)]   <span class="comment">--设置图片对应坐标的像素颜色  2d坐标X分量是列，Y分量是行</span></span><br><span class="line"><span class="comment">--设置图片对应坐标的像素颜色  2d坐标X分量是列，Y分量是行</span></span><br><span class="line">					)</span><br><span class="line">					save FinalTexture gamma:<span class="number">1.0</span></span><br><span class="line">					<span class="built_in">close</span> FinalTexture</span><br><span class="line">					</span><br><span class="line">					save FinalMorphTexture gamma:<span class="number">1.0</span></span><br><span class="line">					<span class="built_in">close</span> FinalMorphTexture</span><br><span class="line">				)</span><br><span class="line">			)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>动画</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>实战</tag>
         <tag>顶点动画</tag>
         <tag>3DMax</tag>
       </tags>
@@ -2294,12 +2271,10 @@
 <p><img src="https://img.supervj.top/img/other/image-20200803100258176.png" alt="image-20200803100258176"></p>
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
-        <tag>扩展</tag>
+        <tag>子系统</tag>
       </tags>
   </entry>
   <entry>
@@ -2324,8 +2299,6 @@
         <category>其他</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>VS</tag>
       </tags>
   </entry>
@@ -2343,7 +2316,7 @@
 <p>然后通过<code>ifconfig</code>查看IP</p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>其他</category>
       </categories>
       <tags>
         <tag>Linux</tag>
@@ -2386,7 +2359,7 @@
 <p><img src="https://img.supervj.top/img2.png"></p>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>TA</category>
       </categories>
       <tags>
         <tag>3dMax</tag>
@@ -2424,11 +2397,11 @@
 <p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_14.png"></p>
 ]]></content>
       <categories>
-        <category>物理</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>物理</tag>
+        <tag>破碎物体</tag>
       </tags>
   </entry>
   <entry>
@@ -2807,10 +2780,9 @@
 </ul>
 ]]></content>
       <categories>
-        <category>地形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>地形</tag>
         <tag>流关卡</tag>
       </tags>
@@ -3022,11 +2994,9 @@
 <p><a href="https://blog.csdn.net/u012999985/article/details/52801264">CSDN:UE4 Config配置文件详解</a></p>
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>客户端</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>编辑器开发</tag>
       </tags>
   </entry>
@@ -3052,12 +3022,11 @@
 </ul>
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
-        <tag>编辑器开发</tag>
+        <tag>插件</tag>
+        <tag>重命名</tag>
       </tags>
   </entry>
   <entry>
@@ -3303,11 +3272,9 @@
 </ol>
 ]]></content>
       <categories>
-        <category>特效</category>
+        <category>业务功能</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>实战</tag>
         <tag>Niagara</tag>
         <tag>特效</tag>
       </tags>
@@ -3410,12 +3377,10 @@
 <p>最终加入队列 以<code>DrawingPolicy</code> 为<code>key </code>的<code>map</code>队列</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">TStaticMeshDrawList&lt;TMobileBasePassDrawingPolicy&lt;FUniformLightMapPolicy, <span class="number">0</span>&gt; &gt; MobileBasePassUniformLightMapPolicyDrawList[EBasePass_MAX];</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
-        <tag>引擎</tag>
+        <tag>渲染流程</tag>
       </tags>
   </entry>
   <entry>
@@ -3475,11 +3440,9 @@
 <p><img src="https://img.supervj.top/imgdrawGraphics_2.png"></p>
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>功能开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>图形</tag>
       </tags>
   </entry>
@@ -3561,10 +3524,9 @@
 <p><img src="https://img.supervj.top//img/image-20210108110520787.png" alt="image-20210108110520787"></p>
 ]]></content>
       <categories>
-        <category>Slate</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>Slate</tag>
         <tag>编辑器扩展</tag>
       </tags>
@@ -3631,55 +3593,10 @@
 <p>具体实现方法可以参考插件内容 <a href="#%E6%8F%92%E4%BB%B6">↑</a></p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>按键</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RuntimeInputMappingDocumentation</title>
-    <url>/2020/12/11/RuntimeInputMappingPlugin/</url>
-    <content><![CDATA[<blockquote>
-<p> This is a plugin about modify Input key at runtime, this version has two demos to modify input keys on the PC, and one demo for VR</p>
-</blockquote>
-<h2 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><h4 id="TypeA"><a href="#TypeA" class="headerlink" title="TypeA"></a>TypeA</h4><p>You need use BP <code>UW_RIM_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeA</code> create it in <code>RIM_PlayerController</code></p>
-<p>Then an interface similar to the following will appeared.</p>
-<p><img src="https://img.supervj.top//img/image-20201212114227270.png" alt="image-20201212114227270"></p>
-<p>This mode only reads the keyboard and mouse buttons by default</p>
-<p>If you want to change it , open <code>UW_RIM_Main</code>, change the Map Value <code>DefaultKeyTypes</code></p>
-<p><img src="https://img.supervj.top//img/image-20201212114648400.png" alt="image-20201212114648400"></p>
-<a id="more"></a>
-
-<p>There are two Types in TypeA, <code>SingleKey</code> or <code>MultiKey</code></p>
-<ul>
-<li>SingleKey</li>
-</ul>
-<p>If your project only needs one button per action, then this mode is more appropriate.</p>
-<p>This type will only read the first button that meets the requirements of each action to provide settings, and it will not take effect for other buttons.</p>
-<p>Then you can click any button with the left mouse button (if it is a mouse, you need to hover over this button), and then the following picture will appear, and then press any button to modify the project input settings in real time.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_17_58_489.gif" alt="录制_2020_12_12_12_17_58_489"></p>
-<ul>
-<li>MultiKey</li>
-</ul>
-<p>Similar to the former, but allows multiple buttons for the same action.</p>
-<p>But this adds two additional types of buttons, action can add new button mapping, and the button mapping has a delete button.</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_21_28_0.gif" alt="录制_2020_12_12_12_21_28_0"></p>
-<h4 id="TypeB"><a href="#TypeB" class="headerlink" title="TypeB"></a>TypeB</h4><p><img src="https://img.supervj.top//img/image-20201212122513308.png" alt="image-20201212122513308"></p>
-<p><img src="https://img.supervj.top//img/image-20201212122528465.png" alt="image-20201212122528465"></p>
-<p><code>TypeB</code> is another setting method, this method can select all the keys of this type in the following other methods</p>
-<p>You need use BP <code>UW_RIM_EX_Main</code> to  <code>CreateWidget</code> ,  like Map <code>Demo_PC_TypeB</code> create it in <code>RIM_PlayerController</code></p>
-<p>There are 4 types of buttons set by default, if there is no such type of button, then it will display empty, of course you can modify this empty value immediately<br>Here you can manually set extended keys such as <code>Alt</code></p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_12_12_31_38_205.gif" alt="录制_2020_12_12_12_31_38_205"></p>
-<h3 id="VR"><a href="#VR" class="headerlink" title="VR"></a>VR</h3><p>You can refer to the map <code>Demo_VR</code>, you need to place a class <code>VR_DisplayBoard</code> in the scene, this class is a <code>3D Widget</code> class, which is interactive in VR<br>Here is a demonstration with HTC VIVE, here is a special point, because most of the VR buttons cannot be obtained in the blueprint, and the button input cannot be detected by default.<br>So I suggest that we manually set something similar to <code>Vive(R)Trigger</code> into our input configuration by default, so that we can use VR to set the VR buttons through our <code>3D Widget</code></p>
-<p><img src="https://github.com/VJien/img/blob/master/img/%E5%BD%95%E5%88%B6_2020_12_12_12_39_31_879-1607750372074.gif?raw=true" alt="vr"></p>
-]]></content>
-      <categories>
-        <category>说明文档</category>
-      </categories>
-      <tags>
-        <tag>UE4</tag>
+        <tag>插件</tag>
         <tag>按键</tag>
       </tags>
   </entry>
@@ -3724,11 +3641,10 @@
 <p><img src="https://img.supervj.top/img/other/image-20200710105049753.png" alt="image-20200710105049753"></p>
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
+        <tag>资源</tag>
         <tag>编辑器开发</tag>
       </tags>
   </entry>
@@ -3849,10 +3765,9 @@
 </ul>
 ]]></content>
       <categories>
-        <category>教程</category>
+        <category>其他</category>
       </categories>
       <tags>
-        <tag>实战</tag>
         <tag>教程</tag>
       </tags>
   </entry>
@@ -3903,12 +3818,11 @@
 <p>扫描/搜索文件,不需要返回值,因为扫描以后文件就保存在<code>FAssetRegistryState</code>内了</p>
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术研究</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>资源</tag>
+        <tag>模块分析</tag>
       </tags>
   </entry>
   <entry>
@@ -4022,7 +3936,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>教程</category>
+        <category>其他</category>
       </categories>
       <tags>
         <tag>实战</tag>
@@ -4151,7 +4065,7 @@
 </tbody></table>
 ]]></content>
       <categories>
-        <category>教程</category>
+        <category>其他</category>
       </categories>
       <tags>
         <tag>教程</tag>
@@ -4235,10 +4149,9 @@
 <p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_4.jpg"></p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>功能开发</category>
       </categories>
       <tags>
-        <tag>C++</tag>
         <tag>算法</tag>
       </tags>
   </entry>
@@ -4308,10 +4221,9 @@
 <p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_15_17_14_42_648.gif" alt="录制_2020_12_15_17_14_42_648"></p>
 ]]></content>
       <categories>
-        <category>材质</category>
+        <category>功能开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>材质</tag>
         <tag>后期</tag>
       </tags>
@@ -4421,10 +4333,9 @@
 
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>客户端</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>代理</tag>
       </tags>
   </entry>
@@ -4825,11 +4736,10 @@
 &gt; </code></pre>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
       </tags>
   </entry>
   <entry>
@@ -4872,10 +4782,9 @@
 
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>设备信息</tag>
       </tags>
   </entry>
@@ -5137,11 +5046,10 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>动画</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>动画</tag>
-        <tag>UE4</tag>
       </tags>
   </entry>
   <entry>
@@ -5326,10 +5234,9 @@
 
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术研究</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>AI</tag>
       </tags>
   </entry>
@@ -5510,13 +5417,10 @@
 <p>重点看税前已经变成1.5的伤害了, 正确</p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -5628,13 +5532,10 @@
 
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -6017,13 +5918,10 @@
 <p>方法类似对<code>Cost</code>的处理, 重写<code>MMC</code>中的<code>CalculateBaseMagnitude</code>方法, 无论从蓝图还是cpp中都可以通过对返回的<code>float</code>值作为<code>CD</code>处理</p>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -6202,13 +6100,10 @@
 
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>GAS</tag>
-        <tag>实战</tag>
       </tags>
   </entry>
   <entry>
@@ -6582,7 +6477,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>图形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
@@ -6750,10 +6645,9 @@
 </ul>
 ]]></content>
       <categories>
-        <category>图形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>C++</tag>
         <tag>学习笔记</tag>
         <tag>DirectX</tag>
       </tags>
@@ -6951,11 +6845,9 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>插件</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>插件</tag>
         <tag>PureMVC</tag>
         <tag>框架</tag>
@@ -7059,11 +6951,9 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>引擎</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
         <tag>反射系统</tag>
       </tags>
   </entry>
@@ -7229,12 +7119,11 @@
 
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
-        <tag>C++</tag>
-        <tag>扩展</tag>
+        <tag>节点</tag>
+        <tag>编辑器</tag>
       </tags>
   </entry>
   <entry>
@@ -7716,7 +7605,7 @@
 
 ]]></content>
       <categories>
-        <category>图形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
@@ -8126,7 +8015,7 @@
 
 <h6 id="DXApp-cpp"><a href="#DXApp-cpp" class="headerlink" title="DXApp.cpp"></a>DXApp.cpp</h6><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;DXApp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;WindowsX.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winuser.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dxgi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Microsoft::WRL::ComPtr;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DXApp* DXApp::mApp = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">LRESULT CALLBACK</span><br><span class="line">MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//cout &lt;&lt; &quot;test&quot;;</span></span><br><span class="line">	<span class="keyword">return</span> DXApp::GetApp()-&gt;MsgProc(hwnd, msg, wParam, lParam);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DXApp::DXApp(HINSTANCE nInstance):mhAppInst(nInstance)</span><br><span class="line">&#123;</span><br><span class="line">	assert(mApp == <span class="literal">nullptr</span>);</span><br><span class="line">	mApp = <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DXApp::~DXApp()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (mhAppInst != <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		FlushCommandQueue();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::OnResize</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(md3dDevice);</span><br><span class="line">	assert(mSwapChain);</span><br><span class="line">	assert(mDirectCmdListAlloc);</span><br><span class="line"></span><br><span class="line">	FlushCommandQueue();</span><br><span class="line"></span><br><span class="line">	ThrowIfFailed(mCommandList-&gt;Reset(mDirectCmdListAlloc.Get(),<span class="literal">nullptr</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//释放我们将重新创建的先前资源。</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;SwapChainBufferCount;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		mSwapChainBuffer[i].Reset();</span><br><span class="line">	&#125;</span><br><span class="line">	mDepthStencilBuffer.Reset();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//调整交换链的大小。</span></span><br><span class="line">	ThrowIfFailed(mSwapChain-&gt;ResizeBuffers(</span><br><span class="line">	SwapChainBufferCount,</span><br><span class="line">	mClientWidth,</span><br><span class="line">	mClientHeight,</span><br><span class="line">	mBackBufferFormat,</span><br><span class="line">	DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));</span><br><span class="line"></span><br><span class="line">	mCurrBackBuffer=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">CD3DX12_CPU_DESCRIPTOR_HANDLE <span class="title">rtvHeapHandle</span><span class="params">(mRtvHeap-&gt;GetCPUDescriptorHandleForHeapStart())</span></span>;</span><br><span class="line">	<span class="keyword">for</span> (UINT i = <span class="number">0</span>; i &lt; SwapChainBufferCount; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//构造函数根据给定的偏移量找到当前后台缓冲区的RTV</span></span><br><span class="line">		ThrowIfFailed(mSwapChain-&gt;GetBuffer(i, IID_PPV_ARGS(&amp;mSwapChainBuffer[i])));</span><br><span class="line">		md3dDevice-&gt;CreateRenderTargetView(mSwapChainBuffer[i].Get(), <span class="literal">nullptr</span>, rtvHeapHandle);<span class="comment">//堆中的首个句柄</span></span><br><span class="line">		rtvHeapHandle.Offset(<span class="number">1</span>, mRtvDescriptorSize);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建深度/模板缓冲区和视口</span></span><br><span class="line">	D3D12_RESOURCE_DESC depthStencilDesc;</span><br><span class="line">	depthStencilDesc.Dimension= D3D12_RESOURCE_DIMENSION_TEXTURE2D;</span><br><span class="line">	depthStencilDesc.Alignment=<span class="number">0</span>;</span><br><span class="line">	depthStencilDesc.Width=mClientWidth;</span><br><span class="line">	depthStencilDesc.Height=mClientHeight;</span><br><span class="line">	depthStencilDesc.DepthOrArraySize=<span class="number">1</span>;</span><br><span class="line">	depthStencilDesc.MipLevels=<span class="number">1</span>;</span><br><span class="line">	depthStencilDesc.Format=mDepthStencilFormat;</span><br><span class="line">	depthStencilDesc.SampleDesc.Count=m4xMsaaState?<span class="number">4</span>:<span class="number">1</span>;</span><br><span class="line">	depthStencilDesc.SampleDesc.Quality=m4xMsaaState?(m4xMsaaQuality<span class="number">-1</span>):<span class="number">0</span>;</span><br><span class="line">	depthStencilDesc.Layout=D3D12_TEXTURE_LAYOUT_UNKNOWN;</span><br><span class="line">	depthStencilDesc.Flags=D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;</span><br><span class="line"></span><br><span class="line">	D3D12_CLEAR_VALUE optClear;</span><br><span class="line">	optClear.Format=mDepthStencilFormat;</span><br><span class="line">	optClear.DepthStencil.Depth=<span class="number">1.0f</span>;</span><br><span class="line">	optClear.DepthStencil.Stencil=<span class="number">0</span>;</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateCommittedResource(</span><br><span class="line">		&amp;CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),</span><br><span class="line">		D3D12_HEAP_FLAG_NONE,</span><br><span class="line">		&amp;depthStencilDesc,</span><br><span class="line">		D3D12_RESOURCE_STATE_COMMON,</span><br><span class="line">		&amp;optClear,</span><br><span class="line">		IID_PPV_ARGS(mDepthStencilBuffer.GetAddressOf())));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//使用资源的格式将描述符创建为整个资源的MIP级别0。</span></span><br><span class="line">	md3dDevice-&gt;CreateDepthStencilView(mDepthStencilBuffer.Get(),<span class="literal">nullptr</span>, DepthStencilView());</span><br><span class="line">	<span class="comment">//将资源从其初始状态转换为深度缓冲区。</span></span><br><span class="line">	mCommandList-&gt;ResourceBarrier(<span class="number">1</span>,&amp;CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(),D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_DEPTH_WRITE));</span><br><span class="line">	<span class="comment">//执行resize命令</span></span><br><span class="line">	ThrowIfFailed(mCommandList-&gt;Close());</span><br><span class="line">	ID3D12CommandList* cmdsLists[]=&#123;mCommandList.Get()&#125;;</span><br><span class="line">	mCommandQueue-&gt;ExecuteCommandLists(_countof(cmdsLists),cmdsLists);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//等待到resize完成</span></span><br><span class="line">	FlushCommandQueue();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//更新视口变换以覆盖客户区域。</span></span><br><span class="line">	mScreenViewport.TopLeftX = <span class="number">0</span>;</span><br><span class="line">	mScreenViewport.TopLeftY = <span class="number">0</span>;</span><br><span class="line">	mScreenViewport.Width = <span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(mClientWidth);</span><br><span class="line">	mScreenViewport.Height = <span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(mClientHeight);</span><br><span class="line">	mScreenViewport.MinDepth = <span class="number">0.0f</span>;</span><br><span class="line">	mScreenViewport.MaxDepth = <span class="number">1.0f</span>;</span><br><span class="line"></span><br><span class="line">	mScissorRect=&#123;<span class="number">0</span>,<span class="number">0</span>,mClientWidth,mClientHeight&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DXApp::Initialize</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!InitMainWindow())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!InitDirect3D())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	OnResize();</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::CreateRtvAndDsvDescriptorHeaps</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;</span><br><span class="line">	rtvHeapDesc.NumDescriptors=SwapChainBufferCount;</span><br><span class="line">	rtvHeapDesc.Type=D3D12_DESCRIPTOR_HEAP_TYPE_RTV;</span><br><span class="line">	rtvHeapDesc.Flags=D3D12_DESCRIPTOR_HEAP_FLAG_NONE;</span><br><span class="line">	rtvHeapDesc.NodeMask=<span class="number">0</span>;</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateDescriptorHeap(&amp;rtvHeapDesc,IID_PPV_ARGS(mRtvHeap.GetAddressOf())));</span><br><span class="line"></span><br><span class="line">	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;</span><br><span class="line">	dsvHeapDesc.NumDescriptors = SwapChainBufferCount;</span><br><span class="line">	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;</span><br><span class="line">	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;</span><br><span class="line">	dsvHeapDesc.NodeMask = <span class="number">0</span>;</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateDescriptorHeap(&amp;dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf())));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DXApp::InitMainWindow</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	WNDCLASS wc;</span><br><span class="line">	wc.style = CS_HREDRAW | CS_VREDRAW;</span><br><span class="line">	wc.lpfnWndProc = MainWndProc;</span><br><span class="line">	wc.cbClsExtra = <span class="number">0</span>;</span><br><span class="line">	wc.cbWndExtra = <span class="number">0</span>;</span><br><span class="line">	wc.hInstance = mhAppInst;</span><br><span class="line">	wc.hIcon = LoadIcon(<span class="number">0</span>, IDI_APPLICATION);</span><br><span class="line">	wc.hCursor = LoadCursor(<span class="number">0</span>, IDC_ARROW);</span><br><span class="line">	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);</span><br><span class="line">	wc.lpszMenuName = <span class="number">0</span>;</span><br><span class="line">	wc.lpszClassName = <span class="string">L&quot;MainWnd&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!RegisterClass(&amp;wc))</span><br><span class="line">	&#123;</span><br><span class="line">		MessageBox(<span class="number">0</span>, <span class="string">L&quot;RegisterClass Failed.&quot;</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Compute window rectangle dimensions based on requested client area dimensions.</span></span><br><span class="line">	RECT R = &#123; <span class="number">0</span>, <span class="number">0</span>, mClientWidth, mClientHeight &#125;;</span><br><span class="line">	AdjustWindowRect(&amp;R, WS_OVERLAPPEDWINDOW, <span class="literal">false</span>);</span><br><span class="line">	<span class="keyword">int</span> width = R.right - R.left;</span><br><span class="line">	<span class="keyword">int</span> height = R.bottom - R.top;</span><br><span class="line"></span><br><span class="line">	mhMainWnd = CreateWindow(<span class="string">L&quot;MainWnd&quot;</span>, mMainWndCaption.c_str(),</span><br><span class="line">		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, <span class="number">0</span>, <span class="number">0</span>, mhAppInst, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (!mhMainWnd)</span><br><span class="line">	&#123;</span><br><span class="line">		MessageBox(<span class="number">0</span>, <span class="string">L&quot;CreateWindow Failed.&quot;</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ShowWindow(mhMainWnd, SW_SHOW);</span><br><span class="line">	UpdateWindow(mhMainWnd);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DXApp::InitDirect3D</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//	&#123;</span></span><br><span class="line"><span class="comment">//#if defined(DEBUG) || defined(_DEBUG) </span></span><br><span class="line"><span class="comment">//		// Enable the D3D12 debug layer.</span></span><br><span class="line"><span class="comment">//		&#123;</span></span><br><span class="line"><span class="comment">//			ComPtr&lt;ID3D12Debug&gt; debugController;</span></span><br><span class="line"><span class="comment">//			ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&amp;debugController)));</span></span><br><span class="line"><span class="comment">//			debugController-&gt;EnableDebugLayer();</span></span><br><span class="line"><span class="comment">//		&#125;</span></span><br><span class="line"><span class="comment">//#endif</span></span><br><span class="line">	ThrowIfFailed(CreateDXGIFactory(IID_PPV_ARGS(&amp;mdxgiFactory)));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建硬件设备</span></span><br><span class="line">	HRESULT hardwareResult = D3D12CreateDevice(<span class="literal">nullptr</span>, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&amp;md3dDevice));<span class="comment">//第一个参数是空则使用默认显示器</span></span><br><span class="line">	<span class="comment">//回退至WARP设备</span></span><br><span class="line">	<span class="keyword">if</span> (FAILED(hardwareResult))</span><br><span class="line">	&#123;</span><br><span class="line">		ComPtr&lt;IDXGIAdapter&gt; pWarpAdapter;</span><br><span class="line">		ThrowIfFailed(mdxgiFactory-&gt;EnumWarpAdapter(IID_PPV_ARGS(&amp;pWarpAdapter)));</span><br><span class="line">		ThrowIfFailed(D3D12CreateDevice(pWarpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&amp;md3dDevice)));</span><br><span class="line">	&#125;</span><br><span class="line">		ThrowIfFailed(md3dDevice-&gt;CreateFence(<span class="number">0</span>, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&amp;mFence)));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//描述符信息，方便以后使用</span></span><br><span class="line">		mRtvDescriptorSize = md3dDevice-&gt;GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);</span><br><span class="line">		mDsvDescriptorSize = md3dDevice-&gt;GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);</span><br><span class="line">		mCbvSrvUavDescriptorSize = md3dDevice-&gt;GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//检查4X MSAA质量对我们的后缓冲区格式的支持。</span></span><br><span class="line">		 <span class="comment">//所有支持Direct3D 11的设备都对所有渲染支持4倍MSAA</span></span><br><span class="line">		 <span class="comment">//目标格式，因此我们只需要检查质量支持。</span></span><br><span class="line">		D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;</span><br><span class="line">		msQualityLevels.Format = mBackBufferFormat;</span><br><span class="line">		msQualityLevels.SampleCount = <span class="number">4</span>;</span><br><span class="line">		msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;</span><br><span class="line">		msQualityLevels.NumQualityLevels = <span class="number">0</span>;</span><br><span class="line">		ThrowIfFailed(md3dDevice-&gt;CheckFeatureSupport(D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &amp;msQualityLevels, <span class="keyword">sizeof</span>(msQualityLevels)));</span><br><span class="line">		m4xMsaaQuality = msQualityLevels.NumQualityLevels;</span><br><span class="line">		assert(m4xMsaaQuality &gt; <span class="number">0</span> &amp;&amp; <span class="string">&quot;Unexpected MSAA quality level.&quot;</span>);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">		CreateCommandObjects();</span><br><span class="line">		CreateSwapChain();</span><br><span class="line">		CreateRtvAndDsvDescriptorHeaps();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::FlushCommandQueue</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//提升围栏值以将命令标记到该围栏点。</span></span><br><span class="line">	mCurrentFence++;</span><br><span class="line">	<span class="comment">//将指令添加到命令队列以设置新的防护点。 因为我们</span></span><br><span class="line">	<span class="comment">//在GPU时间轴上，直到GPU完成后才会设置新的围栏点</span></span><br><span class="line">	<span class="comment">//处理此Signal（）之前的所有命令。</span></span><br><span class="line">	ThrowIfFailed(mCommandQueue-&gt;Signal(mFence.Get(),mCurrentFence));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//等待直到GPU完成命令为止。</span></span><br><span class="line">	<span class="keyword">if</span> (mFence-&gt;GetCompletedValue() &lt; mCurrentFence)</span><br><span class="line">	&#123;</span><br><span class="line">		HANDLE eventHandle=CreateEventEx(<span class="literal">nullptr</span>,<span class="literal">false</span>,<span class="literal">false</span>,EVENT_ALL_ACCESS);</span><br><span class="line">		<span class="comment">//GPU击中当前围墙时触发事件。</span></span><br><span class="line">		ThrowIfFailed(mFence-&gt;SetEventOnCompletion(mCurrentFence,eventHandle));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//等到GPU击中当前的fence事件后再触发。</span></span><br><span class="line">		WaitForSingleObject(eventHandle,INFINITE);</span><br><span class="line">		CloseHandle(eventHandle);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::CreateSwapChain</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	mSwapChain.Reset();</span><br><span class="line">	DXGI_SWAP_CHAIN_DESC sd;</span><br><span class="line">	sd.BufferDesc.Width = mClientWidth;</span><br><span class="line">	sd.BufferDesc.Height = mClientHeight;</span><br><span class="line">	sd.BufferDesc.RefreshRate.Numerator = <span class="number">60</span>;</span><br><span class="line">	sd.BufferDesc.RefreshRate.Denominator = <span class="number">1</span>;</span><br><span class="line">	sd.BufferDesc.Format = mBackBufferFormat;</span><br><span class="line">	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;</span><br><span class="line">	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;</span><br><span class="line">	sd.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">	sd.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;</span><br><span class="line">	sd.BufferCount = SwapChainBufferCount;</span><br><span class="line">	sd.OutputWindow = mhMainWnd;</span><br><span class="line">	sd.Windowed = <span class="literal">true</span>;</span><br><span class="line">	sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;</span><br><span class="line">	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Note: Swap chain uses queue to perform flush.</span></span><br><span class="line">	ThrowIfFailed(mdxgiFactory-&gt;CreateSwapChain(</span><br><span class="line">		mCommandQueue.Get(),</span><br><span class="line">		&amp;sd,</span><br><span class="line">		mSwapChain.GetAddressOf()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::CreateCommandObjects</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	D3D12_COMMAND_QUEUE_DESC queueDesc = &#123;&#125;;</span><br><span class="line">	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;</span><br><span class="line">	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateCommandQueue(&amp;queueDesc, IID_PPV_ARGS(&amp;mCommandQueue)));</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(mDirectCmdListAlloc.GetAddressOf())));</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateCommandList(<span class="number">0</span>, D3D12_COMMAND_LIST_TYPE_DIRECT, mDirectCmdListAlloc.Get(), <span class="literal">nullptr</span>, IID_PPV_ARGS(mCommandList.ReleaseAndGetAddressOf())));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//从关闭状态开始。 这是因为我们第一次提到</span></span><br><span class="line">	<span class="comment">//在命令列表中，我们将对其进行重置，并且需要先关闭它</span></span><br><span class="line">	<span class="comment">//调用Reset。</span></span><br><span class="line">	mCommandList-&gt;Close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ID3D12Resource* <span class="title">DXApp::CurrentBackBuffer</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mSwapChainBuffer[mCurrBackBuffer].Get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">D3D12_CPU_DESCRIPTOR_HANDLE <span class="title">DXApp::CurrentBackBufferView</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> CD3DX12_CPU_DESCRIPTOR_HANDLE(</span><br><span class="line">		mRtvHeap-&gt;GetCPUDescriptorHandleForHeapStart(),</span><br><span class="line">		mCurrBackBuffer,</span><br><span class="line">		mRtvDescriptorSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">D3D12_CPU_DESCRIPTOR_HANDLE <span class="title">DXApp::DepthStencilView</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mDsvHeap-&gt;GetCPUDescriptorHandleForHeapStart();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::LogAdapters</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UINT i = <span class="number">0</span>;</span><br><span class="line">	IDXGIAdapter* adapter = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;IDXGIAdapter*&gt; adapterList;</span><br><span class="line">	<span class="keyword">while</span> (mdxgiFactory-&gt;EnumAdapters(i, &amp;adapter) != DXGI_ERROR_NOT_FOUND)</span><br><span class="line">	&#123;</span><br><span class="line">		DXGI_ADAPTER_DESC desc;</span><br><span class="line">		adapter-&gt;GetDesc(&amp;desc);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">wstring</span> text = <span class="string">L&quot;***Adapter: &quot;</span>;</span><br><span class="line">		text += desc.Description;</span><br><span class="line">		text += <span class="string">L&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">		OutputDebugString(text.c_str());</span><br><span class="line"></span><br><span class="line">		adapterList.push_back(adapter);</span><br><span class="line"></span><br><span class="line">		++i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; adapterList.size(); ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		LogAdapterOutputs(adapterList[i]);</span><br><span class="line">		ReleaseCom(adapterList[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::LogAdapterOutputs</span><span class="params">(IDXGIAdapter* adapter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UINT i = <span class="number">0</span>;</span><br><span class="line">	IDXGIOutput* output = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">while</span> (adapter-&gt;EnumOutputs(i, &amp;output) != DXGI_ERROR_NOT_FOUND)</span><br><span class="line">	&#123;</span><br><span class="line">		DXGI_OUTPUT_DESC desc;</span><br><span class="line">		output-&gt;GetDesc(&amp;desc);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">wstring</span> text = <span class="string">L&quot;***Output: &quot;</span>;</span><br><span class="line">		text += desc.DeviceName;</span><br><span class="line">		text += <span class="string">L&quot;\n&quot;</span>;</span><br><span class="line">		OutputDebugString(text.c_str());</span><br><span class="line"></span><br><span class="line">		LogOutputDisplayModes(output, mBackBufferFormat);</span><br><span class="line"></span><br><span class="line">		ReleaseCom(output);</span><br><span class="line"></span><br><span class="line">		++i;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::LogOutputDisplayModes</span><span class="params">(IDXGIOutput* output, DXGI_FORMAT format)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UINT count = <span class="number">0</span>;</span><br><span class="line">	UINT flags = <span class="number">0</span>; </span><br><span class="line"></span><br><span class="line">	<span class="comment">// Call with nullptr to get list count.</span></span><br><span class="line">	output-&gt;GetDisplayModeList(format, flags, &amp;count, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;DXGI_MODE_DESC&gt; <span class="title">modeList</span><span class="params">(count)</span></span>;</span><br><span class="line">	output-&gt;GetDisplayModeList(format, flags, &amp;count, &amp;modeList[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span>&amp; x : modeList)</span><br><span class="line">	&#123;</span><br><span class="line">		UINT n = x.RefreshRate.Numerator;</span><br><span class="line">		UINT d = x.RefreshRate.Denominator;</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">wstring</span> text =</span><br><span class="line">			<span class="string">L&quot;Width = &quot;</span> + <span class="built_in">std</span>::to_wstring(x.Width) + <span class="string">L&quot; &quot;</span> +</span><br><span class="line">			<span class="string">L&quot;Height = &quot;</span> + <span class="built_in">std</span>::to_wstring(x.Height) + <span class="string">L&quot; &quot;</span> +</span><br><span class="line">			<span class="string">L&quot;Refresh = &quot;</span> + <span class="built_in">std</span>::to_wstring(n) + <span class="string">L&quot;/&quot;</span> + <span class="built_in">std</span>::to_wstring(d) +</span><br><span class="line">			<span class="string">L&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">		::OutputDebugString(text.c_str());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">DXApp* <span class="title">DXApp::GetApp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mApp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">HINSTANCE <span class="title">DXApp::AppInst</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mhAppInst;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">HWND <span class="title">DXApp::MainWnd</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mhMainWnd;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">DXApp::AspectRatio</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(mClientWidth) / mClientHeight;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DXApp::Get4xMsaaState</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> m4xMsaaState;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::Set4xMsaaState</span><span class="params">(<span class="keyword">bool</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (m4xMsaaState!=value)</span><br><span class="line">	&#123;</span><br><span class="line">		m4xMsaaState = value;</span><br><span class="line">		<span class="comment">//重置4xmasaa需要重新创建交换链和刷新尺寸</span></span><br><span class="line">		CreateSwapChain();</span><br><span class="line">		OnResize();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">DXApp::Run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MSG msg = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line">	mTimer.Reset();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (msg.message != WM_QUIT)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// If there are Window messages then process them.</span></span><br><span class="line">		<span class="keyword">if</span> (PeekMessage(&amp;msg, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, PM_REMOVE))</span><br><span class="line">		&#123;</span><br><span class="line">			TranslateMessage(&amp;msg);</span><br><span class="line">			DispatchMessage(&amp;msg);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Otherwise, do animation/game stuff.</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			mTimer.Tick();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (!mAppPaused)</span><br><span class="line">			&#123;</span><br><span class="line">				CalculateFrameStats();</span><br><span class="line">				Update(mTimer);</span><br><span class="line">				Draw(mTimer);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				Sleep(<span class="number">100</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> (<span class="keyword">int</span>)msg.wParam;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DXApp::CalculateFrameStats</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// Code computes the average frames per second, and also the </span></span><br><span class="line">		<span class="comment">// average time it takes to render one frame.  These stats </span></span><br><span class="line">		<span class="comment">// are appended to the window caption bar.</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> frameCnt = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">float</span> timeElapsed = <span class="number">0.0f</span>;</span><br><span class="line"></span><br><span class="line">	frameCnt++;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Compute averages over one second period.</span></span><br><span class="line">	<span class="keyword">if</span> ((mTimer.TotalTime() - timeElapsed) &gt;= <span class="number">1.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> fps = (<span class="keyword">float</span>)frameCnt; <span class="comment">// fps = frameCnt / 1</span></span><br><span class="line">		<span class="keyword">float</span> mspf = <span class="number">1000.0f</span> / fps;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">wstring</span> fpsStr = to_wstring(fps);</span><br><span class="line">		<span class="built_in">wstring</span> mspfStr = to_wstring(mspf);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">wstring</span> windowText = mMainWndCaption +</span><br><span class="line">			<span class="string">L&quot;    fps: &quot;</span> + fpsStr +</span><br><span class="line">			<span class="string">L&quot;   mspf: &quot;</span> + mspfStr;</span><br><span class="line"></span><br><span class="line">		SetWindowText(mhMainWnd, <span class="string">L&quot;window text&quot;</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Reset for next average.</span></span><br><span class="line">		frameCnt = <span class="number">0</span>;</span><br><span class="line">		timeElapsed += <span class="number">1.0f</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LRESULT <span class="title">DXApp::MsgProc</span><span class="params">(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (msg)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//激活或停用窗口时发送WM_ACTIVATE。</span></span><br><span class="line">		<span class="comment">//当停用窗口时我们暂停游戏</span></span><br><span class="line">		<span class="comment">//当它变为活动状态时取消暂停</span></span><br><span class="line">	<span class="keyword">case</span> WM_ACTIVATE:</span><br><span class="line">		<span class="keyword">if</span> (LOWORD(wParam)==WA_INACTIVE)</span><br><span class="line">		&#123;</span><br><span class="line">			mAppPaused = <span class="literal">true</span>;</span><br><span class="line">			mTimer.Stop();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			mAppPaused = <span class="literal">false</span>;</span><br><span class="line">			mTimer.Start();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="comment">// 当用户调整窗口大小时，发送WM_SIZE。</span></span><br><span class="line">	<span class="keyword">case</span> WM_SIZE:</span><br><span class="line">		<span class="comment">// 保存新的客户区域尺寸。</span></span><br><span class="line">		mClientWidth = LOWORD(lParam);</span><br><span class="line">		mClientHeight = HIWORD(lParam);</span><br><span class="line">		<span class="keyword">if</span> (md3dDevice)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (wParam == SIZE_MINIMIZED)</span><br><span class="line">			&#123;</span><br><span class="line">				mAppPaused = <span class="literal">true</span>;</span><br><span class="line">				mMinimized = <span class="literal">true</span>;</span><br><span class="line">				mMaximized = <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (wParam == SIZE_MAXIMIZED)</span><br><span class="line">			&#123;</span><br><span class="line">				mAppPaused = <span class="literal">false</span>;</span><br><span class="line">				mMinimized = <span class="literal">false</span>;</span><br><span class="line">				mMaximized = <span class="literal">true</span>;</span><br><span class="line">				OnResize();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (wParam == SIZE_RESTORED)</span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Restoring from minimized state?</span></span><br><span class="line">				<span class="keyword">if</span> (mMinimized)</span><br><span class="line">				&#123;</span><br><span class="line">					mAppPaused = <span class="literal">false</span>;</span><br><span class="line">					mMinimized = <span class="literal">false</span>;</span><br><span class="line">					OnResize();</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Restoring from maximized state?</span></span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (mMaximized)</span><br><span class="line">				&#123;</span><br><span class="line">					mAppPaused = <span class="literal">false</span>;</span><br><span class="line">					mMaximized = <span class="literal">false</span>;</span><br><span class="line">					OnResize();</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (mResizing)</span><br><span class="line">				&#123;</span><br><span class="line">				<span class="comment">//如果用户拖动调整大小栏，我们不会调整大小</span></span><br><span class="line">				<span class="comment">//这里的缓冲区，因为随着用户的不断前进</span></span><br><span class="line">				<span class="comment">//拖动调整大小条，WM_SIZE消息流是</span></span><br><span class="line">				<span class="comment">//发送到窗口，它将毫无意义（而且很慢）</span></span><br><span class="line">				<span class="comment">//为从拖动中收到的每个WM_SIZE消息调整大小</span></span><br><span class="line">				<span class="comment">//调整尺寸栏。 因此，我们在用户</span></span><br><span class="line">				<span class="comment">//完成调整窗口大小并释放大小调整条</span></span><br><span class="line">				<span class="comment">//发送WM_EXITSIZEMOVE消息。</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="comment">// API call such as SetWindowPos or mSwapChain-&gt;SetFullscreenState.</span></span><br><span class="line">				&#123;</span><br><span class="line">					OnResize();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 当用户抓住调整大小条时，将发送WM_EXITSIZEMOVE。</span></span><br><span class="line">	<span class="keyword">case</span> WM_ENTERSIZEMOVE:</span><br><span class="line">		mAppPaused = <span class="literal">true</span>;</span><br><span class="line">		mResizing = <span class="literal">true</span>;</span><br><span class="line">		mTimer.Stop();</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//当用户释放大小调整条时，发送WM_EXITSIZEMOVE。</span></span><br><span class="line">		<span class="comment">//在这里，我们根据新窗口的尺寸重置所有内容。</span></span><br><span class="line">	<span class="keyword">case</span> WM_EXITSIZEMOVE:</span><br><span class="line">		mAppPaused = <span class="literal">false</span>;</span><br><span class="line">		mResizing = <span class="literal">false</span>;</span><br><span class="line">		mTimer.Start();</span><br><span class="line">		OnResize();</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="comment">//销毁窗口时发送WM_DESTROY。</span></span><br><span class="line">	<span class="keyword">case</span> WM_DESTROY:</span><br><span class="line">		PostQuitMessage(<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="comment">// 当菜单处于活动状态并且用户按下时，将发送WM_MENUCHAR消息与任何助记键或加速键都不对应的键。</span></span><br><span class="line">	<span class="keyword">case</span> WM_MENUCHAR:</span><br><span class="line">		<span class="comment">// 进入时不要发出哔声。</span></span><br><span class="line">		<span class="keyword">return</span> MAKELRESULT(<span class="number">0</span>, MNC_CLOSE);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//捕获此消息，以防止窗口变得太小。</span></span><br><span class="line">	<span class="keyword">case</span> WM_GETMINMAXINFO:</span><br><span class="line">		((MINMAXINFO*)lParam)-&gt;ptMinTrackSize.x = <span class="number">200</span>;</span><br><span class="line">		((MINMAXINFO*)lParam)-&gt;ptMinTrackSize.y = <span class="number">200</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">case</span> WM_LBUTTONDOWN:</span><br><span class="line">	<span class="keyword">case</span> WM_MBUTTONDOWN:</span><br><span class="line">	<span class="keyword">case</span> WM_RBUTTONDOWN:</span><br><span class="line">		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">case</span> WM_LBUTTONUP:</span><br><span class="line">	<span class="keyword">case</span> WM_MBUTTONUP:</span><br><span class="line">	<span class="keyword">case</span> WM_RBUTTONUP:</span><br><span class="line">		OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">case</span> WM_MOUSEMOVE:</span><br><span class="line">		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">case</span> WM_KEYUP:</span><br><span class="line">		<span class="keyword">if</span> (wParam == VK_ESCAPE)</span><br><span class="line">		&#123;</span><br><span class="line">			PostQuitMessage(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> ((<span class="keyword">int</span>)wParam == VK_F2)</span><br><span class="line">			Set4xMsaaState(!m4xMsaaState);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> DefWindowProc(hwnd, msg, wParam, lParam);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>图形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
@@ -8344,7 +8233,7 @@
 </ul>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//***************************************************************************************</span></span><br><span class="line"><span class="comment">// LandAndWavesApp.cpp by Frank Luna (C) 2015 All Rights Reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Hold down &#x27;1&#x27; key to view scene in wireframe mode.</span></span><br><span class="line"><span class="comment">//***************************************************************************************</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;../../Common/d3dApp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;../../Common/MathHelper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;../../Common/UploadBuffer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;../../Common/GeometryGenerator.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FrameResource.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Waves.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Microsoft::WRL::ComPtr;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> gNumFrameResources = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Lightweight structure stores parameters to draw a shape.  This will</span></span><br><span class="line"><span class="comment">// vary from app-to-app.</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RenderItem</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	RenderItem() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// World matrix of the shape that describes the object&#x27;s local space</span></span><br><span class="line">	<span class="comment">// relative to the world space, which defines the position, orientation,</span></span><br><span class="line">	<span class="comment">// and scale of the object in the world.</span></span><br><span class="line">	XMFLOAT4X4 World = MathHelper::Identity4x4();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Dirty flag indicating the object data has changed and we need to update the constant buffer.</span></span><br><span class="line">	<span class="comment">// Because we have an object cbuffer for each FrameResource, we have to apply the</span></span><br><span class="line">	<span class="comment">// update to each FrameResource.  Thus, when we modify obect data we should set </span></span><br><span class="line">	<span class="comment">// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.</span></span><br><span class="line">	<span class="keyword">int</span> NumFramesDirty = gNumFrameResources;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Index into GPU constant buffer corresponding to the ObjectCB for this render item.</span></span><br><span class="line">	UINT ObjCBIndex = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">	MeshGeometry* Geo = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Primitive topology.</span></span><br><span class="line">	D3D12_PRIMITIVE_TOPOLOGY PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// DrawIndexedInstanced parameters.</span></span><br><span class="line">	UINT IndexCount = <span class="number">0</span>;</span><br><span class="line">	UINT StartIndexLocation = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> BaseVertexLocation = <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">RenderLayer</span> :</span> <span class="keyword">int</span></span><br><span class="line">&#123;</span><br><span class="line">	Opaque = <span class="number">0</span>,</span><br><span class="line">	Count</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LandAndWavesApp</span> :</span> <span class="keyword">public</span> D3DApp</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LandAndWavesApp(HINSTANCE hInstance);</span><br><span class="line">    LandAndWavesApp(<span class="keyword">const</span> LandAndWavesApp&amp; rhs) = <span class="keyword">delete</span>;</span><br><span class="line">    LandAndWavesApp&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> LandAndWavesApp&amp; rhs) = <span class="keyword">delete</span>;</span><br><span class="line">    ~LandAndWavesApp();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">Initialize</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnResize</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Draw</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnMouseDown</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnMouseUp</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span><span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnMouseMove</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnKeyboardInput</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateCamera</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateObjectCBs</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateMainPassCB</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">UpdateWaves</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildRootSignature</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildShadersAndInputLayout</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildLandGeometry</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildWavesGeometryBuffers</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildPSOs</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildFrameResources</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildRenderItems</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">DrawRenderItems</span><span class="params">(ID3D12GraphicsCommandList* cmdList, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;RenderItem*&gt;&amp; ritems)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">float</span> <span class="title">GetHillsHeight</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> z)</span><span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function">XMFLOAT3 <span class="title">GetHillsNormal</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> z)</span><span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">unique_ptr</span>&lt;FrameResource&gt;&gt; mFrameResources;</span><br><span class="line">    FrameResource* mCurrFrameResource = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">int</span> mCurrFrameResourceIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    UINT mCbvSrvDescriptorSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    ComPtr&lt;ID3D12RootSignature&gt; mRootSignature = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, <span class="built_in">std</span>::<span class="built_in">unique_ptr</span>&lt;MeshGeometry&gt;&gt; mGeometries;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, ComPtr&lt;ID3DBlob&gt;&gt; mShaders;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, ComPtr&lt;ID3D12PipelineState&gt;&gt; mPSOs;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;D3D12_INPUT_ELEMENT_DESC&gt; mInputLayout;</span><br><span class="line"></span><br><span class="line">	RenderItem* mWavesRitem = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// List of all the render items.</span></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">unique_ptr</span>&lt;RenderItem&gt;&gt; mAllRitems;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Render items divided by PSO.</span></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;RenderItem*&gt; mRitemLayer[(<span class="keyword">int</span>)RenderLayer::Count];</span><br><span class="line"></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">unique_ptr</span>&lt;Waves&gt; mWaves;</span><br><span class="line"></span><br><span class="line">    PassConstants mMainPassCB;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> mIsWireframe = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">	XMFLOAT3 mEyePos = &#123; <span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span> &#125;;</span><br><span class="line">	XMFLOAT4X4 mView = MathHelper::Identity4x4();</span><br><span class="line">	XMFLOAT4X4 mProj = MathHelper::Identity4x4();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> mTheta = <span class="number">1.5f</span>*XM_PI;</span><br><span class="line">    <span class="keyword">float</span> mPhi = XM_PIDIV2 - <span class="number">0.1f</span>;</span><br><span class="line">    <span class="keyword">float</span> mRadius = <span class="number">50.0f</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> mSunTheta = <span class="number">1.25f</span>*XM_PI;</span><br><span class="line">	<span class="keyword">float</span> mSunPhi = XM_PIDIV4;</span><br><span class="line"></span><br><span class="line">    POINT mLastMousePos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE hInstance, HINSTANCE prevInstance,</span></span></span><br><span class="line"><span class="function"><span class="params">    PSTR cmdLine, <span class="keyword">int</span> showCmd)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Enable run-time memory check for debug builds.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(DEBUG) | defined(_DEBUG)</span></span><br><span class="line">    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">LandAndWavesApp <span class="title">theApp</span><span class="params">(hInstance)</span></span>;</span><br><span class="line">        <span class="keyword">if</span>(!theApp.Initialize())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> theApp.Run();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(DxException&amp; e)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox(<span class="literal">nullptr</span>, e.ToString().c_str(), <span class="string">L&quot;HR Failed&quot;</span>, MB_OK);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LandAndWavesApp::LandAndWavesApp(HINSTANCE hInstance)</span><br><span class="line">    : D3DApp(hInstance)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LandAndWavesApp::~LandAndWavesApp()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(md3dDevice != <span class="literal">nullptr</span>)</span><br><span class="line">        FlushCommandQueue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">LandAndWavesApp::Initialize</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!D3DApp::Initialize())</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset the command list to prep for initialization commands.</span></span><br><span class="line">    ThrowIfFailed(mCommandList-&gt;Reset(mDirectCmdListAlloc.Get(), <span class="literal">nullptr</span>));</span><br><span class="line"></span><br><span class="line">	mWaves = <span class="built_in">std</span>::make_unique&lt;Waves&gt;(<span class="number">128</span>, <span class="number">128</span>, <span class="number">1.0f</span>, <span class="number">0.03f</span>, <span class="number">4.0f</span>, <span class="number">0.2f</span>);</span><br><span class="line"></span><br><span class="line">    BuildRootSignature();</span><br><span class="line">    BuildShadersAndInputLayout();</span><br><span class="line">	BuildLandGeometry();</span><br><span class="line">    BuildWavesGeometryBuffers();</span><br><span class="line">    BuildRenderItems();</span><br><span class="line">	BuildRenderItems();</span><br><span class="line">    BuildFrameResources();</span><br><span class="line">	BuildPSOs();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Execute the initialization commands.</span></span><br><span class="line">    ThrowIfFailed(mCommandList-&gt;Close());</span><br><span class="line">    ID3D12CommandList* cmdsLists[] = &#123; mCommandList.Get() &#125;;</span><br><span class="line">    mCommandQueue-&gt;ExecuteCommandLists(_countof(cmdsLists), cmdsLists);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Wait until initialization is complete.</span></span><br><span class="line">    FlushCommandQueue();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::OnResize</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D3DApp::OnResize();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The window resized, so update the aspect ratio and recompute the projection matrix.</span></span><br><span class="line">    XMMATRIX P = XMMatrixPerspectiveFovLH(<span class="number">0.25f</span>*MathHelper::Pi, AspectRatio(), <span class="number">1.0f</span>, <span class="number">1000.0f</span>);</span><br><span class="line">    XMStoreFloat4x4(&amp;mProj, P);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::Update</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	OnKeyboardInput(gt);</span><br><span class="line">	UpdateCamera(gt);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Cycle through the circular frame resource array.</span></span><br><span class="line">	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + <span class="number">1</span>) % gNumFrameResources;</span><br><span class="line">	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Has the GPU finished processing the commands of the current frame resource?</span></span><br><span class="line">	<span class="comment">// If not, wait until the GPU has completed commands up to this fence point.</span></span><br><span class="line">	<span class="keyword">if</span>(mCurrFrameResource-&gt;Fence != <span class="number">0</span> &amp;&amp; mFence-&gt;GetCompletedValue() &lt; mCurrFrameResource-&gt;Fence)</span><br><span class="line">	&#123;</span><br><span class="line">		HANDLE eventHandle = CreateEventEx(<span class="literal">nullptr</span>, <span class="literal">false</span>, <span class="literal">false</span>, EVENT_ALL_ACCESS);</span><br><span class="line">		ThrowIfFailed(mFence-&gt;SetEventOnCompletion(mCurrFrameResource-&gt;Fence, eventHandle));</span><br><span class="line">		WaitForSingleObject(eventHandle, INFINITE);</span><br><span class="line">		CloseHandle(eventHandle);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	UpdateObjectCBs(gt);</span><br><span class="line">	UpdateMainPassCB(gt);</span><br><span class="line">	UpdateWaves(gt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::Draw</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">auto</span> cmdListAlloc = mCurrFrameResource-&gt;CmdListAlloc;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Reuse the memory associated with command recording.</span></span><br><span class="line">	<span class="comment">// We can only reset when the associated command lists have finished execution on the GPU.</span></span><br><span class="line">	ThrowIfFailed(cmdListAlloc-&gt;Reset());</span><br><span class="line"></span><br><span class="line">	<span class="comment">// A command list can be reset after it has been added to the command queue via ExecuteCommandList.</span></span><br><span class="line">	<span class="comment">// Reusing the command list reuses memory.</span></span><br><span class="line">    <span class="keyword">if</span>(mIsWireframe)</span><br><span class="line">    &#123;</span><br><span class="line">        ThrowIfFailed(mCommandList-&gt;Reset(cmdListAlloc.Get(), mPSOs[<span class="string">&quot;opaque_wireframe&quot;</span>].Get()));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        ThrowIfFailed(mCommandList-&gt;Reset(cmdListAlloc.Get(), mPSOs[<span class="string">&quot;opaque&quot;</span>].Get()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	mCommandList-&gt;RSSetViewports(<span class="number">1</span>, &amp;mScreenViewport);</span><br><span class="line">	mCommandList-&gt;RSSetScissorRects(<span class="number">1</span>, &amp;mScissorRect);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Indicate a state transition on the resource usage.</span></span><br><span class="line">	mCommandList-&gt;ResourceBarrier(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),</span><br><span class="line">		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Clear the back buffer and depth buffer.</span></span><br><span class="line">	mCommandList-&gt;ClearRenderTargetView(CurrentBackBufferView(), Colors::LightSteelBlue, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line">	mCommandList-&gt;ClearDepthStencilView(DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, <span class="number">1.0f</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Specify the buffers we are going to render to.</span></span><br><span class="line">	mCommandList-&gt;OMSetRenderTargets(<span class="number">1</span>, &amp;CurrentBackBufferView(), <span class="literal">true</span>, &amp;DepthStencilView());</span><br><span class="line"></span><br><span class="line">	mCommandList-&gt;SetGraphicsRootSignature(mRootSignature.Get());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bind per-pass constant buffer.  We only need to do this once per-pass.</span></span><br><span class="line">	<span class="keyword">auto</span> passCB = mCurrFrameResource-&gt;PassCB-&gt;Resource();</span><br><span class="line">	mCommandList-&gt;SetGraphicsRootConstantBufferView(<span class="number">1</span>, passCB-&gt;GetGPUVirtualAddress());</span><br><span class="line"></span><br><span class="line">	DrawRenderItems(mCommandList.Get(), mRitemLayer[(<span class="keyword">int</span>)RenderLayer::Opaque]);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Indicate a state transition on the resource usage.</span></span><br><span class="line">	mCommandList-&gt;ResourceBarrier(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),</span><br><span class="line">		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Done recording commands.</span></span><br><span class="line">	ThrowIfFailed(mCommandList-&gt;Close());</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Add the command list to the queue for execution.</span></span><br><span class="line">	ID3D12CommandList* cmdsLists[] = &#123; mCommandList.Get() &#125;;</span><br><span class="line">	mCommandQueue-&gt;ExecuteCommandLists(_countof(cmdsLists), cmdsLists);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Swap the back and front buffers</span></span><br><span class="line">	ThrowIfFailed(mSwapChain-&gt;Present(<span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">	mCurrBackBuffer = (mCurrBackBuffer + <span class="number">1</span>) % SwapChainBufferCount;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Advance the fence value to mark commands up to this fence point.</span></span><br><span class="line">	mCurrFrameResource-&gt;Fence = ++mCurrentFence;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Add an instruction to the command queue to set a new fence point. </span></span><br><span class="line">    <span class="comment">// Because we are on the GPU timeline, the new fence point won&#x27;t be </span></span><br><span class="line">    <span class="comment">// set until the GPU finishes processing all the commands prior to this Signal().</span></span><br><span class="line">	mCommandQueue-&gt;Signal(mFence.Get(), mCurrentFence);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::OnMouseDown</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mLastMousePos.x = x;</span><br><span class="line">    mLastMousePos.y = y;</span><br><span class="line"></span><br><span class="line">    SetCapture(mhMainWnd);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::OnMouseUp</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ReleaseCapture();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::OnMouseMove</span><span class="params">(WPARAM btnState, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>((btnState &amp; MK_LBUTTON) != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Make each pixel correspond to a quarter of a degree.</span></span><br><span class="line">        <span class="keyword">float</span> dx = XMConvertToRadians(<span class="number">0.25f</span>*<span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(x - mLastMousePos.x));</span><br><span class="line">        <span class="keyword">float</span> dy = XMConvertToRadians(<span class="number">0.25f</span>*<span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(y - mLastMousePos.y));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update angles based on input to orbit camera around box.</span></span><br><span class="line">        mTheta += dx;</span><br><span class="line">        mPhi += dy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Restrict the angle mPhi.</span></span><br><span class="line">        mPhi = MathHelper::Clamp(mPhi, <span class="number">0.1f</span>, MathHelper::Pi - <span class="number">0.1f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>((btnState &amp; MK_RBUTTON) != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Make each pixel correspond to 0.2 unit in the scene.</span></span><br><span class="line">        <span class="keyword">float</span> dx = <span class="number">0.2f</span>*<span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(x - mLastMousePos.x);</span><br><span class="line">        <span class="keyword">float</span> dy = <span class="number">0.2f</span>*<span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(y - mLastMousePos.y);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update the camera radius based on input.</span></span><br><span class="line">        mRadius += dx - dy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Restrict the radius.</span></span><br><span class="line">        mRadius = MathHelper::Clamp(mRadius, <span class="number">5.0f</span>, <span class="number">150.0f</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mLastMousePos.x = x;</span><br><span class="line">    mLastMousePos.y = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::OnKeyboardInput</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(GetAsyncKeyState(<span class="string">&#x27;1&#x27;</span>) &amp; <span class="number">0x8000</span>)</span><br><span class="line">        mIsWireframe = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        mIsWireframe = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::UpdateCamera</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// Convert Spherical to Cartesian coordinates.</span></span><br><span class="line">	mEyePos.x = mRadius*sinf(mPhi)*cosf(mTheta);</span><br><span class="line">	mEyePos.z = mRadius*sinf(mPhi)*sinf(mTheta);</span><br><span class="line">	mEyePos.y = mRadius*cosf(mPhi);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Build the view matrix.</span></span><br><span class="line">	XMVECTOR pos = XMVectorSet(mEyePos.x, mEyePos.y, mEyePos.z, <span class="number">1.0f</span>);</span><br><span class="line">	XMVECTOR target = XMVectorZero();</span><br><span class="line">	XMVECTOR up = XMVectorSet(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line"></span><br><span class="line">	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);</span><br><span class="line">	XMStoreFloat4x4(&amp;mView, view);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::UpdateObjectCBs</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">auto</span> currObjectCB = mCurrFrameResource-&gt;ObjectCB.get();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">auto</span>&amp; e : mAllRitems)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// Only update the cbuffer data if the constants have changed.  </span></span><br><span class="line">		<span class="comment">// This needs to be tracked per frame resource.</span></span><br><span class="line">		<span class="keyword">if</span>(e-&gt;NumFramesDirty &gt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			XMMATRIX world = XMLoadFloat4x4(&amp;e-&gt;World);</span><br><span class="line"></span><br><span class="line">			ObjectConstants objConstants;</span><br><span class="line">			XMStoreFloat4x4(&amp;objConstants.World, XMMatrixTranspose(world));</span><br><span class="line"></span><br><span class="line">			currObjectCB-&gt;CopyData(e-&gt;ObjCBIndex, objConstants);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Next FrameResource need to be updated too.</span></span><br><span class="line">			e-&gt;NumFramesDirty--;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::UpdateMainPassCB</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	XMMATRIX view = XMLoadFloat4x4(&amp;mView);</span><br><span class="line">	XMMATRIX proj = XMLoadFloat4x4(&amp;mProj);</span><br><span class="line"></span><br><span class="line">	XMMATRIX viewProj = XMMatrixMultiply(view, proj);</span><br><span class="line">	XMMATRIX invView = XMMatrixInverse(&amp;XMMatrixDeterminant(view), view);</span><br><span class="line">	XMMATRIX invProj = XMMatrixInverse(&amp;XMMatrixDeterminant(proj), proj);</span><br><span class="line">	XMMATRIX invViewProj = XMMatrixInverse(&amp;XMMatrixDeterminant(viewProj), viewProj);</span><br><span class="line"></span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.View, XMMatrixTranspose(view));</span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.InvView, XMMatrixTranspose(invView));</span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.Proj, XMMatrixTranspose(proj));</span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.InvProj, XMMatrixTranspose(invProj));</span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));</span><br><span class="line">	XMStoreFloat4x4(&amp;mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));</span><br><span class="line">	mMainPassCB.EyePosW = mEyePos;</span><br><span class="line">	mMainPassCB.RenderTargetSize = XMFLOAT2((<span class="keyword">float</span>)mClientWidth, (<span class="keyword">float</span>)mClientHeight);</span><br><span class="line">	mMainPassCB.InvRenderTargetSize = XMFLOAT2(<span class="number">1.0f</span> / mClientWidth, <span class="number">1.0f</span> / mClientHeight);</span><br><span class="line">	mMainPassCB.NearZ = <span class="number">1.0f</span>;</span><br><span class="line">	mMainPassCB.FarZ = <span class="number">1000.0f</span>;</span><br><span class="line">	mMainPassCB.TotalTime = gt.TotalTime();</span><br><span class="line">	mMainPassCB.DeltaTime = gt.DeltaTime();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> currPassCB = mCurrFrameResource-&gt;PassCB.get();</span><br><span class="line">	currPassCB-&gt;CopyData(<span class="number">0</span>, mMainPassCB);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::UpdateWaves</span><span class="params">(<span class="keyword">const</span> GameTimer&amp; gt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// Every quarter second, generate a random wave.</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">float</span> t_base = <span class="number">0.0f</span>;</span><br><span class="line">	<span class="keyword">if</span>((mTimer.TotalTime() - t_base) &gt;= <span class="number">0.25f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		t_base += <span class="number">0.25f</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> i = MathHelper::Rand(<span class="number">4</span>, mWaves-&gt;RowCount() - <span class="number">5</span>);</span><br><span class="line">		<span class="keyword">int</span> j = MathHelper::Rand(<span class="number">4</span>, mWaves-&gt;ColumnCount() - <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span> r = MathHelper::RandF(<span class="number">0.2f</span>, <span class="number">0.5f</span>);</span><br><span class="line"></span><br><span class="line">		mWaves-&gt;Disturb(i, j, r);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Update the wave simulation.</span></span><br><span class="line">	mWaves-&gt;Update(gt.DeltaTime());</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Update the wave vertex buffer with the new solution.</span></span><br><span class="line">	<span class="keyword">auto</span> currWavesVB = mCurrFrameResource-&gt;WavesVB.get();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mWaves-&gt;VertexCount(); ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		Vertex v;</span><br><span class="line"></span><br><span class="line">		v.Pos = mWaves-&gt;Position(i);</span><br><span class="line">        v.Color = XMFLOAT4(DirectX::Colors::Blue);</span><br><span class="line"></span><br><span class="line">		currWavesVB-&gt;CopyData(i, v);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set the dynamic VB of the wave renderitem to the current frame VB.</span></span><br><span class="line">	mWavesRitem-&gt;Geo-&gt;VertexBufferGPU = currWavesVB-&gt;Resource();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildRootSignature</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Root parameter can be a table, root descriptor or root constants.</span></span><br><span class="line">    CD3DX12_ROOT_PARAMETER slotRootParameter[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create root CBV.</span></span><br><span class="line">    slotRootParameter[<span class="number">0</span>].InitAsConstantBufferView(<span class="number">0</span>);</span><br><span class="line">    slotRootParameter[<span class="number">1</span>].InitAsConstantBufferView(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// A root signature is an array of root parameters.</span></span><br><span class="line">	<span class="function">CD3DX12_ROOT_SIGNATURE_DESC <span class="title">rootSigDesc</span><span class="params">(<span class="number">2</span>, slotRootParameter, <span class="number">0</span>, <span class="literal">nullptr</span>, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer</span></span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; serializedRootSig = <span class="literal">nullptr</span>;</span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; errorBlob = <span class="literal">nullptr</span>;</span><br><span class="line">    HRESULT hr = D3D12SerializeRootSignature(&amp;rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,</span><br><span class="line">        serializedRootSig.GetAddressOf(), errorBlob.GetAddressOf());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(errorBlob != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ::OutputDebugStringA((<span class="keyword">char</span>*)errorBlob-&gt;GetBufferPointer());</span><br><span class="line">    &#125;</span><br><span class="line">    ThrowIfFailed(hr);</span><br><span class="line"></span><br><span class="line">    ThrowIfFailed(md3dDevice-&gt;CreateRootSignature(</span><br><span class="line">		<span class="number">0</span>,</span><br><span class="line">        serializedRootSig-&gt;GetBufferPointer(),</span><br><span class="line">        serializedRootSig-&gt;GetBufferSize(),</span><br><span class="line">        IID_PPV_ARGS(mRootSignature.GetAddressOf())));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildShadersAndInputLayout</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	mShaders[<span class="string">&quot;standardVS&quot;</span>] = d3dUtil::CompileShader(<span class="string">L&quot;Shaders\\color.hlsl&quot;</span>, <span class="literal">nullptr</span>, <span class="string">&quot;VS&quot;</span>, <span class="string">&quot;vs_5_0&quot;</span>);</span><br><span class="line">	mShaders[<span class="string">&quot;opaquePS&quot;</span>] = d3dUtil::CompileShader(<span class="string">L&quot;Shaders\\color.hlsl&quot;</span>, <span class="literal">nullptr</span>, <span class="string">&quot;PS&quot;</span>, <span class="string">&quot;ps_5_0&quot;</span>);</span><br><span class="line"></span><br><span class="line">    mInputLayout =</span><br><span class="line">    &#123;</span><br><span class="line">        &#123; <span class="string">&quot;POSITION&quot;</span>, <span class="number">0</span>, DXGI_FORMAT_R32G32B32_FLOAT, <span class="number">0</span>, <span class="number">0</span>, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, <span class="number">0</span> &#125;,</span><br><span class="line">        &#123; <span class="string">&quot;COLOR&quot;</span>, <span class="number">0</span>, DXGI_FORMAT_R32G32B32A32_FLOAT, <span class="number">0</span>, <span class="number">12</span>, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, <span class="number">0</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildLandGeometry</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	GeometryGenerator geoGen;</span><br><span class="line">	GeometryGenerator::MeshData grid = geoGen.CreateGrid(<span class="number">160.0f</span>, <span class="number">160.0f</span>, <span class="number">50</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Extract the vertex elements we are interested and apply the height function to</span></span><br><span class="line">	<span class="comment">// each vertex.  In addition, color the vertices based on their height so we have</span></span><br><span class="line">	<span class="comment">// sandy looking beaches, grassy low hills, and snow mountain peaks.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Vertex&gt; <span class="title">vertices</span><span class="params">(grid.Vertices.size())</span></span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; grid.Vertices.size(); ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">auto</span>&amp; p = grid.Vertices[i].Position;</span><br><span class="line">		vertices[i].Pos = p;</span><br><span class="line">		vertices[i].Pos.y = GetHillsHeight(p.x, p.z);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Color the vertex based on its height.</span></span><br><span class="line">        <span class="keyword">if</span>(vertices[i].Pos.y &lt; <span class="number">-10.0f</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Sandy beach color.</span></span><br><span class="line">            vertices[i].Color = XMFLOAT4(<span class="number">1.0f</span>, <span class="number">0.96f</span>, <span class="number">0.62f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(vertices[i].Pos.y &lt; <span class="number">5.0f</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Light yellow-green.</span></span><br><span class="line">            vertices[i].Color = XMFLOAT4(<span class="number">0.48f</span>, <span class="number">0.77f</span>, <span class="number">0.46f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(vertices[i].Pos.y &lt; <span class="number">12.0f</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Dark yellow-green.</span></span><br><span class="line">            vertices[i].Color = XMFLOAT4(<span class="number">0.1f</span>, <span class="number">0.48f</span>, <span class="number">0.19f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(vertices[i].Pos.y &lt; <span class="number">20.0f</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Dark brown.</span></span><br><span class="line">            vertices[i].Color = XMFLOAT4(<span class="number">0.45f</span>, <span class="number">0.39f</span>, <span class="number">0.34f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// White snow.</span></span><br><span class="line">            vertices[i].Color = XMFLOAT4(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">const</span> UINT vbByteSize = (UINT)vertices.size() * <span class="keyword">sizeof</span>(Vertex);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="keyword">uint16_t</span>&gt; indices = grid.GetIndices16();</span><br><span class="line">	<span class="keyword">const</span> UINT ibByteSize = (UINT)indices.size() * <span class="keyword">sizeof</span>(<span class="built_in">std</span>::<span class="keyword">uint16_t</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> geo = <span class="built_in">std</span>::make_unique&lt;MeshGeometry&gt;();</span><br><span class="line">	geo-&gt;Name = <span class="string">&quot;landGeo&quot;</span>;</span><br><span class="line"></span><br><span class="line">	ThrowIfFailed(D3DCreateBlob(vbByteSize, &amp;geo-&gt;VertexBufferCPU));</span><br><span class="line">	CopyMemory(geo-&gt;VertexBufferCPU-&gt;GetBufferPointer(), vertices.data(), vbByteSize);</span><br><span class="line"></span><br><span class="line">	ThrowIfFailed(D3DCreateBlob(ibByteSize, &amp;geo-&gt;IndexBufferCPU));</span><br><span class="line">	CopyMemory(geo-&gt;IndexBufferCPU-&gt;GetBufferPointer(), indices.data(), ibByteSize);</span><br><span class="line"></span><br><span class="line">	geo-&gt;VertexBufferGPU = d3dUtil::CreateDefaultBuffer(md3dDevice.Get(),</span><br><span class="line">		mCommandList.Get(), vertices.data(), vbByteSize, geo-&gt;VertexBufferUploader);</span><br><span class="line"></span><br><span class="line">	geo-&gt;IndexBufferGPU = d3dUtil::CreateDefaultBuffer(md3dDevice.Get(),</span><br><span class="line">		mCommandList.Get(), indices.data(), ibByteSize, geo-&gt;IndexBufferUploader);</span><br><span class="line"></span><br><span class="line">	geo-&gt;VertexByteStride = <span class="keyword">sizeof</span>(Vertex);</span><br><span class="line">	geo-&gt;VertexBufferByteSize = vbByteSize;</span><br><span class="line">	geo-&gt;IndexFormat = DXGI_FORMAT_R16_UINT;</span><br><span class="line">	geo-&gt;IndexBufferByteSize = ibByteSize;</span><br><span class="line"></span><br><span class="line">	SubmeshGeometry submesh;</span><br><span class="line">	submesh.IndexCount = (UINT)indices.size();</span><br><span class="line">	submesh.StartIndexLocation = <span class="number">0</span>;</span><br><span class="line">	submesh.BaseVertexLocation = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>] = submesh;</span><br><span class="line"></span><br><span class="line">	mGeometries[<span class="string">&quot;landGeo&quot;</span>] = <span class="built_in">std</span>::move(geo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildWavesGeometryBuffers</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="keyword">uint16_t</span>&gt; <span class="title">indices</span><span class="params">(<span class="number">3</span> * mWaves-&gt;TriangleCount())</span></span>; <span class="comment">// 3 indices per face</span></span><br><span class="line">	assert(mWaves-&gt;VertexCount() &lt; <span class="number">0x0000ffff</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Iterate over each quad.</span></span><br><span class="line">	<span class="keyword">int</span> m = mWaves-&gt;RowCount();</span><br><span class="line">	<span class="keyword">int</span> n = mWaves-&gt;ColumnCount();</span><br><span class="line">	<span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m - <span class="number">1</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n - <span class="number">1</span>; ++j)</span><br><span class="line">		&#123;</span><br><span class="line">			indices[k] = i*n + j;</span><br><span class="line">			indices[k + <span class="number">1</span>] = i*n + j + <span class="number">1</span>;</span><br><span class="line">			indices[k + <span class="number">2</span>] = (i + <span class="number">1</span>)*n + j;</span><br><span class="line"></span><br><span class="line">			indices[k + <span class="number">3</span>] = (i + <span class="number">1</span>)*n + j;</span><br><span class="line">			indices[k + <span class="number">4</span>] = i*n + j + <span class="number">1</span>;</span><br><span class="line">			indices[k + <span class="number">5</span>] = (i + <span class="number">1</span>)*n + j + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">			k += <span class="number">6</span>; <span class="comment">// next quad</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	UINT vbByteSize = mWaves-&gt;VertexCount()*<span class="keyword">sizeof</span>(Vertex);</span><br><span class="line">	UINT ibByteSize = (UINT)indices.size()*<span class="keyword">sizeof</span>(<span class="built_in">std</span>::<span class="keyword">uint16_t</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> geo = <span class="built_in">std</span>::make_unique&lt;MeshGeometry&gt;();</span><br><span class="line">	geo-&gt;Name = <span class="string">&quot;waterGeo&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set dynamically.</span></span><br><span class="line">	geo-&gt;VertexBufferCPU = <span class="literal">nullptr</span>;</span><br><span class="line">	geo-&gt;VertexBufferGPU = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	ThrowIfFailed(D3DCreateBlob(ibByteSize, &amp;geo-&gt;IndexBufferCPU));</span><br><span class="line">	CopyMemory(geo-&gt;IndexBufferCPU-&gt;GetBufferPointer(), indices.data(), ibByteSize);</span><br><span class="line"></span><br><span class="line">	geo-&gt;IndexBufferGPU = d3dUtil::CreateDefaultBuffer(md3dDevice.Get(),</span><br><span class="line">		mCommandList.Get(), indices.data(), ibByteSize, geo-&gt;IndexBufferUploader);</span><br><span class="line"></span><br><span class="line">	geo-&gt;VertexByteStride = <span class="keyword">sizeof</span>(Vertex);</span><br><span class="line">	geo-&gt;VertexBufferByteSize = vbByteSize;</span><br><span class="line">	geo-&gt;IndexFormat = DXGI_FORMAT_R16_UINT;</span><br><span class="line">	geo-&gt;IndexBufferByteSize = ibByteSize;</span><br><span class="line"></span><br><span class="line">	SubmeshGeometry submesh;</span><br><span class="line">	submesh.IndexCount = (UINT)indices.size();</span><br><span class="line">	submesh.StartIndexLocation = <span class="number">0</span>;</span><br><span class="line">	submesh.BaseVertexLocation = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>] = submesh;</span><br><span class="line"></span><br><span class="line">	mGeometries[<span class="string">&quot;waterGeo&quot;</span>] = <span class="built_in">std</span>::move(geo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildPSOs</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// PSO for opaque objects.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	ZeroMemory(&amp;opaquePsoDesc, <span class="keyword">sizeof</span>(D3D12_GRAPHICS_PIPELINE_STATE_DESC));</span><br><span class="line">	opaquePsoDesc.InputLayout = &#123; mInputLayout.data(), (UINT)mInputLayout.size() &#125;;</span><br><span class="line">	opaquePsoDesc.pRootSignature = mRootSignature.Get();</span><br><span class="line">	opaquePsoDesc.VS =</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">reinterpret_cast</span>&lt;BYTE*&gt;(mShaders[<span class="string">&quot;standardVS&quot;</span>]-&gt;GetBufferPointer()),</span><br><span class="line">		mShaders[<span class="string">&quot;standardVS&quot;</span>]-&gt;GetBufferSize()</span><br><span class="line">	&#125;;</span><br><span class="line">	opaquePsoDesc.PS =</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">reinterpret_cast</span>&lt;BYTE*&gt;(mShaders[<span class="string">&quot;opaquePS&quot;</span>]-&gt;GetBufferPointer()),</span><br><span class="line">		mShaders[<span class="string">&quot;opaquePS&quot;</span>]-&gt;GetBufferSize()</span><br><span class="line">	&#125;;</span><br><span class="line">	opaquePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);</span><br><span class="line">	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);</span><br><span class="line">	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);</span><br><span class="line">	opaquePsoDesc.SampleMask = UINT_MAX;</span><br><span class="line">	opaquePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;</span><br><span class="line">	opaquePsoDesc.NumRenderTargets = <span class="number">1</span>;</span><br><span class="line">	opaquePsoDesc.RTVFormats[<span class="number">0</span>] = mBackBufferFormat;</span><br><span class="line">	opaquePsoDesc.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">	opaquePsoDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">	opaquePsoDesc.DSVFormat = mDepthStencilFormat;</span><br><span class="line">	ThrowIfFailed(md3dDevice-&gt;CreateGraphicsPipelineState(&amp;opaquePsoDesc, IID_PPV_ARGS(&amp;mPSOs[<span class="string">&quot;opaque&quot;</span>])));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// PSO for opaque wireframe objects.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">    D3D12_GRAPHICS_PIPELINE_STATE_DESC opaqueWireframePsoDesc = opaquePsoDesc;</span><br><span class="line">    opaqueWireframePsoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;</span><br><span class="line">    ThrowIfFailed(md3dDevice-&gt;CreateGraphicsPipelineState(&amp;opaqueWireframePsoDesc, IID_PPV_ARGS(&amp;mPSOs[<span class="string">&quot;opaque_wireframe&quot;</span>])));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildFrameResources</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gNumFrameResources; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        mFrameResources.push_back(<span class="built_in">std</span>::make_unique&lt;FrameResource&gt;(md3dDevice.Get(),</span><br><span class="line">            <span class="number">1</span>, (UINT)mAllRitems.size(), mWaves-&gt;VertexCount()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::BuildRenderItems</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">auto</span> wavesRitem = <span class="built_in">std</span>::make_unique&lt;RenderItem&gt;();</span><br><span class="line">	wavesRitem-&gt;World = MathHelper::Identity4x4();</span><br><span class="line">	wavesRitem-&gt;ObjCBIndex = <span class="number">0</span>;</span><br><span class="line">	wavesRitem-&gt;Geo = mGeometries[<span class="string">&quot;waterGeo&quot;</span>].get();</span><br><span class="line">	wavesRitem-&gt;PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;</span><br><span class="line">	wavesRitem-&gt;IndexCount = wavesRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].IndexCount;</span><br><span class="line">	wavesRitem-&gt;StartIndexLocation = wavesRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].StartIndexLocation;</span><br><span class="line">	wavesRitem-&gt;BaseVertexLocation = wavesRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].BaseVertexLocation;</span><br><span class="line"></span><br><span class="line">	mWavesRitem = wavesRitem.get();</span><br><span class="line"></span><br><span class="line">	mRitemLayer[(<span class="keyword">int</span>)RenderLayer::Opaque].push_back(wavesRitem.get());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> gridRitem = <span class="built_in">std</span>::make_unique&lt;RenderItem&gt;();</span><br><span class="line">	gridRitem-&gt;World = MathHelper::Identity4x4();</span><br><span class="line">	gridRitem-&gt;ObjCBIndex = <span class="number">1</span>;</span><br><span class="line">	gridRitem-&gt;Geo = mGeometries[<span class="string">&quot;landGeo&quot;</span>].get();</span><br><span class="line">	gridRitem-&gt;PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;</span><br><span class="line">	gridRitem-&gt;IndexCount = gridRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].IndexCount;</span><br><span class="line">	gridRitem-&gt;StartIndexLocation = gridRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].StartIndexLocation;</span><br><span class="line">	gridRitem-&gt;BaseVertexLocation = gridRitem-&gt;Geo-&gt;DrawArgs[<span class="string">&quot;grid&quot;</span>].BaseVertexLocation;</span><br><span class="line"></span><br><span class="line">	mRitemLayer[(<span class="keyword">int</span>)RenderLayer::Opaque].push_back(gridRitem.get());</span><br><span class="line"></span><br><span class="line">	mAllRitems.push_back(<span class="built_in">std</span>::move(wavesRitem));</span><br><span class="line">	mAllRitems.push_back(<span class="built_in">std</span>::move(gridRitem));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LandAndWavesApp::DrawRenderItems</span><span class="params">(ID3D12GraphicsCommandList* cmdList, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;RenderItem*&gt;&amp; ritems)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(<span class="keyword">sizeof</span>(ObjectConstants));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> objectCB = mCurrFrameResource-&gt;ObjectCB-&gt;Resource();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// For each render item...</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; ritems.size(); ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">auto</span> ri = ritems[i];</span><br><span class="line"></span><br><span class="line">		cmdList-&gt;IASetVertexBuffers(<span class="number">0</span>, <span class="number">1</span>, &amp;ri-&gt;Geo-&gt;VertexBufferView());</span><br><span class="line">		cmdList-&gt;IASetIndexBuffer(&amp;ri-&gt;Geo-&gt;IndexBufferView());</span><br><span class="line">		cmdList-&gt;IASetPrimitiveTopology(ri-&gt;PrimitiveType);</span><br><span class="line"></span><br><span class="line">        D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB-&gt;GetGPUVirtualAddress();</span><br><span class="line">        objCBAddress += ri-&gt;ObjCBIndex*objCBByteSize;</span><br><span class="line"></span><br><span class="line">		cmdList-&gt;SetGraphicsRootConstantBufferView(<span class="number">0</span>, objCBAddress);</span><br><span class="line"></span><br><span class="line">		cmdList-&gt;DrawIndexedInstanced(ri-&gt;IndexCount, <span class="number">1</span>, ri-&gt;StartIndexLocation, ri-&gt;BaseVertexLocation, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">LandAndWavesApp::GetHillsHeight</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> z)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.3f</span>*(z*sinf(<span class="number">0.1f</span>*x) + x*cosf(<span class="number">0.1f</span>*z));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">XMFLOAT3 <span class="title">LandAndWavesApp::GetHillsNormal</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> z)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// n = (-df/dx, 1, -df/dz)</span></span><br><span class="line">    <span class="function">XMFLOAT3 <span class="title">n</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="number">-0.03f</span>*z*cosf(<span class="number">0.1f</span>*x) - <span class="number">0.3f</span>*cosf(<span class="number">0.1f</span>*z),</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="number">1.0f</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="number">-0.3f</span>*sinf(<span class="number">0.1f</span>*x) + <span class="number">0.03f</span>*x*sinf(<span class="number">0.1f</span>*z))</span></span>;</span><br><span class="line"></span><br><span class="line">    XMVECTOR unitNormal = XMVector3Normalize(XMLoadFloat3(&amp;n));</span><br><span class="line">    XMStoreFloat3(&amp;n, unitNormal);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> n;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>图形</category>
+        <category>技术笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
@@ -8439,13 +8328,12 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>工具</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>插件</tag>
-        <tag>资源</tag>
-        <tag>图形</tag>
+        <tag>图形库</tag>
+        <tag>assimp</tag>
       </tags>
   </entry>
   <entry>
@@ -8603,10 +8491,9 @@
 
 ]]></content>
       <categories>
-        <category>扩展</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>节点</tag>
         <tag>泛型</tag>
       </tags>
@@ -8639,10 +8526,9 @@
 
 ]]></content>
       <categories>
-        <category>工具</category>
+        <category>工具开发</category>
       </categories>
       <tags>
-        <tag>UE4</tag>
         <tag>图片</tag>
         <tag>音效</tag>
       </tags>
