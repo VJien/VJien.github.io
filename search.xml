@@ -9264,4 +9264,99 @@
         <tag>编辑器</tag>
       </tags>
   </entry>
+  <entry>
+    <title>关卡切换</title>
+    <url>/2021/05/19/%E5%85%B3%E5%8D%A1%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UE4 中主要有两种转移方式：无缝和非无缝方式</p>
+<p>我们平时用的最多的<code>OpenLevel</code>节点就是非无缝的, 本文主要对这些方式记录一番</p>
+<a id="more"></a>
+
+
+
+
+
+<h2 id="OpenLevel"><a href="#OpenLevel" class="headerlink" title="OpenLevel"></a>OpenLevel</h2><p><img src="https://img.supervj.top//img/image-20210519170513578.png" alt="image-20210519170513578"></p>
+<p>这是我们最常用的关卡切换的方法, 本质上都是从客户端调用了<code>GEngine-&gt;SetClientTravel()</code>函数, 然后到下一帧的时候调用 <code>UEngine::Browse()</code></p>
+<h2 id="UEngine-Browse"><a href="#UEngine-Browse" class="headerlink" title="UEngine::Browse"></a>UEngine::Browse</h2><blockquote>
+<ul>
+<li>就像是加载新地图时的硬重置。</li>
+<li>将始终导致非无缝切换。</li>
+<li>将导致服务器在切换到目标地图前与当前客户端断开连接。</li>
+<li>客户端将与当前服务器断开连接。</li>
+<li>专用服务器无法切换至其他服务器，因此地图必须存储在本地（不能是 URL）。</li>
+</ul>
+</blockquote>
+<p>引用官网的一段话来解释这个方法</p>
+<h2 id="UWorld-ServerTravel"><a href="#UWorld-ServerTravel" class="headerlink" title="UWorld::ServerTravel"></a>UWorld::ServerTravel</h2><p>先引用一个端官网的话</p>
+<blockquote>
+<ul>
+<li>仅适用于服务器。</li>
+<li>会将服务器跳转到新的世界/场景。</li>
+<li>所有连接的客户端都会跟随。</li>
+<li>这就是多人游戏在地图之间转移时所用的方法，而服务器将负责调用此函数。</li>
+<li>服务器将为所有已连接的客户端玩家调用 <code>APlayerController::ClientTravel</code>。</li>
+</ul>
+</blockquote>
+<p>比如多个玩家在完成连接了以后一起下副本就需要使用此方法讲所有人一起传送到指定关卡中, 不然就断开了</p>
+<p>此方法需要cpp的支持, 纯蓝图无法完成这个操作;</p>
+<h3 id="GameMode"><a href="#GameMode" class="headerlink" title="GameMode"></a>GameMode</h3><p>首先要开启传送选项</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">bUseSeamlessTravel = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后需要重写如下方法</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">GetSeamlessTravelActorList</span><span class="params">(<span class="keyword">bool</span> bToTransition, TArray&lt;AActor*&gt;&amp; ActorList)</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>为了方便蓝图扩展, 我们声明一个蓝图方法来添加额外的传送对象</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">UFUNCTION(BlueprintImplementableEvent)</span><br><span class="line">		<span class="function">TArray&lt;AActor*&gt;  <span class="title">BP_GetSeamlessTravelActorList</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>最终形态</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">AUtilityGameModeBase::AUtilityGameModeBase()</span><br><span class="line">&#123;</span><br><span class="line">	bUseSeamlessTravel = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AUtilityGameModeBase::GetSeamlessTravelActorList</span><span class="params">(<span class="keyword">bool</span> bToTransition, TArray&lt;AActor*&gt;&amp; ActorList)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//父类方法添加了PlayerController等, 必须得调用</span></span><br><span class="line">	Super::GetSeamlessTravelActorList(bToTransition, ActorList);</span><br><span class="line">	ActorList.Append(BP_GetSeamlessTravelActorList());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20210519172551789.png" alt="image-20210519172551789"></p>
+<h3 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h3><blockquote>
+<p> 服务器将为所有已连接的客户端玩家调用 <code>APlayerController::ClientTravel</code>。</p>
+</blockquote>
+<p>所以在玩家控制器里, 同样有方法支持传送目标</p>
+<ul>
+<li>最终形态</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AMyPlayerController::GetSeamlessTravelActorList</span><span class="params">(<span class="keyword">bool</span> bToEntry, TArray&lt;class AActor*&gt;&amp; ActorList)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::GetSeamlessTravelActorList(bToEntry, ActorList);</span><br><span class="line">	ActorList.Append(BP_GetSeamlessTravelActorList());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="过渡地图"><a href="#过渡地图" class="headerlink" title="过渡地图"></a>过渡地图</h3><p><img src="https://img.supervj.top//img/image-20210519171342531.png" alt="image-20210519171342531"></p>
+<p>我们可以在项目设置里设置一个过渡地图,  不过因为这个地图就一瞬间就完成了, 个人觉得意义不大</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>玩家和玩家控制器会默认传送</li>
+<li>多数状态(变量)不会传送, <code>BeginPlay()</code>等会重新执行一遍</li>
+<li>测试发现对新创建的对象的静态模型修改材质/Scale3D等会传送到新关卡</li>
+<li>玩家模型修改材质\Scale或者修改动画状态都无法传送到新关卡(问号脸)</li>
+<li>如果是放置/Spawn在世界空间的对象, 传送以后会出现在相同位置</li>
+<li>Attach等操作无法传送, 如果一把武器在0点创建后Attach到玩家手上并添加到传送列表,传送以后还是出现在0点并不会Attach到玩家手上</li>
+<li>对于GameMode的传送对象, 如果未开启同步, 那么只会在服务端传送</li>
+<li>对于PlayerController的传送对象, 如果未开启同步, 只会在本地传送</li>
+</ol>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_19_18_27_22_113.gif" alt="录制_2021_05_19_18_27_22_113"></p>
+<ol>
+<li>服务端创建cube</li>
+<li>客户端创建sphere</li>
+<li>创建5秒以后修改scale和材质为红色</li>
+<li>传送以后颜色和scale传递了过去</li>
+</ol>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_19_18_32_04_186.gif" alt="录制_2021_05_19_18_32_04_186"></p>
+<ol>
+<li>修改玩家模型的材质和缩放</li>
+<li>无法传送这些状态</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术笔记</category>
+      </categories>
+      <tags>
+        <tag>关卡</tag>
+      </tags>
+  </entry>
 </search>
