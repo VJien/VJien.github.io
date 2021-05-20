@@ -9287,7 +9287,8 @@
 </ul>
 </blockquote>
 <p>引用官网的一段话来解释这个方法</p>
-<h2 id="UWorld-ServerTravel"><a href="#UWorld-ServerTravel" class="headerlink" title="UWorld::ServerTravel"></a>UWorld::ServerTravel</h2><p>先引用一个端官网的话</p>
+<h2 id="UWorld-ServerTravel"><a href="#UWorld-ServerTravel" class="headerlink" title="UWorld::ServerTravel"></a>UWorld::ServerTravel</h2><p>此方式为<strong>无缝切换</strong></p>
+<p>先引用一个端官网的话</p>
 <blockquote>
 <ul>
 <li>仅适用于服务器。</li>
@@ -9329,7 +9330,8 @@
 
 <h3 id="过渡地图"><a href="#过渡地图" class="headerlink" title="过渡地图"></a>过渡地图</h3><p><img src="https://img.supervj.top//img/image-20210519171342531.png" alt="image-20210519171342531"></p>
 <p>我们可以在项目设置里设置一个过渡地图,  不过因为这个地图就一瞬间就完成了, 个人觉得意义不大</p>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>只有服务端可以发起传送</li>
 <li>玩家和玩家控制器会默认传送</li>
 <li>多数状态(变量)不会传送, <code>BeginPlay()</code>等会重新执行一遍</li>
 <li>测试发现对新创建的对象的静态模型修改材质/Scale3D等会传送到新关卡</li>
