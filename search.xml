@@ -9300,6 +9300,10 @@
 </blockquote>
 <p>比如多个玩家在完成连接了以后一起下副本就需要使用此方法讲所有人一起传送到指定关卡中, 不然就断开了</p>
 <p>此方法需要cpp的支持, 纯蓝图无法完成这个操作;</p>
+<h3 id="库"><a href="#库" class="headerlink" title="库"></a>库</h3><p>蓝图无法调用这个方法, 我们先封装一个函数库</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UFlib_Utilities::ServerTravel</span><span class="params">(<span class="keyword">const</span> UObject* WorldContextObject, <span class="keyword">const</span> FString&amp; InURL, <span class="keyword">bool</span> bAbsolute, <span class="keyword">bool</span> bShouldSkipGameNotify)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (WorldContextObject)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (UWorld* wd = WorldContextObject-&gt;GetWorld())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> wd-&gt;ServerTravel(InURL, bAbsolute, bShouldSkipGameNotify);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20210520102036305.png" alt="image-20210520102036305"></p>
 <h3 id="GameMode"><a href="#GameMode" class="headerlink" title="GameMode"></a>GameMode</h3><p>首先要开启传送选项</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">bUseSeamlessTravel = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
 
