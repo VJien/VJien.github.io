@@ -25,25 +25,34 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="前言此文简单记录UE4对windows文件的处理">
+<meta name="description" content="前言根骨骼运动（RootMotion）的位移都是固定的， 但是我们在实际运用中经常想动态的控制角色的位置和旋转，比如挥砍动作在怪物跟前了就应该停止位移，翻墙动作与障碍物的距离适配等 本文实现了2个方案， 其中之一就包括基于最近上线的UE5新插件RootMotionWarping的方案">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE4对windows文件的操作">
-<meta property="og:url" content="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:title" content="RootMotion的动态控制">
+<meta property="og:url" content="http://supervj.top/2021/05/28/MotionWarping/index.html">
 <meta property="og:site_name" content="提瑞法斯议会">
-<meta property="og:description" content="前言此文简单记录UE4对windows文件的处理">
+<meta property="og:description" content="前言根骨骼运动（RootMotion）的位移都是固定的， 但是我们在实际运用中经常想动态的控制角色的位置和旋转，比如挥砍动作在怪物跟前了就应该停止位移，翻墙动作与障碍物的距离适配等 本文实现了2个方案， 其中之一就包括基于最近上线的UE5新插件RootMotionWarping的方案">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_01_08_13_50_01_590.gif">
-<meta property="article:published_time" content="2021-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:38:49.646Z">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_19_36_434.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528113152287.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528113248295.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528113332996.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528113410020.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_45_18_258.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528114755745.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528114937614.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210528114950721.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif">
+<meta property="article:published_time" content="2021-05-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-28T05:13:38.178Z">
 <meta property="article:author" content="VJ东">
-<meta property="article:tag" content="Windows">
-<meta property="article:tag" content="文件">
-<meta property="article:tag" content="json">
+<meta property="article:tag" content="动画">
+<meta property="article:tag" content="RootMotion">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_01_08_13_50_01_590.gif">
+<meta name="twitter:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif">
 
 
-<link rel="canonical" href="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/">
+<link rel="canonical" href="http://supervj.top/2021/05/28/MotionWarping/">
 
 
 <script class="page-configurations">
@@ -55,7 +64,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>UE4对windows文件的操作 | 提瑞法斯议会</title>
+<title>RootMotion的动态控制 | 提瑞法斯议会</title>
   
 
 
@@ -193,7 +202,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E7%AA%97%E5%8F%A3%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">打开窗口读取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E7%AA%97%E5%8F%A3%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%A4%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">3.</span> <span class="nav-text">打开窗口读取文件夹路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80exe%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">打开exe程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">5.</span> <span class="nav-text">打开文件夹</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E6%89%8B%E5%8A%A8%E8%AE%A1%E7%AE%97%E4%BD%8D%E7%A7%BB"><span class="nav-number">2.</span> <span class="nav-text">方案一：手动计算位移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9AMotionWarping"><span class="nav-number">3.</span> <span class="nav-text">方案二：MotionWarping</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -273,7 +282,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/05/28/MotionWarping/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
@@ -286,7 +295,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          UE4对windows文件的操作
+          RootMotion的动态控制
         </h1>
 
         <div class="post-meta-container">
@@ -296,16 +305,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+      <time title="创建时间：2021-05-28 00:00:00 / 修改时间：13:13:38" itemprop="dateCreated datePublished" datetime="2021-05-28T00:00:00+08:00">2021-05-28</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-26 13:38:49" itemprop="dateModified" datetime="2021-03-26T13:38:49+08:00">2021-03-26</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -333,8 +336,8 @@
       <span class="post-meta-item-text">Changyan：</span>
     
     
-      <a title="changyan" href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/#SOHUCS" itemprop="discussionUrl">
-        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/01/07/UE4操作windows文件/" itemprop="commentCount"></span>
+      <a title="changyan" href="/2021/05/28/MotionWarping/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/05/28/MotionWarping/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -347,7 +350,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.2k</span>
+      <span>730</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -365,22 +368,43 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>此文简单记录UE4对windows文件的处理</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_01_08_13_50_01_590.gif" alt="录制_2021_01_08_13_50_01_590"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>根骨骼运动（RootMotion）的位移都是固定的， 但是我们在实际运用中经常想动态的控制角色的位置和旋转，比如挥砍动作在怪物跟前了就应该停止位移，翻墙动作与障碍物的距离适配等</p>
+<p>本文实现了2个方案， 其中之一就包括基于最近上线的UE5新插件RootMotionWarping的方案</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif" alt="录制_2021_05_28_12_24_19_375"></p>
 <a id="more"></a>
 
-<h2 id="打开窗口读取文件"><a href="#打开窗口读取文件" class="headerlink" title="打开窗口读取文件"></a>打开窗口读取文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TArray&lt;FString&gt; <span class="title">UFlib_IO::OpenWindowsFilesDialog</span><span class="params">(<span class="keyword">const</span> FString&amp; Path, <span class="keyword">const</span> FString&amp; fileName, <span class="keyword">const</span> FString&amp; SufStr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TArray&lt;FString&gt; OpenFileNames;<span class="comment">//获取的文件绝对路径</span></span><br><span class="line"></span><br><span class="line">	FString ExtensionStr = SufStr.IsEmpty()?TEXT(<span class="string">&quot;*.*&quot;</span>):SufStr;<span class="comment">//文件类型</span></span><br><span class="line">	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();</span><br><span class="line">	DesktopPlatform-&gt;OpenFileDialog(<span class="literal">nullptr</span>, TEXT(<span class="string">&quot;打开文件&quot;</span>), Path, fileName,*SufStr, EFileDialogFlags::None,OpenFileNames);</span><br><span class="line">	<span class="keyword">return</span> OpenFileNames;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此方法最后返回的是文件的绝对路径,而非打开文件</p>
-<h2 id="打开窗口读取文件夹路径"><a href="#打开窗口读取文件夹路径" class="headerlink" title="打开窗口读取文件夹路径"></a>打开窗口读取文件夹路径</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FString <span class="title">UFlib_IO::OpenWindowsDirection</span><span class="params">(<span class="keyword">const</span> FString&amp; Path)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FString oldPath;</span><br><span class="line">	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();</span><br><span class="line">	DesktopPlatform-&gt;OpenDirectoryDialog(<span class="literal">nullptr</span>, TEXT(<span class="string">&quot;打开路径&quot;</span>), Path, oldPath);</span><br><span class="line">	<span class="keyword">return</span> oldPath;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>同上, 不一样的是返回的是文件夹的路径</p>
-<h2 id="打开exe程序"><a href="#打开exe程序" class="headerlink" title="打开exe程序"></a>打开exe程序</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_IO::OpenWindowsExe</span><span class="params">(<span class="keyword">const</span> FString&amp; AbsolutePath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FWindowsPlatformProcess::CreateProc(*AbsolutePath, <span class="literal">nullptr</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">nullptr</span>, <span class="number">-1</span>, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>比较简单, 但是需要注意的是只能运行<code>exe</code>, 其他比如<code>txt</code>等不能用此方式运行</p>
-<h2 id="打开文件夹"><a href="#打开文件夹" class="headerlink" title="打开文件夹"></a>打开文件夹</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_IO::OpenWindowsFolder</span><span class="params">(<span class="keyword">const</span> FString&amp; AbsolutePath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FWindowsPlatformProcess::ExploreFolder(*AbsolutePath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此为<code>windows</code>版本,类似的也有其他比如安卓版本的打开</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_19_36_434.gif" alt="录制_2021_05_28_11_19_36_434"></p>
+<p>如上图我们有一个翻越障碍物的动作， 此动作的起始到手撑地的前方向位移大约是120-140之间， Z方向位移大约100出头，翻越后半段前方向位移大约200不到</p>
+<blockquote>
+<p>不需要太精确</p>
+</blockquote>
+<h2 id="方案一：手动计算位移"><a href="#方案一：手动计算位移" class="headerlink" title="方案一：手动计算位移"></a>方案一：手动计算位移</h2><p>此方案我们关闭<code>RootMotion</code>, 提取所有位移信息，然后我们手动来刷新位置，同时根据障碍物的情况来动态控制位移信息</p>
+<p>首先我们需要生成根骨骼运动的位移信息，可以通过一个动画修改器<code>AnimationModifier</code>来得到</p>
+<p>主要内容如下截图</p>
+<p><img src="https://img.supervj.top//img/image-20210528113152287.png" alt="image-20210528113152287"></p>
+<p>然后得到曲线</p>
+<p><img src="https://img.supervj.top//img/image-20210528113248295.png" alt="image-20210528113248295"></p>
+<p>然后用一个辅助宏来处理位移</p>
+<p><img src="https://img.supervj.top//img/image-20210528113332996.png" alt="image-20210528113332996"></p>
+<p><img src="https://img.supervj.top//img/image-20210528113410020.png" alt="image-20210528113410020"></p>
+<p><code>XYPlaneDistance</code>是开始播放动画与距离障碍物的距离，通过射线检测得到</p>
+<p>实测效果感觉手部位置用<code>100-XYPlaneDistance</code>比较合适，因为手的位移跟<code>root</code>骨骼有区别</p>
+<p>而<code>ZScale</code>我们通过射线检测得到障碍物顶部的点到地面的距离与我们动画Z位移的百分比</p>
+<ul>
+<li>简单的测试效果</li>
+</ul>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_45_18_258.gif" alt="录制_2021_05_28_11_45_18_258"></p>
+<blockquote>
+<p>这里有个小问题，如果障碍物太宽， 那么我们需要对后半段的位移进行额外处理，不然就直接站上去了</p>
+</blockquote>
+<h2 id="方案二：MotionWarping"><a href="#方案二：MotionWarping" class="headerlink" title="方案二：MotionWarping"></a>方案二：MotionWarping</h2><p>UE5新出现在动画模块内的一个插件，专门来控制<code>RootMotion</code>的位移</p>
+<p><img src="https://img.supervj.top//img/image-20210528114755745.png" alt="image-20210528114755745"></p>
+<p>主要通过一个动画通知来实现， 然后就在合适的时机（播放蒙太奇之前）设置对应的数据即可</p>
+<p><img src="https://img.supervj.top//img/image-20210528114937614.png" alt="image-20210528114937614"></p>
+<p><img src="https://img.supervj.top//img/image-20210528114950721.png" alt="image-20210528114950721"></p>
+<p>通过很多射线组合得到障碍物合适的顶部点以及翻越后的着地点，直接通过上图的方法设置即可</p>
+<p>然后我们通过判断障碍物大小来决定播放哪个动画（另外一个动画为UE5实例项目的翻越动画）</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif" alt="录制_2021_05_28_12_24_19_375"></p>
 
     </div>
 
@@ -416,7 +440,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/" title="UE4对windows文件的操作">http://supervj.top/2021/01/07/UE4操作windows文件/</a>
+      <a href="http://supervj.top/2021/05/28/MotionWarping/" title="RootMotion的动态控制">http://supervj.top/2021/05/28/MotionWarping/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -442,23 +466,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Windows/" rel="tag"># Windows</a>
-              <a href="/tags/%E6%96%87%E4%BB%B6/" rel="tag"># 文件</a>
-              <a href="/tags/json/" rel="tag"># json</a>
+              <a href="/tags/%E5%8A%A8%E7%94%BB/" rel="tag"># 动画</a>
+              <a href="/tags/RootMotion/" rel="tag"># RootMotion</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/12/29/AssetManager/" rel="prev" title="AssetManager的使用">
-                  <i class="fa fa-chevron-left"></i> AssetManager的使用
+                <a href="/2021/05/19/%E5%85%B3%E5%8D%A1%E5%88%87%E6%8D%A2/" rel="prev" title="关卡切换">
+                  <i class="fa fa-chevron-left"></i> 关卡切换
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/" rel="next" title="UE4骨骼共享插件AnimationSharingPlugin">
-                  UE4骨骼共享插件AnimationSharingPlugin <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

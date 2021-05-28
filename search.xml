@@ -9365,4 +9365,53 @@
         <tag>关卡</tag>
       </tags>
   </entry>
+  <entry>
+    <title>RootMotion的动态控制</title>
+    <url>/2021/05/28/MotionWarping/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>根骨骼运动（RootMotion）的位移都是固定的， 但是我们在实际运用中经常想动态的控制角色的位置和旋转，比如挥砍动作在怪物跟前了就应该停止位移，翻墙动作与障碍物的距离适配等</p>
+<p>本文实现了2个方案， 其中之一就包括基于最近上线的UE5新插件RootMotionWarping的方案</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif" alt="录制_2021_05_28_12_24_19_375"></p>
+<a id="more"></a>
+
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_19_36_434.gif" alt="录制_2021_05_28_11_19_36_434"></p>
+<p>如上图我们有一个翻越障碍物的动作， 此动作的起始到手撑地的前方向位移大约是120-140之间， Z方向位移大约100出头，翻越后半段前方向位移大约200不到</p>
+<blockquote>
+<p>不需要太精确</p>
+</blockquote>
+<h2 id="方案一：手动计算位移"><a href="#方案一：手动计算位移" class="headerlink" title="方案一：手动计算位移"></a>方案一：手动计算位移</h2><p>此方案我们关闭<code>RootMotion</code>, 提取所有位移信息，然后我们手动来刷新位置，同时根据障碍物的情况来动态控制位移信息</p>
+<p>首先我们需要生成根骨骼运动的位移信息，可以通过一个动画修改器<code>AnimationModifier</code>来得到</p>
+<p>主要内容如下截图</p>
+<p><img src="https://img.supervj.top//img/image-20210528113152287.png" alt="image-20210528113152287"></p>
+<p>然后得到曲线</p>
+<p><img src="https://img.supervj.top//img/image-20210528113248295.png" alt="image-20210528113248295"></p>
+<p>然后用一个辅助宏来处理位移</p>
+<p><img src="https://img.supervj.top//img/image-20210528113332996.png" alt="image-20210528113332996"></p>
+<p><img src="https://img.supervj.top//img/image-20210528113410020.png" alt="image-20210528113410020"></p>
+<p><code>XYPlaneDistance</code>是开始播放动画与距离障碍物的距离，通过射线检测得到</p>
+<p>实测效果感觉手部位置用<code>100-XYPlaneDistance</code>比较合适，因为手的位移跟<code>root</code>骨骼有区别</p>
+<p>而<code>ZScale</code>我们通过射线检测得到障碍物顶部的点到地面的距离与我们动画Z位移的百分比</p>
+<ul>
+<li>简单的测试效果</li>
+</ul>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_11_45_18_258.gif" alt="录制_2021_05_28_11_45_18_258"></p>
+<blockquote>
+<p>这里有个小问题，如果障碍物太宽， 那么我们需要对后半段的位移进行额外处理，不然就直接站上去了</p>
+</blockquote>
+<h2 id="方案二：MotionWarping"><a href="#方案二：MotionWarping" class="headerlink" title="方案二：MotionWarping"></a>方案二：MotionWarping</h2><p>UE5新出现在动画模块内的一个插件，专门来控制<code>RootMotion</code>的位移</p>
+<p><img src="https://img.supervj.top//img/image-20210528114755745.png" alt="image-20210528114755745"></p>
+<p>主要通过一个动画通知来实现， 然后就在合适的时机（播放蒙太奇之前）设置对应的数据即可</p>
+<p><img src="https://img.supervj.top//img/image-20210528114937614.png" alt="image-20210528114937614"></p>
+<p><img src="https://img.supervj.top//img/image-20210528114950721.png" alt="image-20210528114950721"></p>
+<p>通过很多射线组合得到障碍物合适的顶部点以及翻越后的着地点，直接通过上图的方法设置即可</p>
+<p>然后我们通过判断障碍物大小来决定播放哪个动画（另外一个动画为UE5实例项目的翻越动画）</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_05_28_12_24_19_375.gif" alt="录制_2021_05_28_12_24_19_375"></p>
+]]></content>
+      <categories>
+        <category>技术笔记</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+        <tag>RootMotion</tag>
+      </tags>
+  </entry>
 </search>
