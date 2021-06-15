@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://img.supervj.top/img/DX/image-20200704142449983.png">
 <meta property="og:image" content="https://img.supervj.top/img/other/image-20200713060500724.png">
 <meta property="article:published_time" content="2020-07-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T03:29:51.232Z">
+<meta property="article:modified_time" content="2021-06-15T02:48:17.931Z">
 <meta property="article:author" content="VJ东">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="学习笔记">
@@ -305,7 +305,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-26 11:29:51" itemprop="dateModified" datetime="2021-03-26T11:29:51+08:00">2021-03-26</time>
+        <time title="修改时间：2021-06-15 10:48:17" itemprop="dateModified" datetime="2021-06-15T10:48:17+08:00">2021-06-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -780,7 +780,38 @@
 
 
 
-  
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
 
 
   <script>
