@@ -9443,4 +9443,155 @@
         <tag>RootMotion</tag>
       </tags>
   </entry>
+  <entry>
+    <title>obj及mtl文件数据</title>
+    <url>/2021/06/18/obj%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>obj文件是Alias|Wavefront公司开发的一种标准3D模型文件格式，适合用于3D软件模型之间的互导。</p>
+<p>obj和信息文件mtl都是文本文件, 都可以用记事本打开, 本文主要对两种文件内数据格式简单的解释一下</p>
+<a id="more"></a>
+
+
+
+<h2 id="obj"><a href="#obj" class="headerlink" title="obj"></a>obj</h2><p><img src="https://img.supervj.top//img/image-20210618171800597.png" alt="image-20210618171800597"></p>
+<p>OBJ3.0文件格式支持直线(Line)、多边形(Polygon)、表面(Surface)和自由形态曲线(Free-form Curve)。直线和多边形通过它们的点来描述，曲线和表面则根据它们的控制点和依附于曲线类型的额外信息来定义，这些信息支持规则和不规则的曲线，包括那些基于贝塞尔曲线(Bezier)、B样条(B-spline)、基数(Cardinal/Catmull-Rom)和泰勒方程(Taylor equations)的曲线。其他特点如下：</p>
+<ol>
+<li><p>OBJ文件是一种3D模型文件。不包含动画、材质特性、贴图路径、动力学、粒子等信息。</p>
+</li>
+<li><p>OBJ文件主要支持多边形(Polygons)模型。虽然也支持曲线(Curves)、表面(Surfaces)、点组材质(Point Group Materials)，但Maya导出的OBJ文件并不包括这些信息。</p>
+</li>
+<li><p>OBJ文件支持三个点以上的面，这一点很有用。很多其它的模型文件格式只支持三个点的面，所以导入Maya的模型经常被三角化了，这对于我们对模型进行再加工甚为不利。</p>
+</li>
+<li><p>OBJ文件支持法线和贴图坐标。在其它软件中调整好贴图后，贴图坐标信息可以存入OBJ文件中，这样文件导入Maya后只需指定一下贴图文件路径就行了，不需要再调整贴图坐标。</p>
+</li>
+</ol>
+<ul>
+<li>常见关键字</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#</td>
+<td>注释</td>
+<td># <a href="http://www.blender.org/">www.blender.org</a></td>
+</tr>
+<tr>
+<td>usemtl</td>
+<td>材质名称</td>
+<td>usemtl Glass</td>
+</tr>
+<tr>
+<td>v</td>
+<td>顶点坐标</td>
+<td>v -0.101738 14.455023 0.659757</td>
+</tr>
+<tr>
+<td>vt</td>
+<td>贴图坐标点/UV坐标</td>
+<td>vt 0.439941 0.453613</td>
+</tr>
+<tr>
+<td>vn</td>
+<td>顶点法线</td>
+<td>vn 0.496902 -0.240822 0.833674</td>
+</tr>
+<tr>
+<td>o</td>
+<td>对象名称</td>
+<td>o Legs</td>
+</tr>
+<tr>
+<td>f</td>
+<td>面</td>
+<td>f 654/611/647 652/609/645 657/614/650</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="mtl"><a href="#mtl" class="headerlink" title="mtl"></a>mtl</h2><p>当你导出Obj模型的时候会发现除了.obj文件还会有个同名.mtl文件，这个文件用来干什么的？其实这个文件是用来记录模型的材质库参数的，包括贴图、环境光参数、模型反射等参数。</p>
+<p><img src="https://img.supervj.top//img/image-20210618171740238.png" alt="image-20210618171740238"></p>
+<ul>
+<li>常见关键字</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#</td>
+<td>注释</td>
+<td># <a href="http://www.blender.org/">www.blender.org</a></td>
+</tr>
+<tr>
+<td>newmtl</td>
+<td>材质名称</td>
+<td>usemtl Glass</td>
+</tr>
+<tr>
+<td>Ks</td>
+<td>镜面反射颜色</td>
+<td>Ks 0.500000 0.500000 0.500000</td>
+</tr>
+<tr>
+<td>Ka</td>
+<td>环境颜色</td>
+<td>Ka 1.000000 0.000000 0.000000</td>
+</tr>
+<tr>
+<td>Kd</td>
+<td>漫反射颜色</td>
+<td>Kd 0.640000 0.640000 0.640000</td>
+</tr>
+<tr>
+<td>Ke</td>
+<td>自发光/放射光</td>
+<td>Ke 0.640000 0.640000 0.640000</td>
+</tr>
+<tr>
+<td>Ni</td>
+<td>材质的光密度/折射率</td>
+<td>Ni 2.73</td>
+</tr>
+<tr>
+<td>Tf</td>
+<td>透明度</td>
+<td>Tf 0.00 0.37 0.37</td>
+</tr>
+<tr>
+<td>map_Bump/Bump</td>
+<td>凹凸贴图</td>
+<td>bump T_Ground_Grass_D.png -bm 1</td>
+</tr>
+<tr>
+<td>map_Kd/Kd</td>
+<td>漫反射贴图</td>
+<td>map_Kd T_UE4_LOGO_CARD.TGA</td>
+</tr>
+</tbody></table>
+<p>下面放一张maya中的编辑器下的参数与mtl文件的对应关系</p>
+<blockquote>
+<p>Tf参数与编辑器中的参数是<code> 1-</code>的关系即 <code>Tf = 1 - 编辑器中的参数</code></p>
+</blockquote>
+<p><img src="https://img.supervj.top//img/image-20210618173920449.png" alt="image-20210618173920449"></p>
+]]></content>
+      <categories>
+        <category>技术笔记</category>
+      </categories>
+      <tags>
+        <tag>obj</tag>
+        <tag>模型</tag>
+      </tags>
+  </entry>
 </search>
