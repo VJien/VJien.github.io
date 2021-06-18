@@ -3310,6 +3310,35 @@
 
 <p><a href="https://github.com/assimp/assimp">github官方</a></p>
 <h2 id="支持格式"><a href="#支持格式" class="headerlink" title="支持格式"></a>支持格式</h2><p>Collada ( <em>.dae;</em>.xml )<br>Blender ( <em>.blend ) 3<br>Biovision BVH ( *.bvh )<br>3D Studio Max 3DS ( *.3ds )<br>3D Studio Max ASE ( *.ase )<br>Wavefront Object ( *.obj )<br>Stanford Polygon Library ( *.ply )<br>AutoCAD DXF ( *.dxf )<br>IFC-STEP, Industry Foundation Classes ( *.ifc )<br>Neutral File Format ( *.nff )<br>Sense8 WorldToolkit ( *.nff )<br>Valve Model ( *.smd,</em>.vta ) 3<br>Quake I ( <em>.mdl )<br>Quake II ( <em>.md2 )<br>Quake III ( *.md3 )<br>Quake 3 BSP ( *.pk3 ) 1<br>RtCW ( *.mdc )<br>Doom 3 ( *.md5mesh;</em>.md5anim;</em>.md5camera )<br>DirectX X ( <em>.x ).<br>Quick3D ( <em>.q3o;q3s ).<br>Raw Triangles ( .raw ).<br>AC3D ( *.ac ).<br>Stereolithography ( *.stl ).<br>Autodesk DXF ( *.dxf ).<br>Irrlicht Mesh ( *.irrmesh;</em>.xml ).<br>Irrlicht Scene ( <em>.irr;</em>.xml ).<br>Object File Format ( *.off ).<br>Terragen Terrain ( *.ter )<br>3D GameStudio Model ( *.mdl )<br>3D GameStudio Terrain ( *.hmp )<br>Ogre (</em>.mesh.xml, *.skeleton.xml, *.material)3<br>Milkshape 3D ( *.ms3d )<br>LightWave Model ( *.lwo )<br>LightWave Scene ( *.lws )<br>Modo Model ( *.lxo )<br>CharacterStudio Motion ( *.csm )<br>Stanford Ply ( *.ply )<br>TrueSpace ( *.cob, *.scn )2<br>XGL ( *.xgl, *.zgl )<br>支持以下格式的导出：<br>Collada(.dae)<br>Wavefront Object(.obj)<br>Stereolithography(.stl)<br>Stanford Polygon Library(.ply)</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>一般情况建议自己通过cmake编译assimp源文件, 部分情况可能需要用到win32的链接库(我在学习opengl用的是win32);</p>
+<p>从<a href="https://github.com/assimp/assimp">这里</a>下载assimp最新版本的源文件</p>
+<p><img src="https://img.supervj.top//img/image-20210618151217958.png" alt="image-20210618151217958"></p>
+<p>cmake生成项目之前记得选择需要的系统版本</p>
+<p>然后就到vs内编译</p>
+<img src="https://img.supervj.top//img/image-20210618151318217.png" alt="image-20210618151318217" style="zoom:50%;" />
+
+
+
+<p>完成以后把assimp项目内的include文件复制到所需要的第三方库include内</p>
+<p>然后找到<code>\code\Debug</code>目录,把里面的文件复制到第三方库的<code>lib</code>文件夹中作为链接库文件</p>
+<p><img src="https://img.supervj.top//img/image-20210618151624413.png" alt="image-20210618151624413"></p>
+<ul>
+<li>UE4</li>
+</ul>
+<p>对于UE, 那么需要在buid.cs文件中添加第三方库的包含</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">PublicIncludePaths.AddRange(</span><br><span class="line">			<span class="keyword">new</span> <span class="built_in">string</span>[] &#123;</span><br><span class="line">                Path.Combine(ThirdPartyPath, <span class="string">&quot;assimp/include&quot;</span>),</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="built_in">string</span> PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? <span class="string">&quot;Win64&quot;</span> : <span class="string">&quot;Win32&quot;</span>;</span><br><span class="line">          PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, <span class="string">&quot;assimp/lib&quot;</span>,PlatformString, <span class="string">&quot;assimp-vc140-mt.lib&quot;</span>));</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="built_in">string</span> BinariesDirectory = Path.Combine(ProjectDirectory, <span class="string">&quot;Binaries&quot;</span>, PlatformString);</span><br><span class="line">	<span class="built_in">string</span> SourceFile = Path.Combine(ThirdPartyPath, <span class="string">&quot;assimp/bin&quot;</span>, PlatformString, <span class="string">&quot;assimp-vc140-mt.dll&quot;</span>);</span><br><span class="line">	<span class="built_in">string</span> TargetFile = Path.Combine(BinariesDirectory, <span class="string">&quot;assimp-vc140-mt.dll&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!Directory.Exists(BinariesDirectory))</span><br><span class="line">          &#123;</span><br><span class="line">		Directory.CreateDirectory(BinariesDirectory);</span><br><span class="line">          &#125;</span><br><span class="line">	<span class="keyword">if</span>(File.Exists(SourceFile) &amp;&amp; !File.Exists(TargetFile))</span><br><span class="line">          &#123;</span><br><span class="line">		File.Copy(SourceFile, TargetFile, <span class="literal">false</span>);</span><br><span class="line">          &#125;</span><br><span class="line">	</span><br><span class="line">	RuntimeDependencies.Add(Path.Combine(BinariesDirectory, <span class="string">&quot;assimp-vc140-mt.dll&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(Target.Platform == UnrealTargetPlatform.Mac)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">string</span> PlatformString =  <span class="string">&quot;Mac&quot;</span>;</span><br><span class="line">          PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, <span class="string">&quot;assimp/lib&quot;</span>,PlatformString, <span class="string">&quot;libassimp.4.1.0.dylib&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>windows(openGl项目)</li>
+</ul>
+<p>在include和lib目录添加对应的目录, 在链接输入中填上<code>assimp-vc142-mtd.lib</code>, 否则我这边会出现<code>GetTextureCount()</code>之类的函数出现奇怪的连接错误</p>
+<p><img src="https://img.supervj.top//img/image-20210618151910929.png" alt="image-20210618151910929"></p>
+<p><img src="https://img.supervj.top//img/image-20210618151925599.png" alt="image-20210618151925599"></p>
+<p><img src="https://img.supervj.top//img/image-20210618151950225.png" alt="image-20210618151950225"></p>
 <h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><img src="https://img.supervj.top//img/20200630154409945.png" alt="20200630154409945"></p>
 <p>引用OpenGL的图片, <code>Assimp&#39;</code>从文件读取数据以后的数据结构就如上图所示, 所有数据都包含在<code>aiScene</code>指针内</p>
 <p><img src="https://img.supervj.top//img/image-20210319180134014.png" alt="image-20210319180134014"></p>
