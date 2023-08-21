@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言之前虽然写过一些动画节点和AnimInstance相关的逻辑, 但是对整体动画模块的逻辑路线还是不是很熟, 所以本文大致研究一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动画逻辑深入分析">
+<meta property="og:url" content="http://supervj.top/2022/01/06/%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言之前虽然写过一些动画节点和AnimInstance相关的逻辑, 但是对整体动画模块的逻辑路线还是不是很熟, 所以本文大致研究一下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top/img%E5%8A%A8%E7%94%BB%E9%80%BB%E8%BE%912.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220111101708427.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220111101850615.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110111219588.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110111241906.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220111103106848.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110113011014.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110142956958.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110151205848.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110105559089.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110143145829.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110114554230.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110104656477.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110143158226.png">
+<meta property="og:image" content="https://img.supervj.top/imgimage-20220110150653179.png">
+<meta property="article:published_time" content="2022-01-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-11T03:18:26.049Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="动画">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top/img%E5%8A%A8%E7%94%BB%E9%80%BB%E8%BE%912.png">
+
+
+<link rel="canonical" href="http://supervj.top/2022/01/06/%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>动画逻辑深入分析 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E6%A2%B3%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">关系梳理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InitializeAnimation"><span class="nav-number">3.1.</span> <span class="nav-text">InitializeAnimation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E6%9B%B4%E6%96%B0"><span class="nav-number">4.</span> <span class="nav-text">动画更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SkeletalMeshComponent-SkinnedMeshComponent"><span class="nav-number">4.1.</span> <span class="nav-text">SkeletalMeshComponent&#x2F;SkinnedMeshComponent</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TickPose"><span class="nav-number">4.1.1.</span> <span class="nav-text">TickPose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshBoneTransforms"><span class="nav-number">4.1.2.</span> <span class="nav-text">RefreshBoneTransforms</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimInstance"><span class="nav-number">4.2.</span> <span class="nav-text">AnimInstance</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UpdateAnimation"><span class="nav-number">4.2.1.</span> <span class="nav-text">UpdateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PreUpdateAnimation"><span class="nav-number">4.2.2.</span> <span class="nav-text">PreUpdateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UpdateMontage"><span class="nav-number">4.2.3.</span> <span class="nav-text">UpdateMontage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UpdateMontageSyncGroup"><span class="nav-number">4.2.4.</span> <span class="nav-text">UpdateMontageSyncGroup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UpdateMontageEvaluationData"><span class="nav-number">4.2.5.</span> <span class="nav-text">UpdateMontageEvaluationData</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PostUpdateAnimation"><span class="nav-number">4.2.6.</span> <span class="nav-text">PostUpdateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ParallelUpdateAnimation"><span class="nav-number">4.2.7.</span> <span class="nav-text">ParallelUpdateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PreEvaluateAnimation"><span class="nav-number">4.2.8.</span> <span class="nav-text">PreEvaluateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ParallelEvaluateAnimation"><span class="nav-number">4.2.9.</span> <span class="nav-text">ParallelEvaluateAnimation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimInstanceProxy"><span class="nav-number">4.3.</span> <span class="nav-text">AnimInstanceProxy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PreUpdate"><span class="nav-number">4.3.1.</span> <span class="nav-text">PreUpdate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UpdateAnimation-1"><span class="nav-number">4.3.2.</span> <span class="nav-text">UpdateAnimation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EvaluateAnimation"><span class="nav-number">4.3.3.</span> <span class="nav-text">EvaluateAnimation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnimNode"><span class="nav-number">4.4.</span> <span class="nav-text">AnimNode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Initialize-AnyThread"><span class="nav-number">4.4.1.</span> <span class="nav-text">Initialize_AnyThread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CacheBones-AnyThread"><span class="nav-number">4.4.2.</span> <span class="nav-text">CacheBones_AnyThread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Update-AnyThread"><span class="nav-number">4.4.3.</span> <span class="nav-text">Update_AnyThread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Evaluate-AnyThread"><span class="nav-number">4.4.4.</span> <span class="nav-text">Evaluate_AnyThread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EvaluateComponentSpace-AnyThread"><span class="nav-number">4.4.5.</span> <span class="nav-text">EvaluateComponentSpace_AnyThread</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2022/01/06/%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动画逻辑深入分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-06T00:00:00+08:00">2022-01-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-01-11 11:18:26" itemprop="dateModified" datetime="2022-01-11T11:18:26+08:00">2022-01-11</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/animation/" itemprop="url" rel="index"><span itemprop="name">animation</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2022/01/06/%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2022/01/06/动画蓝图深入分析/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前虽然写过一些动画节点和AnimInstance相关的逻辑, 但是对整体动画模块的逻辑路线还是不是很熟, 所以本文大致研究一下</p>
+<img src="https://img.supervj.top/img%E5%8A%A8%E7%94%BB%E9%80%BB%E8%BE%912.png" alt="动画逻辑2" style="zoom:150%;" />
+
+
+
+<span id="more"></span>
+
+
+
+<h2 id="关系梳理"><a href="#关系梳理" class="headerlink" title="关系梳理"></a>关系梳理</h2><p>开始研究之前需要先梳理一下动画逻辑中的各个类的关系</p>
+<p>首先是SkeletalMeshComponent, 这东西继承自USkinnedMeshComponent, 就是我们一般播放动画依赖的模型组件,</p>
+<p>SkeletalMeshComponent一般会有一个AnimInstance对象, 这个就是动画蓝图的Cpp类, 不记得从什么版本开始, AnimInstance的逻辑慢慢的开始迁往AnimInstanceProxy,  目的是动画系统的多线程优化, 他可以分担动画蓝图的更新工作，将部分动画蓝图的任务分配到其他线程去做。</p>
+<p>一般而言，不能从动画图形节点（Update/Evaluate calls）访问或修改<code>UAnimInstance</code>，因为它们可以在其他线程上运行。 有一些锁定封装器（GetProxyOnAnyThread 和GetProxyOnGameThread ）可以在任务运行期间阻止访问FAnimInstanceProxy。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>动画蓝图的初始化要从SkeletalMeshComponent的注册开始, 会调用到<code>InitAnim()</code>函数</p>
+<p>InitAnim中做了下面几件事</p>
+<ol>
+<li><p>ClearAnimScriptInstance();     清理之前的AnimInstance对象</p>
+</li>
+<li><p>RecalcRequiredBones();   根据Lod计算特定的骨骼信息,  数据来自<code>FSkeletalMeshRenderData</code>,  然后如果有物理资产PhysicsAsset会刷新<code>PhysAssetBones</code></p>
+</li>
+<li><p>InitializeAnimScriptInstance();  这里主要是创建指定的动画蓝图实例对象, 也就是我们<code>GetAnimInstance()</code>返回的对象, 这里需要注意一点, 动画蓝图的骨架与MeshComponent的骨架需要匹配,否则这个对象就是空. 然后执行<code>AnimInstance</code>对象的<code>InitializeAnimation()</code>, 这里也会重置链接的子动画蓝图.另外还有要分几个情况,</p>
+<p>如果是选用了播放单个动画的AnimMode, 那么就会创建一个<code>UAnimSingleNodeInstance</code>来播放动画序列</p>
+<p>另外, 如果指定了PostAnimInstance类型, 视情况也会创建</p>
+</li>
+<li><p>如果符合条件, 会先执行一次<code>TickAnimation()</code> 和 <code>RefreshBoneTransforms()</code>  </p>
+</li>
+</ol>
+<blockquote>
+<p><a href="#TickAnimation"><code>TickAnimation()</code></a> 和 <a href="#RefreshBoneTransforms"><code>RefreshBoneTransforms()</code> </a> 是本文重点, 下面会讲到</p>
+</blockquote>
+<h3 id="InitializeAnimation"><a href="#InitializeAnimation" class="headerlink" title="InitializeAnimation"></a>InitializeAnimation</h3><p>这里按顺序主要调用了</p>
+   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">RecalcRequiredBones</span>(); <span class="comment">//重新刷新骨架信息</span></span><br><span class="line">GetProxyOnGameThread&lt;FAnimInstanceProxy&gt;().<span class="built_in">Initialize</span>(<span class="keyword">this</span>); <span class="comment">//调用Proxy的初始化函数</span></span><br><span class="line"><span class="built_in">NativeInitializeAnimation</span>();</span><br><span class="line"><span class="built_in">BlueprintInitializeAnimation</span>();<span class="comment">//蓝图的初始化Impl函数</span></span><br><span class="line">GetProxyOnGameThread&lt;FAnimInstanceProxy&gt;().<span class="built_in">InitializeRootNode</span>(bInDeferRootNodeInitialization);<span class="comment">//初始化Node</span></span><br><span class="line"><span class="built_in">BlueprintLinkedAnimationLayersInitialized</span>(); <span class="comment">//动画层的初始化</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="动画更新"><a href="#动画更新" class="headerlink" title="动画更新"></a>动画更新</h2><p>首先我们需要知道, 动画更新默认是多线程的, 在项目设置中有相关设置</p>
+<p><img src="https://img.supervj.top/imgimage-20220111101708427.png" alt="image-20220111101708427"></p>
+<p>同时在动画蓝图中也有选项</p>
+<p><img src="https://img.supervj.top/imgimage-20220111101850615.png" alt="image-20220111101850615"></p>
+<p>以下讨论都基于多线程动画更新</p>
+<p>动画更新要从<code>SkeletalMeshComponent::TickComponent()</code>开始, SkeletalMeshComponent相对于其父类USkinnedMeshComponent, 在Tick中额外多了一些布料和物理相关的一部分逻辑</p>
+<p>接下来讨论Tick流程, <strong>因为类比较多, 下面会区分每个类进行讨论</strong></p>
+<p>Tick中主要执行了<code> TickPose ()</code>和 <code> RefreshBoneTransforms()</code></p>
+<p><code>TickPose()</code>有一些前置判定, 首先模型的刷新模式<code>VisibilityBasedAnimTickOption</code>必须是<strong>AlwaysTickPoseAndRefreshBones</strong>或者<strong>AlwaysTickPose</strong></p>
+<p>然后如果有帧率优化那就需要符合对应的条件(如果是3帧跑一次,那么就是其中一帧会执行)</p>
+<p>然后判断是否刷新Transform信息</p>
+<p><img src="https://img.supervj.top/imgimage-20220110111219588.png" alt="image-20220110111219588"></p>
+<p><img src="https://img.supervj.top/imgimage-20220110111241906.png" alt="image-20220110111241906"></p>
+<p>我们可以看到, 如果正在渲染或者设定了<strong>AlwaysTickPoseAndRefreshBones</strong> 就会通过判定</p>
+<p>一般情况下(用到MasterPoseComponent的情况除外), 我们就执行到了<code>RefreshBoneTransforms()</code>  </p>
+<p>如果上面没通过判定, 如果刷新模式设置了<code>AlwaysTickPose</code>, 那么就会执行并行任务<code>DispatchParallelTickPose()</code></p>
+<p>最后一种情况就是只执行<code>RefreshMorphTargets()</code></p>
+<h3 id="SkeletalMeshComponent-SkinnedMeshComponent"><a href="#SkeletalMeshComponent-SkinnedMeshComponent" class="headerlink" title="SkeletalMeshComponent/SkinnedMeshComponent"></a>SkeletalMeshComponent/SkinnedMeshComponent</h3><h4 id="TickPose"><a href="#TickPose" class="headerlink" title="TickPose"></a>TickPose</h4><p><code>TickPose()</code>主要是调用<code>TickAnimation()</code>来执行<code>RecalcRequiredCurves()</code>刷新曲线, 调用<code>TickAnimInstances()</code>来执行<code>AnimInstance</code>的<a href="#UpdateAnimation"><code>UpdateAnimation()</code> </a></p>
+<blockquote>
+<p>TickPose的主要作用就是刷新动画蓝图和相关Node的数据, 为后面的骨骼更新做准备</p>
+</blockquote>
+<h4 id="RefreshBoneTransforms"><a href="#RefreshBoneTransforms" class="headerlink" title="RefreshBoneTransforms"></a>RefreshBoneTransforms</h4><p>RefreshBoneTransforms也接受动画帧优化RateOptimization</p>
+<p>如果在之前的步骤里没有正确计算骨架和曲线信息, 这里也会补充计算一次</p>
+<p>接下来的主要任务就是 填充 <code>AnimEvaluationContext</code> 数据</p>
+<p>然后执行动画蓝图对象AnimInstance以及子动画蓝图的<code>PreEvaluateAnimation()</code></p>
+<p>然后开始并行任务<code>ParallelAnimationEvaluation()</code></p>
+<p><code>EvaluationContext</code>在组件上是有非常多的缓存，存储着主要的数据。我们把AnimEvaluationContext上的缓存进行交换。根据<code>bDoParallelEvaluation</code>的结果(经过一系列判定)决定是否分发并行任务, 如果为true就执行<code>DispatchParallelEvaluationTasks()</code></p>
+<p><img src="https://img.supervj.top/imgimage-20220111103106848.png" alt="image-20220111103106848"></p>
+<p>在这个函数里面调用<code>SwapEvaluationContextBuffers()</code>将我们在上面操作的<code>AnimEvaluationContext</code>与本地缓存进行交换，然后创建<code>FParallelAnimationEvaluationTask</code>执行任务和<code>FParallelAnimationCompletionTask</code>完成任务。</p>
+<p>如果为false就主动在game线程执行下图函数, 这里先调用<code>SwapEvaluationContextBuffers()</code>交换，然后调用<code>ParallelAnimationEvaluation()</code>，最后再调用<code>SwapEvaluationContextBuffers()</code>交换回来。最后回到上层调用<code>PostAnimEvaluation()</code>。</p>
+<p><img src="https://img.supervj.top/imgimage-20220110113011014.png" alt="image-20220110113011014"></p>
+<p>并行任务会一路执行经过<code>PerformAnimationProcessing()</code>, 然后到下图</p>
+<p><img src="https://img.supervj.top/imgimage-20220110142956958.png" alt="image-20220110142956958"></p>
+<p>这里先执行动画蓝图实例的<a href="#ParallelUpdateAnimation"><code>ParallelUpdateAnimation()</code></a>,即并行Update 任务</p>
+<p>然后再通过<code>EvaluateAnimation</code>执行动画蓝图实例的<a href="#ParallelEvaluateAnimation"><code>ParallelEvaluateAnimation()</code></a>即并行Evalute任务,</p>
+<blockquote>
+<p>RefreshBoneTransforms的作用就是刷新骨骼数据, 然后提供给骨骼模型做最终的渲染</p>
+</blockquote>
+<h3 id="AnimInstance"><a href="#AnimInstance" class="headerlink" title="AnimInstance"></a>AnimInstance</h3><a name = "UpdateAnimation">
+
+<h4 id="UpdateAnimation"><a href="#UpdateAnimation" class="headerlink" title="UpdateAnimation"></a>UpdateAnimation</h4><p>这里会再次用到<code>VisibilityBasedAnimTickOption</code>, 如果是<code>OnlyTickMontagesWhenNotRendered</code>  同时模型<strong>正在被渲染</strong>, 那么只跑蒙太奇相关的逻辑, 否则继续往下看</p>
+<p>然后开始<code>PreUpdateAnimation()</code>, 再是蒙太奇相关的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UpdateMontage</span>(DeltaSeconds);</span><br><span class="line"><span class="built_in">UpdateMontageSyncGroup</span>();</span><br><span class="line"><span class="built_in">UpdateMontageEvaluationData</span>();</span><br></pre></td></tr></table></figure>
+
+<p>再是执行到几个虚函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NativeUpdateAnimation</span>(DeltaSeconds);</span><br><span class="line"><span class="built_in">NativeUpdateAnimation_WorkerThread</span>(DeltaSeconds);</span><br><span class="line"><span class="built_in">BlueprintUpdateAnimation</span>(DeltaSeconds);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们蓝图动画蓝图的Update函数就是上面的<code>BlueprintUpdateAnimation</code></p>
+</blockquote>
+<p>到最后执行了最重要的函数 <a href="#ParallelUpdateAnimation"><code>ParallelUpdateAnimation()</code></a> 以及<code>PostUpdateAnimation()</code></p>
+<h4 id="PreUpdateAnimation"><a href="#PreUpdateAnimation" class="headerlink" title="PreUpdateAnimation"></a>PreUpdateAnimation</h4><p><img src="https://img.supervj.top/imgimage-20220110151205848.png" alt="image-20220110151205848"></p>
+<p>更新动画通知数据以及调用Proxy的<a href="#ProxyPreUpdate">PreUpdate</a></p>
+<h4 id="UpdateMontage"><a href="#UpdateMontage" class="headerlink" title="UpdateMontage"></a>UpdateMontage</h4><p>蒙太奇的数据主要是存在于动画实例中MontageInstances。首先更新他的权重，并且计算其对应的骨骼和curve的比重。</p>
+<p><img src="https://img.supervj.top/imgimage-20220110105559089.png" alt="image-20220110105559089"></p>
+<p>蒙太奇的Instance对象的操作很多是在这里执行的, 包括RootMotionParams(包含RootMotion位移信息)的赋值等等,  以及Blend,Stop, Section跳转等等</p>
+<h4 id="UpdateMontageSyncGroup"><a href="#UpdateMontageSyncGroup" class="headerlink" title="UpdateMontageSyncGroup"></a>UpdateMontageSyncGroup</h4><p>同步组 使相关的动画相互保持同步</p>
+<h4 id="UpdateMontageEvaluationData"><a href="#UpdateMontageEvaluationData" class="headerlink" title="UpdateMontageEvaluationData"></a>UpdateMontageEvaluationData</h4><p>刷新蒙太奇动画的Eval数据, 包含了当前位置, 混合数据等等</p>
+<h4 id="PostUpdateAnimation"><a href="#PostUpdateAnimation" class="headerlink" title="PostUpdateAnimation"></a>PostUpdateAnimation</h4><p>主要调用子动画蓝图的<code>PostUpdateAnimation</code>,  对Proxy对象执行<code>PostUpdate</code>, 最后是对<code>ExtractedRootMotion</code>数据进行一些写入操作</p>
+<hr>
+<a name = "ParallelUpdateAnimation">
+
+<h4 id="ParallelUpdateAnimation"><a href="#ParallelUpdateAnimation" class="headerlink" title="ParallelUpdateAnimation"></a>ParallelUpdateAnimation</h4><p><img src="https://img.supervj.top/imgimage-20220110143145829.png" alt="image-20220110143145829"></p>
+<p>调用了Proxy的<a href="#ProxyUpdateAnimation"><code>UpdateAnimation</code></a></p>
+<h4 id="PreEvaluateAnimation"><a href="#PreEvaluateAnimation" class="headerlink" title="PreEvaluateAnimation"></a>PreEvaluateAnimation</h4><p>调用Proxy的<code>PreEvaluateAnimation()</code></p>
+<a name = "ParallelEvaluateAnimation">
+
+<h4 id="ParallelEvaluateAnimation"><a href="#ParallelEvaluateAnimation" class="headerlink" title="ParallelEvaluateAnimation"></a>ParallelEvaluateAnimation</h4><p><img src="https://img.supervj.top/imgimage-20220110114554230.png" alt="image-20220110114554230"></p>
+<p>Instance做的不多,就是直接获取当前游戏线程的Proxy对象, 执行了他的<a href="#EvaluateAnimation">EvaluateAnimation</a></p>
+<h3 id="AnimInstanceProxy"><a href="#AnimInstanceProxy" class="headerlink" title="AnimInstanceProxy"></a>AnimInstanceProxy</h3><a name = "ProxyPreUpdate">
+
+<h4 id="PreUpdate"><a href="#PreUpdate" class="headerlink" title="PreUpdate"></a>PreUpdate</h4><p>这里主要做的是在更新前的准备工作，诸如时间的计算，lod的切换，整体的Transform 的移动，通知事件的重置，所有的权重重置等等</p>
+<p>当然, AnimInstanceProxy内保存了相关的AnimNode的信息, 这里也会对Node进行PreUpdate操作</p>
+<p><img src="https://img.supervj.top/imgimage-20220110104656477.png" alt="image-20220110104656477"></p>
+<a name = "ProxyUpdateAnimation">
+
+<h4 id="UpdateAnimation-1"><a href="#UpdateAnimation-1" class="headerlink" title="UpdateAnimation"></a>UpdateAnimation</h4><p><img src="https://img.supervj.top/imgimage-20220110143158226.png" alt="image-20220110143158226"></p>
+<p>这里就是调用AnimNode的<code>Update_AnyThread</code>的入口</p>
+<a name = "EvaluateAnimation">
+
+<h4 id="EvaluateAnimation"><a href="#EvaluateAnimation" class="headerlink" title="EvaluateAnimation"></a>EvaluateAnimation</h4><p><img src="https://img.supervj.top/imgimage-20220110150653179.png" alt="image-20220110150653179"></p>
+<p>这里就是大名鼎鼎的<code>EvaluateAnimation_WithRoot()</code>的入口</p>
+<h3 id="AnimNode"><a href="#AnimNode" class="headerlink" title="AnimNode"></a>AnimNode</h3><p>每个AnimGraphNode实际上都是一个<code>FAnimNode_Base</code></p>
+<p>FAnimNode_Base的刷新主要来自AnimInstanceProxy的XX_WithRoot函数,  是从Root开始递归的倒退这找到最末端的Node, 然后把Pose数据一路传递下来的</p>
+<p>这里主要看一下FAnimNode_Base的几个多线程虚函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Initialize_AnyThread</span><span class="params">(<span class="keyword">const</span> FAnimationInitializeContext&amp; Context)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">CacheBones_AnyThread</span><span class="params">(<span class="keyword">const</span> FAnimationCacheBonesContext&amp; Context)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update_AnyThread</span><span class="params">(<span class="keyword">const</span> FAnimationUpdateContext&amp; Context)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Evaluate_AnyThread</span><span class="params">(FPoseContext&amp; Output)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">EvaluateComponentSpace_AnyThread</span><span class="params">(FComponentSpacePoseContext&amp; Output)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Initialize-AnyThread"><a href="#Initialize-AnyThread" class="headerlink" title="Initialize_AnyThread"></a>Initialize_AnyThread</h4><p>会在很多地方调用到, 比如编译以后也会调用一次, 在USkeletalMeshComponent::OnRegister时也会通过Proxy调用<code>InitializeRootNode_WithRoot()</code>一路初始化, 还有状态机<code>SetState()</code>时一路通过LinkedNode找到每个节点进行初始化等等</p>
+<p>总而言之, 一般在运行时会调用一次, 如果在状态机内会调用多次</p>
+<h4 id="CacheBones-AnyThread"><a href="#CacheBones-AnyThread" class="headerlink" title="CacheBones_AnyThread"></a>CacheBones_AnyThread</h4><p>在骨骼信息发生变换的时候引用到,  比如LOD变化时就会调用到. 主要用于刷新该节点所引用的骨骼索引。</p>
+<h4 id="Update-AnyThread"><a href="#Update-AnyThread" class="headerlink" title="Update_AnyThread"></a>Update_AnyThread</h4><p>这个调用就比较频繁了, 在TickPose和RefreshBoneTransform的过程中都可能被调用</p>
+<p>这个函数通常用来对刷新骨骼位置所需要的变量进行计算</p>
+<h4 id="Evaluate-AnyThread"><a href="#Evaluate-AnyThread" class="headerlink" title="Evaluate_AnyThread"></a>Evaluate_AnyThread</h4><p>用来计算并刷新Local空间的骨骼数据的函数, 一般我们自定义动画节点通常会重写这个函数大作文章</p>
+<h4 id="EvaluateComponentSpace-AnyThread"><a href="#EvaluateComponentSpace-AnyThread" class="headerlink" title="EvaluateComponentSpace_AnyThread"></a>EvaluateComponentSpace_AnyThread</h4><p>同上, 但是是在组件空间的, 两者只选其一即可</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>流程分三部分, 本文主要研究了前两部分</p>
+<ol>
+<li><p>初始化: 在Game线程中执行。在游戏启动时，需要先注册USkeletalMeshComponent组件，然后调用执行注册事件。注册事件做了以下内容：<strong>初始化Anim、更新Animation、刷新骨骼变换、创建渲染状态并分配MeshObject、创建物理状态</strong>。</p>
+</li>
+<li><p>动画更新：</p>
+<ol>
+<li>刷新动画蓝图和相关Node的数据, 为后面的骨骼更新做准备.判断是否需要执行蒙太奇更新优化；进行预更新——重置动画通知队列和RootMotionBlendQueue，赋值；蒙太奇更新、蒙太奇同步组更新、蓝图更新。</li>
+<li>分发并行任务. 先更Proxy和其他骨骼更新所需的数据，后刷新骨骼数据, 再把骨骼数据提供给后面的渲染线程。</li>
+</ol>
+</li>
+<li><p>渲染：游戏线程创建渲染命令，渲染线程执行渲染命令，最后更新骨骼。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2022/01/06/%E5%8A%A8%E7%94%BB%E8%93%9D%E5%9B%BE%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90/" title="动画逻辑深入分析">http://supervj.top/2022/01/06/动画蓝图深入分析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E7%94%BB/" rel="tag"># 动画</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/31/AnimationDebug/" rel="prev" title="AnimationDebug:Insights">
+                  <i class="fa fa-chevron-left"></i> AnimationDebug:Insights
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/10/%E5%8A%A8%E7%94%BB%E4%BC%98%E5%8C%96/" rel="next" title="动画优化">
+                  动画优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

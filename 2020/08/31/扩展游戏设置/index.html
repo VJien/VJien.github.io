@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言 我们在项目开发的过程中，经常需要在项目设置里面添加一些参数，本文介绍如何添加这些参数 另外介绍一些特殊的资源类参数的添加和使用  先上图  添加自定义项目设置一般情况下，我们需要创建一个插件来添加这类属性，我们创建一个蓝图函数库模板的插件 然后创建一个UObject类来添加属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4添加自定义项目设置">
+<meta property="og:url" content="http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言 我们在项目开发的过程中，经常需要在项目设置里面添加一些参数，本文介绍如何添加这些参数 另外介绍一些特殊的资源类参数的添加和使用  先上图  添加自定义项目设置一般情况下，我们需要创建一个插件来添加这类属性，我们创建一个蓝图函数库模板的插件 然后创建一个UObject类来添加属性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top/img/advVR/image-20200831114210083.png">
+<meta property="og:image" content="https://img.supervj.top/img/advVR/image-20200831115229327.png">
+<meta property="article:published_time" content="2020-08-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:36:49.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="编辑器开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top/img/advVR/image-20200831114210083.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>UE4添加自定义项目设置 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B9%E7%9B%AE%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">添加自定义项目设置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">使用自定义设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99"><span class="nav-number">4.</span> <span class="nav-text">读写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%AF%E9%85%8D%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">其他可配置变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FSoftObjectPath"><span class="nav-number">5.1.</span> <span class="nav-text">FSoftObjectPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FSoftClassPath"><span class="nav-number">5.2.</span> <span class="nav-text">FSoftClassPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TSoftObjectPtr"><span class="nav-number">5.3.</span> <span class="nav-text">TSoftObjectPtr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TSoftClassPtr"><span class="nav-number">5.4.</span> <span class="nav-text">TSoftClassPtr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE4添加自定义项目设置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-31 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-31T00:00:00+08:00">2020-08-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:36:49" itemprop="dateModified" datetime="2021-08-02T16:36:49+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/editor/" itemprop="url" rel="index"><span itemprop="name">editor</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/08/31/扩展游戏设置/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>我们在项目开发的过程中，经常需要在项目设置里面添加一些参数，本文介绍如何添加这些参数</p>
+<p>另外介绍一些特殊的资源类参数的添加和使用</p>
+</blockquote>
+<p>先上图</p>
+<p><img src="https://img.supervj.top/img/advVR/image-20200831114210083.png" alt="image-20200831114210083"></p>
+<h2 id="添加自定义项目设置"><a href="#添加自定义项目设置" class="headerlink" title="添加自定义项目设置"></a>添加自定义项目设置</h2><p>一般情况下，我们需要创建一个插件来添加这类属性，我们创建一个蓝图函数库模板的插件</p>
+<p>然后创建一个UObject类来添加属性</p>
+<span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UCLASS</span>(config = ExtensionSetting,defaultconfig)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GAMESETTINGEXTENSION_API</span> <span class="title">USettingObj</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		FSoftClassPath SoftClassPath;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		FSoftObjectPath SoftObjectPath;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		TSoftObjectPtr&lt;AActor&gt; SoftObjectPtr;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(config, BlueprintReadOnly, EditAnywhere)</span><br><span class="line">		TSoftClassPtr&lt;AActor&gt; SoftClassPtr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>configdonotcheckdefaults</strong> 与 <strong>defaultconfig</strong></p>
+<ul>
+<li><strong>defaultconfig</strong>:配置会写入到引擎默认配置里, 路径一般是<code>./Config</code>内而不是<code>./Save/*/Config</code>内.另外打包出来后运行以后会自动生成配置文件信息,但是无法再手动修改<code>ini</code>文件; 可以运行时修改但是会保存到<code>./Save/*/Windows/Config</code>内对应名称的<code>ini</code>内</li>
+<li><strong>configdonotcheckdefaults</strong> :会写入到<code>./Save</code>内, 运行运行时的修改;打包以后不会自动生成<code>ini</code>文件, 可以手动复制到对应目录</li>
+</ul>
+<hr>
+<ul>
+<li>**CLASS(config=FileName)**：表示这个类默认条件下将配置信息保存到哪个配置文件，config后面的文件名可以是任意字符串。</li>
+<li>**UPROPERTY(globalconfig)**：不指定Section的情况下，标记config的这个属性在保存到配置文件里面的时候会保存在基类对应的Section部分。同理，加载的时候也会从基类对应的Section下加载。</li>
+</ul>
+<hr>
+<p>注意要在<code>UPROPERTY</code>后加<code>config</code>关键字</p>
+<p>一般的值类型变量都都可以配置，如<code>FString</code>,<code>FRotator</code>,<code>TSubclassOf</code>，但是不能添加继承于<code>UObject</code>的类,可以用<code>FSlot***</code>代替</p>
+<p>然后我们需要将此类注册到游戏设置里面，一般是在模块启动的时候添加，看下面代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameSettingExtensionModule::RegisterSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (ISettingsModule* SettingModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(<span class="string">&quot;Settings&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		SettingModule-&gt;<span class="built_in">RegisterSettings</span>(<span class="string">&quot;Project&quot;</span>, <span class="string">&quot;Game&quot;</span>, <span class="string">&quot;ExtensionSetting&quot;</span>,</span><br><span class="line">			<span class="built_in">LOCTEXT</span>(<span class="string">&quot;RuntimeSettingsName&quot;</span>, <span class="string">&quot;GameSetting&quot;</span>),</span><br><span class="line">			<span class="built_in">LOCTEXT</span>(<span class="string">&quot;RuntimeSettingsDescription&quot;</span>, <span class="string">&quot;Configure my GameSetting&quot;</span>),</span><br><span class="line">			GetMutableDefault&lt;USettingObj&gt;()</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FGameSettingExtensionModule::UnregisterSetting</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(<span class="string">&quot;Settings&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		SettingsModule-&gt;<span class="built_in">UnregisterSettings</span>(<span class="string">&quot;Project&quot;</span>, <span class="string">&quot;Game&quot;</span>, <span class="string">&quot;ExtensionSetting&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id=""><a href="#" class="headerlink" title=""></a></h6><p>上面代码在模块启动和注销的时候分别调用</p>
+<ul>
+<li>“Game”:表示分类，对应的就是项目设置的Game标签</li>
+<li>“ExtensionSetting”:配置时的分类名称</li>
+<li>“Configure my GameSetting”：上图中的文字描述</li>
+</ul>
+<h2 id="使用自定义设置"><a href="#使用自定义设置" class="headerlink" title="使用自定义设置"></a>使用自定义设置</h2><p>因为我们本身就是一个蓝图函数库插件，我们直接在函数库类里面添加新的方法，如果不是此类插件，自己新建一个蓝图函数库类</p>
+<blockquote>
+<p>需要注意的问题，编辑器类型的插件不能使用蓝图函数库</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UObject* <span class="title">GetObjBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftObjectPath&amp; softPath)</span></span>;</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UObject* <span class="title">GetObjRefBySoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftObjectPtr&lt;UObject&gt;&amp; softPathPtr)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UClass* <span class="title">GetClassBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftClassPath&amp; softPath)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;GameSettingExtension&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> UClass* <span class="title">GetClassByClassSoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftClassPtr&lt;UObject&gt;&amp; softPathPtr)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>我们申明4个变量对应的4个函数，因为例如<code>FSoftObjectPath</code>类型的变量在蓝图里面不方便使用，所以需要我们用<code>C++</code>    封装一层</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UObject* <span class="title">UGameSettingExtensionBPLibrary::GetObjBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftObjectPath&amp; softPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UObject* obj = LoadObject&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.<span class="built_in">ToString</span>());</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UObject* <span class="title">UGameSettingExtensionBPLibrary::GetObjRefBySoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftObjectPtr&lt;UObject&gt;&amp; softPathPtr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TSoftObjectPtr&lt;UObject&gt; p = TSoftObjectPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line">	<span class="keyword">return</span> p.<span class="built_in">Get</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UClass* <span class="title">UGameSettingExtensionBPLibrary::GetClassBySoftPath</span><span class="params">(<span class="keyword">const</span> FSoftClassPath&amp; softPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UClass* c = LoadClass&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.<span class="built_in">ToString</span>());</span><br><span class="line">	<span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">UClass* <span class="title">UGameSettingExtensionBPLibrary::GetClassByClassSoftPtr</span><span class="params">(<span class="keyword">const</span> TSoftClassPtr&lt;UObject&gt;&amp; softPathPtr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TSoftClassPtr&lt;UObject&gt; p = TSoftClassPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line">	<span class="keyword">return</span>  p.<span class="built_in">Get</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top/img/advVR/image-20200831115229327.png" alt="image-20200831115229327"></p>
+<p>这样我们就实现了蓝图里面调用项目设置内的属性了</p>
+<h2 id="读写"><a href="#读写" class="headerlink" title="读写"></a>读写</h2><p>只要继承自<code>UObject</code>类就有两个方法<code>SaveConfig()</code>和<code>LoadConfig()</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SaveConfig</span><span class="params">( uint64 Flags=CPF_Config, <span class="keyword">const</span> TCHAR* Filename=<span class="literal">NULL</span>, FConfigCacheIni* Config=GConfig, <span class="keyword">bool</span> bAllowCopyToDefaultObject=<span class="literal">true</span> )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数<code>Flags</code>: 一般不用改变, 可以设置为<code>CPF_GlobalConfig</code>标记为全局</p>
+<p>第二个参数<code>Filename</code>:保存的文件, 如果不填写则使用前面<code>UCLASS</code>定义的路径</p>
+<p>第三个参数保持默认即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LoadConfig</span><span class="params">( UClass* ConfigClass=<span class="literal">NULL</span>, <span class="keyword">const</span> TCHAR* Filename=<span class="literal">NULL</span>, uint32 PropagationFlags=UE4::LCPF_None, class FProperty* PropertyToLoad=<span class="literal">NULL</span> )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>LoadConfig()</code>的功能是从配置文件里面读取特定的属性值并赋给指定类的对应属性。第一个参数指定了要把值赋给哪个类的属性，第二个参数表示到哪个配置文件找对应的配置信息，第三个参数表示是哪种标记（Config还是GlobalConfig），第四个参数表示指定要赋值的属性。</p>
+<p>如果不指定第4个参数，就会读取配置并给所有标记<code>UProperty(Config)</code>的属性赋值。</p>
+<p>可以在注册的位置就绑定<code>Setting</code>类的修改, 然后实时保存到<code>ini</code>文件内</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ISettingsModule* SettingModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(<span class="string">&quot;Settings&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		ISettingsSectionPtr SettingsSection = SettingModule-&gt;<span class="built_in">RegisterSettings</span>(<span class="string">&quot;Project&quot;</span>, <span class="string">&quot;Game&quot;</span>, <span class="string">&quot;SuperRoad&quot;</span>,</span><br><span class="line">			<span class="built_in">LOCTEXT</span>(<span class="string">&quot;RuntimeSettingsName&quot;</span>, <span class="string">&quot;SuperRoad&quot;</span>),</span><br><span class="line">			<span class="built_in">LOCTEXT</span>(<span class="string">&quot;RuntimeSettingsDescription&quot;</span>, <span class="string">&quot;Configure my GameSetting&quot;</span>),</span><br><span class="line">			GetMutableDefault&lt;USRDefaultSettings&gt;());</span><br><span class="line">    <span class="keyword">if</span> (SettingsSection.<span class="built_in">IsValid</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			SettingsSection-&gt;<span class="built_in">OnModified</span>().<span class="built_in">BindRaw</span>(<span class="keyword">this</span>, &amp;FSuperRoadModule::HandleSettingsSaved);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">FSuperRoadModule::HandleSettingsSaved</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	USRDefaultSettings* s = GetMutableDefault&lt;USRDefaultSettings&gt;();</span><br><span class="line">	<span class="keyword">if</span> (s)</span><br><span class="line">	&#123;</span><br><span class="line">		s-&gt;<span class="built_in">SaveConfig</span>();</span><br><span class="line">		<span class="built_in">SRLOG</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Save Settings&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然, 运行时直接拿到对象修改变量是无法调用到这里的, 需要自己调用或者封装<code>Save</code>函数</p>
+<hr>
+<p>还有一个方式也可以读写变量, 使用<code>GConfig</code></p>
+<p><code>GConfig</code>可以理解为是一个全局的变量(类型是<code>FConfigIni</code>), 所有配置文件都可以通过此来获取和设置变量</p>
+<p>以下是Wiki的案例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//in your player controller class</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AVictoryController::VictoryConfigGetTests</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//Basic Syntax</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    bool GetString( </span></span><br><span class="line"><span class="comment">        const TCHAR* Section, </span></span><br><span class="line"><span class="comment">        const TCHAR* Key, </span></span><br><span class="line"><span class="comment">        FString&amp;amp; Value, </span></span><br><span class="line"><span class="comment">        const FString&amp;amp; Filename </span></span><br><span class="line"><span class="comment">    );</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!GConfig) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//~~</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Retrieve Default Game Type</span></span><br><span class="line">    FString ValueReceived;</span><br><span class="line">    GConfig-&gt;<span class="built_in">GetString</span>(</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;/Script/Engine.WorldInfo&quot;</span>),</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;GlobalDefaultGameType&quot;</span>),</span><br><span class="line">        ValueReceived,</span><br><span class="line">        GGameIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ClientMessage</span>(<span class="string">&quot;GlobalDefaultGameType&quot;</span>);</span><br><span class="line">    <span class="built_in">ClientMessage</span>(ValueReceived);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Retrieve Max Objects not considered by GC</span></span><br><span class="line">    int32 IntValueReceived = <span class="number">0</span>;</span><br><span class="line">    GConfig-&gt;<span class="built_in">GetInt</span>(</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;Core.System&quot;</span>),</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;MaxObjectsNotConsideredByGC&quot;</span>),</span><br><span class="line">        IntValueReceived,</span><br><span class="line">        GEngineIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ClientMessage</span>(<span class="string">&quot;MaxObjectsNotConsideredByGC&quot;</span>);</span><br><span class="line">    <span class="built_in">ClientMessage</span>(FString::<span class="built_in">FromInt</span>(IntValueReceived));</span><br><span class="line"></span><br><span class="line">         <span class="comment">//Retrieve Near Clip Plane (how close things can get to camera)</span></span><br><span class="line">    <span class="keyword">float</span> floatValueReceived = <span class="number">0</span>;</span><br><span class="line">    GConfig-&gt;<span class="built_in">GetFloat</span>(</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;/Script/Engine.Engine&quot;</span>),</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;NearClipPlane&quot;</span>),</span><br><span class="line">        floatValueReceived,</span><br><span class="line">        GEngineIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ClientMessage</span>(<span class="string">&quot;NearClipPlane&quot;</span>);</span><br><span class="line">    <span class="built_in">ClientMessage</span>(FString::<span class="built_in">SanitizeFloat</span>(floatValueReceived));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//write to existing Game.ini</span></span><br><span class="line"><span class="comment">//the results get stored in YourGameDir\Saved\Config\Windows</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AVictoryController::VictoryConfigSetTests</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!GConfig) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//~~</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//New Section to Add</span></span><br><span class="line">    FString VictorySection = <span class="string">&quot;Victory.Core&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//String</span></span><br><span class="line">    GConfig-&gt;<span class="built_in">SetString</span> (</span><br><span class="line">        *VictorySection,</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;RootDir&quot;</span>),</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;E:\UE4\IsAwesome&quot;</span>),</span><br><span class="line">        GGameIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//FColor</span></span><br><span class="line">    GConfig-&gt;<span class="built_in">SetColor</span> (</span><br><span class="line">        *VictorySection,</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;Red&quot;</span>),</span><br><span class="line">        <span class="built_in">FColor</span>(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>),</span><br><span class="line">        GGameIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//FVector</span></span><br><span class="line">    GConfig-&gt;<span class="built_in">SetVector</span> (</span><br><span class="line">        *VictorySection,</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;PlayerStartLocation&quot;</span>),</span><br><span class="line">        <span class="built_in">FVector</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">512</span>),</span><br><span class="line">        GGameIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//FRotator</span></span><br><span class="line">    GConfig-&gt;<span class="built_in">SetRotator</span> (</span><br><span class="line">        *VictorySection,</span><br><span class="line">        <span class="built_in">TEXT</span>(<span class="string">&quot;SunRotation&quot;</span>),</span><br><span class="line">        <span class="built_in">FRotator</span>(<span class="number">-90</span>,<span class="number">0</span>,<span class="number">0</span>),</span><br><span class="line">        GGameIni</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//ConfigCacheIni.h</span></span><br><span class="line">    <span class="comment">//void Flush( bool Read, const FString&amp;amp; Filename=TEXT(&quot;&quot;) );</span></span><br><span class="line">    GConfig-&gt;<span class="built_in">Flush</span>(<span class="literal">false</span>,GGameIni);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: 写入操作以后需要调用<code>GConfig-&gt;Flush(false,GGameIni);</code></p>
+<p>否则配置文件不会修改</p>
+</blockquote>
+<h2 id="其他可配置变量"><a href="#其他可配置变量" class="headerlink" title="其他可配置变量"></a>其他可配置变量</h2><h3 id="FSoftObjectPath"><a href="#FSoftObjectPath" class="headerlink" title="FSoftObjectPath"></a>FSoftObjectPath</h3><p>软对象路径，可以直接转换成<code>FString</code>然后从路径得到具体的类型</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UObject* obj = LoadObject&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.<span class="built_in">ToString</span>());</span><br></pre></td></tr></table></figure>
+
+<p>用meta参数类刷选特定类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">meta = (AllowedClasses =<span class="string">&quot;Material,StaticMesh&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="FSoftClassPath"><a href="#FSoftClassPath" class="headerlink" title="FSoftClassPath"></a>FSoftClassPath</h3><p>同上，得到一个蓝图类的UClass</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UClass* c = LoadClass&lt;UObject&gt;(<span class="literal">NULL</span>, *softPath.<span class="built_in">ToString</span>());</span><br></pre></td></tr></table></figure>
+
+<p>可以用meta参数来刷选特定类，与<code>FSoftObjectPath</code>的meta参数不一样</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">meta = (MetaClass = <span class="string">&quot;MyActor&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="TSoftObjectPtr"><a href="#TSoftObjectPtr" class="headerlink" title="TSoftObjectPtr"></a>TSoftObjectPtr</h3><p>TSoftObjectPtr是封装了FSoftObjectPtr的模板，同样是用于“在给予文件路径下检测一个资源是否已经加载进了内存,获取资源对应的对象指针”，类似上面的一种写法, 直接帮我们省掉了“Cast”转为对象的过程</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSoftObjectPtr&lt;UObject&gt; p = TSoftObjectPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line"><span class="keyword">return</span> p.<span class="built_in">Get</span>();<span class="comment">//UObject*</span></span><br></pre></td></tr></table></figure>
+
+<p>实测发现该变量指向的是场景中的具体对象，与<code>FSoftObjectPath</code>指向不同</p>
+<h3 id="TSoftClassPtr"><a href="#TSoftClassPtr" class="headerlink" title="TSoftClassPtr"></a>TSoftClassPtr</h3><p>跟TSoftObjectPtr类似，只不过TSoftClassPtr是仅仅用于UClass*</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TSoftClassPtr&lt;UObject&gt; p = TSoftClassPtr&lt;UObject&gt;(softPathPtr);</span><br><span class="line"><span class="keyword">return</span>  p.<span class="built_in">Get</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://ue4community.wiki/legacy/config-files-read-and-write-to-config-files-zuoaht01">WiKi:Legacy/Config Files, Read &amp; Write to Config Files</a></p>
+<p><a target="_blank" rel="noopener" href="https://ue4community.wiki/legacy/customsettings-yrdju84k">Wiki:Legacy/CustomSettings</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012999985/article/details/52801264">CSDN:UE4 Config配置文件详解</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/08/31/%E6%89%A9%E5%B1%95%E6%B8%B8%E6%88%8F%E8%AE%BE%E7%BD%AE/" title="UE4添加自定义项目设置">http://supervj.top/2020/08/31/扩展游戏设置/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8%E5%BC%80%E5%8F%91/" rel="tag"># 编辑器开发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/28/UE4%E7%A6%BB%E7%BA%BF%E6%96%87%E6%A1%A3/" rel="prev" title="UE4 4.25离线文档">
+                  <i class="fa fa-chevron-left"></i> UE4 4.25离线文档
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/" rel="next" title="TortoiseGit简单使用说明">
+                  TortoiseGit简单使用说明 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

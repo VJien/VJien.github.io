@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="本文介绍路径点的优化方式，或者叫做多线段优化、轨迹点优化 根据设定阈值，去掉路径点中的部分多余点，以达到方便传输的目的 本文用UE4蓝图和C++蓝图函数库的2个方式解释 注:多种方法可以叠加使用  本算法提供了基于UE4的Demo，PC，安卓 GitHub工程下载 Demo演示动图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="路径点优化">
+<meta property="og:url" content="http://supervj.top/2020/06/12/%E8%B7%AF%E5%BE%84%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="本文介绍路径点的优化方式，或者叫做多线段优化、轨迹点优化 根据设定阈值，去掉路径点中的部分多余点，以达到方便传输的目的 本文用UE4蓝图和C++蓝图函数库的2个方式解释 注:多种方法可以叠加使用  本算法提供了基于UE4的Demo，PC，安卓 GitHub工程下载 Demo演示动图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_10.gif">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_1.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_6.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_3_1.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_3_1pathOpt_3_2.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_5.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_2.jpg">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_7.gif">
+<meta property="og:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_4.jpg">
+<meta property="article:published_time" content="2020-06-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:36:06.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top/img/PathOptimization/pathOpt_10.gif">
+
+
+<link rel="canonical" href="http://supervj.top/2020/06/12/%E8%B7%AF%E5%BE%84%E4%BC%98%E5%8C%96/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>路径点优化 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%84%E5%90%91%E8%B7%9D%E7%A6%BB%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">径向距离算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B2%E7%8E%87%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">曲率算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E8%B7%9D%E7%A6%BB%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">垂直距离算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%93%E6%A0%BC%E6%8B%89%E6%96%AF-%E6%99%AE%E5%85%8B%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">道格拉斯-普克算法</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/12/%E8%B7%AF%E5%BE%84%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          路径点优化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-12T00:00:00+08:00">2020-06-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:36:06" itemprop="dateModified" datetime="2021-08-02T16:36:06+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/06/12/%E8%B7%AF%E5%BE%84%E4%BC%98%E5%8C%96/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/06/12/路径优化/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>本文介绍路径点的优化方式，或者叫做多线段优化、轨迹点优化</p>
+<p>根据设定阈值，去掉路径点中的部分多余点，以达到方便传输的目的</p>
+<p>本文用UE4蓝图和C++蓝图函数库的2个方式解释</p>
+<p><strong>注:多种方法可以叠加使用</strong></p>
+</blockquote>
+<p>本算法提供了基于UE4的Demo，<a target="_blank" rel="noopener" href="https://xshniteducn-my.sharepoint.com/:u:/g/personal/15040920722_xs_hnit_edu_cn/EdZ7WHvq8mdHm2b0xRcJtWsBnhqVdqBx07E_Tr_s7mshDQ?e=8lhWkm">PC</a>，<a target="_blank" rel="noopener" href="https://xshniteducn-my.sharepoint.com/:u:/g/personal/15040920722_xs_hnit_edu_cn/ET-Wm3V8br1PuSrS0qUnwekBLP5bGpnZqZ8cGb3tGSLK-w?e=Y7wQmT">安卓</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/VJien/PathOptimazation">GitHub工程下载</a></p>
+<p>Demo演示动图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_10.gif"></p>
+<span id="more"></span>
+
+
+
+<h3 id="径向距离算法"><a href="#径向距离算法" class="headerlink" title="径向距离算法"></a>径向距离算法</h3><blockquote>
+<p>又称为临近点优化，比较暴力的算法，效率高，精准度尚可</p>
+<p>目的：去掉太接近的点</p>
+</blockquote>
+<p>如果路径点中的相邻两点的距离小于设定的阈值，则舍去其中一个点。首先，以笔迹中的第一个点为基准点，计算第二个点与第一个点之间的距离，如果此距离小于给定的阈值，则舍去第二个点；如果此距离大于给定的阈值，则保留第二个点，并以其为新的基准点。然后再拿第三个点来与基准点判断距离，如此向后循环。</p>
+<p>先贴代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="comment">//径向距离优化，小于distance的点会被优化</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable,Category=<span class="string">&quot;UFlibAlgorithm|PathPointOptimization&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">RadialDistanceOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath,TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance=<span class="number">50</span>)</span></span>;</span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UFlibAlgorithm::RadialDistanceOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath,  TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (InPath.<span class="built_in">Num</span>()&lt;<span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutPath = InPath;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	FVector vKey= InPath[<span class="number">0</span>];</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(vKey);</span><br><span class="line">	<span class="keyword">for</span> (int32 i=<span class="number">1</span>;i&lt; InPath.<span class="built_in">Num</span>()<span class="number">-1</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> ((vKey- InPath[i]).<span class="built_in">Size</span>()&gt; Distance)</span><br><span class="line">		&#123;</span><br><span class="line">			OutPath.<span class="built_in">Add</span>(InPath[i]);</span><br><span class="line">			vKey = InPath[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ((InPath.<span class="built_in">Last</span>()-vKey).<span class="built_in">Size</span>()&lt;=Distance)<span class="comment">//处理最后一个点</span></span><br><span class="line">	&#123;</span><br><span class="line">		OutPath.<span class="built_in">Pop</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(InPath.<span class="built_in">Last</span>());</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>蓝图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_1.jpg"></p>
+<h3 id="曲率算法"><a href="#曲率算法" class="headerlink" title="曲率算法"></a>曲率算法</h3><blockquote>
+<p>去除大于设定曲率阈值的角度的点</p>
+<p>目的：去除角度偏移过大的线段</p>
+</blockquote>
+<p>设定3个点：p1,p2,p3</p>
+<p>方向向量：前置向量v1=p2-p1,后置向量v2=p3-p2</p>
+<p>v1和v2的夹角angle即我们需要与阈值比较的角度，如果大于阈值，那么点p2就不满足条件而被移除</p>
+<p>这里带来了一个问题，即移除了p2以后，下一次计算的时候后置向量v2保持不变即当前点指向下一个点；但是前置向量怎么选择是一个问题，所以我们分别用了<code>T124,T134,T234</code>来分别3种计算方式，3种方式取前置向量的方式分别是</p>
+<ul>
+<li>T124：前置向量v1=p2-p1，即保持原样</li>
+<li>T134：v1=p3-p1，即跳过被移除点</li>
+<li>T234：v1=p3-p2，即跟后置向量保持统一节奏</li>
+</ul>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_6.jpg"></p>
+<p>三种方式计算方式大同小异，下面先贴代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="built_in">UENUM</span>(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ECurvatureType</span>:</span>uint8</span><br><span class="line">&#123;</span><br><span class="line">	T124,</span><br><span class="line">	T134,</span><br><span class="line">	T234</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//曲率优化，大于角度angle的点会被优化，分为3个模式，推荐使用T134</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;UFlibAlgorithm|PathPointOptimization&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">CurvatureOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, ECurvatureType type=ECurvatureType::T134, <span class="keyword">float</span> Angle = <span class="number">90</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UFlibAlgorithm::CurvatureOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, ECurvatureType type, <span class="keyword">float</span> Angle <span class="comment">/*= 90*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (InPath.<span class="built_in">Num</span>() &lt; <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutPath = InPath;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	FVector p1 = InPath[<span class="number">0</span>];</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(p1);</span><br><span class="line">	FVector p2, p3, dirFWD, dirBWD;</span><br><span class="line">	<span class="keyword">bool</span> b124Found = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span> (int32 i=<span class="number">1</span>;i&lt;InPath.<span class="built_in">Num</span>()<span class="number">-1</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		p2 = InPath[i];</span><br><span class="line">		p3 = InPath[i + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span> (b124Found||type!=ECurvatureType::T124)</span><br><span class="line">		&#123;</span><br><span class="line">			dirFWD = p2 - p1;</span><br><span class="line">		&#125;</span><br><span class="line">		dirBWD = p3 - p2;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">AngleBetween</span>(dirBWD, dirFWD) &lt;= Angle)</span><br><span class="line">		&#123;</span><br><span class="line">			OutPath.<span class="built_in">Add</span>(p2);</span><br><span class="line">			p1 = p2;</span><br><span class="line">			b124Found = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			b124Found = <span class="literal">false</span>;</span><br><span class="line">			<span class="keyword">if</span> (type==ECurvatureType::T234)</span><br><span class="line">			&#123;</span><br><span class="line">				p1 = p2;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(InPath.<span class="built_in">Last</span>());</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">UFlibAlgorithm::AngleBetween</span><span class="params">(FVector A, FVector B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A.<span class="built_in">Normalize</span>();</span><br><span class="line">	B.<span class="built_in">Normalize</span>();</span><br><span class="line">	<span class="keyword">return</span> UKismetMathLibrary::<span class="built_in">DegAcos</span>(UKismetMathLibrary::<span class="built_in">Dot_VectorVector</span>(A, B));</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>蓝图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_3_1.jpg"></p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_3_1pathOpt_3_2.jpg"></p>
+<blockquote>
+<p>从结果测试发现，效果 T134&gt;T124&gt;T234</p>
+</blockquote>
+<h3 id="垂直距离算法"><a href="#垂直距离算法" class="headerlink" title="垂直距离算法"></a>垂直距离算法</h3><blockquote>
+<p>将点-线段的距离作为误差判据。对于每个顶点p，需要计算它与线段[p-1， p+1]的垂直距离，距离比给定误差小的点都将被移除。</p>
+<p>目的:去除垂直距离偏移过大的点</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_5.jpg"></p>
+<p>如图，如果蓝色线段即垂直距离大于设定阈值，则左右两天线段会被优化成红色线段</p>
+<p>代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="comment">//垂直距离优化，大于distance的点会被优化</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;UFlibAlgorithm|PathPointOptimization&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">PerpendicularDistanceOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance = <span class="number">50</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UFlibAlgorithm::PerpendicularDistanceOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance <span class="comment">/*= 50*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (InPath.<span class="built_in">Num</span>() &lt; <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutPath = InPath;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	FVector vKey = InPath[<span class="number">0</span>];</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(vKey);</span><br><span class="line">	FVector p1, p2, p3;</span><br><span class="line">	p1 = InPath[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">for</span> (int32 i=<span class="number">1</span>;i&lt;InPath.<span class="built_in">Num</span>()<span class="number">-1</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		p2 = InPath[i];</span><br><span class="line">		p3 = InPath[i + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">float</span> dis = UKismetMathLibrary::<span class="built_in">GetPointDistanceToLine</span>(p2, p1, p3 - p1);</span><br><span class="line">		<span class="keyword">if</span> (dis&lt;=Distance)</span><br><span class="line">		&#123;</span><br><span class="line">			OutPath.<span class="built_in">Add</span>(p2);</span><br><span class="line">			p1 = p2;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	OutPath.<span class="built_in">Add</span>(InPath.<span class="built_in">Last</span>());</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>蓝图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_2.jpg"></p>
+<blockquote>
+<p>其实参考曲率优化方式，这个方式也可以考虑3种前置向量即本代码中<code>p1</code>的选择问题，本代码种应该是类似T234的方式，有兴趣的可以自己尝试其他几个方式</p>
+</blockquote>
+<h3 id="道格拉斯-普克算法"><a href="#道格拉斯-普克算法" class="headerlink" title="道格拉斯-普克算法"></a>道格拉斯-普克算法</h3><blockquote>
+<p> 一种迭代适应点算法，它将曲线近似表示为一系列点，并减少点的数量。</p>
+<p>算法的基本思路是：对每一条曲线的首末点虚连一条直线，求所有点与直线的距离，并找出最大距离值 dmax ，用 dmax 与阈值 D 相比。若 dmax &lt; D ，这条曲线上的中间点全部舍去；若 dmax ≥ D ，则保留 dmax 对应的坐标点，并以该点为界，把曲线分为两部分，对这两部分循环使用该方法。<br>此算法在时间复杂度和空间复杂度要明显高于其它两种，但是它的效果较好</p>
+</blockquote>
+<p>先来一个动图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_7.gif"></p>
+<p>贴代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	达格拉斯多普优化，使用迭代计算</span></span><br><span class="line"><span class="comment">	效率相对低但是精度高</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;UFlibAlgorithm|PathPointOptimization&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">DouglasPeuckerOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance = <span class="number">50</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UFlibAlgorithm::DouglasPeuckerOptimization</span><span class="params">(<span class="keyword">const</span> TArray&lt;FVector&gt;&amp; InPath, TArray&lt;FVector&gt;&amp; OutPath, <span class="keyword">float</span> Distance <span class="comment">/*= 50*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (InPath.<span class="built_in">Num</span>() &lt; <span class="number">3</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutPath = InPath;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	int32 idx, first, last;</span><br><span class="line">	first = idx = <span class="number">0</span>;</span><br><span class="line">	last = InPath.<span class="built_in">Num</span>() - <span class="number">1</span>;</span><br><span class="line">	TArray&lt;<span class="keyword">bool</span>&gt; Markers;</span><br><span class="line">	Markers.<span class="built_in">AddUninitialized</span>(last + <span class="number">1</span>);</span><br><span class="line">	Markers[<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">	Markers.<span class="built_in">Last</span>() = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">float</span> maxDis = <span class="number">0</span>;</span><br><span class="line">	TArray&lt;int32&gt; stack;</span><br><span class="line">	<span class="keyword">while</span> (first&gt;=<span class="number">0</span> &amp;&amp; last&gt;=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		maxDis = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (int32 i=first+<span class="number">1</span>;i&lt;last;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">float</span> dis = UKismetMathLibrary::<span class="built_in">GetPointDistanceToLine</span>(InPath[i], InPath[first], InPath[last] - InPath[first]);</span><br><span class="line">			<span class="keyword">if</span> (dis&gt;maxDis)</span><br><span class="line">			&#123;</span><br><span class="line">				idx = i;</span><br><span class="line">				maxDis = dis;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (maxDis&gt;Distance)</span><br><span class="line">		&#123;</span><br><span class="line">			Markers[idx] = <span class="literal">true</span>;</span><br><span class="line">			stack.<span class="built_in">Add</span>(first);</span><br><span class="line">			stack.<span class="built_in">Add</span>(idx);</span><br><span class="line">			stack.<span class="built_in">Add</span>(idx);</span><br><span class="line">			stack.<span class="built_in">Add</span>(last);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (stack.<span class="built_in">Num</span>()&gt;<span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			last = stack.<span class="built_in">Pop</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			last = <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (stack.<span class="built_in">Num</span>() &gt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			first = stack.<span class="built_in">Pop</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			first = <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (int32 i=<span class="number">0</span>;i&lt;Markers.<span class="built_in">Num</span>();i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (Markers[i])</span><br><span class="line">		&#123;</span><br><span class="line">			OutPath.<span class="built_in">Add</span>(InPath[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>蓝图</p>
+<p><img src="https://img.supervj.top/img/PathOptimization/pathOpt_4.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/06/12/%E8%B7%AF%E5%BE%84%E4%BC%98%E5%8C%96/" title="路径点优化">http://supervj.top/2020/06/12/路径优化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/04/%E7%94%B1SetActorLocation%E5%88%86%E6%9E%90%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B/" rel="prev" title="由SetActorLocation分析渲染流程">
+                  <i class="fa fa-chevron-left"></i> 由SetActorLocation分析渲染流程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/15/%E8%B6%855%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3EN/" rel="next" title="《Fightting Game Template》Documentation">
+                  《Fightting Game Template》Documentation <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言在第一篇初始化的时候简单讲解了技能的添加和使用, 但是没有对技能GameplayAbility(GA)做详细介绍,本片开始对GA中的主要功能注意剖析 注册&#x2F;移除技能之前我们通过配置的方式自动注册起始技能, 那么我们肯定需要动态的增加或者删除技能, 为了方便使用, 封装蓝图库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GameplayAbilitySystem入门与实战(四):GameplayAbility(一)">
+<meta property="og:url" content="http://supervj.top/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言在第一篇初始化的时候简单讲解了技能的添加和使用, 但是没有对技能GameplayAbility(GA)做详细介绍,本片开始对GA中的主要功能注意剖析 注册&#x2F;移除技能之前我们通过配置的方式自动注册起始技能, 那么我们肯定需要动态的增加或者删除技能, 为了方便使用, 封装蓝图库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201226141212117.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218084759424.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201203145317457.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201203164413337.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201203173016089.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201204152923024.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201204170040609.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201204171513695.png">
+<meta property="article:published_time" content="2020-12-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:27:56.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="GAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201226141212117.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>GameplayAbilitySystem入门与实战(四):GameplayAbility(一) | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C-%E7%A7%BB%E9%99%A4%E6%8A%80%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">注册&#x2F;移除技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E6%8A%80%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">触发技能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E5%8A%A8%E6%8A%80%E8%83%BD"><span class="nav-number">3.1.</span> <span class="nav-text">被动技能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%AD-%E4%B8%AD%E6%96%AD%E6%8A%80%E8%83%BD"><span class="nav-number">4.</span> <span class="nav-text">关闭&#x2F;中断技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%BF%80%E6%B4%BB%E7%9A%84%E6%8A%80%E8%83%BD"><span class="nav-number">5.</span> <span class="nav-text">获取激活的技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">实例化模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%96%B9%E6%A1%88"><span class="nav-number">7.</span> <span class="nav-text">网络方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE"><span class="nav-number">8.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gameplay-Ability-Spec"><span class="nav-number">9.</span> <span class="nav-text">Gameplay Ability Spec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GA%E7%9A%84%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-number">10.</span> <span class="nav-text">GA的传递数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E8%83%BD%E6%B6%88%E8%80%97-%E5%86%B7%E5%8D%B4"><span class="nav-number">11.</span> <span class="nav-text">技能消耗&#x2F;冷却</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E8%83%BD%E5%8D%87%E7%BA%A7"><span class="nav-number">12.</span> <span class="nav-text">技能升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%99"><span class="nav-number">13.</span> <span class="nav-text">网络规则</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GameplayAbilitySystem入门与实战(四):GameplayAbility(一)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-22 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-22T00:00:00+08:00">2020-12-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:27:56" itemprop="dateModified" datetime="2021-08-02T16:27:56+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/12/22/GameplayAbilitySystem分析(四)_GameplayAbility/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在第一篇<a href="https://supervj.top/2020/12/19/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%80)_%E5%88%9D%E5%A7%8B%E5%8C%96/">初始化</a>的时候简单讲解了技能的添加和使用, 但是没有对技能<code>GameplayAbility</code>(<code>GA</code>)做详细介绍,本片开始对<code>GA</code>中的主要功能注意剖析</p>
+<h2 id="注册-移除技能"><a href="#注册-移除技能" class="headerlink" title="注册/移除技能"></a>注册/移除技能</h2><p>之前我们通过配置的方式自动注册起始技能, 那么我们肯定需要动态的增加或者删除技能, 为了方便使用, 封装蓝图库</p>
+<span id="more"></span>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_AddAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level = <span class="number">1</span>)</span></span>;</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span>;</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Server, Reliable, WithValidation, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">RPC_Ser_RemoveAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以下3个非RPC事件</span></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">AddNewAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level = <span class="number">1</span>)</span></span>;</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span>;</span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;SR|ASC&quot;</span>)</span><br><span class="line">		<span class="function"><span class="keyword">bool</span> <span class="title">RemoveAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">USRAbilitySystemComponent::AddNewAbility</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass, int32 level)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (AbilitySpecMap.<span class="built_in">Num</span>()&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (TPair&lt;FString, FGameplayAbilitySpec*&gt; p : AbilitySpecMap)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (p.Value-&gt;Ability-&gt;<span class="built_in">GetClass</span>() == AbilityClass)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">UE_LOG</span>(SRLog, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;USRAbilitySystemComponent::AddNewAbility Failed!! Has Repeat Ability&quot;</span>));</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	FGameplayAbilitySpec spec = <span class="built_in">FGameplayAbilitySpec</span>(AbilityClass, level, <span class="keyword">static_cast</span>&lt;int32&gt;(AbilityClass.<span class="built_in">GetDefaultObject</span>()-&gt;InputID), <span class="built_in">GetOwnerActor</span>());</span><br><span class="line">	<span class="built_in">GiveAbility</span>(spec);</span><br><span class="line">	AbilitySpecMap.<span class="built_in">Add</span>(AbilityClass.<span class="built_in">GetDefaultObject</span>()-&gt;AbilityName, <span class="keyword">this</span>-&gt;<span class="built_in">FindAbilitySpecFromClass</span>(AbilityClass));</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">USRAbilitySystemComponent::RemoveAbilityByClass</span><span class="params">(TSubclassOf&lt;USRGameplayAbilityBase&gt; AbilityClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FGameplayAbilitySpec* spec = <span class="built_in">FindAbilitySpecFromClass</span>(AbilityClass);</span><br><span class="line">	<span class="keyword">if</span> (spec)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;<span class="built_in">ClearAbility</span>(spec-&gt;Handle);</span><br><span class="line">		<span class="keyword">for</span> (TPair&lt;FString, FGameplayAbilitySpec*&gt; p : AbilitySpecMap)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (p.Value-&gt;Ability-&gt;<span class="built_in">GetClass</span>() == AbilityClass)</span><br><span class="line">			&#123;</span><br><span class="line">				AbilitySpecMap.<span class="built_in">Remove</span>(p.Key);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">UE_LOG</span>(SRLog, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;USRAbilitySystemComponent::RemoveAbilityByClass Failed!! Do not has this ability&quot;</span>));</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个<code>Name</code>版本是我们在<code>GA</code>类中自定义的, 通过<code>TMap&lt;FString, FGameplayAbilitySpec*&gt; AbilitySpecMap</code>保存在我们<code>ASC</code>中</p>
+<p><img src="https://img.supervj.top//img/image-20201226141212117.png" alt="image-20201226141212117"></p>
+<h2 id="触发技能"><a href="#触发技能" class="headerlink" title="触发技能"></a>触发技能</h2><p>如果是已经用之前按键绑定的技能, 那么按键就会直接触发技能</p>
+<p>还有其他几个方法来手动触发技能</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;Abilities&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbilitiesByTag</span><span class="params">(<span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, Category = <span class="string">&quot;Abilities&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbilityByClass</span><span class="params">(TSubclassOf&lt;UGameplayAbility&gt; InAbilityToActivate, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TryActivateAbility</span><span class="params">(FGameplayAbilitySpecHandle AbilityToActivate, <span class="keyword">bool</span> bAllowRemoteActivation = <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TriggerAbilityFromGameplayEvent</span><span class="params">(FGameplayAbilitySpecHandle AbilityToTrigger, FGameplayAbilityActorInfo* ActorInfo, FGameplayTag Tag, <span class="keyword">const</span> FGameplayEventData* Payload, UAbilitySystemComponent&amp; Component)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">FGameplayAbilitySpecHandle <span class="title">GiveAbilityAndActivateOnce</span><span class="params">(<span class="keyword">const</span> FGameplayAbilitySpec&amp; AbilitySpec)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>到蓝图中就是如下</p>
+<p><img src="https://img.supervj.top//img/image-20201218084759424.png" alt="image-20201218084759424"></p>
+<p>激活技能的不同方法决定<code>GA</code>中的函数调用,  一般都是执行到<code>ActiveAbility</code>, </p>
+<p>如果通过事件的方式触发技能, 即上述中的<code>TriggerAbilityFromGameplayEvent</code>或者蓝图中的<code>SendGameplayEventToActor</code>,那么可以提供一个<code>Payload</code>参数作为扩展参数,这个非常有用</p>
+<p>那么在<code>GA</code>中可以重写函数<code>ActivateAbilityFromEvent</code>,前提是不要重写默认的<code>ActivateAbility</code>函数;</p>
+<p>通过事件触发的方式还会与后续的<code>tag</code>有关系, 这个后续再讲</p>
+<p><img src="https://img.supervj.top//img/image-20201203145317457.png" alt="image-20201203145317457"></p>
+<blockquote>
+<p> 技能逻辑没有固定规则, 完全可以自己脑洞, 不过千万不要忘记在技能完成以后调用<code>EndAbility</code>来结束技能,否则技能一直结束不了而类似一个被动技能一直存在</p>
+</blockquote>
+<h3 id="被动技能"><a href="#被动技能" class="headerlink" title="被动技能"></a>被动技能</h3><p>被动技能如果是默认就存在(触发),可以在<code>GA</code>中的<code>OnAvatarSet</code>事件中最判断处理,如果有必要就直接调用<code>TryActivateAbility</code>(我们之前已经申明了一个布尔变量<code>bAutoActive</code>), 然后不要调用<code>EndAbility</code>就可以了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UVGGameplayAbility::OnAvatarSet</span><span class="params">(<span class="keyword">const</span> FGameplayAbilityActorInfo* ActorInfo, <span class="keyword">const</span> FGameplayAbilitySpec&amp; Spec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">OnAvatarSet</span>(ActorInfo, Spec);</span><br><span class="line">	<span class="keyword">if</span> (bAutoActivate)<span class="comment">//bool变量交给蓝图配置</span></span><br><span class="line">	&#123;</span><br><span class="line">		ActorInfo-&gt;AbilitySystemComponent-&gt;<span class="built_in">TryActivateAbility</span>(Spec.Handle, <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭-中断技能"><a href="#关闭-中断技能" class="headerlink" title="关闭/中断技能"></a>关闭/中断技能</h2><p>目前在<code>ASC</code>中有如下几个方法关闭技能,都未暴露给蓝图;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbility</span><span class="params">(UGameplayAbility* Ability)</span></span>;	</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbilityHandle</span><span class="params">(<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; AbilityHandle)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAbilities</span><span class="params">(<span class="keyword">const</span> FGameplayTagContainer* WithTags=<span class="literal">nullptr</span>, <span class="keyword">const</span> FGameplayTagContainer* WithoutTags=<span class="literal">nullptr</span>, UGameplayAbility* Ignore=<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CancelAllAbilities</span><span class="params">(UGameplayAbility* Ignore=<span class="literal">nullptr</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在蓝图中只能在<code>GA</code>中自己调用<code>CancelAbility</code>关闭技能</p>
+<p>不过我们可以自己封装蓝图函数库,如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*稍微注意一点,这里的FGameplayTagContainer参数我们使用引用而不是AbilityComponent::CancelAbilities函数中的指针,顺便来个AutoCreateRef都是方便蓝图使用*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_GAS::CancelAbilityWithTag</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; WithTags, <span class="keyword">const</span> FGameplayTagContainer&amp; WithoutTags, UGameplayAbility* Ignore)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	AbilityComponent-&gt;<span class="built_in">CancelAbilities</span>(&amp;WithTags, &amp;WithoutTags, Ignore);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_GAS::CancelAllAbilities</span><span class="params">(UAbilitySystemComponent* AbilityComponent, UGameplayAbility* Ignore <span class="comment">/*= nullptr*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	AbilityComponent-&gt;<span class="built_in">CancelAllAbilities</span>(Ignore);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//************************************</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20201203164413337.png" alt="image-20201203164413337"></p>
+<blockquote>
+<p><code>GASDocumentation</code> 项目文档说 <code>CancelAllAbilities</code>有时候无法正常生效,但是我这边实测可以正常关闭技能</p>
+</blockquote>
+<h2 id="获取激活的技能"><a href="#获取激活的技能" class="headerlink" title="获取激活的技能"></a>获取激活的技能</h2><p>可以通过方法<code>    void GetActivatableGameplayAbilitySpecsByAllMatchingTags(const FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec* &gt;&amp; MatchingGameplayAbilities, bool bOnlyAbilitiesThatSatisfyTagRequirements = true) const;</code>根据<code>tag</code>获取正在运行的技能</p>
+<p>照样可以封装一个蓝图函数库</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;VGAS | FunctionLib&quot;</span>, meta = (AutoCreateRefTerm = <span class="string">&quot;GameplayTagContainer, WithTags&quot;</span>))</span><br><span class="line">		<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">GetActivatableGameplayAbilitySpecsByAllMatchingTags</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec &gt;&amp; MatchingGameplayAbilities, <span class="keyword">bool</span> bOnlyAbilitiesThatSatisfyTagRequirements)</span></span>;</span><br><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UFlib_VGAS::GetActivatableGameplayAbilitySpecsByAllMatchingTags</span><span class="params">(UAbilitySystemComponent* AbilityComponent, <span class="keyword">const</span> FGameplayTagContainer&amp; GameplayTagContainer, TArray &lt; struct FGameplayAbilitySpec &gt;&amp; MatchingGameplayAbilities, <span class="keyword">bool</span> bOnlyAbilitiesThatSatisfyTagRequirements)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!AbilityComponent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	TArray &lt;FGameplayAbilitySpec* &gt; returnAbilities;</span><br><span class="line"></span><br><span class="line">	AbilityComponent-&gt;<span class="built_in">GetActivatableGameplayAbilitySpecsByAllMatchingTags</span>(GameplayTagContainer, returnAbilities, bOnlyAbilitiesThatSatisfyTagRequirements);</span><br><span class="line">	<span class="keyword">for</span> (FGameplayAbilitySpec* i : returnAbilities)</span><br><span class="line">	&#123;</span><br><span class="line">		MatchingGameplayAbilities.<span class="built_in">Add</span>(*i);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里还是因为蓝图的原因,传参不能按照原版本传参,需要一个临时变量<code>returnAbilities</code>小小的加工一下</p>
+</blockquote>
+<p><img src="https://img.supervj.top//img/image-20201203173016089.png" alt="image-20201203173016089"></p>
+<a name = "实例化模式">
+
+<h2 id="实例化模式"><a href="#实例化模式" class="headerlink" title="实例化模式"></a>实例化模式</h2><p>技能的实例化模式分为3种,见下表</p>
+<table>
+<thead>
+<tr>
+<th><code>Instancing Policy</code></th>
+<th>Description</th>
+<th>Example of when to use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Instanced Per Actor</td>
+<td>每个<code>ASC</code>只会生成一个实例,每次触发<code>GA</code>时服用实例对象</td>
+<td>这个是最常用的方式</td>
+</tr>
+<tr>
+<td>Instanced Per Execution</td>
+<td>每次<code>GA</code>激活都会产生一个实例</td>
+<td>这个方式不太常用,但是可以每个技能都独立作用</td>
+</tr>
+<tr>
+<td>Non-Instanced</td>
+<td><code>GA</code>自己默认Obj来维护自身,不会生成实例</td>
+<td>这是三种方法中性能最好的，但是在使用的时候是最受限制的。<code>非实例化</code>的<code>GameplayAbilities</code>不能存储状态，这意味着没有动态变量，也没有绑定到<code>AbilityTask</code>委托。在MOBA或RTS中，最适合使用它们的是那些经常使用的简单技能，比如仆从基本攻击或者角色的<code>Jump</code></td>
+</tr>
+</tbody></table>
+<h2 id="网络方案"><a href="#网络方案" class="headerlink" title="网络方案"></a>网络方案</h2><p><img src="https://img.supervj.top//img/image-20201204152923024.png" alt="image-20201204152923024"></p>
+<table>
+<thead>
+<tr>
+<th><code>Net Execution Policy</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Local Only</code></td>
+<td>只运行在本地客户端,这个比较适合在只表现本地效果的技能,单人游戏中需要使用<code>Server Only</code></td>
+</tr>
+<tr>
+<td><code>Local Predicted</code></td>
+<td>先本地运行, 服务端会校准本地客户端错误的内容</td>
+</tr>
+<tr>
+<td><code>Server Only</code></td>
+<td>只在服务端运行, 本地技能适合运行在服务端,单人游戏也适合用此</td>
+</tr>
+<tr>
+<td><code>Server Initiated</code></td>
+<td>服务端先运行然后再运行在客户端,不常用</td>
+</tr>
+</tbody></table>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p><code>GA</code>的标签非常重要而且使用,包含如下标签</p>
+<table>
+<thead>
+<tr>
+<th><code>GameplayTag Container</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ability Tags</code></td>
+<td>当前技能拥有的标签, 也是通过<code>tag</code>来激活技能的凭证</td>
+</tr>
+<tr>
+<td><code>Cancel Abilities with Tag</code></td>
+<td>当前技能会关闭的拥有此类<code>tag</code>的正在运行技能</td>
+</tr>
+<tr>
+<td><code>Block Abilities with Tag</code></td>
+<td>运行技能的会阻挡拥有此类<code>tag</code>的技能(并不会返回失败)</td>
+</tr>
+<tr>
+<td><code>Activation Owned Tags</code></td>
+<td>此技能会激活的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Activation Required Tags</code></td>
+<td>激活技能所需要包含的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Activation Blocked Tags</code></td>
+<td>当拥有此类<code>tag</code>的技能正在运行时,该技能会被阻挡(并不会返回失败)</td>
+</tr>
+<tr>
+<td><code>Source Required Tags</code></td>
+<td>此标签包括如下共4个标签内,都是通过<code>ByEvent</code>的方式作用才有效; 此标签在输入的时候必须包含才能运行</td>
+</tr>
+<tr>
+<td><code>Source Blocked Tags</code></td>
+<td>同理会被阻挡的标签</td>
+</tr>
+<tr>
+<td><code>Target Required Tags</code></td>
+<td>同理目标必须包含的<code>tag</code></td>
+</tr>
+<tr>
+<td><code>Target Blocked Tags</code></td>
+<td>同理目标如果包含会被阻挡的<code>tag</code></td>
+</tr>
+</tbody></table>
+<p><img src="https://img.supervj.top//img/image-20201204170040609.png" alt="image-20201204170040609"></p>
+<h2 id="Gameplay-Ability-Spec"><a href="#Gameplay-Ability-Spec" class="headerlink" title="Gameplay Ability Spec"></a>Gameplay Ability Spec</h2><p><code>Gameplay Ability Spec</code>在<code>GA</code>正确激活后会创建, 内部提供了诸多<code>GA</code>中的数据如 <code>class</code>,<code>level</code>,<code>input bindings</code>等</p>
+<p>如果<code>GA</code>在服务端创建, 会同步到客户端</p>
+<p><code>Gameplay Ability Spec</code>创建实例规则请参考<a href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E6%A8%A1%E5%BC%8F">实例化模式 ↑</a></p>
+<h2 id="GA的传递数据"><a href="#GA的传递数据" class="headerlink" title="GA的传递数据"></a>GA的传递数据</h2><p><code>GA</code>传递外部数据有如下几种方式</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Activate <code>GameplayAbility</code> by Event</td>
+<td>通过此方法激活技能会有一个<code>Payload</code>参数, 可以用来传递诸多参数;如两个<code>UObject</code>参数更加方便扩展自定义数据</td>
+</tr>
+<tr>
+<td>Use <code>WaitGameplayEvent</code> <code>AbilityTask</code></td>
+<td>用这个方法可以监听其他<code>tag</code>技能的状态,以此类得到<code>payload</code>数据</td>
+</tr>
+<tr>
+<td>Use <code>TargetData</code></td>
+<td>用结构体 <code>TargetData</code> 传递数据是一个办法,具体以后补充</td>
+</tr>
+<tr>
+<td>Store Data on the <code>OwnerActor</code> or <code>AvatarActor</code></td>
+<td>把数据存到<code>GA</code>的<code>OwnerActor</code>或者角色中,但是你需要确保网络同步</td>
+</tr>
+</tbody></table>
+<p><img src="https://img.supervj.top//img/image-20201204171513695.png" alt="image-20201204171513695"></p>
+<h2 id="技能消耗-冷却"><a href="#技能消耗-冷却" class="headerlink" title="技能消耗/冷却"></a>技能消耗/冷却</h2><p>技能的消耗和冷却通过<code>GameplayEffect</code>实现, 详情可以查看<a href="https://supervj.top/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/">GameplayEffect篇</a></p>
+<h2 id="技能升级"><a href="#技能升级" class="headerlink" title="技能升级"></a>技能升级</h2><table>
+<thead>
+<tr>
+<th>Level Up Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ungrant and Regrant at the New Level</td>
+<td>移除<code>GA</code>,重新注册一个等级不一样的<code>GA</code>,此方式会终止<code>GA</code></td>
+</tr>
+<tr>
+<td>Increase the <code>GameplayAbilitySpec&#39;s</code> Level</td>
+<td>对<code>spec</code>中的<code>level</code>进行升级处理,这种方式不会终止<code>GA</code></td>
+</tr>
+</tbody></table>
+<p>蓝图中无法得到<code>GA</code>中的<code>Level</code>变量, 所以无论是对<code>GA</code>的<code>Level</code>进行处理还是<code>GE</code>都需要在cpp中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::UpgradeAbilityByName</span><span class="params">(<span class="keyword">const</span> FString&amp; name, int32 upLevel)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (AbilitySpecMap.<span class="built_in">Contains</span>(name))</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayAbilitySpec* spec = *AbilitySpecMap.<span class="built_in">Find</span>(name);</span><br><span class="line">		spec-&gt;Level += upLevel;</span><br><span class="line">		<span class="keyword">this</span>-&gt;<span class="built_in">MarkAbilitySpecDirty</span>(*spec);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为添加的时候已经存放了<code>TMap&lt;FString, FGameplayAbilitySpec*&gt; AbilitySpecMap</code>, 直接对其进行操作即可, 按照<code>GAS</code>注释说明需要调用<code>MarkAbilitySpecDirty()</code></p>
+<h2 id="网络规则"><a href="#网络规则" class="headerlink" title="网络规则"></a>网络规则</h2><table>
+<thead>
+<tr>
+<th><code>NetSecurityPolicy</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ClientOrServer</code></td>
+<td>无要求,客户端和服务器都可以自由触发</td>
+</tr>
+<tr>
+<td><code>ServerOnlyExecution</code></td>
+<td>客户端请求执行将被服务器忽略。客户端仍然可以请求服务器取消或终止此功能。</td>
+</tr>
+<tr>
+<td><code>ServerOnlyTermination</code></td>
+<td>客户端可以请求执行, 但是不能请求终止或者取消</td>
+</tr>
+<tr>
+<td><code>ServerOnly</code></td>
+<td>只有服务端有权执行,客户端无法执行任何操作</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/" title="GameplayAbilitySystem入门与实战(四):GameplayAbility(一)">http://supervj.top/2020/12/22/GameplayAbilitySystem分析(四)_GameplayAbility/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/GAS/" rel="tag"># GAS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/21/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%89)_%E5%BC%82%E6%AD%A5%E4%BA%8B%E4%BB%B6/" rel="prev" title="GameplayAbilitySystem入门与实战(三):几个有用的异步事件">
+                  <i class="fa fa-chevron-left"></i> GameplayAbilitySystem入门与实战(三):几个有用的异步事件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/" rel="next" title="GameplayAbilitySystem入门与实战(五):GameplayAbility(二)">
+                  GameplayAbilitySystem入门与实战(五):GameplayAbility(二) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

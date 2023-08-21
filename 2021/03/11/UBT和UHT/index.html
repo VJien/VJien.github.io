@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言本文大致梳理一下UBT和UHT的作用以及涉及到的其他几个概念的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UHT和UBT分析">
+<meta property="og:url" content="http://supervj.top/2021/03/11/UBT%E5%92%8CUHT/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言本文大致梳理一下UBT和UHT的作用以及涉及到的其他几个概念的使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/chrome_u7pBEW5ju4.png">
+<meta property="article:published_time" content="2021-03-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:19:53.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="UBT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/chrome_u7pBEW5ju4.png">
+
+
+<link rel="canonical" href="http://supervj.top/2021/03/11/UBT%E5%92%8CUHT/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>UHT和UBT分析 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UHT"><span class="nav-number">2.</span> <span class="nav-text">UHT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UBT"><span class="nav-number">3.</span> <span class="nav-text">UBT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Target-cs"><span class="nav-number">4.</span> <span class="nav-text">Target.cs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-cs"><span class="nav-number">5.</span> <span class="nav-text">Build.cs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Public%E5%92%8CPrivate"><span class="nav-number">5.1.</span> <span class="nav-text">Public和Private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Include%E5%92%8CDependency"><span class="nav-number">5.2.</span> <span class="nav-text">Include和Dependency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%B1%9E%E6%80%A7"><span class="nav-number">5.3.</span> <span class="nav-text">常见属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PublicIncludePaths"><span class="nav-number">5.3.1.</span> <span class="nav-text">PublicIncludePaths</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PublicLibraryPaths-PublicAdditionalLibaries"><span class="nav-number">5.3.2.</span> <span class="nav-text">PublicLibraryPaths&#x2F;PublicAdditionalLibaries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RuntimeDependencies"><span class="nav-number">5.3.3.</span> <span class="nav-text">RuntimeDependencies</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BuildConfiguration"><span class="nav-number">6.</span> <span class="nav-text">BuildConfiguration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IWYU"><span class="nav-number">7.</span> <span class="nav-text">IWYU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%B7%B2%E5%90%AF%E7%94%A8"><span class="nav-number">7.1.</span> <span class="nav-text">验证已启用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="nav-number">8.</span> <span class="nav-text">其他描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MinimalAPI"><span class="nav-number">8.1.</span> <span class="nav-text">MinimalAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#YourModuleName-API%E5%AE%8F"><span class="nav-number">8.2.</span> <span class="nav-text">[YourModuleName]_API宏</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/11/UBT%E5%92%8CUHT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UHT和UBT分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-11T00:00:00+08:00">2021-03-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:19:53" itemprop="dateModified" datetime="2021-08-02T16:19:53+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/engine/" itemprop="url" rel="index"><span itemprop="name">engine</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/11/UBT%E5%92%8CUHT/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/11/UBT和UHT/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文大致梳理一下UBT和UHT的作用以及涉及到的其他几个概念的使用</p>
+<span id="more"></span>
+
+<h2 id="UHT"><a href="#UHT" class="headerlink" title="UHT"></a>UHT</h2><p>UHT是C++代码解析生成工具，我们在C++里面写的<code>UClass</code>和<code>#include</code>和<code>.generate.h</code>都是为UHT提供了对应的信息来生成对应的C++反射代码的</p>
+<p>简单说, 由于UE4代码不是标准的C++代码, 而UHT主要作用就是把UE4的C++代码翻译成标准C++代码</p>
+<h2 id="UBT"><a href="#UBT" class="headerlink" title="UBT"></a>UBT</h2><p>主要责任是UE4的各个模块的编译并处理各模块之间的依赖关系的。</p>
+<p>build.cs和Target.cs都是为这个工具来服务的。</p>
+<p>UBT调用标准C++代码的编译器(VS)来将UHT转化后的标准C++代码完全编译成二进制文件</p>
+<h2 id="Target-cs"><a href="#Target-cs" class="headerlink" title="Target.cs"></a>Target.cs</h2><p>UBT编译的目标类型,</p>
+<p>每个项目都包含一个名称为<code>项目名.target.cs</code>的文件, 这个<code>C#</code>文件主要描述描述生成的目标类型, 默认为<code>Game</code>, 还可以为其他类型</p>
+<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/en-US/ProductionPipelines/BuildTools/UnrealBuildTool/TargetFiles/index.html">官方文档</a></p>
+<ul>
+<li><strong>Game</strong> - 默认模式, 一般的打包形式</li>
+<li><strong>Client</strong> - 类似Game, 但是不包含服务端代码</li>
+<li><strong>Server</strong> - 类似Game, 但是不包含客户端代码, 一般作为独立服务器打包</li>
+<li><strong>Editor</strong> - 包含编辑器模块</li>
+<li><strong>Program</strong> -独立程序</li>
+</ul>
+<h2 id="Build-cs"><a href="#Build-cs" class="headerlink" title="Build.cs"></a>Build.cs</h2><p>每个模块都包含的一个文件, 每个<code>.build.cs</code>文件都声明一个从<code>ModuleRules</code>基类派生的类，并设置控制应如何从其构造函数构造它的属性。这些<code>.build.cs</code>文件由<code>UBT</code>编译，并构造为确定总体编译环境。</p>
+<p>类似的如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">using UnrealBuildTool;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">public class MyModule : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">    public MyModule(ReadOnlyTargetRules Target) : base(Target)</span><br><span class="line">    &#123;</span><br><span class="line">        // Settings go here</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Public和Private"><a href="#Public和Private" class="headerlink" title="Public和Private"></a>Public和Private</h3><p>常见的如<code>PublicDependencyModuleNames</code>和<code>PrivateDependencyModuleNames</code>, 或者<code>PublicIncludePaths</code>和<code>PrivateIncludePaths</code></p>
+<p>有些文章有误读, 解释与目录有关系, 其实两者主要描述的是三个模块及以上的关系, 如A包含B,B包含C这种情况, 对于两个模块的情况可以随意使用</p>
+<p>对于三个模块的情况,无法获得Private中模块的任何信息,可以获得Public中模块的头文件信息.</p>
+<p>下图来自知乎大佬, 另外还有国外大佬的<a target="_blank" rel="noopener" href="https://docs.google.com/presentation/d/1rSFFQk7RxNAHevROfVvUNviUfIntLkO_HpdvzHLkNEs/edit#slide=id.g6e0e4b3bcf_2_145">PPT</a></p>
+<p><img src="https://img.supervj.top//img/chrome_u7pBEW5ju4.png" alt="chrome_u7pBEW5ju4"></p>
+<blockquote>
+<p>结论: <strong>建议只使用PrivateDependencyModuleNames.</strong></p>
+</blockquote>
+<h3 id="Include和Dependency"><a href="#Include和Dependency" class="headerlink" title="Include和Dependency"></a>Include和Dependency</h3><p>二者都能使本模块可以包含其它模块Public目录下的头文件,从而调用函数.</p>
+<p>但<code>IncludePathModuleNames</code>只能调用<strong>定义全部在头文件里</strong>的函数.</p>
+<blockquote>
+<p>结论: 使用Dependency</p>
+</blockquote>
+<h3 id="常见属性"><a href="#常见属性" class="headerlink" title="常见属性"></a>常见属性</h3><p>详情见<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/ProductionPipelines/BuildTools/UnrealBuildTool/ModuleFiles/index.html">官方文档</a></p>
+<h4 id="PublicIncludePaths"><a href="#PublicIncludePaths" class="headerlink" title="PublicIncludePaths"></a>PublicIncludePaths</h4><p>常用于包含第三方库的头文件如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> string ThirdPartyPath</span><br><span class="line">    &#123;</span><br><span class="line">        get &#123; <span class="keyword">return</span> Path.<span class="built_in">GetFullPath</span>(Path.<span class="built_in">Combine</span>(ModulePath, <span class="string">&quot;../../ThirdParty/&quot;</span>)); &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">PublicIncludePaths.<span class="built_in">Add</span>(Path.<span class="built_in">Combine</span>(ThirdPartyPath, <span class="string">&quot;Include&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="PublicLibraryPaths-PublicAdditionalLibaries"><a href="#PublicLibraryPaths-PublicAdditionalLibaries" class="headerlink" title="PublicLibraryPaths/PublicAdditionalLibaries"></a>PublicLibraryPaths/PublicAdditionalLibaries</h4><p>系统/库路径列表（.lib文件的目录） - 通常用于外部（第三方）模块</p>
+<p>如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PublicAdditionalLibraries.<span class="built_in">Add</span>(Path.<span class="built_in">Combine</span>(ThirdPartyPath, <span class="string">&quot;Lib&quot;</span>, <span class="string">&quot;ThirdPartyDLL.lib&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="RuntimeDependencies"><a href="#RuntimeDependencies" class="headerlink" title="RuntimeDependencies"></a>RuntimeDependencies</h4><p>该模块在运行时依赖的文件列表。这些文件将与目标一同暂存.</p>
+<p>如果使用动态链接库可以用此添加,  不然打包以后无法正确获取</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuntimeDependencies.<span class="built_in">Add</span>(<span class="keyword">new</span> <span class="built_in">RuntimeDependency</span>(Path.<span class="built_in">Combine</span>(ThirdPartyPath, <span class="string">&quot;DLL&quot;</span>, <span class="string">&quot;ThirdPartyDLL.dll&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="BuildConfiguration"><a href="#BuildConfiguration" class="headerlink" title="BuildConfiguration"></a>BuildConfiguration</h2><p><strong>UBT</strong>将从以下位置中的XML配置文件读取设置：</p>
+<ul>
+<li>Engine/Saved/UnrealBuildTool/BuildConfiguration.xml</li>
+<li>User Folder/AppData/Roaming/Unreal Engine/UnrealBuildTool/BuildConfiguration.xml</li>
+<li>My Documents/Unreal Engine/UnrealBuildTool/BuildConfiguration.xml</li>
+</ul>
+<p>具体可以看<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/en-US/ProductionPipelines/BuildTools/UnrealBuildTool/BuildConfiguration/index.html">官方文档</a></p>
+<h2 id="IWYU"><a href="#IWYU" class="headerlink" title="IWYU"></a><strong>IWYU</strong></h2><p>全称<code>nclude what you use</code>,即<strong>只包含你需要的头文件</strong>。</p>
+<p>在旧版本的虚幻引擎4（UE4）中，引擎的大部分功能通过大型、以模块为中心的头文件（如 <code>Engine.h</code> 和 <code>UnrealEd.h</code>）进行包含。通过预编译头文件（PCH）快速编译这些文件即可达成较快的编译时间。但随着引擎的更新，这成为了一个瓶颈。</p>
+<p>通过IWYU，每个文件只包括其需要的内容。我们选择使用的所有PCH文件纯粹只是作为基础源文件之上的优化层。可对它们进行修改，将编译时间缩至最短。其独立于源文件本身的修改，不会影响代码是否成功编译。</p>
+<p>编写IWYU代码时，我们需要遵循4个特定规则：</p>
+<ol>
+<li><strong>所有头文件包含其所需的依赖性。</strong></li>
+<li><strong>.cpp文件首先包含其匹配的*.h文件。</strong></li>
+<li><strong>PCH文件已不再是显式包含。</strong></li>
+<li><strong>不再包含单块头文件。</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/ProductionPipelines/BuildTools/UnrealBuildTool/IWYU/index.html">官方文档</a></p>
+<h3 id="验证已启用"><a href="#验证已启用" class="headerlink" title="验证已启用"></a>验证已启用</h3><p>在<code>build,cs</code>文件中的<code>PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</code></p>
+<h2 id="其他描述符"><a href="#其他描述符" class="headerlink" title="其他描述符"></a>其他描述符</h2><h3 id="MinimalAPI"><a href="#MinimalAPI" class="headerlink" title="MinimalAPI"></a>MinimalAPI</h3><p>暴露该类的类型信息让其它模块可以</p>
+<ul>
+<li>Cast到该类型</li>
+<li>继承该类型 (该类型的所有定义在.cpp文件的<strong>虚函数</strong>都需要导出)</li>
+<li>使用<strong>内联</strong>函数</li>
+</ul>
+<h3 id="YourModuleName-API宏"><a href="#YourModuleName-API宏" class="headerlink" title="[YourModuleName]_API宏"></a>[YourModuleName]_API宏</h3><ul>
+<li>放函数声明前用于暴露该函数</li>
+<li>放类声明前用于暴露该类的<strong>所有内容</strong></li>
+</ul>
+<blockquote>
+<p>结论: 不加这个宏的话其他模块就无法使用该函数/类</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2021/03/11/UBT%E5%92%8CUHT/" title="UHT和UBT分析">http://supervj.top/2021/03/11/UBT和UHT/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/UBT/" rel="tag"># UBT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/25/UE%E4%BB%A3%E7%90%86%E6%B1%87%E6%80%BB/" rel="prev" title="UE4各种代理(委托)使用方法">
+                  <i class="fa fa-chevron-left"></i> UE4各种代理(委托)使用方法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/15/Draco/" rel="next" title="Google开源压缩库Draco">
+                  Google开源压缩库Draco <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

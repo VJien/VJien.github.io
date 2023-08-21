@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言MaxScript学习笔记  搬运至遥远的2019年">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MaxScript学习笔记">
+<meta property="og:url" content="http://supervj.top/2021/03/26/MaxScript/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言MaxScript学习笔记  搬运至遥远的2019年">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200421095311706.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200423175159452.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200423175135064.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200421163756826.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200422141811636.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200423140625851.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20200424113002291.png">
+<meta property="og:image" content="http://supervj.top/2021/03/26/MaxScript/%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98/image-20200424113018711.png">
+<meta property="article:published_time" content="2021-03-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-17T11:10:43.560Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="3DMAX">
+<meta property="article:tag" content="MaxScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20200421095311706.png">
+
+
+<link rel="canonical" href="http://supervj.top/2021/03/26/MaxScript/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>MaxScript学习笔记 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%90%AF%E5%8A%A8"><span class="nav-number">2.</span> <span class="nav-text">默认启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E6%B7%BB%E5%8A%A0"><span class="nav-number">3.</span> <span class="nav-text">快捷添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E8%AE%B0%E5%BD%95"><span class="nav-number">4.</span> <span class="nav-text">语法记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">4.1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3"><span class="nav-number">4.2.</span> <span class="nav-text">窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#button"><span class="nav-number">4.2.1.</span> <span class="nav-text">button</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.3.</span> <span class="nav-text">$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB"><span class="nav-number">4.4.</span> <span class="nav-text">动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if"><span class="nav-number">4.5.</span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-number">4.6.</span> <span class="nav-text">&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for"><span class="nav-number">4.7.</span> <span class="nav-text">for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">4.8.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">4.9.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">4.10.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">4.11.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#max%E5%91%BD%E4%BB%A4"><span class="nav-number">4.12.</span> <span class="nav-text">max命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">4.13.</span> <span class="nav-text">脚本：批量重命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%EF%BC%9A%E6%89%B9%E9%87%8F%E9%80%89%E6%8B%A9%E5%81%B6%E6%95%B0%E9%9D%A2"><span class="nav-number">4.14.</span> <span class="nav-text">脚本：批量选择偶数面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E8%8F%9C%E5%8D%95%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E7%82%B9%E5%87%BB"><span class="nav-number">4.15.</span> <span class="nav-text">控制菜单是否可以点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8F%9C%E5%8D%95%E5%BC%80%E5%90%AF-%E5%85%B3%E9%97%AD"><span class="nav-number">4.16.</span> <span class="nav-text">菜单开启&#x2F;关闭</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%EF%BC%9A%E7%89%A9%E4%BD%93%E7%A7%BB%E5%8A%A8%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E8%A1%A8%E9%9D%A2"><span class="nav-number">4.16.0.1.</span> <span class="nav-text">脚本：物体移动到自己的表面</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%84%E7%BA%BF%E5%8F%98%E9%87%8F-ray"><span class="nav-number">4.16.1.</span> <span class="nav-text">射线变量 ray</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%84%E7%BA%BF%E6%96%B9%E6%B3%95-intersectRay"><span class="nav-number">4.16.2.</span> <span class="nav-text">射线方法 intersectRay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pickObject"><span class="nav-number">4.16.3.</span> <span class="nav-text">pickObject</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E8%84%9A%E6%9C%AC%EF%BC%9A%E7%A7%BB%E5%8A%A8%E6%89%80%E6%9C%89%E7%89%A9%E4%BD%93%E7%9A%84Z%E5%9D%90%E6%A0%87%E4%B8%8E%E9%80%89%E5%AE%9A%E7%89%A9%E4%BD%93%E5%AF%B9%E9%BD%90"><span class="nav-number">5.</span> <span class="nav-text">扩展脚本：移动所有物体的Z坐标与选定物体对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E5%AE%9A%E4%B9%89"><span class="nav-number">5.1.</span> <span class="nav-text">路径定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%EF%BC%9A%E5%BD%95%E5%88%B6%E5%B9%B6%E6%92%AD%E6%94%BE%E5%8A%A8%E7%94%BB"><span class="nav-number">5.2.</span> <span class="nav-text">脚本：录制并播放动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%EF%BC%9A%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.3.</span> <span class="nav-text">脚本：创建自定义模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%9D%E8%AF%95"><span class="nav-number">5.3.1.</span> <span class="nav-text">尝试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bitmap"><span class="nav-number">5.4.</span> <span class="nav-text">bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXR%E6%A0%BC%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="nav-number">5.5.</span> <span class="nav-text">EXR格式输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Epic%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E6%8F%92%E4%BB%B6%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">Epic顶点动画插件代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%95%E7%BA%BF"><span class="nav-number">6.1.</span> <span class="nav-text">法线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E6%B3%95%E7%BA%BF"><span class="nav-number">6.1.1.</span> <span class="nav-text">得到法线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%95%E7%BA%BF%E9%A2%9C%E8%89%B2"><span class="nav-number">6.1.2.</span> <span class="nav-text">法线颜色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B6%E7%82%B9%E5%81%8F%E7%A7%BB"><span class="nav-number">6.2.</span> <span class="nav-text">顶点偏移</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E5%92%8C%E9%A2%9C%E8%89%B2"><span class="nav-number">6.2.1.</span> <span class="nav-text">位置和颜色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E8%B4%B4%E5%9B%BE"><span class="nav-number">6.3.</span> <span class="nav-text">输出贴图</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/26/MaxScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MaxScript学习笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00+08:00">2021-03-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-11-17 19:10:43" itemprop="dateModified" datetime="2021-11-17T19:10:43+08:00">2021-11-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/dcc/" itemprop="url" rel="index"><span itemprop="name">dcc</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/26/MaxScript/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/26/MaxScript/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MaxScript学习笔记</p>
+<blockquote>
+<p>搬运至遥远的2019年</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="默认启动"><a href="#默认启动" class="headerlink" title="默认启动"></a>默认启动</h2><p><code>\AppData\Local\Autodesk\3dsMax\2018 - 64bit\CHS\scripts\startup</code></p>
+<p>把ms文件放到启动文件夹下，启动max就启动脚本</p>
+<h2 id="快捷添加"><a href="#快捷添加" class="headerlink" title="快捷添加"></a>快捷添加</h2><ul>
+<li>用下面代码包裹一个ms代码，存为类型mcr格式</li>
+<li>放到路径<code>\AppData\Local\Autodesk\3dsMax\2018 - 64bit\CHS\usermacros</code>，重新启动max</li>
+<li>或者直接在编辑器模式下运行宏命令会直接添加到路径</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">macroScript VextexCacheTool   <span class="comment">--具体类别里的名称             </span></span><br><span class="line">        category:<span class="string">&quot;VJ&quot;</span>    <span class="comment">--显示的类别</span></span><br><span class="line">        toolTip:<span class="string">&quot;&quot;</span>                        </span><br><span class="line">	(</span><br><span class="line">    <span class="comment">-- 把ms脚本粘贴进来</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20200421095311706.png" alt="image-20200421095311706"></p>
+<h2 id="语法记录"><a href="#语法记录" class="headerlink" title="语法记录"></a>语法记录</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mybox=box()</span><br><span class="line">$Box:Box001 @ [<span class="number">0.000000</span>,<span class="number">0.000000</span>,<span class="number">0.000000</span>]</span><br><span class="line">mybox.lengthsegs=<span class="number">20</span></span><br><span class="line"><span class="number">20</span></span><br><span class="line">mybox.heightsegs=<span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line">addModifier mybox (twist angle:<span class="number">30</span>)</span><br><span class="line">OK</span><br><span class="line">mybox.twist.angle=<span class="number">99</span></span><br><span class="line"><span class="number">99</span></span><br><span class="line">mybox.twist.offset=<span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line">addModifier mybox (spherify percent:<span class="number">50</span>)</span><br><span class="line">OK</span><br><span class="line">mybox.spherify.percent=<span class="number">100</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><ul>
+<li>独立单一窗口</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">try destroyDialog ::TestRoll catch() <span class="comment">--关闭已有窗口</span></span><br><span class="line">rollout TestRoll <span class="string">&quot;TestRoll&quot;</span> </span><br><span class="line">(</span><br><span class="line">    button myBtn <span class="string">&quot;MyButton&quot;</span> width:<span class="number">200</span> height:<span class="number">100</span></span><br><span class="line">  </span><br><span class="line">)</span><br><span class="line">CreateDialog TestRoll width:<span class="number">250</span> height:<span class="number">300</span> </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果</p>
+<p><img src="https://img.supervj.top//img/image-20200423175159452.png" alt="image-20200423175159452"></p>
+</blockquote>
+<ul>
+<li>多个rollout</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  global Morph_Floater = newRolloutFloater <span class="string">&quot;&quot;</span> <span class="number">200</span> <span class="number">230</span> </span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">rollout tt <span class="string">&quot;Test Tool&quot;</span> </span><br><span class="line">(</span><br><span class="line">	button bt2 <span class="string">&quot;test&quot;</span> height:<span class="number">30</span> width:<span class="number">200</span> </span><br><span class="line">	</span><br><span class="line">)</span><br><span class="line">addRollout tt Morph_Floater</span><br><span class="line"></span><br><span class="line">rollout tt2 <span class="string">&quot;Test Tool2&quot;</span> </span><br><span class="line">(</span><br><span class="line">	button bt2 <span class="string">&quot;test2&quot;</span> height:<span class="number">30</span> width:<span class="number">200</span> </span><br><span class="line">	</span><br><span class="line">)</span><br><span class="line">addRollout tt2 Morph_Floater</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>效果</p>
+<p><img src="https://img.supervj.top//img/image-20200423175135064.png" alt="image-20200423175135064"></p>
+</blockquote>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><ul>
+<li>设置图片 </li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button BakeBtn <span class="string">&quot;开始烘培&quot;</span> height:<span class="number">80</span> width:<span class="number">250</span> images:#(GetDir #maxSysIcons+<span class="string">&quot;\CAT_CATMode_a.bmp&quot;</span>, undefined, <span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span> ) iconSize:[<span class="number">200</span>,<span class="number">80</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id=""><a href="#" class="headerlink" title="$"></a>$</h3><ul>
+<li>一般用法是指选中的物体，比如</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$.name <span class="comment">--选中物体的名字</span></span><br><span class="line">#.height	<span class="comment">--选中物体的高度</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>特定物体</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$box01.height=<span class="number">10</span> <span class="comment">--把名称为box01的物体的高度设置为10</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mybox =box()</span><br><span class="line">animate on</span><br><span class="line">(</span><br><span class="line">  at <span class="built_in">time</span> <span class="number">0</span> (mybox.pos = [<span class="number">-100</span>, <span class="number">0</span>, <span class="number">0</span>]; mybox.scale = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">0.25</span>])</span><br><span class="line">  at <span class="built_in">time</span> <span class="number">100</span> (mybox.pos = [<span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>]; mybox.scale = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>])</span><br><span class="line">)<span class="comment">--设置动画</span></span><br><span class="line">playanimation()<span class="comment">--播放</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> mybox.height == <span class="number">10</span></span><br><span class="line"><span class="keyword">then</span> mybox.width = <span class="number">20</span></span><br><span class="line"><span class="keyword">else</span> mybox.width = <span class="number">10</span></span><br><span class="line">    </span><br><span class="line">mybox.width = <span class="keyword">if</span> mybox.height == <span class="number">10</span> <span class="keyword">then</span> <span class="number">20</span> <span class="keyword">else</span> <span class="number">10</span>   <span class="comment">--类似C++ 的 ?:</span></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="-1"><a href="#-1" class="headerlink" title="=="></a>==</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">== <span class="comment">--equal to</span></span><br><span class="line"></span><br><span class="line">!= <span class="comment">--not equal to</span></span><br><span class="line"></span><br><span class="line">&gt; <span class="comment">--greater than</span></span><br><span class="line"></span><br><span class="line">&gt;= <span class="comment">--greater than or equal to</span></span><br><span class="line"></span><br><span class="line">&lt; <span class="comment">--less than</span></span><br><span class="line"></span><br><span class="line">&lt;= <span class="comment">--less than or equal to</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">for</span> var = value to array.count by <span class="number">-1</span> where (condition) <span class="keyword">do</span> (</span><br><span class="line">    </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一堆box</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mybox =box()</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span> to <span class="number">10</span> <span class="keyword">do</span> (</span><br><span class="line">    copy_box=copy mybox</span><br><span class="line">    copy_box.pos=[i*<span class="number">30</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">    copy_box.wirecolor=[i*<span class="number">25</span>,i*<span class="number">50</span>,<span class="number">50</span>]</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20200421163756826.png" alt="image-20200421163756826"></p>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">arr = <span class="keyword">for</span> i =<span class="number">1</span> to <span class="number">5</span> collect i</span><br><span class="line"><span class="comment">--#(1, 2, 3, 4, 5)</span></span><br><span class="line">arr2=#(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">555</span>,<span class="number">44</span>)</span><br><span class="line"><span class="comment">--#(1, 2, 3, 555, 44)</span></span><br><span class="line">a = #()<span class="comment">--空数组</span></span><br><span class="line">a = #(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">joint a #(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)<span class="comment">-- a数组加入4,5,6</span></span><br><span class="line">a.count <span class="comment">--数量</span></span><br><span class="line">c=($box* as Array)+($Sphere* as Array) <span class="comment">--把所有box和spehre名称的作为数组并且相加</span></span><br><span class="line">append c ($Cone* as Array) <span class="comment">--把所有Cone作为数组成员添加到c</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> x&gt;<span class="number">0</span> <span class="keyword">do</span> <span class="built_in">print</span>(x-=<span class="number">1</span>)</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fn fun1 v:<span class="number">0</span>=(</span><br><span class="line"><span class="keyword">if</span> v==<span class="number">0</span> <span class="keyword">then</span> <span class="built_in">print</span> <span class="string">&quot;good&quot;</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> v&gt;<span class="number">0</span> <span class="keyword">then</span> messagebox (<span class="string">&quot;greater than 0&quot;</span>)</span><br><span class="line"><span class="keyword">else</span> messagebox (<span class="string">&quot;too low&quot;</span>)</span><br><span class="line">)</span><br><span class="line">        </span><br><span class="line">fun1 v:<span class="number">-9</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Struct person (name,sex,age)</span><br><span class="line">joe=person name:<span class="string">&quot;helo&quot;</span> sex:#male age:<span class="number">20</span></span><br><span class="line"><span class="built_in">print</span>(joe.name)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="max命令"><a href="#max命令" class="headerlink" title="max命令"></a>max命令</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">max</span> file ? <span class="comment">--显示file下面的命令 </span></span><br><span class="line"><span class="built_in">max</span> file <span class="built_in">open</span> <span class="comment">-- 打开文件</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="脚本：批量重命名"><a href="#脚本：批量重命名" class="headerlink" title="脚本：批量重命名"></a>脚本：批量重命名</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">macroScript RenameThem   <span class="comment">--运行以后生成宏，可以放到快捷方式上</span></span><br><span class="line">    category:<span class="string">&quot;HowTo&quot;</span></span><br><span class="line">    ButtonText:<span class="string">&quot;RenameThem&quot;</span></span><br><span class="line">    toolTip:<span class="string">&quot;Rename&quot;</span></span><br><span class="line"></span><br><span class="line">(</span><br><span class="line">    </span><br><span class="line">    rollout rename_rollout <span class="string">&quot;Enter New Base Name&quot;</span></span><br><span class="line">    (</span><br><span class="line">        edittext base_name <span class="string">&quot;&quot;</span></span><br><span class="line">        button rename_them <span class="string">&quot;RENAME&quot;</span></span><br><span class="line">        On rename_them pressed <span class="keyword">do</span> </span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">if</span> base_name.text!=<span class="string">&quot;&quot;</span> <span class="keyword">do</span> (</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> selection <span class="keyword">do</span> i.name=uniquename base_name.text  <span class="comment">--uniquename保证不重名</span></span><br><span class="line">            ) </span><br><span class="line">        ) </span><br><span class="line">    )</span><br><span class="line">    CreateDialog rename_rollout <span class="number">250</span> <span class="number">50</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="脚本：批量选择偶数面"><a href="#脚本：批量选择偶数面" class="headerlink" title="脚本：批量选择偶数面"></a>脚本：批量选择偶数面</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">rollout TestRoll <span class="string">&quot;TestRoll&quot;</span> </span><br><span class="line">(</span><br><span class="line">    button myBtn <span class="string">&quot;MyButton&quot;</span> width:<span class="number">200</span> height:<span class="number">100</span></span><br><span class="line">  </span><br><span class="line">    on myBtn Pressed <span class="keyword">do</span> (</span><br><span class="line">        <span class="keyword">if</span> selection.count==<span class="number">1</span> <span class="keyword">and</span> classOf selection[<span class="number">1</span>].baseobject==Editable_Poly <span class="keyword">then</span></span><br><span class="line">            (</span><br><span class="line">                <span class="keyword">local</span> face_selection=#&#123;&#125;   <span class="comment">--选择的面，值为bool</span></span><br><span class="line">                <span class="keyword">local</span> base_obj = $.baseobject   <span class="comment">--选择的物体转换为baseobject</span></span><br><span class="line">                <span class="keyword">local</span> num_faces=polyop.getNumFaces (base_obj) <span class="comment">--得到所有面</span></span><br><span class="line">                <span class="built_in">print</span>(num_faces)  </span><br><span class="line">                <span class="keyword">for</span> f=<span class="number">1</span> to num_faces <span class="keyword">do</span> </span><br><span class="line">                (</span><br><span class="line">                    <span class="keyword">local</span> isSelect=((<span class="built_in">mod</span> f <span class="number">2</span>)==<span class="number">0</span>)  <span class="comment">--选择偶数面</span></span><br><span class="line">                   face_selection[f]=isSelect </span><br><span class="line">                ) </span><br><span class="line">                polyop.setFaceSelection base_obj face_selection <span class="comment">--设置选择的面</span></span><br><span class="line">                <span class="built_in">max</span> modify mode	<span class="comment">--改成修改模式</span></span><br><span class="line">                modPanel.setCurrentObject base_obj	<span class="comment">--把物体添加到修改面板里（后续会细讲）</span></span><br><span class="line">                subobjectlevel = <span class="number">4</span>  <span class="comment">--[[一个3ds Max的系统全局变量，让您获取和设置子对象层级在修改面板，如果它是开放的。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">该值是一个零或更大的Integer，直到当前打开的修饰符支持的子对象级别数为止，通常按照“子对象”下拉列表中显示的顺序。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">一种 subObjectLevel 为0表示关闭子对象模式。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">如果“修改”面板未打开或当前修改器中不允许子对象级别设置，则全局变量包含该值 未定义 </span></span><br><span class="line"><span class="comment">                        </span></span><br><span class="line"><span class="comment">                        测试发现&gt;=4才可以实现代码效果</span></span><br><span class="line"><span class="comment">                        ]]</span> <span class="comment">--</span></span><br><span class="line"></span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">        </span><br><span class="line">      <span class="keyword">else</span> messageBox (<span class="string">&quot;error&quot;</span>)</span><br><span class="line">           </span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">CreateDialog TestRoll width:<span class="number">250</span> height:<span class="number">300</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="控制菜单是否可以点击"><a href="#控制菜单是否可以点击" class="headerlink" title="控制菜单是否可以点击"></a>控制菜单是否可以点击</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">on isEnabled <span class="keyword">return</span></span><br><span class="line">(</span><br><span class="line"> selection.count == <span class="number">1</span> <span class="keyword">and</span> classOf selection[<span class="number">1</span>].baseobject == Editable_Poly</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="菜单开启-关闭"><a href="#菜单开启-关闭" class="headerlink" title="菜单开启/关闭"></a>菜单开启/关闭</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">macroScript AutoMat category: <span class="string">&quot;HowTo&quot;</span></span><br><span class="line">(</span><br><span class="line"> <span class="keyword">local</span> AutoMat_Enabled</span><br><span class="line"> on isChecked <span class="keyword">return</span> AutoMat_Enabled   <span class="comment">--关键这一行</span></span><br><span class="line"> on Execute <span class="keyword">do</span></span><br><span class="line"> (</span><br><span class="line">  <span class="keyword">if</span> AutoMat_Enabled == undefined <span class="keyword">then</span></span><br><span class="line">   AutoMat_Enabled = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">   AutoMat_Enabled = <span class="keyword">not</span> AutoMat_Enabled</span><br><span class="line">  <span class="keyword">if</span> AutoMat_Enabled <span class="keyword">then</span></span><br><span class="line">  (</span><br><span class="line">   txt =<span class="string">&quot;if superclassof meditmaterials[4] != texturemap do \n&quot;</span></span><br><span class="line">   txt +=<span class="string">&quot;selection.material = meditmaterials[10]&quot;</span></span><br><span class="line">   callbacks.addscript #selectionSetChanged txt id:#AssignMaterial persistent:<span class="literal">false</span></span><br><span class="line">    Print <span class="string">&quot;set mat&quot;</span></span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">   callbacks.removescripts id:#AssignMaterial</span><br><span class="line">  updateToolbarButtons()</span><br><span class="line"> )<span class="comment">--end Execute</span></span><br><span class="line">)<span class="comment">--end macroScript</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="脚本：物体移动到自己的表面"><a href="#脚本：物体移动到自己的表面" class="headerlink" title="脚本：物体移动到自己的表面"></a>脚本：物体移动到自己的表面</h5><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">macroscript MoveToSurface category: <span class="string">&quot;HowTo&quot;</span></span><br><span class="line">(</span><br><span class="line">fn g_filter o = superclassof o == Geometryclass</span><br><span class="line">fn find_intersection z_node node_to_z =</span><br><span class="line">(</span><br><span class="line"> <span class="keyword">local</span> testRay = ray node_to_z.pos [<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>]  <span class="comment">--参见下级目录ray</span></span><br><span class="line"> <span class="keyword">local</span> nodeMaxZ = z_node.<span class="built_in">max</span>.z	<span class="comment">--得到物体的max坐标系的z</span></span><br><span class="line"> testRay.pos.z = nodeMaxZ + <span class="number">0.0001</span> * <span class="built_in">abs</span> nodeMaxZ  <span class="comment">--修改ray的起始点坐标为物体z加上一点点</span></span><br><span class="line"> intersectRay z_node testRay</span><br><span class="line">)</span><br><span class="line">on isEnabled <span class="keyword">return</span> selection.count &gt; <span class="number">0</span></span><br><span class="line">on Execute <span class="keyword">do</span></span><br><span class="line">(</span><br><span class="line"> target_mesh = pickObject message:<span class="string">&quot;Pick Target Surface:&quot;</span> filter:g_filter </span><br><span class="line"> <span class="keyword">if</span> isValidNode target_mesh <span class="keyword">then</span></span><br><span class="line"> (</span><br><span class="line">  undo <span class="string">&quot;MoveToSurface&quot;</span> on   <span class="comment">--注册撤销操作，否则无法撤销</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> selection <span class="keyword">do</span></span><br><span class="line">   (</span><br><span class="line">    int_point = find_intersection target_mesh i</span><br><span class="line">    <span class="built_in">print</span>(int_point)</span><br><span class="line">    <span class="keyword">if</span> int_point != undefined <span class="keyword">then</span> i.pos = int_point.pos</span><br><span class="line">   )<span class="comment">--end i loop</span></span><br><span class="line">  )<span class="comment">--end undo</span></span><br><span class="line"> )<span class="comment">--end if</span></span><br><span class="line">)<span class="comment">--end execute</span></span><br><span class="line">)<span class="comment">--end script</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="射线变量-ray"><a href="#射线变量-ray" class="headerlink" title="射线变量 ray"></a>射线变量 ray</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> testRay = ray node_to_z.pos [<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>]  <span class="comment">--射线变量，第一个变量是起点，第二个变量是方向</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://help.autodesk.com/view/MAXDEV/2021/ENU/?guid=GUID-5A117E26-3BA4-4C4C-A0C7-0F4190F9D50D#GUID-5A117E26-3BA4-4C4C-A0C7-0F4190F9D50D">ray文档</a></p>
+<h4 id="射线方法-intersectRay"><a href="#射线方法-intersectRay" class="headerlink" title="射线方法 intersectRay"></a>射线方法 intersectRay</h4><p><a target="_blank" rel="noopener" href="http://help.autodesk.com/view/MAXDEV/2021/ENU/?guid=GUID-84E24969-C175-4389-B9A6-3B2699B66785">文档</a></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intersectRay z_node testRay </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>该内置的intersectRay函数被赋予一个节点和一条光线（具有起点和方向的空间矢量），并返回空间中光线照射到节点表面的点；如果没有相交，则返回未定义的点。相交的结果也将是函数的返回值，因为它是最后计算的值。</p>
+</blockquote>
+<h4 id="pickObject"><a href="#pickObject" class="headerlink" title="pickObject"></a>pickObject</h4><ul>
+<li>原型</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pickObject [	message:&lt;<span class="built_in">string</span>&gt; ] [	prompt:&lt;<span class="built_in">string</span>&gt; ] \ </span><br><span class="line">[	count:n|#multiple ] [	filter:fn ] \ </span><br><span class="line">[	<span class="built_in">select</span>:&lt;boolean&gt; ] [	pickFrozen:&lt;boolean&gt; ] \ </span><br><span class="line">[	rubberBand:&lt;point3&gt;] [	rubberBandColor:&lt;color&gt; ] \ </span><br><span class="line">[	forceListenerFocus:&lt;boolean&gt; ] </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>案例</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_mesh = pickObject message:<span class="string">&quot;Pick Target Surface:&quot;</span> filter:g_filter </span><br></pre></td></tr></table></figure>
+
+<p>第一个参数用于显示在信息窗口的提示</p>
+<p><img src="https://img.supervj.top//img/image-20200422141811636.png" alt="image-20200422141811636"></p>
+<p>filter参数传入一个条件函数，案例里用来判断是否是几何体</p>
+<h2 id="扩展脚本：移动所有物体的Z坐标与选定物体对齐"><a href="#扩展脚本：移动所有物体的Z坐标与选定物体对齐" class="headerlink" title="扩展脚本：移动所有物体的Z坐标与选定物体对齐"></a>扩展脚本：移动所有物体的Z坐标与选定物体对齐</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">macroscript MoveAllGeometryToLand category: <span class="string">&quot;HowTo&quot;</span></span><br><span class="line">(</span><br><span class="line">fn g_filter o = superclassof o == Geometryclass</span><br><span class="line">fn getZ node_land=</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">local</span> testray=ray [<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1000</span>] [<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(intersectRay node_land testray) </span><br><span class="line">   </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">on isEnabled <span class="keyword">return</span> selection.count == <span class="number">1</span></span><br><span class="line">on Execute <span class="keyword">do</span></span><br><span class="line">(</span><br><span class="line">    target_mesh = pickObject message:<span class="string">&quot;Pick Target LandMesh:&quot;</span> filter:g_filter</span><br><span class="line">    <span class="keyword">if</span> isValidNode target_mesh <span class="keyword">then</span></span><br><span class="line">        (</span><br><span class="line">            undo <span class="string">&quot;MoveAllGeometryToLand&quot;</span> on</span><br><span class="line">            (</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> geometry where((g_filter i)<span class="keyword">and</span> i!=target_mesh) <span class="keyword">do</span></span><br><span class="line">                    (</span><br><span class="line">                        <span class="keyword">local</span> point=getZ selection[<span class="number">1</span>]</span><br><span class="line">                        <span class="keyword">if</span> point!=undefined <span class="keyword">then</span> i.pos.z=point.pos.z</span><br><span class="line"></span><br><span class="line">                    )</span><br><span class="line">                )</span><br><span class="line">            )</span><br><span class="line">       </span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">)<span class="comment">--end script</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="路径定义"><a href="#路径定义" class="headerlink" title="路径定义"></a>路径定义</h3><p><a target="_blank" rel="noopener" href="http://help.autodesk.com/view/MAXDEV/2021/ENU/?guid=GUID-F7577416-051E-478C-BB5D-81243BAAC8EC#GUID-F7577416-051E-478C-BB5D-81243BAAC8EC">路径说明文档</a></p>
+<h3 id="脚本：录制并播放动画"><a href="#脚本：录制并播放动画" class="headerlink" title="脚本：录制并播放动画"></a>脚本：录制并播放动画</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">macroScript QuickPreview category: <span class="string">&quot;HowTo&quot;</span></span><br><span class="line">(</span><br><span class="line"> preview_name = (getDir #preview)+<span class="string">&quot;/quickpreview.avi&quot;</span>  <span class="comment">--保存的文件路径</span></span><br><span class="line"> view_size = getViewSize()  <span class="comment">--得到视口大小，2位向量</span></span><br><span class="line"> anim_bmp = bitmap view_size.x view_size.y filename:preview_name  <span class="comment">--创建位图</span></span><br><span class="line"> <span class="keyword">for</span> t = animationrange.start to animationrange.<span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line"> (</span><br><span class="line">  sliderTime = t</span><br><span class="line">  dib = gw.getViewportDib()  <span class="comment">--得到dib</span></span><br><span class="line">  copy dib anim_bmp <span class="comment">--把dib信息拷贝到bmp位图里</span></span><br><span class="line">  save anim_bmp <span class="comment">--保存位图</span></span><br><span class="line"> )</span><br><span class="line"> <span class="built_in">close</span> anim_bmp</span><br><span class="line"> gc()</span><br><span class="line"> ramplayer preview_name <span class="string">&quot;&quot;</span>  <span class="comment">--调用raw播放器预览</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="脚本：创建自定义模型"><a href="#脚本：创建自定义模型" class="headerlink" title="脚本：创建自定义模型"></a>脚本：创建自定义模型</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">radius1 = <span class="number">100</span></span><br><span class="line">radius2 = <span class="number">10</span></span><br><span class="line">width = <span class="number">10</span></span><br><span class="line"> </span><br><span class="line">vert_array = #()</span><br><span class="line">face_array = #()</span><br><span class="line"> </span><br><span class="line">vert_count = <span class="number">0</span></span><br><span class="line">num_faces = <span class="number">10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> a = <span class="number">0</span> to (<span class="number">360</span>-(<span class="number">360</span>/num_faces)) by <span class="number">360</span>/num_faces <span class="keyword">do</span></span><br><span class="line">(</span><br><span class="line">v1 = [radius1*<span class="built_in">cos</span>(a+width),radius1*<span class="built_in">sin</span>(a+width),<span class="number">0</span>]</span><br><span class="line">v2 = [radius1*<span class="built_in">cos</span>(a-width),radius1*<span class="built_in">sin</span>(a-width),<span class="number">0</span>]</span><br><span class="line">v3 = [radius2*<span class="built_in">cos</span>(a),radius2*<span class="built_in">sin</span>(a),<span class="number">0</span>]</span><br><span class="line">append vert_array v1   <span class="comment">--添加点到数组</span></span><br><span class="line">append vert_array v2</span><br><span class="line">append vert_array v3</span><br><span class="line"> </span><br><span class="line">append face_array [vert_count+<span class="number">1</span>,vert_count+<span class="number">3</span>,vert_count+<span class="number">2</span>]</span><br><span class="line">vert_count += <span class="number">3</span></span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">m = mesh vertices:vert_array faces:face_array</span><br></pre></td></tr></table></figure>
+
+<h4 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">vert_array=#()</span><br><span class="line">faces_array=#()</span><br><span class="line">h=<span class="number">20</span></span><br><span class="line">iv=<span class="number">0</span></span><br><span class="line">num=<span class="number">10</span></span><br><span class="line">l=<span class="number">100</span></span><br><span class="line"><span class="keyword">for</span> i=<span class="number">1</span> to num <span class="keyword">do</span></span><br><span class="line">(</span><br><span class="line">     </span><br><span class="line">             v1=[l/num*(i<span class="number">-1</span>),<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">			 v2=[l/num*i,-h,<span class="number">0</span>]</span><br><span class="line">             v3=[l/num*i,h,<span class="number">0</span>]</span><br><span class="line">            </span><br><span class="line">            append vert_array v1</span><br><span class="line">            append vert_array v2</span><br><span class="line">			append vert_array v3</span><br><span class="line">            append faces_array [iv+<span class="number">1</span>,iv+<span class="number">2</span>,iv+<span class="number">3</span>]</span><br><span class="line">            </span><br><span class="line">            iv+=<span class="number">3</span></span><br><span class="line">            <span class="built_in">print</span> iv</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">m = mesh vertices:vert_array faces:faces_array</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20200423140625851.png" alt="image-20200423140625851"></p>
+<h3 id="bitmap"><a href="#bitmap" class="headerlink" title="bitmap"></a>bitmap</h3><ul>
+<li>原型     <a target="_blank" rel="noopener" href="http://help.autodesk.com/view/3DSMAX/2018/ENU/?guid=__files_GUID_9F6ABEE1_0728_4B39_8903_D909634C1304_htm">文档</a></li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bitmap &lt;width &lt;height&gt; [filename:&lt;filename_string&gt;] \ </span><br><span class="line">[numframes:&lt;integer&gt;] \</span><br><span class="line">[color:&lt;color&gt;] \ </span><br><span class="line">[gamma:&lt;float&gt;] \ </span><br><span class="line">[pixelAspect:&lt;float&gt;] \ </span><br><span class="line">[channels:&lt;channel_name array&gt;]\ </span><br><span class="line">[hdr:&lt;bool&gt;] \</span><br><span class="line">[iconName:&lt;filename&gt;]\</span><br><span class="line">[iconSize:&lt;point2&gt;]</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>示例</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">b=bitmap <span class="number">100</span> <span class="number">100</span> color:white</span><br><span class="line"><span class="keyword">for</span> i=<span class="number">0</span> to <span class="number">100</span> <span class="keyword">do</span></span><br><span class="line">	(</span><br><span class="line">		setPixels b [i,i] #(red)</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">display b</span><br><span class="line"></span><br><span class="line">b.filename=@<span class="string">&quot;d:t.bmp&quot;</span></span><br><span class="line">save b</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20200424113002291.png" alt="image-20200424113002291"></p>
+<p><img src="%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98/image-20200424113018711.png" alt="image-20200424113018711"></p>
+<h3 id="EXR格式输出"><a href="#EXR格式输出" class="headerlink" title="EXR格式输出"></a>EXR格式输出</h3><p><a target="_blank" rel="noopener" href="http://help.autodesk.com/view/3DSMAX/2018/ENU/?guid=__files_GUID_FDECDBDE_C741_4CD8_9DE4_F3355490C796_htm">文档</a></p>
+<h2 id="Epic顶点动画插件代码分析"><a href="#Epic顶点动画插件代码分析" class="headerlink" title="Epic顶点动画插件代码分析"></a>Epic顶点动画插件代码分析</h2><h3 id="法线"><a href="#法线" class="headerlink" title="法线"></a>法线</h3><h4 id="得到法线"><a href="#得到法线" class="headerlink" title="得到法线"></a>得到法线</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fn getTheVertexNormal processObject vertexIndex = ( </span><br><span class="line">    normal = [<span class="number">0.0</span>,<span class="number">0.0</span>,<span class="number">0.0</span>] </span><br><span class="line">    <span class="keyword">if</span> classof processObject.baseobject == Editable_Poly <span class="keyword">then</span> (</span><br><span class="line">            vertexPolygons = polyOp.getFacesUsingVert processObject vertexIndex</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> vertexPolygons <span class="keyword">do</span> (</span><br><span class="line">                    normal+=<span class="keyword">in</span> coordsys world polyOp.getFaceNormal processObject i</span><br><span class="line">                )</span><br><span class="line">            ) <span class="keyword">else</span> (</span><br><span class="line">                normal= getNormal processObject vertexIndex</span><br><span class="line">            )</span><br><span class="line">            normal=normalize normal </span><br><span class="line">            normal </span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li> 如果是可编辑多边形，得到一个顶点序号所有法线之和</li>
+<li>否则就根据<code>getNormal</code>方法直接去要</li>
+</ul>
+<h4 id="法线颜色"><a href="#法线颜色" class="headerlink" title="法线颜色"></a>法线颜色</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oldnormal=((((normalize (getTheVertexNormal currentMorphTarget j))*[<span class="number">1.0</span>,<span class="number">-1.0</span>,<span class="number">1.0</span>])+<span class="number">1.0</span>)*<span class="number">0.5</span>)*<span class="number">255.0</span>   <span class="comment">--法线顶点色数据</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>[-1,1]转换成[0,1]再乘以255得到颜色</li>
+</ul>
+<h3 id="顶点偏移"><a href="#顶点偏移" class="headerlink" title="顶点偏移"></a>顶点偏移</h3><h4 id="位置和颜色"><a href="#位置和颜色" class="headerlink" title="位置和颜色"></a>位置和颜色</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--遍历模型所有顶点</span></span><br><span class="line"><span class="keyword">for</span> j=<span class="number">1</span> to numberofVerts <span class="keyword">do</span> (</span><br><span class="line">        oldnormal=((((normalize (getTheVertexNormal currentMorphTarget j))*[<span class="number">1.0</span>,<span class="number">-1.0</span>,<span class="number">1.0</span>])+<span class="number">1.0</span>)*<span class="number">0.5</span>)*<span class="number">255.0</span></span><br><span class="line">        append CurrentMorphTargetNormalArray oldnormal</span><br><span class="line">        originalVertPos=originalMeshVertPositions[j]</span><br><span class="line">        currentModelVertPos=getVertPos currentMorphTarget j  <span class="comment">--得到顶点位置</span></span><br><span class="line">        <span class="keyword">if</span> (captureAbsolutePositions.checked) </span><br><span class="line">            <span class="keyword">then</span> (</span><br><span class="line">                currentOffset=currentModelVertPos</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">else</span> (</span><br><span class="line">                currentOffset=(currentModelVertPos-originalVertPos)<span class="comment">--如果不是绝对位置就要减去本地坐标来得到世界坐标</span></span><br><span class="line">            )</span><br><span class="line">            <span class="comment">--反转Y轴</span></span><br><span class="line">            currentOffset=[currentOffset[<span class="number">1</span>],<span class="number">-1.0</span>*currentOffset[<span class="number">2</span>],currentOffset[<span class="number">3</span>]]</span><br><span class="line">            currentOffset*=<span class="number">255.0</span>            <span class="comment">--转成颜色</span></span><br><span class="line">            append currentMorphVertexOffsetArray currentOffset</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--从系统方法得到顶点位置</span></span><br><span class="line">fn getVertPos model index= (</span><br><span class="line">    pos=[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">if</span> classof model.baseobject == editable_poly <span class="keyword">then</span> (</span><br><span class="line">            pos=<span class="keyword">in</span> coordsys world polyop.getVert model index</span><br><span class="line">        ) <span class="keyword">else</span> (</span><br><span class="line">            pos=<span class="keyword">in</span> coordsys world getVert model index</span><br><span class="line">        )</span><br><span class="line">        pos</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出贴图"><a href="#输出贴图" class="headerlink" title="输出贴图"></a>输出贴图</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">fn renderOutTheTextures = (	</span><br><span class="line">    fopenexr.SetCompression <span class="number">0</span></span><br><span class="line">    fopenexr.setLayerOutputType <span class="number">0</span> <span class="number">1</span> <span class="comment">-- set layer 0  main layer to RGBA, RGB = 1</span></span><br><span class="line">    fopenexr.setLayerOutputFormat <span class="number">0</span> <span class="number">1</span> <span class="comment">--0 32 sets main layer to float 16 via 1. other options are 0 float 32, 2 int 32 </span></span><br><span class="line">    global TextureName = getSaveFileName types:<span class="string">&quot;EXR (*.EXR)|*.EXR&quot;</span></span><br><span class="line">    <span class="keyword">if</span> TextureName == undefined <span class="keyword">then</span> (</span><br><span class="line">            messagebox <span class="string">&quot;please select a file location&quot;</span></span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">else</span>(</span><br><span class="line">            uvString=<span class="string">&quot;_UV&quot;</span>+((targetMorphUV<span class="number">-1</span>) as <span class="built_in">string</span>)</span><br><span class="line">            TextureNameNormal= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;_Normals.BMP&quot;</span>)</span><br><span class="line">            TextureNameOffset= replace TextureName (findString TextureName <span class="string">&quot;.EXR&quot;</span>) <span class="number">4</span> (uvString+<span class="string">&quot;.EXR&quot;</span>)</span><br><span class="line">            global FinalTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameOffset hdr:<span class="literal">true</span>; <span class="comment">--创建EXR贴图</span></span><br><span class="line">            global FinalMorphTexture = bitmap numberofVerts (MorphVertOffsetArray.count) filename:TextureNameNormal hdr:<span class="literal">true</span>  gamma:<span class="number">1.0</span> ;<span class="comment">--创建法线贴图</span></span><br><span class="line">            <span class="comment">--遍历所有顶点数，设置像素颜色</span></span><br><span class="line">            <span class="comment">--2个颜色数组用UE4的语法表示是个数组  TArray&lt;TArray&lt;FVector&gt;&gt;</span></span><br><span class="line">            <span class="comment">--所以一个成员代表一行的所有颜色</span></span><br><span class="line">            <span class="keyword">for</span> i=<span class="number">0</span> to (MorphVertOffsetArray.count<span class="number">-1</span>) <span class="keyword">do</span> (</span><br><span class="line">                    setPixels FinalTexture [<span class="number">0</span>, i] MorphVertOffsetArray[(i+<span class="number">1</span>)]</span><br><span class="line">                    setPixels FinalMorphTexture [<span class="number">0</span>, i] MorphNormalArray[(i+<span class="number">1</span>)]</span><br><span class="line">                )</span><br><span class="line">                save FinalTexture gamma:<span class="number">1.0</span></span><br><span class="line">                <span class="built_in">close</span> FinalTexture</span><br><span class="line"></span><br><span class="line">                save FinalMorphTexture gamma:<span class="number">1.0</span></span><br><span class="line">                <span class="built_in">close</span> FinalMorphTexture</span><br><span class="line">            )</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2021/03/26/MaxScript/" title="MaxScript学习笔记">http://supervj.top/2021/03/26/MaxScript/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/3DMAX/" rel="tag"># 3DMAX</a>
+              <a href="/tags/MaxScript/" rel="tag"># MaxScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/25/%E5%AE%9E%E6%97%B6%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E5%92%8C%E9%9F%B3%E6%95%88/" rel="prev" title="实时加载本地图片和音效">
+                  <i class="fa fa-chevron-left"></i> 实时加载本地图片和音效
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/26/UE4%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7/" rel="next" title="UE4压缩和解压缩工具">
+                  UE4压缩和解压缩工具 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

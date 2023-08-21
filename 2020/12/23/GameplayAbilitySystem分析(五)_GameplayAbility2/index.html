@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言前文已经大概了解了GA的大致内容,本片结合项目来详细使用一下技能. 因为技能可以是通过按键直接触发, 我们在GA中多数是播放动画来表示技能执行的, 所以我们需要一个一个方便我们GA使用的播放动画的节点 GAS中有很多已经封装好的异步节点, 很多都是非常有用的,如下图(太多无法截全)  其中有一个PlayMontageAndWait的节点, 可以用这个来播放动画蒙太奇, 然后通过动画通知来开启攻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GameplayAbilitySystem入门与实战(五):GameplayAbility(二)">
+<meta property="og:url" content="http://supervj.top/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言前文已经大概了解了GA的大致内容,本片结合项目来详细使用一下技能. 因为技能可以是通过按键直接触发, 我们在GA中多数是播放动画来表示技能执行的, 所以我们需要一个一个方便我们GA使用的播放动画的节点 GAS中有很多已经封装好的异步节点, 很多都是非常有用的,如下图(太多无法截全)  其中有一个PlayMontageAndWait的节点, 可以用这个来播放动画蒙太奇, 然后通过动画通知来开启攻">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201217142941527.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218102443161.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218102759524.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218154751973.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218110426836.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218110739309.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218155846401.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_16_00_23_999.gif">
+<meta property="article:published_time" content="2020-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:28:33.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="GAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201217142941527.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>GameplayAbilitySystem入门与实战(五):GameplayAbility(二) | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87"><span class="nav-number">2.</span> <span class="nav-text">获取目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">创建新的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FSRGameplayEffectContainer"><span class="nav-number">3.1.</span> <span class="nav-text">FSRGameplayEffectContainer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FSRGameplayEffectContainerSpec"><span class="nav-number">3.2.</span> <span class="nav-text">FSRGameplayEffectContainerSpec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">异步事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%E6%BF%80%E6%B4%BBGE%E4%BA%8B%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">封装激活GE事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E8%8B%A5%E5%B9%B2%E9%87%8D%E8%A6%81%E7%9A%84%E7%BB%93%E6%9E%84%E4%BD%93%E6%95%B0%E6%8D%AE"><span class="nav-number">7.</span> <span class="nav-text">补充若干重要的结构体数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FGameplayEventData"><span class="nav-number">7.1.</span> <span class="nav-text">FGameplayEventData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E6%95%B0%E6%8D%AE-FGameplayAbilityTargetData"><span class="nav-number">7.2.</span> <span class="nav-text">目标数据&#x2F;FGameplayAbilityTargetData</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FGameplayAbilityTargetDataHandle"><span class="nav-number">7.2.1.</span> <span class="nav-text">FGameplayAbilityTargetDataHandle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FGameplayAbilityTargetData-LocationInfo"><span class="nav-number">7.2.2.</span> <span class="nav-text">FGameplayAbilityTargetData_LocationInfo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FGameplayAbilityTargetData-ActorArray"><span class="nav-number">7.2.3.</span> <span class="nav-text">FGameplayAbilityTargetData_ActorArray</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FGameplayAbilityTargetData-SingleTargetHit"><span class="nav-number">7.2.4.</span> <span class="nav-text">FGameplayAbilityTargetData_SingleTargetHit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FGameplayAbilityTargetingLocationInfo"><span class="nav-number">7.2.5.</span> <span class="nav-text">FGameplayAbilityTargetingLocationInfo</span></a></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GameplayAbilitySystem入门与实战(五):GameplayAbility(二)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-23T00:00:00+08:00">2020-12-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:28:33" itemprop="dateModified" datetime="2021-08-02T16:28:33+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/12/23/GameplayAbilitySystem分析(五)_GameplayAbility2/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前文已经大概了解了<code>GA</code>的大致内容,本片结合项目来详细使用一下技能.</p>
+<p>因为技能可以是通过按键直接触发, 我们在<code>GA</code>中多数是播放动画来表示技能执行的, 所以我们需要一个一个方便我们<code>GA</code>使用的播放动画的节点</p>
+<p><code>GAS</code>中有很多已经封装好的异步节点, 很多都是非常有用的,如下图(太多无法截全)</p>
+<p><img src="https://img.supervj.top//img/image-20201217142941527.png" alt="image-20201217142941527"></p>
+<p>其中有一个<code>PlayMontageAndWait</code>的节点, 可以用这个来播放动画蒙太奇, 然后通过动画通知来开启攻击能力, 攻击者(或者武器)触发攻击事件, 然后触发对应的<code>GE</code>来达到伤害的目的</p>
+<a name = "前言">
+
+<p>那么我们重新捋一下, 我们在<code>GA</code>中播放动画, 然后外面的动画通知和检测我们不管, 我们还在<code>GA</code>这里监听某些<code>Tag</code>的事件, 响应以后我们在这里应用<code>GE</code>效果(<code>ActionRPG</code>的思路),这样是不是更简单直观一点</p>
+<p>照着这个思路我们来做一下</p>
+<span id="more"></span>
+
+
+
+
+
+
+
+
+
+
+
+<a name = "获取目标">
+
+<h2 id="获取目标"><a href="#获取目标" class="headerlink" title="获取目标"></a>获取目标</h2><p>思考一下, 我们释放技能的时候需要知道目标是谁, 最好需要有<code>HitResult</code>数据方便我们知道打击位置播放特效等效果</p>
+<p>那么各类技能或者普通攻击获取这个信息的方式都可能不一样,所以我们就自定义一个类专门来用于获取目标数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UCLASS</span>(Blueprintable, meta = (ShowWorldContextPin))</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SUPERROAD_API</span> <span class="title">USRTargetType</span> :</span> <span class="keyword">public</span> UObject</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">	<span class="built_in">USRTargetType</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UFUNCTION</span>(BlueprintNativeEvent)</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">GetTargets</span><span class="params">(ASRCharacterBase* TargetingCharacter, AActor* TargetingActor, FGameplayEventData EventData, TArray&lt;FHitResult&gt;&amp; OutHitResults, TArray&lt;AActor*&gt;&amp; OutActors)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这个类就专门提供给蓝图重写, 默认不需要实现什么内容</p>
+<ul>
+<li>TargetingCharacter: 释放技能的角色</li>
+<li>TargetingActor: 释放技能的对象, 可能是角色,也可能是武器或者投掷物等</li>
+<li>EventData: 即<a href="#FGameplayEventData"><code>FGameplayEventData</code></a>,用于扩展参数</li>
+</ul>
+<ul>
+<li>蓝图重写</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201218102443161.png" alt="image-20201218102443161"></p>
+<p>如上图, 我们做一个最简单的box检测, 把找到的目标返回出去.</p>
+<p>至于怎么用, 我们后面将</p>
+<a name = "数据结构">
+
+<h2 id="创建新的数据结构"><a href="#创建新的数据结构" class="headerlink" title="创建新的数据结构"></a>创建新的数据结构</h2><p><a href="#%E5%89%8D%E8%A8%80">前言</a>说了, 我们播放动画然后需要收到事件信息, 理论上我们可以如下图这样做</p>
+<p><img src="https://img.supervj.top//img/image-20201218102759524.png" alt="image-20201218102759524"></p>
+<p>但是这样太笨拙, 而且<code>WaitGameplayEvent</code>返回的参数也不是很方便我们执行<code>GE</code>,所以我们把相关数据结构整合一下然后后面再创建一个新的整合版的异步事件</p>
+<h3 id="FSRGameplayEffectContainer"><a href="#FSRGameplayEffectContainer" class="headerlink" title="FSRGameplayEffectContainer"></a>FSRGameplayEffectContainer</h3><p>这个数据会作为<code>TMap</code>的值放到<code>GA</code>的配置中,保存了一个<code>SRTargetType</code>类,即前面讲的<a href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87">获取目标↑</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">USTRUCT</span>(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SUPERROAD_API</span> <span class="title">FSRGameplayEffectContainer</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">FSRGameplayEffectContainer</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/********** 目标类型*********/</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">		TSubclassOf&lt;USRTargetType&gt; TargetType;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 应用到目标上的GE */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">		TArray&lt;TSubclassOf&lt;UGameplayEffect&gt;&gt; TargetGameplayEffectClasses;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>然后我们到我们的<code>GA</code>基类<code>SRGameplayAbilityBase</code>中声明变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//标签对应的GE信息</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditDefaultsOnly, BlueprintReadOnly, Category = GameplayEffects)</span><br><span class="line">	TMap&lt;FGameplayTag, FSRGameplayEffectContainer&gt; EffectContainerMap;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="FSRGameplayEffectContainerSpec"><a href="#FSRGameplayEffectContainerSpec" class="headerlink" title="FSRGameplayEffectContainerSpec"></a>FSRGameplayEffectContainerSpec</h3><p>用来处理<code>SRGameplayEffectContainer</code>数据传递的结构体,参考GE和GA等都会有类似的Spec类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 目标数据 */</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">	FGameplayAbilityTargetDataHandle TargetData;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 应用到目标的GESpec */</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)</span><br><span class="line">	TArray&lt;FGameplayEffectSpecHandle&gt; TargetGameplayEffectSpecs;</span><br></pre></td></tr></table></figure>
+
+<p>几个函数有必要看一下, 因为后面马上我们会用到</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">FSRGameplayEffectContainerSpec::HasValidEffects</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> TargetGameplayEffectSpecs.<span class="built_in">Num</span>() &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">FSRGameplayEffectContainerSpec::HasValidTargets</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> TargetData.<span class="built_in">Num</span>() &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FSRGameplayEffectContainerSpec::AddTargets</span><span class="params">(<span class="keyword">const</span> TArray&lt;FHitResult&gt;&amp; HitResults, <span class="keyword">const</span> TArray&lt;AActor*&gt;&amp; TargetActors)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FHitResult&amp; HitResult : HitResults)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//hit类型的目标数据</span></span><br><span class="line">		FGameplayAbilityTargetData_SingleTargetHit* NewData = <span class="keyword">new</span> <span class="built_in">FGameplayAbilityTargetData_SingleTargetHit</span>(HitResult);</span><br><span class="line">		TargetData.<span class="built_in">Add</span>(NewData);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (TargetActors.<span class="built_in">Num</span>() &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//actor数组的目标数据</span></span><br><span class="line">		FGameplayAbilityTargetData_ActorArray* NewData = <span class="keyword">new</span> <span class="built_in">FGameplayAbilityTargetData_ActorArray</span>();</span><br><span class="line">		NewData-&gt;TargetActorArray.<span class="built_in">Append</span>(TargetActors);</span><br><span class="line">		TargetData.<span class="built_in">Add</span>(NewData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="异步事件"><a href="#异步事件" class="headerlink" title="异步事件"></a>异步事件</h2><p><a href="#%E5%89%8D%E8%A8%80">前言</a>大概提了一下<code>GAS</code>中已经封装了很多继承自<code>AbilityTask</code>的异步事件, 我们找到<code>UAbilityTask_PlayMontageAndWait</code>类, 在此基础上扩展一些参数就可以了</p>
+<p>创建类<code>UAbilityTask_PlayMontage : public UAbilityTask</code></p>
+<p>申明如下代理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams</span>(FSRPlayMontageWaitEventDlg, FGameplayTag, EventTag, FGameplayEventData, EventData);</span><br></pre></td></tr></table></figure>
+
+<p>这个代理决定我们异步事件回调函数的参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnCompleted;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnBlendOut;</span><br><span class="line">	<span class="comment">//打断</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnInterrupted;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 被执行 CancelAbility */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg OnCancelled;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 触发匹配Tag的Event*/</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintAssignable)</span><br><span class="line">		FSRPlayMontageWaitEventDlg EventReceived;</span><br></pre></td></tr></table></figure>
+
+<p>上面参数用了我们自己的代理, 除了最后一个其余是模仿<code>UAbilityTask_PlayMontageAndWait</code>的</p>
+<p>然后一路模仿, 实现关于事件监听和广播</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FDelegateHandle EventHandle;			</span><br><span class="line">EventHandle = ASC-&gt;<span class="built_in">AddGameplayEventTagContainerDelegate</span>(EventTags, FGameplayEventTagMulticastDelegate::FDelegate::<span class="built_in">CreateUObject</span>(<span class="keyword">this</span>, &amp;UAbilityTask_PlayMontage::OnGameplayEvent));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAbilityTask_PlayMontage::OnGameplayEvent</span><span class="params">(FGameplayTag EventTag, <span class="keyword">const</span> FGameplayEventData* Payload)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">ShouldBroadcastAbilityTaskDelegates</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		FGameplayEventData TempData = *Payload;</span><br><span class="line">		TempData.EventTag = EventTag;</span><br><span class="line"></span><br><span class="line">		EventReceived.<span class="built_in">Broadcast</span>(EventTag, TempData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>完成!</p>
+<p><img src="https://img.supervj.top//img/image-20201218154751973.png" alt="image-20201218154751973"></p>
+<h2 id="封装激活GE事件"><a href="#封装激活GE事件" class="headerlink" title="封装激活GE事件"></a>封装激活GE事件</h2><p>我们测试一下, 我们通过动画通知到角色, 然后角色调用<code>SendGameplayEventToActor</code>后成功走到了我们测试的<code>GA</code></p>
+<p><img src="https://img.supervj.top//img/image-20201218110426836.png" alt="image-20201218110426836"></p>
+<p><img src="https://img.supervj.top//img/image-20201218110739309.png" alt="image-20201218110739309"></p>
+<p>但是蓝图中用这个返回参数来应用<code>GE</code>还是够呛</p>
+<p>那么接下来就是封装可以利用这两个返回参数能执行相应<code>GE</code>效果的函数</p>
+<hr>
+<ul>
+<li><code>ApplyEffectContainerSpec</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TArray&lt;FActiveGameplayEffectHandle&gt; <span class="title">USRGameplayAbilityBase::ApplyEffectContainerSpec</span><span class="params">(<span class="keyword">const</span> FSRGameplayEffectContainerSpec&amp; ContainerSpec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TArray&lt;FActiveGameplayEffectHandle&gt; AllEffects;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 遍历GE并应用</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">const</span> FGameplayEffectSpecHandle&amp; SpecHandle : ContainerSpec.TargetGameplayEffectSpecs)</span><br><span class="line">	&#123;</span><br><span class="line">		AllEffects.<span class="built_in">Append</span>(<span class="built_in">K2_ApplyGameplayEffectSpecToTarget</span>(SpecHandle, ContainerSpec.TargetData));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> AllEffects;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面我们已经申明了自己的<a href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>,通过这个<code>FSRGameplayEffectContainerSpec</code>用<code>K2_ApplyGameplayEffectSpecToTarget</code>执行<code>GE</code>, 那我们还需要一个构建这个<code>Spec</code>参数</p>
+<ul>
+<li><code>MakeEffectContainerSpecFromContainer</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FSRGameplayEffectContainerSpec <span class="title">USRGameplayAbilityBase::MakeEffectContainerSpecFromContainer</span><span class="params">(<span class="keyword">const</span> FSRGameplayEffectContainer&amp; Container, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainerSpec resultSpec;</span><br><span class="line">	AActor* OwningActor = <span class="built_in">GetOwningActorFromActorInfo</span>();</span><br><span class="line">	ASRCharacterBase* OwningChar = Cast&lt;ASRCharacterBase&gt;(OwningActor);</span><br><span class="line">	USRAbilitySystemComponent* OwningASC = Cast&lt;USRAbilitySystemComponent&gt;(<span class="built_in">GetAbilitySystemComponentFromActorInfo</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (OwningASC)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//TargetType有指定</span></span><br><span class="line">		<span class="keyword">if</span> (Container.TargetType.<span class="built_in">Get</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			TArray&lt;FHitResult&gt; HitResults;</span><br><span class="line">			TArray&lt;AActor*&gt; TargetActors;</span><br><span class="line">			<span class="keyword">const</span> USRTargetType* TargetTypeCDO = Container.TargetType.<span class="built_in">GetDefaultObject</span>();</span><br><span class="line">			AActor* AvatarActor = <span class="built_in">GetAvatarActorFromActorInfo</span>();</span><br><span class="line">			<span class="comment">//获取目标数据</span></span><br><span class="line">			TargetTypeCDO-&gt;<span class="built_in">GetTargets</span>(OwningChar, AvatarActor, EventData, HitResults, TargetActors);</span><br><span class="line">			<span class="comment">//添加目标数据, 此目标会被应用GE</span></span><br><span class="line">			resultSpec.<span class="built_in">AddTargets</span>(HitResults, TargetActors);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//OverrideGameplayLevel = -1</span></span><br><span class="line">		<span class="keyword">if</span> (OverrideGameplayLevel == INDEX_NONE)</span><br><span class="line">		&#123;</span><br><span class="line">			OverrideGameplayLevel = <span class="built_in">GetAbilityLevel</span>();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">const</span>  TSubclassOf&lt;UGameplayEffect&gt;&amp; c : Container.TargetGameplayEffectClasses)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//构建并添加GE到Spec内</span></span><br><span class="line">			resultSpec.TargetGameplayEffectSpecs.<span class="built_in">Add</span>(<span class="built_in">MakeOutgoingGameplayEffectSpec</span>(c, OverrideGameplayLevel));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> resultSpec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法目标是从<code>SRTargetType</code>类得到目标类和<code>Hit</code>数据, 通过<code>FSRGameplayEffectContainerSpec::AddTargets</code>()添加到<code>TargetData</code>数据中</p>
+<p>但是这个函数是通过<code>FSRGameplayEffectContainer</code>和<code>EventData</code>创建<code>Spec</code>, 还不是特别的方便</p>
+<p>接下来我们补充一个通过<code>Tag</code>来构建<code>Spec</code>的辅助函数</p>
+<ul>
+<li><code>MakeEffectContainerSpec</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FSRGameplayEffectContainerSpec <span class="title">USRGameplayAbilityBase::MakeEffectContainerSpec</span><span class="params">(FGameplayTag ContainerTag, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainer* FoundContainer = EffectContainerMap.<span class="built_in">Find</span>(ContainerTag);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (FoundContainer)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">MakeEffectContainerSpecFromContainer</span>(*FoundContainer, EventData, OverrideGameplayLevel);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">FSRGameplayEffectContainerSpec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关键就是从我们<code>GA</code>配置的<code>Map</code>变量去找到对应的值, 那这个函数就是我们比较方便使用的</p>
+<p>那如果我们希望通过异步事件的返回参数直接应用<code>GE</code>, 我们每次要执行两个函数, 比较麻烦,接下来把两个函数合到一起</p>
+<ul>
+<li><code>ApplyEffectContainer</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TArray&lt;FActiveGameplayEffectHandle&gt; <span class="title">USRGameplayAbilityBase::ApplyEffectContainer</span><span class="params">(FGameplayTag ContainerTag, <span class="keyword">const</span> FGameplayEventData&amp; EventData, int32 OverrideGameplayLevel <span class="comment">/*= -1*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FSRGameplayEffectContainerSpec Spec = <span class="built_in">MakeEffectContainerSpec</span>(ContainerTag, EventData, OverrideGameplayLevel);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">ApplyEffectContainerSpec</span>(Spec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>我们的测试<code>GE</code>就扣一点血,如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201218155846401.png" alt="image-20201218155846401"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_16_00_23_999.gif" alt="录制_2020_12_18_16_00_23_999"></p>
+<p>成功应用</p>
+<h2 id="补充若干重要的结构体数据"><a href="#补充若干重要的结构体数据" class="headerlink" title="补充若干重要的结构体数据"></a>补充若干重要的结构体数据</h2><a name = "FGameplayEventData">
+
+<h3 id="FGameplayEventData"><a href="#FGameplayEventData" class="headerlink" title="FGameplayEventData"></a>FGameplayEventData</h3><p>传递数据的一个结构体,包含了诸多信息, 也有两个专门针对<code>GA</code>的<code>Tag</code>栏的标记(<code>SourceTag</code>,<code>TargetTag</code>)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//事件tag</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTag EventTag;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 发起者 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> AActor* Instigator;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标*/</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> AActor* Target;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 扩展类 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> UObject* OptionalObject;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 扩展类2 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">const</span> UObject* OptionalObject2;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** GE上下文,请参考GE部分 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayEffectContextHandle ContextHandle;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**发起者的Tag */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTagContainer InstigatorTags;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标tag */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayTagContainer TargetTags;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**这个事件的修改参数 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	<span class="keyword">float</span> EventMagnitude;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 目标数据 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, BlueprintReadWrite, Category = GameplayAbilityTriggerPayload)</span><br><span class="line">	FGameplayAbilityTargetDataHandle TargetData;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="目标数据-FGameplayAbilityTargetData"><a href="#目标数据-FGameplayAbilityTargetData" class="headerlink" title="目标数据/FGameplayAbilityTargetData"></a>目标数据/FGameplayAbilityTargetData</h3><p>这是一个基类,仅提供了一些虚函数</p>
+<p>目的是传递发起者和目标的基本信息</p>
+<h4 id="FGameplayAbilityTargetDataHandle"><a href="#FGameplayAbilityTargetDataHandle" class="headerlink" title="FGameplayAbilityTargetDataHandle"></a>FGameplayAbilityTargetDataHandle</h4><p>处理前者数据的类,一般在传递数据时候使用</p>
+<p>保存了<code>FGameplayAbilityTargetData</code>的数组</p>
+<h4 id="FGameplayAbilityTargetData-LocationInfo"><a href="#FGameplayAbilityTargetData-LocationInfo" class="headerlink" title="FGameplayAbilityTargetData_LocationInfo"></a>FGameplayAbilityTargetData_LocationInfo</h4><p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了发起者和目标的位置信息,用<code>FGameplayAbilityTargetingLocationInfo</code>保存</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo SourceLocation;</span><br><span class="line"><span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo TargetLocation;</span><br></pre></td></tr></table></figure>
+
+<h4 id="FGameplayAbilityTargetData-ActorArray"><a href="#FGameplayAbilityTargetData-ActorArray" class="headerlink" title="FGameplayAbilityTargetData_ActorArray"></a>FGameplayAbilityTargetData_ActorArray</h4><p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了发起者和目标数组</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = Targeting)</span><br><span class="line">	FGameplayAbilityTargetingLocationInfo SourceLocation;</span><br><span class="line"><span class="built_in">UPROPERTY</span>(EditAnywhere, Category = Targeting)</span><br><span class="line">	TArray&lt;TWeakObjectPtr&lt;AActor&gt; &gt; TargetActorArray;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="FGameplayAbilityTargetData-SingleTargetHit"><a href="#FGameplayAbilityTargetData-SingleTargetHit" class="headerlink" title="FGameplayAbilityTargetData_SingleTargetHit"></a>FGameplayAbilityTargetData_SingleTargetHit</h4><p>继承自<code>FGameplayAbilityTargetData</code>,</p>
+<p>保存了Hit信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line">	FHitResult	HitResult;</span><br><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">bool</span> bHitReplaced = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h4 id="FGameplayAbilityTargetingLocationInfo"><a href="#FGameplayAbilityTargetingLocationInfo" class="headerlink" title="FGameplayAbilityTargetingLocationInfo"></a>FGameplayAbilityTargetingLocationInfo</h4><p>用不同的格式保存位置信息</p>
+<ul>
+<li>位置类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> EGameplayAbilityTargetingLocationType</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">Type</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="comment">/** 提取实际位置信息,这是最后的备选方案 */</span></span><br><span class="line">		<span class="function">LiteralTransform		<span class="title">UMETA</span><span class="params">(DisplayName = <span class="string">&quot;Literal Transform&quot;</span>)</span>,</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">		<span class="comment">/**从相关actor中得到变换信息 */</span></span></span><br><span class="line"><span class="function">		ActorTransform			<span class="title">UMETA</span><span class="params">(DisplayName = <span class="string">&quot;Actor Transform&quot;</span>)</span>,</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">		<span class="comment">/**从骨骼模型中的插槽提取变换信息 */</span></span></span><br><span class="line"><span class="function">		SocketTransform			<span class="title">UMETA</span><span class="params">(DisplayName = <span class="string">&quot;Socket Transform&quot;</span>)</span>,		</span></span><br><span class="line"><span class="function">	&#125;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//位置类型</span></span><br><span class="line"><span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	TEnumAsByte&lt;EGameplayAbilityTargetingLocationType::Type&gt; LocationType;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 如果技能超过了计算范围, 那么会使用这个信息 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	FTransform LiteralTransform;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 基于actor的目标需要源actor，而基于socket的目标不需要源actor. */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	AActor* SourceActor;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**基于插槽的目标需要骨架网格组件来检查指定。 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	UMeshComponent* SourceComponent;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 使用数据的GA */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	UGameplayAbility* SourceAbility;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 如果SourceComponent有效，这是将使用的Socket转换的名称。如果没有提供Socket，将使用SourceComponent的转换。 */</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, meta = (ExposeOnSpawn = <span class="literal">true</span>), Category = Targeting)</span><br><span class="line">	FName SourceSocketName;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/12/23/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%94)_GameplayAbility2/" title="GameplayAbilitySystem入门与实战(五):GameplayAbility(二)">http://supervj.top/2020/12/23/GameplayAbilitySystem分析(五)_GameplayAbility2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/GAS/" rel="tag"># GAS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/22/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%9B%9B)_GameplayAbility/" rel="prev" title="GameplayAbilitySystem入门与实战(四):GameplayAbility(一)">
+                  <i class="fa fa-chevron-left"></i> GameplayAbilitySystem入门与实战(四):GameplayAbility(一)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/" rel="next" title="GameplayAbilitySystem入门与实战(六):GameplayEffect(一)">
+                  GameplayAbilitySystem入门与实战(六):GameplayEffect(一) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="Pure MVC是在基于模型、视图和控制器的MVC模式建立的一个轻量级的应用框架. 目前已经广泛应用于各类平台,常见用的语言如C#,Java等 本文尝试根据标准的C++PureMVC框架魔改成UE4版本方便使用的UnrealPureMVC(UPM)框架插件  github:UnrealPureMVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PureMVC框架">
+<meta property="og:url" content="http://supervj.top/2020/11/30/PureMVC/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="Pure MVC是在基于模型、视图和控制器的MVC模式建立的一个轻量级的应用框架. 目前已经广泛应用于各类平台,常见用的语言如C#,Java等 本文尝试根据标准的C++PureMVC框架魔改成UE4版本方便使用的UnrealPureMVC(UPM)框架插件  github:UnrealPureMVC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201128123312313.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201128134718774.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201128151312264.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201128152841398.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_11_28_16_03_35_455.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130090855726.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130091014189.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130091148445.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130091556643.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130091607660.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130092810959.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201130162447580.png">
+<meta property="article:published_time" content="2020-11-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:27:19.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="插件">
+<meta property="article:tag" content="PureMVC">
+<meta property="article:tag" content="框架">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201128123312313.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/11/30/PureMVC/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>PureMVC框架 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PureMVC%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">PureMVC简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PureMVC%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.</span> <span class="nav-text">PureMVC通信机制和接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Notifier"><span class="nav-number">2.0.1.</span> <span class="nav-text">Notifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Modle-Proxy"><span class="nav-number">2.0.2.</span> <span class="nav-text">Modle&#x2F;Proxy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#View-Mediator"><span class="nav-number">2.0.3.</span> <span class="nav-text">View&#x2F;Mediator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Controller-Command"><span class="nav-number">2.0.4.</span> <span class="nav-text">Controller&#x2F;Command</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%93%9D%E5%9B%BE%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">蓝图案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/11/30/PureMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PureMVC框架
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-30T00:00:00+08:00">2020-11-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:27:19" itemprop="dateModified" datetime="2021-08-02T16:27:19+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/11/30/PureMVC/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/11/30/PureMVC/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>Pure MVC是在基于模型、视图和控制器的MVC模式建立的一个轻量级的应用框架.</p>
+<p>目前已经广泛应用于各类平台,常见用的语言如C#,Java等</p>
+<p>本文尝试根据标准的C++PureMVC框架魔改成UE4版本方便使用的UnrealPureMVC(UPM)框架插件</p>
+</blockquote>
+<p><a href="git@github.com:VJien/UnrealPureMVC.git">github:UnrealPureMVC </a></p>
+<span id="more"></span>
+
+<ul>
+<li>参考文献</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/pureMVC/8328354?fr=aladdin">PureMVC百度百科</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/PureMVC/puremvc-cpp-multicore-framework">GitHub:puremvc-cpp-multicore-framework</a></p>
+<p><a target="_blank" rel="noopener" href="http://puremvc.org/docs/PureMVC_IIBP_Chinese.pdf">PureMVC官方中文文档</a></p>
+<p><img src="https://img.supervj.top//img/image-20201128123312313.png" alt="image-20201128123312313"></p>
+<!-- more -->
+
+<h3 id="PureMVC简单介绍"><a href="#PureMVC简单介绍" class="headerlink" title="PureMVC简单介绍"></a>PureMVC简单介绍</h3><p>PureMVC框架把程序分为低耦合的三层：Model、View和 Controller。</p>
+<p>在PureMVC首先实现了设计模式中的<strong>单例模式</strong>,其中以上3部分都是单例模式来管理,然后通过单例**<code>Facade</code>作为对外的唯一接口访问**</p>
+<ul>
+<li><strong>Model</strong></li>
+</ul>
+<p>Model 保存对 Proxy 对象的引用，Proxy 负责操作数据模型，与远程服务通 信存取数据。</p>
+<ul>
+<li> <strong>Proxy</strong></li>
+</ul>
+<p>Proxy 负责操作数据模型，与远程服务通信存取数据；</p>
+<ul>
+<li><strong>View</strong></li>
+</ul>
+<p>View 保存对 Mediator 对象的引用;</p>
+<p>Mediator 对象来操作具体的视图组件,如UE4中的UMG组件</p>
+<p>这样做是把视图的逻辑层和表现层剥离开</p>
+<ul>
+<li><strong>Mediator:</strong></li>
+</ul>
+<p>Mediator操作具体的视图组件UI，包括：添加事件监听器，发送或接收 Notification ，直接改变视图组件的状态；</p>
+<ul>
+<li><strong>Controller</strong></li>
+</ul>
+<p>Controller 保存所有 Command 的映射。</p>
+<p>Command 类是无状态的，只在需 要时才被创建。</p>
+<ul>
+<li><strong>Command</strong></li>
+</ul>
+<p>Command 可以获取 Proxy 对象并与之交互，发送 Notification，执行其他的 Command。</p>
+<p><img src="https://img.supervj.top//img/image-20201128134718774.png" alt="image-20201128134718774"></p>
+<hr>
+<p>还有几点需要注意</p>
+<ul>
+<li>新建我们自己的Facade类</li>
+<li>用该类初始化各种需要初始化的Command/Proxy/Mediator</li>
+<li>M/V/C三个单例是内部类,尽量不要给外部访问,这里我们把3个单例的方法的<code>UFUNCTION</code>宏都注释掉了</li>
+</ul>
+<h3 id="PureMVC通信机制和接口"><a href="#PureMVC通信机制和接口" class="headerlink" title="PureMVC通信机制和接口"></a>PureMVC通信机制和接口</h3><p>先说明两个核心的事件**[发送消息/<code>SendNotification</code>]<strong>和</strong>[处理消息/<code>HandleNotification</code>]**,我们做的事件多数围绕着这两件事情而展开</p>
+<h5 id="Notifier"><a href="#Notifier" class="headerlink" title="Notifier"></a>Notifier</h5><p>最为基类存在,实现了发送消息的方法<code>SendNotification</code>,同时提供如下方法,在初始化的时候设置必要参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetFacade</span><span class="params">(UMVC_Facade* facade)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetWorldContext</span><span class="params">(UObject* worldContext)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>后面的<code>Proxy</code>,<code>Command</code>,<code>Mediator</code>均是继承自<code>Notifier</code>类</p>
+<h5 id="Modle-Proxy"><a href="#Modle-Proxy" class="headerlink" title="Modle/Proxy"></a>Modle/Proxy</h5><p>M层使用了设计模式中的<strong>代理模式</strong>,即外部与数据的通信都通过<code>Proxy</code>类来交互而非直接对数据进行处理</p>
+<p>M层提供了注册/获取/移除/判断 <code>Proxy</code>的接口</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegisterProxy</span><span class="params">(UMVC_Proxy* Proxy)</span></span>;</span><br><span class="line"><span class="function">UMVC_Proxy* <span class="title">RetrieveProxy</span><span class="params">(<span class="keyword">const</span> FString&amp; ProxyName)</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">RemoveProxy</span><span class="params">(<span class="keyword">const</span> FString&amp; ProxyName)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasProxy</span><span class="params">(<span class="keyword">const</span> FString&amp; ProxyName)</span><span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>一般情况我们在代码中需要实现一个<code>Modle</code>类和一个<code>IModel</code>接口,在这里我对此进行了简化,传统的<code>IModel</code>,甚至包括后面的<code>IFacade</code>,<code>IView</code>,<code>IProxy</code>等等接口都统统简化掉,把所有接口方法都放到对应的基类内</p>
+<blockquote>
+<p>虽然有悖于依赖倒置原则,但是为了简化代码量,如有必要后面添加相应接口并把方法移动至接口内</p>
+</blockquote>
+<p><code>Proxy</code>类的主要则是存储数据,以及跟服务端通信</p>
+<p><code>Proxy</code>可以发送消息, 但是<strong>不能接收消息</strong>, 在官方文档中有解释,原因是如果<code>Proxy</code>能接受消息的话那么M层与VC两层的耦合就太高了</p>
+<p><strong>VC层可以接受来自<code>Proxy</code>的消息而对视图作为一定处理;反过来,VC层的改变不应该影响M层</strong></p>
+<p>我们在<code>Proxy</code>类内实现一些基础方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetInfo</span><span class="params">(<span class="keyword">const</span> FString&amp; Name)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnRegister</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnRemove</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">FString <span class="title">GetProxyName</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetData</span><span class="params">(UObject* Data)</span></span>;</span><br><span class="line"><span class="function">UObject* <span class="title">GetProxyData</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中这些方法都不是必须实现的, 在蓝图层面, 我们可以在<code>OnRegister</code>和<code>OnRemove</code>两个方法最为启动和结束的入口函数对数据做一定的处理</p>
+<h5 id="View-Mediator"><a href="#View-Mediator" class="headerlink" title="View/Mediator"></a>View/Mediator</h5><p><code>View</code>类相比<code>Model</code>类会复杂一点,这里我们会用到几个新的类</p>
+<p><code>Observer</code>类应用了<strong>观察者模式</strong>,在注册每一个<code>Mediator</code>类的时候都会创建一个临时<code>Observer</code>类来作为观察者,在接受到特定消息以后将消息通知给<code>Mediator</code>类</p>
+<p>如下代码简单解释了这一操作</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注册mediator时</span></span><br><span class="line">UMVC_Observer* obs = NewObject&lt;UMVC_Observer&gt;();</span><br><span class="line">		obs-&gt;<span class="built_in">SetInfo</span>(mediator, [mediator](UMVC_Notification* notification) &#123;</span><br><span class="line">			mediator-&gt;<span class="built_in">HandleNotification</span>(notification);</span><br><span class="line">		&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//sendNotification后调用到的</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UMVC_View::NotifyObservers_Implementation</span><span class="params">(UMVC_Notification* noitifyCation)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FString name = noitifyCation-&gt;<span class="built_in">GetName</span>();</span><br><span class="line">	<span class="keyword">if</span> (ObserverMap.<span class="built_in">Contains</span>(name))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> cur : ObserverMap[name].Observers)</span><br><span class="line">		&#123;</span><br><span class="line">			cur-&gt;<span class="built_in">NotifyObserver</span>(noitifyCation);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li>UMVC_Notification</li>
+</ul>
+<p>此类作为一个封装类存在,在这里其实就是简单封装了一个字符串和UObject类,对应的就是<code>SendNotification</code>方法的2个参数;</p>
+<p>当然, 我们后面可以自定义我们所需要的<code>Notification</code>类来添加更多的参数</p>
+<hr>
+<p>在<code>View</code>类中,保存了2个字典以便于随时获取</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line">		TMap&lt;FString, UMVC_Mediator*&gt; MediatorMap;</span><br><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line">		TMap&lt;FString, FObserverArray&gt; ObserverMap;</span><br></pre></td></tr></table></figure>
+
+<p>这里补充一点,一个消息字符串对应的是一个观察者数组, 因为观察同一个消息的可能有很多对象,而一个对象就对应一个<code>Observer</code>类</p>
+<p><code>View</code>主要代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegisterObserver</span><span class="params">(<span class="keyword">const</span> FString&amp; NotificationName, UMVC_Observer* observer)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RemoveObserver</span><span class="params">(<span class="keyword">const</span> FString&amp; NotificationName, UObject* notifyObject)</span></span>;<span class="string">&quot;)</span></span><br><span class="line"><span class="string">void NotifyObservers(UMVC_Notification* noitifyCation);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">void RegisterMeditor(UMVC_Mediator* mediator);</span></span><br><span class="line"><span class="string">UMVC_Mediator* RetrieveMediator(const FString&amp; mediatorName)const;</span></span><br><span class="line"><span class="string">bool RemoveMediator(const FString&amp; mediatorName);</span></span><br><span class="line"><span class="string">bool HasMediator(const FString&amp; mediatorName) ;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><code>Mediator</code>类作为非常核心的一个类而存在, 多数情况, 大多数的交互逻辑都放在此类中, 如发送消息打开某某界面等等</p>
+<p><strong><code>Mediator</code>发送、声明、接收消息</strong></p>
+<p><code>Mediator</code>类在创建后需要调用一个初始化方法,目的是让<code>Mediator</code>绑定一个具体对象, 如我们UE中的UMG类, 但其实<code>MVC</code>框架不仅仅只适合用与UI的管理, 我们同样可以<code>Mediator</code>来绑定其他对象比如我们玩家甚至我们的<code>GameMode</code>类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UMVC_Mediator::Init_Implementation</span><span class="params">(<span class="keyword">const</span> FString&amp; mediatorName, UObject* viewInstance)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MediatorName = mediatorName;</span><br><span class="line">	ViewInstance = viewInstance;</span><br><span class="line">	<span class="built_in">UE_LOG</span>(UPM, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Meditor [%s, %s] Init &quot;</span>), *mediatorName,viewInstance?*(UKismetSystemLibrary::<span class="built_in">GetDisplayName</span>(viewInstance)):<span class="built_in">TEXT</span>(<span class="string">&quot; NONE &quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们同样封装了一个蓝图函数库来用于创建<code>Mediator</code>类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UMVC_Mediator* <span class="title">UFlib_UPM::CreateMediator</span><span class="params">(UObject* worldContext, TSubclassOf&lt;UMVC_Mediator&gt; mediatorClass, UObject* Instance, <span class="keyword">const</span> FString&amp; specialName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (mediatorClass &amp;&amp; Instance)</span><br><span class="line">	&#123;</span><br><span class="line">		UMVC_Mediator* m = NewObject&lt;UMVC_Mediator&gt;(worldContext, mediatorClass);</span><br><span class="line">		m-&gt;<span class="built_in">Init</span>(specialName.<span class="built_in">IsEmpty</span>() ? mediatorClass-&gt;<span class="built_in">GetName</span>() : specialName, Instance);</span><br><span class="line">		m-&gt;<span class="built_in">SetWorldContext</span>(worldContext);</span><br><span class="line">		<span class="keyword">return</span> m;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而我们后面派生的<code>Mediator</code>子类需要重写的函数是<code>ListNotificationInterests</code>和<code>HandleNotification</code>,也就是我们最前面说的两个事件,前者返回的数组是我们观察的消息,后者处理收到的消息后的逻辑</p>
+<p>同样,在<code>OnRegister</code>和<code>OnRemove</code>事件中可以在启动和销毁时做处理, 如绑定我们<code>GetViewInstance</code>得到的对象的代理事件 或者 获取数据类<code>Proxy</code></p>
+<p><img src="https://img.supervj.top//img/image-20201128151312264.png" alt="image-20201128151312264"></p>
+<h5 id="Controller-Command"><a href="#Controller-Command" class="headerlink" title="Controller/Command"></a>Controller/Command</h5><p>MVC中的C,其实就是作为设计模式中的<strong>中介者模式</strong>存在,同时<code>Command</code>类又应用了<strong>命令模式</strong></p>
+<p>在<code>PureMVC</code>中的<code>Command</code>只作为一个无状态的类存在,在需要的时候被创建,执行逻辑以后就销毁</p>
+<p>目的是方便了我们封装一些常用功能的逻辑,如显示某个UI,移除某个UI</p>
+<p><code>Controller</code>类的代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">(UMVC_View* view)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegisterCommand</span><span class="params">(<span class="keyword">const</span> FString&amp; notificationName, UMVC_Command* command)</span></span>;</span><br><span class="line"><span class="function">UMVC_Command* <span class="title">RetrieveCommand</span><span class="params">(<span class="keyword">const</span> FString&amp; notificationName)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ExecuteCommand</span><span class="params">(UMVC_Notification* notification)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">RemoveCommand</span><span class="params">(<span class="keyword">const</span> FString&amp; noitificationName)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasCommand</span><span class="params">(<span class="keyword">const</span> FString&amp; notificationName)</span><span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们会注意到有一个<code>Init</code>方法来获取一个<code>View</code>类对象,意味着其实我们VC两层是耦合的,</p>
+<p>同样我们注册<code>Command</code>类的时候会创建一个观察者类<code>Observer</code>,注册的变量<code>notificationName</code>即<code>Command</code>对应的消息名称,参考我们<code>Mediator</code>对象的<code>ListNotificationInterests</code>方法,</p>
+<p>观察者的对象是我们<code>Controller</code>本身,在接受到消息的时候直接调用<code>ExecuteCommand</code>命令</p>
+<blockquote>
+<p>即Notification可以直接触发Comand执行</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UMVC_Controller::RegisterCommand</span><span class="params">(<span class="keyword">const</span> FString&amp; notificationName, UMVC_Command* command)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (CommandMap.<span class="built_in">Contains</span>(notificationName))</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	CommandMap.<span class="built_in">Add</span>(notificationName, command);</span><br><span class="line">	UMVC_Observer* obs = NewObject&lt;UMVC_Observer&gt;();</span><br><span class="line">	obs-&gt;<span class="built_in">SetInfo</span>(<span class="keyword">this</span>, [<span class="keyword">this</span>](UMVC_Notification* notification)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">ExecuteCommand</span>(notification);</span><br><span class="line">	&#125;);</span><br><span class="line">	View-&gt;<span class="built_in">RegisterObserver</span>(notificationName, obs);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><code>Command</code>类可以获取<code>Proxy</code>和<code>Mediator</code>类,如下是我们后面的案例实现的一个<code>PushUI</code>的<code>Command</code></p>
+<p><img src="https://img.supervj.top//img/image-20201128152841398.png" alt="image-20201128152841398"></p>
+<p>我们会注意到有一个名称带<code>Body</code>的类,也就是我们上面提到的<code>SendNotification</code>方法中的<code>UObject</code>扩展类</p>
+<p>我们显示/隐藏UI的时候提供的参数都使用的是<code>MediatorName</code>,因为围绕MVC的中心思想, 对视图的控制我们会集中在我们自己的框架中,每个UMG都是由一个<code>Mediator</code>管理,那么我们对视图的显示隐藏就直接用<code>MediatorName</code>类作为唯一参数是比较直观的</p>
+<h3 id="蓝图案例"><a href="#蓝图案例" class="headerlink" title="蓝图案例"></a>蓝图案例</h3><p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_11_28_16_03_35_455.gif" alt="录制_2020_11_28_16_03_35_455"></p>
+<p>我们简单实现了一个小游戏</p>
+<p>包含功能</p>
+<ul>
+<li>设置子弹数量</li>
+<li>子弹自动回复</li>
+<li>鼠标点击击杀怪物(盒子)</li>
+<li>获取击杀数量数据和得分</li>
+<li>右下角测试UI</li>
+<li>测试UI切换</li>
+</ul>
+<hr>
+<p>以上大致分为两部分内容,一部分是关于UMG的内容,另外是其他类</p>
+<p><img src="https://img.supervj.top//img/image-20201130090855726.png" alt="image-20201130090855726"></p>
+<p>我们从<code>Mediator</code>类就可以发现,我们把<code>GameMode</code>以及如<code>Enemy</code>类也加入了我们的<code>PureMVC</code>框架</p>
+<p><img src="https://img.supervj.top//img/image-20201130091014189.png" alt="image-20201130091014189"></p>
+<p>上图是<code>GameMode</code>中的内容,在运行初期就创建<code>Facade</code>以及把<code>GameMode</code>本身注册到框架内</p>
+<p><img src="https://img.supervj.top//img/image-20201130091148445.png" alt="image-20201130091148445"></p>
+<p><code>Facade</code>中的3个提供给蓝图重写的方法分别创建了初始的<code>Mediator</code>,<code>Command</code>以及<code>Proxy</code></p>
+<p>这里的<code>Mediator</code>对应的对象都是<code>UMG</code>类,因为也只有<code>UMG</code>类可以在最初的时候就先实例化出来(不显示到屏幕)</p>
+<p>这里因为蓝图不方便用构造obj的方式来创建<code>UMG</code>,所以我们简单封装了一个构造<code>UMG</code>的方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UUserWidget* <span class="title">UFlib_UPM::CreateWidgetObject</span><span class="params">(UObject* worldContext, TSubclassOf&lt;UUserWidget&gt; umgClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (umgClass)</span><br><span class="line">	&#123;</span><br><span class="line">		UUserWidget* m = NewObject&lt;UUserWidget&gt;(worldContext, umgClass);</span><br><span class="line">		<span class="keyword">return</span> m;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>我们创建了2个蓝图<code>Command</code>类,用来显示/隐藏UI</p>
+<p><img src="https://img.supervj.top//img/image-20201130091556643.png" alt="image-20201130091556643"></p>
+<p><img src="https://img.supervj.top//img/image-20201130091607660.png" alt="image-20201130091607660"></p>
+<p>如上图,两个<code>Command</code>类对UI进行处理,主要修改了对应的<code>Proxy</code>类的数据, 以及从<code>Mediator</code>信息得到的具体<code>UMG</code>对象进行处理</p>
+<p><img src="https://img.supervj.top//img/image-20201130092810959.png" alt="image-20201130092810959"></p>
+<p>我们封装了2个显示/隐藏UI的宏,传入调用的<code>mediator</code>对象以及UI对应的<code>MediatorClass</code>类型</p>
+<blockquote>
+<p>从这里我们就已经可以看到, UI与UI, UI与数据,UI与其他类之间已经完全解耦,逻辑部分都集中在<code>Mediator</code>/<code>Command</code>中</p>
+</blockquote>
+<p>同样的,我们也可以用<code>Mediator</code>来管理其他场景类的交互</p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>思考:如果我们主要想使用的就是<code>PureMVC</code>中的收发消息功能, 我们已经有很多蓝图类而不想创建同样数量的<code>Mediator</code>类,那有没有办法让蓝图类本身就替代或者模拟<code>Mediator</code>类在框架中的角色呢</p>
+<hr>
+<p>这里我们打算对UE一般的类都当作<code>Mediator</code>来处理,那么我们先声明一个接口</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SendNotification</span><span class="params">(<span class="keyword">const</span> FString&amp; notification,UObject* body)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HandleNotification</span><span class="params">(UMVC_Notification* notification)</span></span>;</span><br><span class="line"><span class="function">FString <span class="title">GetOwnMeditorName</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function">UMVC_Proxy* <span class="title">RetrieveProxy</span><span class="params">(<span class="keyword">const</span> FString&amp; ProxyName)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnRegister</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnRemove</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">TArray&lt;FString&gt; <span class="title">ListNotificationInterests</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function">UMVC_Facade* <span class="title">GetOwnFacade</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function">UUPM_Mediator* <span class="title">GetOwnMediator</span><span class="params">()</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegisterUPMObject</span><span class="params">(UMVC_Facade* facade)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们创建一个继承自<code>UMVC_Mediator</code>类 <code>UPM_Mediator</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE</span>(FUPMMulDlg);</span><br><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam</span>(FUPMMulDlgOneParam, UMVC_Notification*, notification);</span><br><span class="line"><span class="comment">/****/</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintCallable,BlueprintAssignable)</span><br><span class="line">		FUPMMulDlg OnRegistered;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintCallable, BlueprintAssignable)</span><br><span class="line">		FUPMMulDlg OnRemoved;</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintCallable, BlueprintAssignable)</span><br><span class="line">		FUPMMulDlgOneParam OnHandleNotification;</span><br></pre></td></tr></table></figure>
+
+<p>主要目的是作为一个中介连接UE类和PureMVC</p>
+<p>拿<code>OnRegister</code>为例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UUPM_Mediator::OnRegister_Implementation</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">OnRegister_Implementation</span>();</span><br><span class="line">	OnRegistered.<span class="built_in">Broadcast</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们创建继承自<code>UserWidget</code>的UMG类<code>UPM_Widget</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">SendNotification_Implementation</span><span class="params">(<span class="keyword">const</span> FString&amp; notification, UObject* body)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">HandleNotification_Implementation</span><span class="params">(UMVC_Notification* notification)</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> FString <span class="title">GetOwnMeditorName_Implementation</span><span class="params">()</span><span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> UMVC_Proxy* <span class="title">RetrieveProxy_Implementation</span><span class="params">(<span class="keyword">const</span> FString&amp; ProxyName)</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnRegister_Implementation</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnRemove_Implementation</span><span class="params">()</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> TArray&lt;FString&gt; <span class="title">ListNotificationInterests_Implementation</span><span class="params">()</span><span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> UMVC_Facade* <span class="title">GetOwnFacade_Implementation</span><span class="params">()</span><span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">RegisterUPMObject_Implementation</span><span class="params">(UMVC_Facade* facade)</span><span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> UUPM_Mediator* <span class="title">GetOwnMediator_Implementation</span><span class="params">()</span><span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">	<span class="comment">/*UPM END*/</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">		FString CustomName;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(Instanced)</span><br><span class="line">		UUPM_Mediator* ownMediator;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UUPM_Widget::RegisterUPMObject_Implementation</span><span class="params">(UMVC_Facade* facade)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (facade )</span><br><span class="line">	&#123;</span><br><span class="line">		ownMediator = NewObject&lt;UUPM_Mediator&gt;();</span><br><span class="line">			<span class="comment">// CreateDefaultSubobject&lt;UUPM_Mediator&gt;(TEXT(&quot;UPM_Mediator&quot;));</span></span><br><span class="line">		ownMediator-&gt;<span class="built_in">Init</span>(CustomName.<span class="built_in">IsEmpty</span>()?<span class="keyword">this</span>-&gt;<span class="built_in">GetName</span>():CustomName, <span class="keyword">this</span>);</span><br><span class="line">		ownMediator-&gt;<span class="built_in">SetWorldContext</span>(<span class="keyword">this</span>);</span><br><span class="line">		ownMediator-&gt;OnRemoved.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUPM_Widget::OnRemove);</span><br><span class="line">		ownMediator-&gt;OnRegistered.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUPM_Widget::OnRegister);</span><br><span class="line">		ownMediator-&gt;OnHandleNotification.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;UUPM_Widget::HandleNotification);</span><br><span class="line">		ownMediator-&gt;NotificationInterests = <span class="built_in">Execute_ListNotificationInterests</span>(<span class="keyword">this</span>);</span><br><span class="line">		facade-&gt;<span class="built_in">RegisterMediator</span>(ownMediator);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">UE_LOG</span>(UPM, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;UPM Object Register Failed!! &quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>外部用来注册此类的方法来创建这个中介<code>UUPM_Mediator</code>,然后绑定代理</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UUPM_Widget* <span class="title">UFlib_UPMEx::CreateUPMWidget</span><span class="params">(UMVC_Facade* facade, TSubclassOf&lt;UUPM_Widget&gt; umgClass, <span class="keyword">const</span> FString&amp; specialName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (umgClass &amp;&amp; facade)</span><br><span class="line">	&#123;</span><br><span class="line">		UUPM_Widget* w = NewObject&lt;UUPM_Widget&gt;(facade-&gt;WorldContext, umgClass);</span><br><span class="line">		w-&gt;CustomName = specialName;</span><br><span class="line">		w-&gt;<span class="built_in">Execute_RegisterUPMObject</span>(w, facade);</span><br><span class="line">		<span class="keyword">return</span> w;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现一个蓝图库函数创建和注册此UMG类</p>
+<p><img src="https://img.supervj.top//img/image-20201130162447580.png" alt="image-20201130162447580"></p>
+<p>封装一个蓝图宏库,直接把自己Push到屏幕;对于其他地方如果想Push/Pop该UMG,那么需要得到对应的<code>MediatorName</code>,这个可以自行扩展</p>
+<hr>
+<blockquote>
+<p> 同样的方法, 我们也可以申明同样的类,如<code>UPM_Actor</code>,<code>UPM_Pawn</code></p>
+<p>或者我们可以创建一个ActorComponent来实现这个同样的功能</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/11/30/PureMVC/" title="PureMVC框架">http://supervj.top/2020/11/30/PureMVC/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag"># 插件</a>
+              <a href="/tags/PureMVC/" rel="tag"># PureMVC</a>
+              <a href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag"># 框架</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/27/%E8%B5%84%E6%BA%90%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/" rel="prev" title="资源注册模块AssetRegistry分析">
+                  <i class="fa fa-chevron-left"></i> 资源注册模块AssetRegistry分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/03/VS%E4%B8%AD%E4%BD%BF%E7%94%A8UE%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" rel="next" title="VS中使用UE代码片段">
+                  VS中使用UE代码片段 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

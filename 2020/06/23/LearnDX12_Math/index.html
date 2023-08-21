@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="向量代数向量DirectX3D采用的左手坐标系  左手坐标系：伸出左手，手指方向对准X轴正方向，弯曲手指对象Y轴正方向，大拇指指的就是Z轴正方向  向量的基本运算 两个向量相等。即u&#x3D;v。当且仅当u和v的每个分量相等，即ux&#x3D;vx,uy&#x3D;vy, uz&#x3D;vz  向量的加法即两个向量对应分量都相加  向量与标量相乘即每一个分量与标量相乘  向量减法与加法类似   向量加法的几何意义u+v，即u的尾部与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DX学习笔记（一）：数学基础">
+<meta property="og:url" content="http://supervj.top/2020/06/23/LearnDX12_Math/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="向量代数向量DirectX3D采用的左手坐标系  左手坐标系：伸出左手，手指方向对准X轴正方向，弯曲手指对象Y轴正方向，大拇指指的就是Z轴正方向  向量的基本运算 两个向量相等。即u&#x3D;v。当且仅当u和v的每个分量相等，即ux&#x3D;vx,uy&#x3D;vy, uz&#x3D;vz  向量的加法即两个向量对应分量都相加  向量与标量相乘即每一个分量与标量相乘  向量减法与加法类似   向量加法的几何意义u+v，即u的尾部与">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213350051.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213401165.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213420038.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213446595.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213508242.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213545042.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213557536.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213605437.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213614501.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213635523.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118213701332.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118215001131.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118215207615.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118215348688.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118215354016.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200118221313633.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200119135645869.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120070458975.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120070505831.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120070807173.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120070906956.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120071122512.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120071219317.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120071623379.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120071758210.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120191929162.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120200716480.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120200727115.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120200736692.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120200844209.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120200914468.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120201007378.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120201040699.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120201108843.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120201159666.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120201605278.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120204905556.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120205253567.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120205340831.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120205418259.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120205505699.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120205519977.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120211359396.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200120211048937.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121070851768.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071106597.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071255330.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071642398.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071743966.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071817696.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121071907341.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200623102531554.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200623102549550.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121153741133.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200623102608770.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121154123112.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121154343881.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121154450682.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121160932351.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121161200597.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121161843458.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121161704819.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121161727755.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121161922233.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121163133298.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121163151822.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121163854031.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121170431813.png">
+<meta property="og:image" content="https://img.supervj.top/img/DX/image-20200121182846768.png">
+<meta property="article:published_time" content="2020-06-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:40:19.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="DirectX">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top/img/DX/image-20200118213350051.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/06/23/LearnDX12_Math/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>DX学习笔记（一）：数学基础 | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E4%BB%A3%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">向量代数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">向量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">向量的基本运算</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E9%95%BF%E5%BA%A6%E5%92%8C%E5%8D%95%E4%BD%8D%E5%90%91%E9%87%8F"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">向量的长度和单位向量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E7%A7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">点积</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">正交投影</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">正交化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%BC%E6%8B%89%E5%A7%86-%E6%96%BD%E5%AF%86%E7%89%B9%E6%AD%A3%E4%BA%A4%E5%8C%96"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">格拉姆-施密特正交化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%89%E7%A7%AF"><span class="nav-number">1.4.</span> <span class="nav-text">叉积</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%A8%E5%8F%89%E7%A7%AF%E7%B1%BB%E8%A7%84%E8%8C%83%E6%AD%A3%E4%BA%A4%E5%8C%96"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">用叉积类规范正交化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8DirectXMath%E5%BA%93"><span class="nav-number">1.6.</span> <span class="nav-text">用DirectXMath库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DirectXMath%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83"><span class="nav-number">1.6.0.1.</span> <span class="nav-text">DirectXMath变量的使用规范</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%96%B9%E6%B3%95%E5%92%8C%E5%AD%98%E5%82%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.0.2.</span> <span class="nav-text">加载方法和存储方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-number">1.6.0.3.</span> <span class="nav-text">参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BC%A0%E9%80%92%E8%A7%84%E5%88%99"><span class="nav-number">1.6.0.3.1.</span> <span class="nav-text">传递规则</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E5%90%91%E9%87%8F"><span class="nav-number">1.6.0.4.</span> <span class="nav-text">常向量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.0.5.</span> <span class="nav-text">重载运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">1.6.0.6.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Setter%E5%87%BD%E6%95%B0"><span class="nav-number">1.6.0.7.</span> <span class="nav-text">Setter函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.6.0.8.</span> <span class="nav-text">使用案例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%87%BD%E6%95%B0"><span class="nav-number">1.6.0.9.</span> <span class="nav-text">向量函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E8%AF%AF%E5%B7%AE"><span class="nav-number">1.6.0.10.</span> <span class="nav-text">浮点数的误差</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E4%BB%A3%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">矩阵代数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E4%BA%8E%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">向量于矩阵乘法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5"><span class="nav-number">2.3.</span> <span class="nav-text">转置矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BD%8D%E7%9F%A9%E9%98%B5"><span class="nav-number">2.4.</span> <span class="nav-text">单位矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">矩阵的行列式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%99%E5%AD%90%E9%98%B5"><span class="nav-number">2.5.0.1.</span> <span class="nav-text">余子阵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="nav-number">2.5.0.2.</span> <span class="nav-text">行列式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%B4%E9%9A%8F%E7%9F%A9%E9%98%B5"><span class="nav-number">2.6.</span> <span class="nav-text">伴随矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E7%9F%A9%E9%98%B5"><span class="nav-number">2.7.</span> <span class="nav-text">逆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DirectXMath%E5%BA%93%E5%A4%84%E7%90%86%E7%9F%A9%E9%98%B5%E9%98%B5%E5%88%97"><span class="nav-number">2.8.</span> <span class="nav-text">DirectXMath库处理矩阵阵列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F"><span class="nav-number">3.1.0.0.1.</span> <span class="nav-text">线性变换函数公式</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">矩阵表示法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA%E6%B3%95%E5%85%AC%E5%BC%8F"><span class="nav-number">3.1.0.1.1.</span> <span class="nav-text">矩阵表示法公式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link"><span class="nav-number">3.1.0.1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#R3-%E6%A0%87%E5%87%86%E5%9F%BA%E5%90%91%E9%87%8F"><span class="nav-number">3.1.0.1.3.</span> <span class="nav-text">R3,标准基向量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA%E6%B3%95%E5%85%AC%E5%BC%8F2"><span class="nav-number">3.1.0.1.4.</span> <span class="nav-text">矩阵表示法公式2</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E7%9A%84%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="nav-number">3.1.0.1.5.</span> <span class="nav-text">线性变换的矩阵表示法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%A9%E6%94%BE"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">缩放</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="nav-number">3.1.0.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BC%A9%E6%94%BE%E5%8F%98%E6%8D%A2%E7%9A%84%E7%9F%A9%E9%98%B5%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.0.2.2.</span> <span class="nav-text">缩放变换的矩阵表达式</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">旋转</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5%E5%9F%BA%E7%A1%80%E5%85%AC%E5%BC%8F"><span class="nav-number">3.1.0.3.1.</span> <span class="nav-text">旋转矩阵基础公式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E7%9F%A9%E9%98%B5%E7%9A%84%E9%80%86%E7%9F%A9%E9%98%B5"><span class="nav-number">3.1.0.3.2.</span> <span class="nav-text">正交矩阵的逆矩阵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E4%BF%97%E5%85%AC%E5%BC%8F"><span class="nav-number">3.1.0.3.3.</span> <span class="nav-text">通俗公式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">3.1.0.3.4.</span> <span class="nav-text">案例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="nav-number">3.2.</span> <span class="nav-text">仿射变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87"><span class="nav-number">3.2.1.</span> <span class="nav-text">齐次坐标</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%AE%9A%E4%B9%89"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">仿射变换定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B3%E7%A7%BB"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">平移</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%81%92%E7%AD%89%E5%8F%98%E6%8D%A2"><span class="nav-number">3.2.1.2.1.</span> <span class="nav-text">恒等变换</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B9%B3%E7%A7%BB%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.1.2.2.</span> <span class="nav-text">平移矩阵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B9%B3%E7%A7%BB%E7%9F%A9%E9%98%B5%E7%9A%84%E9%80%86%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.1.2.3.</span> <span class="nav-text">平移矩阵的逆矩阵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="nav-number">3.2.1.2.4.</span> <span class="nav-text">案例</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%A9%E6%94%BE%E5%92%8C%E6%97%8B%E8%BD%AC%E7%9A%84%E6%94%BE%E5%B0%84%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">缩放和旋转的放射矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#4x4%E7%9A%84%E7%BC%A9%E6%94%BE%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.1.3.1.</span> <span class="nav-text">4x4的缩放矩阵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4x4%E7%9A%84%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.1.3.2.</span> <span class="nav-text">4x4的旋转矩阵</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">仿射变换矩阵的几何意义</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%9A%84%E5%A4%8D%E5%90%88"><span class="nav-number">3.2.2.</span> <span class="nav-text">变换的复合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">3.2.3.</span> <span class="nav-text">坐标变换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5-%E6%A0%87%E6%9E%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E5%85%AC%E5%BC%8F"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">坐标变换矩阵&#x2F;标架变换矩阵公式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#-1"><span class="nav-number">3.2.3.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E5%BE%8B"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">结合律</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%86%E7%9F%A9%E9%98%B5-1"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">逆矩阵</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5"><span class="nav-number">3.2.4.</span> <span class="nav-text">变换矩阵与坐标变换矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DirectXMath%E5%BA%93%E7%9A%84%E5%8F%98%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.5.</span> <span class="nav-text">DirectXMath库的变换函数</span></a></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/23/LearnDX12_Math/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DX学习笔记（一）：数学基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-23T00:00:00+08:00">2020-06-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:40:19" itemprop="dateModified" datetime="2021-08-02T16:40:19+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/06/23/LearnDX12_Math/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/06/23/LearnDX12_Math/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="向量代数"><a href="#向量代数" class="headerlink" title="向量代数"></a>向量代数</h2><h3 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h3><p>DirectX3D采用的左手坐标系</p>
+<ul>
+<li>左手坐标系：伸出左手，手指方向对准X轴正方向，弯曲手指对象Y轴正方向，大拇指指的就是Z轴正方向</li>
+</ul>
+<h5 id="向量的基本运算"><a href="#向量的基本运算" class="headerlink" title="向量的基本运算"></a>向量的基本运算</h5><ul>
+<li><p>两个向量相等。即u=v。当且仅当u和v的每个分量相等，即u<sub>x</sub>=v<sub>x</sub>,u<sub>y</sub>=v<sub>y</sub>, u<sub>z</sub>=v<sub>z</sub></p>
+</li>
+<li><p>向量的加法即两个向量对应分量都相加</p>
+</li>
+<li><p>向量与标量相乘即每一个分量与标量相乘</p>
+</li>
+<li><p>向量减法与加法类似</p>
+</li>
+</ul>
+<p>向量加法的几何意义u+v，即u的尾部与v的头部重合</p>
+<h5 id="向量的长度和单位向量"><a href="#向量的长度和单位向量" class="headerlink" title="向量的长度和单位向量"></a>向量的长度和单位向量</h5><ul>
+<li>3D向量的模可以用2次毕达哥拉斯定理（勾股定理）计算得到</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213350051.png" alt="image-20200118213350051"></p>
+</blockquote>
+<ul>
+<li>一个向量的长度变为单位长度称为向量的<strong>规范化（normalizing）</strong>,具体实现方法是</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213401165.png" alt="image-20200118213401165"></p>
+</blockquote>
+<h3 id="点积"><a href="#点积" class="headerlink" title="点积"></a>点积</h3><ul>
+<li>点积（dot product）是一种计算结果为标量值的向量乘法</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213420038.png" alt="image-20200118213420038"></p>
+</blockquote>
+<ul>
+<li>如果u·v=0，那么u和v正交（垂直）</li>
+<li>如果u·v&gt;0,那么夹角为锐角，即小于90°</li>
+<li>如果&gt;0,那么夹角为钝角</li>
+</ul>
+<h5 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h5><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213446595.png" alt="image-20200118213446595"></p>
+</blockquote>
+<p>即向量p是v在n向量上的投影</p>
+<p>一般的投影公式如下</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213508242.png" alt="image-20200118213508242"></p>
+</blockquote>
+<h3 id="正交化"><a href="#正交化" class="headerlink" title="正交化"></a>正交化</h3><p>如果向量集里面所有向量都相互正交，那么此向量集是<strong>规范正交</strong></p>
+<h5 id="格拉姆-施密特正交化"><a href="#格拉姆-施密特正交化" class="headerlink" title="格拉姆-施密特正交化"></a><strong>格拉姆-施密特正交化</strong></h5><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213545042.png" alt="image-20200118213545042"></p>
+</blockquote>
+<p>从文字上描述即，将向量v添加到规范正交集中时，需要用<strong>v减去这个规范正交集中的所有其他向量{w1,w2…}方向上的分量投影</strong>，这样确保新加入的v与该集合中的其他放量相互正交</p>
+<ul>
+<li>假设有向量集{v0,v1}，将其规范正交至集{w0,w1}</li>
+</ul>
+<p>则需要进行如下操作</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213557536.png" alt="image-20200118213557536"></p>
+</blockquote>
+<ul>
+<li>如果是三维向量集{v0,v1,v2}，至规范正交集{w0,w1,w2}</li>
+</ul>
+<p>则进行如下操作</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213605437.png" alt="image-20200118213605437"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213614501.png" alt="image-20200118213614501"></p>
+</blockquote>
+<h3 id="叉积"><a href="#叉积" class="headerlink" title="叉积"></a>叉积</h3><p>叉积公式</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213635523.png" alt="image-20200118213635523"></p>
+</blockquote>
+<p>两个向量叉积的意义即得到正交于两个向量的向量，采用的左手坐标系，即手指指向一个向量，通过向内弯曲小于等于180°的角度后到达另外一个向量，则大拇指方向是叉积所得向量的方向</p>
+<h5 id="用叉积类规范正交化"><a href="#用叉积类规范正交化" class="headerlink" title="用叉积类规范正交化"></a>用叉积类规范正交化</h5><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118213701332.png" alt="image-20200118213701332"></p>
+</blockquote>
+<h3 id="点"><a href="#点" class="headerlink" title="点"></a>点</h3><p>点（x,y,z）即从原点至该点的向量</p>
+<h3 id="用DirectXMath库"><a href="#用DirectXMath库" class="headerlink" title="用DirectXMath库"></a>用DirectXMath库</h3><h5 id="DirectXMath变量的使用规范"><a href="#DirectXMath变量的使用规范" class="headerlink" title="DirectXMath变量的使用规范"></a>DirectXMath变量的使用规范</h5><ul>
+<li>局部变量或全局变量用XMVECTOR类型</li>
+<li>对于类中的数据成员，用XMFLOAT2\XMFLOAT3和XMFLOAT4类型</li>
+<li>在运算之前，通过加载函数将XMFLOATn类型转换成XMVECTOR类型</li>
+<li>用XMVECTOR实例来进行运算</li>
+<li>通过存储函数将XMVECTOR类型转换为XMFLOATn类型</li>
+</ul>
+<h5 id="加载方法和存储方法"><a href="#加载方法和存储方法" class="headerlink" title="加载方法和存储方法"></a>加载方法和存储方法</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将数据从XMFLOAT2类型加载到XMVECTOR类型</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadFloat2</span><span class="params">(<span class="keyword">const</span> XMFLOAT2* pSource)</span></span>;</span><br><span class="line"><span class="comment">//将数据从XMFLOAT3类型加载到XMVECTOR类型，XMFLOAT4类似</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadFloat3</span><span class="params">(<span class="keyword">const</span> XMFLOAT3* pSource)</span></span>;</span><br><span class="line"><span class="comment">//将数据从XMVECTOR类型存储到XMFLOAT2类型，XMFLOAT3以及XMFLOAT4方法类似</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreFloat2</span><span class="params">(XMFLOAT2* pDestination,FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="comment">//********************//</span></span><br><span class="line"><span class="comment">//得到XMVECTOR实例中的一个分量或者将一个方脸转换为XMVECTOR类型</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetX</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetY</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetZ</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetX</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetX</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> x)</span></span>;</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetY</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> y)</span></span>;</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetZ</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> z)</span></span>;.</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetW</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> w)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h5><h6 id="传递规则"><a href="#传递规则" class="headerlink" title="传递规则"></a>传递规则</h6><ul>
+<li>前三个 XMVECTOR 参数用类型 <code>FXMVECTOR</code></li>
+<li>第四个 XMVECTOR 参数用 <code>GXMVECTOR</code></li>
+<li>第5、6个 XMVECTOR 参数用 <code>HXMVECTOR</code></li>
+<li>其余的 XMVECTOR 参数用 <code>CXMVECTOR</code></li>
+</ul>
+<blockquote>
+<p>在32位windows系统，编译器将根据**_fastcall**调用约定将前3个XMVECTOR参数传递到寄存器，其余放到栈</p>
+<p>在32位windows系统，编译器将根据**_vectorcall**调用约定将前6个XMVECTOR参数传递到寄存器，其余放到栈上</p>
+<p>其余平台上的定义，可以参见 <code>DirectXMath</code>库文档中的  <code>Library Internals</code>下的 <code>Calling Converntions</code> 部分的<code>[DirectXMath]</code></p>
+</blockquote>
+<h5 id="常向量"><a href="#常向量" class="headerlink" title="常向量"></a>常向量</h5><p>XMVECTOR类型的常量实例用 <strong><code>XMVECTORF32</code></strong> 表示</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> XMVECTORF32 v1 = &#123; <span class="number">0.5f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>XMVECTORF32是一种16字节对齐的结构体，数学库中有将他转换至XMVECTOR类型的运算符</p>
+<p>另外也可以用<code>XMVECTORU32</code>类型来创建由证书数据构成的XMVECTOR常向量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> XMVECTORU32 v2 = &#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="重载运算符"><a href="#重载运算符" class="headerlink" title="重载运算符"></a>重载运算符</h5><p>XMVECTOR类型针对向量的加法、减法和标量乘法都重载了运算符，如下</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118215001131.png" alt="image-20200118215001131"></p>
+</blockquote>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><p>DirectXMath库定义了一组于PI有关的常用数学常量近似值</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118215207615.png" alt="image-20200118215207615"></p>
+</blockquote>
+<p>另外还有角度和弧度之间的转化以及比较大小的函数</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118215348688.png" alt="image-20200118215348688"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200118215354016.png" alt="image-20200118215354016"></p>
+</blockquote>
+<h5 id="Setter函数"><a href="#Setter函数" class="headerlink" title="Setter函数"></a>Setter函数</h5><p>DirectXMath库提供了下列函数，用来设置XMVECTOR类型中的数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回零向量</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorZero</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;1，1，1，1&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSplatOne</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;x,y,z,w&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSet</span><span class="params">(<span class="keyword">float</span> x,<span class="keyword">float</span> y,<span class="keyword">float</span> z,<span class="keyword">float</span> w)</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;value),value),value),value)&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorReplicate</span><span class="params">(<span class="keyword">float</span> value)</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;Vx，Vx，Vx，Vx&#125;，同理；用SplateY，SplayteZ可以返回P&#123;Vy...&#125;,或者&#123;Vz..&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSplateX</span><span class="params">(FXMVECTOR V)</span></span>;    </span><br></pre></td></tr></table></figure>
+
+<h5 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXMath.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXPackedVector.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 重写了&lt;&lt;运算符，使得cout函数可以输出XMVECTOR</span></span><br><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line">	XMFLOAT4 dest;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;dest, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; dest.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.z &lt;&lt;<span class="string">&quot;,&quot;</span>&lt;&lt;dest.w&lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">XMVerifyCPUSupport</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;directx math not supported&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">const</span> XMVECTORF32 v1 = &#123; <span class="number">0.5f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span> &#125;;</span><br><span class="line">	XMVECTOR v2 = <span class="built_in">XMVectorReplicate</span>(<span class="number">0.99f</span>);</span><br><span class="line">	XMVECTOR v3 = &#123; <span class="number">.5</span>f,<span class="number">.5</span>f,<span class="number">.5</span>f,<span class="number">.5</span>f &#125;;</span><br><span class="line">	XMVECTOR v4 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">	XMVECTOR v5 = <span class="built_in">XMVectorSplatOne</span>();</span><br><span class="line">	XMVECTOR v6 = <span class="built_in">XMVectorZero</span>();</span><br><span class="line">	XMVECTOR v7 = <span class="built_in">XMVectorSplatZ</span>(v4);</span><br><span class="line">	cout &lt;&lt; v1 &lt;&lt; v2 &lt;&lt; v3 &lt;&lt; v4 &lt;&lt; v5 &lt;&lt; v6 &lt;&lt; v7;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200118221313633.png" alt="image-20200118221313633"></p>
+</blockquote>
+<h5 id="向量函数"><a href="#向量函数" class="headerlink" title="向量函数"></a>向量函数</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">XMVECTOR v1 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">	XMVECTOR v2 = <span class="built_in">XMVectorSet</span>(<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">5</span>);</span><br><span class="line">	XMVECTOR v3 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span> ,<span class="number">0</span>);</span><br><span class="line">	XMVECTOR a = <span class="built_in">XMVector4Length</span>(v1);<span class="comment">//||v1||2,2_范数，即平方和的更号</span></span><br><span class="line">	XMVECTOR b = <span class="built_in">XMVector4LengthSq</span>(v1);<span class="comment">//||v1||1,1_范数，即平方和</span></span><br><span class="line">	XMVECTOR c = v1 - v2;<span class="comment">//减法</span></span><br><span class="line">	XMVECTOR d = <span class="number">10</span> * v1;<span class="comment">//乘法</span></span><br><span class="line">	XMVECTOR e = <span class="built_in">XMVector4Normalize</span>(v1);<span class="comment">//标准化，即v1/|v1|</span></span><br><span class="line">	XMVECTOR f = <span class="built_in">XMVector3Dot</span>(v1,v2);<span class="comment">//v1·v1</span></span><br><span class="line">	XMVECTOR g = <span class="built_in">XMVector3Cross</span>(v1, v2);<span class="comment">//v1*v1</span></span><br><span class="line">	XMVECTOR projw, perpw;</span><br><span class="line">	<span class="built_in">XMVector3ComponentsFromNormal</span>(&amp;projw, &amp;perpw, v1, v3);<span class="comment">//求v1在v3的proj和perp</span></span><br><span class="line">	XMVECTOR angle = <span class="built_in">XMVector4AngleBetweenVectors</span>(v1, v2);<span class="comment">//2个向量的夹角</span></span><br><span class="line"></span><br><span class="line">cout &lt;&lt; a&lt;&lt;b&lt;&lt;c&lt;&lt;d&lt;&lt;e&lt;&lt;f&lt;&lt;g&lt;&lt;projw&lt;&lt;perpw&lt;&lt;angle;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200119135645869.png" alt="image-20200119135645869"></p>
+</blockquote>
+<h5 id="浮点数的误差"><a href="#浮点数的误差" class="headerlink" title="浮点数的误差"></a>浮点数的误差</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMVector Epsilon=&#123;<span class="number">0.1</span>，<span class="number">0.1</span>，<span class="number">0.1</span>，<span class="number">0.1</span>&#125;；</span><br><span class="line"><span class="keyword">bool</span> IsEqual = <span class="built_in">XMVectorNearEqual</span>(v1, v2，Epsilon);<span class="comment">//约等于来解决</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="矩阵代数"><a href="#矩阵代数" class="headerlink" title="矩阵代数"></a>矩阵代数</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>m*n的矩阵M，即由m行，n列构成的矩形阵列</p>
+<ul>
+<li>A<sub>1.*</sub></li>
+<li>A<sub>*.1</sub></li>
+</ul>
+<p><img src="https://img.supervj.top/img/DX/image-20200120070458975.png" alt="image-20200120070458975"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200120070505831.png" alt="image-20200120070505831"></p>
+<h3 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h3><ul>
+<li>矩阵<strong>AxB</strong>乘法的前提条件：A的列数必须于B的行数相同</li>
+</ul>
+<p>乘法公式</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120070807173.png" alt="image-20200120070807173"></p>
+</blockquote>
+<ul>
+<li>即矩阵A的第<strong>i</strong>个行向量于B的第<strong>j</strong>个列向量点积</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120070906956.png" alt="image-20200120070906956"></p>
+</blockquote>
+<ul>
+<li>行列数不相等的矩阵乘法不满足交换律即 <strong>AB≠BA</strong></li>
+</ul>
+<h5 id="向量于矩阵乘法"><a href="#向量于矩阵乘法" class="headerlink" title="向量于矩阵乘法"></a>向量于矩阵乘法</h5><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120071122512.png" alt="image-20200120071122512"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200120071219317.png" alt="image-20200120071219317"></p>
+</blockquote>
+<h3 id="转置矩阵"><a href="#转置矩阵" class="headerlink" title="转置矩阵"></a>转置矩阵</h3><p><strong>转置矩阵（transpose matrix）</strong>是将原矩阵阵列的 行与列进行互换 即mn的矩阵变成nm的矩阵</p>
+<p>**M **的转置矩阵记作 <strong>M<sup>t</sup></strong></p>
+<ul>
+<li>转置矩阵具有下列性质</li>
+</ul>
+<blockquote>
+<p><strong><img src="https://img.supervj.top/img/DX/image-20200120071623379.png" alt="image-20200120071623379"></strong></p>
+</blockquote>
+<h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p><strong>单位矩阵(identity matrix)<strong>是一种主对角线上的元素都是</strong>1</strong>，其他元素都是0的方阵，如</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120071758210.png" alt="image-20200120071758210"></p>
+</blockquote>
+<ul>
+<li>任何单位与单位矩阵相乘，得到的依然是原来的矩阵，而且满足交换律</li>
+</ul>
+<blockquote>
+<p>MI=IM=M</p>
+</blockquote>
+<h3 id="矩阵的行列式"><a href="#矩阵的行列式" class="headerlink" title="矩阵的行列式"></a>矩阵的行列式</h3><p>行列式记作： <strong>det A</strong></p>
+<ul>
+<li>当且仅当det A≠0时，方阵A是可逆的</li>
+</ul>
+<h5 id="余子阵"><a href="#余子阵" class="headerlink" title="余子阵"></a>余子阵</h5><p>n x n的矩阵A，<strong>余子阵（minor matrix）</strong> <img src="https://img.supervj.top/img/DX/image-20200120191929162.png" alt="image-20200120191929162">即从A中去除第 <strong>i</strong> 行和第 <strong>j</strong> 列的**(n-1)*(n-1)**矩阵</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120200716480.png" alt="image-20200120200716480"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200120200727115.png" alt="image-20200120200727115"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200120200736692.png" alt="image-20200120200736692"></p>
+</blockquote>
+<h5 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h5><p><img src="https://img.supervj.top/img/DX/image-20200120200844209.png" alt="image-20200120200844209"></p>
+<ul>
+<li>对于2 x 2 的矩阵来说，行列式公式为：</li>
+</ul>
+<p><img src="https://img.supervj.top/img/DX/image-20200120200914468.png" alt="image-20200120200914468"></p>
+<ul>
+<li>3 x 3的矩阵，行列式公式为：</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120201007378.png" alt="image-20200120201007378"></p>
+</blockquote>
+<ul>
+<li>4 x 4的矩阵，行列式公式为：</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120201040699.png" alt="image-20200120201040699"></p>
+</blockquote>
+<ul>
+<li>案例：</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120201108843.png" alt="image-20200120201108843"></p>
+</blockquote>
+<blockquote>
+<p><strong>一个矩阵的行列式就是一个平行多面体的（定向的）体积，这个多面体的每条边对应着对应矩阵的列。如果学生得知了这个秘密（在纯粹的代数式的教育中，这个秘密被仔细的隐藏了起来），那么行列式的整个理论都将成为多重线性形式理论的一部分。倘若用别的方式来定义行列式，任何敏感的人都将会永远痛恨诸如行列式，Jacobian式，以及隐函数定理这些东西。</strong></p>
+<p>​                          <strong>——俄国数学家阿诺尔德（Vladimir Arnold）《论数学教育》</strong></p>
+</blockquote>
+<h3 id="伴随矩阵"><a href="#伴随矩阵" class="headerlink" title="伴随矩阵"></a>伴随矩阵</h3><p><img src="https://img.supervj.top/img/DX/image-20200120201159666.png" alt="image-20200120201159666"></p>
+<p>如果A中的每个元素分别计算出C<sub>ij</sub>,并将它至于矩阵C<sub>A</sub>中的第 <strong>i</strong> 行，第 <strong>j</strong> 列，那么将获得矩阵A的 <strong>代数余子式矩阵(cofactor matrix of A)</strong></p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120201605278.png" alt="image-20200120201605278"></p>
+</blockquote>
+<p>取矩阵C<sub>A</sub>的转置矩阵，得到<strong>矩阵A的伴随矩阵（adjoint matrix of A）</strong>，记作</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120204905556.png" alt="image-20200120204905556"></p>
+</blockquote>
+<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><ul>
+<li>只有方阵才有逆矩阵</li>
+<li>n x n矩阵M的逆也是一个n x n的矩阵，记作 M<sup>-1</sup></li>
+<li>不是每个方阵都有逆矩阵，存在逆矩阵的方阵称为<strong>可逆矩阵（invertible matrix）</strong>，不存在逆矩阵的叫做<strong>奇异矩阵（singular matrix）</strong></li>
+<li>可逆矩阵的逆矩阵是唯一的</li>
+<li>可逆矩阵有逆矩阵相乘等到单位方阵： MM<sup>-1</sup>=M<sup>-1</sup>M=I，矩阵与其逆矩阵妈祖交换律</li>
+</ul>
+<p>逆矩阵的推导公式</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120205253567.png" alt="image-20200120205253567"></p>
+</blockquote>
+<ul>
+<li>案例，<img src="https://img.supervj.top/img/DX/image-20200120205340831.png" alt="image-20200120205340831"></li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120205418259.png" alt="image-20200120205418259"></p>
+</blockquote>
+<ul>
+<li><img src="https://img.supervj.top/img/DX/image-20200120205505699.png" alt="image-20200120205505699"></li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120205519977.png" alt="image-20200120205519977"></p>
+</blockquote>
+<ul>
+<li><img src="https://img.supervj.top/img/DX/image-20200120211359396.png" alt="image-20200120211359396"></li>
+</ul>
+<h3 id="DirectXMath库处理矩阵阵列"><a href="#DirectXMath库处理矩阵阵列" class="headerlink" title="DirectXMath库处理矩阵阵列"></a>DirectXMath库处理矩阵阵列</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line">	XMFLOAT4 dest;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;dest, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; dest.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.z &lt;&lt;<span class="string">&quot;,&quot;</span>&lt;&lt;dest.w&lt;&lt; <span class="string">&quot;)&quot;</span> ;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMMATRIX v)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetX</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetY</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetZ</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetW</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">XMVerifyCPUSupport</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;directx math not supported&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">XMMATRIX <span class="title">A</span></span></span><br><span class="line"><span class="function">	<span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">0.0f</span>, <span class="number">2.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">4.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">1.0f</span>, <span class="number">2.0f</span>, <span class="number">3.0f</span>, <span class="number">1.0f</span></span></span></span><br><span class="line"><span class="params"><span class="function">	)</span></span>;</span><br><span class="line"></span><br><span class="line">		XMMATRIX B = <span class="built_in">XMMatrixIdentity</span>();<span class="comment">//单位矩阵，斜线都是1</span></span><br><span class="line">	XMMATRIX C = A * B;<span class="comment">//矩阵乘法，AI=A；</span></span><br><span class="line">	XMMATRIX D = <span class="built_in">XMMatrixTranspose</span>(A);<span class="comment">//转置矩阵，行列反转</span></span><br><span class="line">	XMVECTOR det = <span class="built_in">XMMatrixDeterminant</span>(A);<span class="comment">//得到（det A,det A,det A,det A）</span></span><br><span class="line">	XMMATRIX E = <span class="built_in">XMMatrixInverse</span>(&amp;det, A);<span class="comment">//返回M逆矩阵</span></span><br><span class="line">	XMMATRIX F = A * E;<span class="comment">//矩阵与逆矩阵乘积等于单位矩阵</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; A &lt;&lt; endl &lt;&lt; B &lt;&lt; endl &lt;&lt; C &lt;&lt; endl &lt;&lt; D &lt;&lt; endl &lt;&lt; E &lt;&lt; endl &lt;&lt; det &lt;&lt; endl &lt;&lt; F;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200120211048937.png" alt="image-20200120211048937"></p>
+</blockquote>
+<h2 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h2><h3 id="线性变换"><a href="#线性变换" class="headerlink" title="线性变换"></a>线性变换</h3><p>线性变换函数满足</p>
+<h6 id="线性变换函数公式"><a href="#线性变换函数公式" class="headerlink" title="线性变换函数公式"></a>线性变换函数公式</h6><blockquote>
+<p> <img src="https://img.supervj.top/img/DX/image-20200121070851768.png" alt="image-20200121070851768"></p>
+</blockquote>
+<h5 id="矩阵表示法"><a href="#矩阵表示法" class="headerlink" title="矩阵表示法"></a>矩阵表示法</h5><p>**u=(x,y,z)**也可以写作</p>
+<h6 id="矩阵表示法公式"><a href="#矩阵表示法公式" class="headerlink" title="矩阵表示法公式"></a>矩阵表示法公式</h6><h6 id=""><a href="#" class="headerlink" title=""></a><img src="https://img.supervj.top/img/DX/image-20200121071106597.png" alt="image-20200121071106597"></h6><h6 id="R3-标准基向量"><a href="#R3-标准基向量" class="headerlink" title="R3,标准基向量"></a>R<sup>3</sup>,标准基向量</h6><p><strong>i=(1,0,0), j=(0,1,0), k=(0,0,1)</strong></p>
+<h6 id="矩阵表示法公式2"><a href="#矩阵表示法公式2" class="headerlink" title="矩阵表示法公式2"></a>矩阵表示法公式2</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071255330.png" alt="image-20200121071255330"></p>
+<p>根据线性组合，上述公式可以改写成</p>
+<h6 id="线性变换的矩阵表示法"><a href="#线性变换的矩阵表示法" class="headerlink" title="线性变换的矩阵表示法"></a>线性变换的矩阵表示法</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071642398.png" alt="image-20200121071642398"></p>
+<p>我们称矩阵 <strong>A</strong>是线性变换的矩阵表示法</p>
+<h5 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h5><h6 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071743966.png" alt="image-20200121071743966"></p>
+<ul>
+<li>S就是一种线性变换</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121071817696.png" alt="image-20200121071817696"></p>
+</blockquote>
+<h6 id="缩放变换的矩阵表达式"><a href="#缩放变换的矩阵表达式" class="headerlink" title="缩放变换的矩阵表达式"></a>缩放变换的矩阵表达式</h6><blockquote>
+<p> <img src="https://img.supervj.top/img/DX/image-20200121071907341.png" alt="image-20200121071907341"></p>
+</blockquote>
+<ul>
+<li>缩放矩阵的逆矩阵</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200623102531554.png" alt="image-20200623102531554"></p>
+</blockquote>
+<ul>
+<li>案例</li>
+</ul>
+<p><img src="https://img.supervj.top/img/DX/image-20200623102549550.png" alt="image-20200623102549550"></p>
+<h5 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h5><h6 id="旋转矩阵基础公式"><a href="#旋转矩阵基础公式" class="headerlink" title="旋转矩阵基础公式"></a>旋转矩阵基础公式</h6><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121153741133.png" alt="image-20200121153741133"></p>
+<p><img src="https://img.supervj.top/img/DX/image-20200623102608770.png" alt="image-20200623102608770"></p>
+</blockquote>
+<ul>
+<li><p>上述公式里，<em><strong>c=cosθ</strong></em> 而且 <em><strong>s=sinθ</strong></em></p>
+</li>
+<li><p>旋转矩阵有个特性：每个行向量都为单位长度且两两正交，即这些行向量都是<strong>规范正交(orthonormal)</strong></p>
+</li>
+<li><p>若一个矩阵的行向量都是规范正交的，则此矩阵为<strong>正交矩阵（orthogonal matrix）</strong></p>
+</li>
+</ul>
+<h6 id="正交矩阵的逆矩阵"><a href="#正交矩阵的逆矩阵" class="headerlink" title="正交矩阵的逆矩阵"></a>正交矩阵的逆矩阵</h6><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121154123112.png" alt="image-20200121154123112"></p>
+</blockquote>
+<h6 id="通俗公式"><a href="#通俗公式" class="headerlink" title="通俗公式"></a>通俗公式</h6><p>如果选择绕<em><strong>x、y、z</strong></em>轴旋转，即分别取 <em><strong>n =（1，0，0）、n =（0，1，0）、n =（0，0，1）</strong></em>，那么对应的旋转矩阵是</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121154343881.png" alt="image-20200121154343881"></p>
+</blockquote>
+<h6 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h6><blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121154450682.png" alt="image-20200121154450682"></p>
+</blockquote>
+<h3 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h3><h4 id="齐次坐标"><a href="#齐次坐标" class="headerlink" title="齐次坐标"></a>齐次坐标</h4><ul>
+<li><em><strong>（x,y,z,0）</strong></em>表示向量</li>
+<li><em><strong>（x,y,z,1）</strong></em>表示点</li>
+</ul>
+<h5 id="仿射变换定义"><a href="#仿射变换定义" class="headerlink" title="仿射变换定义"></a>仿射变换定义</h5><ul>
+<li>仿射变换：一个线性变换加上一个平移变量 <em><strong>b</strong></em>,即</li>
+</ul>
+<blockquote>
+<p> <em><strong>α(u)=τ(u)+b</strong></em></p>
+</blockquote>
+<ul>
+<li>或者用矩阵表示法,A是一个线性变换的矩阵表示</li>
+</ul>
+<blockquote>
+<p> <img src="https://img.supervj.top/img/DX/image-20200121160932351.png" alt="image-20200121160932351"></p>
+</blockquote>
+<ul>
+<li>如果w=1把坐标扩充为齐次坐标，那么把上述公式简化成</li>
+</ul>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121161200597.png" alt="image-20200121161200597"></p>
+</blockquote>
+<h5 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h5><h6 id="恒等变换"><a href="#恒等变换" class="headerlink" title="恒等变换"></a>恒等变换</h6><p><strong>恒等变换</strong>是一种直接返回其输入参数的线性变换，如 <em><strong>I(u)=u</strong></em></p>
+<p>如果将平移变换定义为仿射变换，贼其中的线性变换就是一种恒等变换，即</p>
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121161843458.png" alt="image-20200121161843458"></p>
+</blockquote>
+<h6 id="平移矩阵"><a href="#平移矩阵" class="headerlink" title="平移矩阵"></a>平移矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161704819.png" alt="image-20200121161704819"></p>
+<h6 id="平移矩阵的逆矩阵"><a href="#平移矩阵的逆矩阵" class="headerlink" title="平移矩阵的逆矩阵"></a>平移矩阵的逆矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161727755.png" alt="image-20200121161727755"></p>
+<h6 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161922233.png" alt="image-20200121161922233"></p>
+<h5 id="缩放和旋转的放射矩阵"><a href="#缩放和旋转的放射矩阵" class="headerlink" title="缩放和旋转的放射矩阵"></a>缩放和旋转的放射矩阵</h5><ul>
+<li>如果放射变换的 b=0 ,则放射变换就是线性变换</li>
+<li>意味着，可以通过一个 4 x 4 的放射矩阵表达任意线性变换</li>
+</ul>
+<h6 id="4x4的缩放矩阵"><a href="#4x4的缩放矩阵" class="headerlink" title="4x4的缩放矩阵"></a>4x4的缩放矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121163133298.png" alt="image-20200121163133298"></p>
+<h6 id="4x4的旋转矩阵"><a href="#4x4的旋转矩阵" class="headerlink" title="4x4的旋转矩阵"></a>4x4的旋转矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121163151822.png" alt="image-20200121163151822"></p>
+<h5 id="仿射变换矩阵的几何意义"><a href="#仿射变换矩阵的几何意义" class="headerlink" title="仿射变换矩阵的几何意义"></a>仿射变换矩阵的几何意义</h5><p><img src="https://img.supervj.top/img/DX/image-20200121163854031.png" alt="image-20200121163854031"></p>
+<h4 id="变换的复合"><a href="#变换的复合" class="headerlink" title="变换的复合"></a>变换的复合</h4><p>假设<em><strong>S</strong></em>为缩放矩阵，<em><strong>T</strong></em>为平移矩阵，<em><strong>R</strong></em>为旋转矩阵</p>
+<p>因为矩阵乘法（不满足交换律），所以我么可以定义<em><strong>C=SRT</strong></em>，即把3个矩阵变成1个，方便计算</p>
+<h4 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h4><h5 id="坐标变换矩阵-标架变换矩阵公式"><a href="#坐标变换矩阵-标架变换矩阵公式" class="headerlink" title="坐标变换矩阵/标架变换矩阵公式"></a>坐标变换矩阵/标架变换矩阵公式</h5><h5 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://img.supervj.top/img/DX/image-20200121170431813.png" alt="image-20200121170431813"></h5><h5 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h5><ul>
+<li>3个标架<strong>F,G,H</strong></li>
+<li><strong>A</strong>：<strong>F</strong>转换到<strong>G</strong>的变换矩阵</li>
+<li><strong>B</strong>：<strong>G</strong>转换到<strong>H</strong>的变换矩阵</li>
+<li><em><strong>p<sub>F</sub></strong></em>:<strong>F</strong>中的一个向量</li>
+<li>求：此向量在标架H中的坐标<em><strong>P<sub>H</sub></strong></em></li>
+</ul>
+<p>***(p<sub>F</sub>***<strong>A)B</strong>=<em><strong>P<sub>H</sub></strong></em></p>
+<p><em><strong>(p<sub>G</sub></strong></em><strong>)B</strong>=<em><strong>P<sub>H</sub></strong></em></p>
+<ul>
+<li>由于矩阵乘法满足结合律，所以</li>
+</ul>
+<p><em><strong>p<sub>F</sub></strong></em>(<strong>AB</strong>)=<em><strong>P<sub>H</sub></strong></em></p>
+<h5 id="逆矩阵-1"><a href="#逆矩阵-1" class="headerlink" title="逆矩阵"></a>逆矩阵</h5><p><em><strong>p<sub>F</sub>A</strong></em>=<em><strong>P<sub>H</sub></strong></em></p>
+<p><em><strong>P<sub>F</sub></strong></em>=<em><strong>p<sub>H</sub>A<sup>-1</sup></strong></em></p>
+<h4 id="变换矩阵与坐标变换矩阵"><a href="#变换矩阵与坐标变换矩阵" class="headerlink" title="变换矩阵与坐标变换矩阵"></a>变换矩阵与坐标变换矩阵</h4><p>在数学上，可以将<strong>改变几何体的变换</strong>解释为<strong>坐标变换</strong>，反之亦然</p>
+<h4 id="DirectXMath库的变换函数"><a href="#DirectXMath库的变换函数" class="headerlink" title="DirectXMath库的变换函数"></a>DirectXMath库的变换函数</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXMath.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXPackedVector.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;( ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	XMFLOAT4 value;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;value, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; value.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.z &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.w &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMMATRIX M)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetX</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetY</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetZ</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetW</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	XMMATRIX m1 =</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>,</span><br><span class="line">		<span class="number">2.0f</span>, <span class="number">2.0f</span>, <span class="number">2.0f</span>, <span class="number">2.0f</span>,</span><br><span class="line">		<span class="number">3.0f</span>, <span class="number">3.0f</span>, <span class="number">3.0f</span>, <span class="number">3.0f</span>,</span><br><span class="line">		<span class="number">4.0f</span>, <span class="number">4.0f</span>, <span class="number">4.0f</span>, <span class="number">4.0f</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="comment">//缩放系数</span></span><br><span class="line">	XMMATRIX Scale1 = <span class="built_in">XMMatrixScaling</span>(<span class="number">1.0f</span>, <span class="number">2.0f</span>, <span class="number">3.0f</span>);<span class="comment">//缩放矩阵1</span></span><br><span class="line">	XMVECTOR v1 = <span class="built_in">XMVectorSet</span>(<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>);</span><br><span class="line">	XMMATRIX Scale2 = <span class="built_in">XMMatrixScalingFromVector</span>(v1);<span class="comment">//缩放矩阵2，根据Vector</span></span><br><span class="line"></span><br><span class="line">	XMMATRIX RotX = <span class="built_in">XMMatrixRotationX</span>(<span class="number">90.f</span>);<span class="comment">//X轴旋转矩阵</span></span><br><span class="line">	XMMATRIX RotY = <span class="built_in">XMMatrixRotationY</span>(<span class="number">45.f</span>);</span><br><span class="line">	XMMATRIX RotZ = <span class="built_in">XMMatrixRotationZ</span>(<span class="number">-180.f</span>);</span><br><span class="line">	XMVECTOR Axis= <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	XMMATRIX RotAxis = <span class="built_in">XMMatrixRotationAxis</span>(Axis, <span class="number">45.f</span>);<span class="comment">//根据自定义轴旋转</span></span><br><span class="line">	XMMATRIX TransT = <span class="built_in">XMMatrixTranslation</span>(<span class="number">100.f</span>, <span class="number">10.f</span>, <span class="number">-20.f</span>);<span class="comment">//位移矩阵</span></span><br><span class="line">	XMVECTOR vTransCoord = <span class="built_in">XMVector3TransformCoord</span>(v1, TransT);<span class="comment">//移动向量</span></span><br><span class="line">	XMVECTOR vTransNormal = <span class="built_in">XMVector3TransformNormal</span>(v1, TransT);</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m=&quot;</span> &lt;&lt; endl &lt;&lt; m1  &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*scale1=&quot;</span> &lt;&lt; endl&lt;&lt; m1* Scale1 &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*scale2==&quot;</span> &lt;&lt; endl &lt;&lt; m1*Scale2 &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;RotX==&quot;</span> &lt;&lt; endl &lt;&lt; RotX &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*RotX==&quot;</span> &lt;&lt; endl &lt;&lt; m1 * RotX &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;v1:TransCoord==&quot;</span> &lt;&lt; endl &lt;&lt; vTransCoord &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;v1:TransNormal==&quot;</span> &lt;&lt; endl &lt;&lt; vTransNormal &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="https://img.supervj.top/img/DX/image-20200121182846768.png" alt="image-20200121182846768"></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/06/23/LearnDX12_Math/" title="DX学习笔记（一）：数学基础">http://supervj.top/2020/06/23/LearnDX12_Math/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/DirectX/" rel="tag"># DirectX</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/22/LearnDX12_Init/" rel="prev" title="DX学习笔记（二）：DX初始化">
+                  <i class="fa fa-chevron-left"></i> DX学习笔记（二）：DX初始化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" rel="next" title="Markdown(Typora)数学公式">
+                  Markdown(Typora)数学公式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

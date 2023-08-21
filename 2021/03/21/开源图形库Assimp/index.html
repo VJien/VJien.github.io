@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言引用一段介绍  Assimp,开源图形库(Open Asset Import Library)是一种便携式的可支持读取多种模型资源的开源库，它可以用统一的方式输入各种格式的3D模型，而其最新版本能实现输出3D模型的文件，因此该资源库也作为通用的3D模型转换器。assimp旨在提供用于游戏引擎实时渲染系统的一种完整的资源转换管道，但它不局限于这个目的，但在过去已被广泛应用。Assimp是用C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源图形库Assimp">
+<meta property="og:url" content="http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言引用一段介绍  Assimp,开源图形库(Open Asset Import Library)是一种便携式的可支持读取多种模型资源的开源库，它可以用统一的方式输入各种格式的3D模型，而其最新版本能实现输出3D模型的文件，因此该资源库也作为通用的3D模型转换器。assimp旨在提供用于游戏引擎实时渲染系统的一种完整的资源转换管道，但它不局限于这个目的，但在过去已被广泛应用。Assimp是用C++">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151217958.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151318217.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151624413.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151910929.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151925599.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210618151950225.png">
+<meta property="og:image" content="https://img.supervj.top//img/20200630154409945.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210319180134014.png">
+<meta property="og:image" content="https://img.supervj.top//img/UE4Editor_AWsxBHcz2H.png">
+<meta property="og:image" content="https://img.supervj.top//img/chrome_A0rKxl2bTt.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif">
+<meta property="og:image" content="https://img.supervj.top//img/3dsmax_fHQyk1D1Jg.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210322104048429.png">
+<meta property="og:image" content="https://img.supervj.top//img/UE4Editor_qdTxG1JLQB.png">
+<meta property="article:published_time" content="2021-03-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:41:00.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="插件">
+<meta property="article:tag" content="图形库">
+<meta property="article:tag" content="assimp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif">
+
+
+<link rel="canonical" href="http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>开源图形库Assimp | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">支持格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">5.</span> <span class="nav-text">导入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%A8%A1%E5%9E%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">获取模型信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">6.1.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9D%90%E8%B4%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">7.</span> <span class="nav-text">获取材质信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="nav-number">7.1.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          开源图形库Assimp
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-21 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-21T00:00:00+08:00">2021-03-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:41:00" itemprop="dateModified" datetime="2021-08-02T16:41:00+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/21/开源图形库Assimp/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>引用一段介绍</p>
+<blockquote>
+<p>Assimp,开源图形库(Open Asset Import Library)是一种便携式的可支持读取多种模型资源的开源库，它可以用统一的方式输入各种格式的3D模型，而其最新版本能实现输出3D模型的文件，因此该资源库也作为通用的3D模型转换器。assimp旨在提供用于游戏引擎实时渲染系统的一种完整的资源转换管道，但它不局限于这个目的，但在过去已被广泛应用。Assimp是用C++编写的，可以基于C语言应用程序编程接口或者绑定其它其它语言，如C#、.net、Python。为了进一步处理资源，Assimp加载了输入的模型格式为一个简单的数据结构，这个功能是由后处理工具加强的，包括一些常用的操作比如计算正常和切向量。</p>
+<p>assimp是一种库，它主要用来加载和处理各种数据格式的几何场景。它主要针对的是那些支持节点层次、静态表层网格、材料、具有质感的动画和潜在纹理数据。assimp库不是为了提高速度而设计的，它最重要的用处就是，将每一个不同来源的资源导入并且在每一次的加载中以一种特殊的格式将它方便、快捷的存储起来。assimp也能够运用各种后处理步骤导入相应的数据，如转换为索引网格，计算法线和切线/双切线或转换从右手到左手坐标系统。assimp目前支持以下文件格式（请注意，一些装载机缺乏格式的一些特点，因为有些文件格式包含assimp不支持的数据，所以会需要很多的转换工作，而因此缺乏适当的格式规范并没有实现）</p>
+</blockquote>
+<p>本文主要对库本身的主要内容进行一波分析, 然后顺手封装成UE的蓝图插件</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif" alt="录制_2021_03_22_10_06_11_380"></p>
+<span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/assimp/assimp">github官方</a></p>
+<h2 id="支持格式"><a href="#支持格式" class="headerlink" title="支持格式"></a>支持格式</h2><p>Collada ( <em>.dae;</em>.xml )<br>Blender ( *.blend ) 3<br>Biovision BVH ( *.bvh )<br>3D Studio Max 3DS ( *.3ds )<br>3D Studio Max ASE ( *.ase )<br>Wavefront Object ( *.obj )<br>Stanford Polygon Library ( *.ply )<br>AutoCAD DXF ( *.dxf )<br>IFC-STEP, Industry Foundation Classes ( *.ifc )<br>Neutral File Format ( *.nff )<br>Sense8 WorldToolkit ( *.nff )<br>Valve Model ( <em>.smd,</em>.vta ) 3<br>Quake I ( *.mdl )<br>Quake II ( *.md2 )<br>Quake III ( *.md3 )<br>Quake 3 BSP ( *.pk3 ) 1<br>RtCW ( <em>.mdc )<br>Doom 3 ( <em>.md5mesh;</em>.md5anim;</em>.md5camera )<br>DirectX X ( *.x ).<br>Quick3D ( *.q3o;q3s ).<br>Raw Triangles ( .raw ).<br>AC3D ( *.ac ).<br>Stereolithography ( *.stl ).<br>Autodesk DXF ( *.dxf ).<br>Irrlicht Mesh ( <em>.irrmesh;</em>.xml ).<br>Irrlicht Scene ( <em>.irr;</em>.xml ).<br>Object File Format ( *.off ).<br>Terragen Terrain ( *.ter )<br>3D GameStudio Model ( *.mdl )<br>3D GameStudio Terrain ( <em>.hmp )<br>Ogre (</em>.mesh.xml, *.skeleton.xml, *.material)3<br>Milkshape 3D ( *.ms3d )<br>LightWave Model ( *.lwo )<br>LightWave Scene ( *.lws )<br>Modo Model ( *.lxo )<br>CharacterStudio Motion ( *.csm )<br>Stanford Ply ( *.ply )<br>TrueSpace ( *.cob, *.scn )2<br>XGL ( *.xgl, *.zgl )<br>支持以下格式的导出：<br>Collada(.dae)<br>Wavefront Object(.obj)<br>Stereolithography(.stl)<br>Stanford Polygon Library(.ply)</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>一般情况建议自己通过cmake编译assimp源文件, 部分情况可能需要用到win32的链接库(我在学习opengl用的是win32);</p>
+<p>从<a target="_blank" rel="noopener" href="https://github.com/assimp/assimp">这里</a>下载assimp最新版本的源文件</p>
+<p><img src="https://img.supervj.top//img/image-20210618151217958.png" alt="image-20210618151217958"></p>
+<p>cmake生成项目之前记得选择需要的系统版本</p>
+<p>然后就到vs内编译</p>
+<img src="https://img.supervj.top//img/image-20210618151318217.png" alt="image-20210618151318217" style="zoom:50%;" />
+
+
+
+<p>完成以后把assimp项目内的include文件复制到所需要的第三方库include内</p>
+<p>然后找到<code>\code\Debug</code>目录,把里面的文件复制到第三方库的<code>lib</code>文件夹中作为链接库文件</p>
+<p><img src="https://img.supervj.top//img/image-20210618151624413.png" alt="image-20210618151624413"></p>
+<ul>
+<li>UE4</li>
+</ul>
+<p>对于UE, 那么需要在buid.cs文件中添加第三方库的包含</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PublicIncludePaths.AddRange(</span><br><span class="line">			new string[] &#123;</span><br><span class="line">                Path.Combine(ThirdPartyPath, &quot;assimp/include&quot;),</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))</span><br><span class="line">      &#123;</span><br><span class="line">          string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? &quot;Win64&quot; : &quot;Win32&quot;;</span><br><span class="line">          PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, &quot;assimp/lib&quot;,PlatformString, &quot;assimp-vc140-mt.lib&quot;));</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	string BinariesDirectory = Path.Combine(ProjectDirectory, &quot;Binaries&quot;, PlatformString);</span><br><span class="line">	string SourceFile = Path.Combine(ThirdPartyPath, &quot;assimp/bin&quot;, PlatformString, &quot;assimp-vc140-mt.dll&quot;);</span><br><span class="line">	string TargetFile = Path.Combine(BinariesDirectory, &quot;assimp-vc140-mt.dll&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	if (!Directory.Exists(BinariesDirectory))</span><br><span class="line">          &#123;</span><br><span class="line">		Directory.CreateDirectory(BinariesDirectory);</span><br><span class="line">          &#125;</span><br><span class="line">	if(File.Exists(SourceFile) &amp;&amp; !File.Exists(TargetFile))</span><br><span class="line">          &#123;</span><br><span class="line">		File.Copy(SourceFile, TargetFile, false);</span><br><span class="line">          &#125;</span><br><span class="line">	</span><br><span class="line">	RuntimeDependencies.Add(Path.Combine(BinariesDirectory, &quot;assimp-vc140-mt.dll&quot;));</span><br><span class="line">&#125;</span><br><span class="line">else if(Target.Platform == UnrealTargetPlatform.Mac)</span><br><span class="line">&#123;</span><br><span class="line">	string PlatformString =  &quot;Mac&quot;;</span><br><span class="line">          PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, &quot;assimp/lib&quot;,PlatformString, &quot;libassimp.4.1.0.dylib&quot;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>windows(openGl项目)</li>
+</ul>
+<p>在include和lib目录添加对应的目录, 在链接输入中填上<code>assimp-vc142-mtd.lib</code>, 否则我这边会出现<code>GetTextureCount()</code>之类的函数出现奇怪的连接错误</p>
+<p><img src="https://img.supervj.top//img/image-20210618151910929.png" alt="image-20210618151910929"></p>
+<p><img src="https://img.supervj.top//img/image-20210618151925599.png" alt="image-20210618151925599"></p>
+<p><img src="https://img.supervj.top//img/image-20210618151950225.png" alt="image-20210618151950225"></p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><img src="https://img.supervj.top//img/20200630154409945.png" alt="20200630154409945"></p>
+<p>引用OpenGL的图片, <code>Assimp&#39;</code>从文件读取数据以后的数据结构就如上图所示, 所有数据都包含在<code>aiScene</code>指针内</p>
+<p><img src="https://img.supervj.top//img/image-20210319180134014.png" alt="image-20210319180134014"></p>
+<p>从此图可以大概看到<code>aiScene</code>内有哪些成员变量和函数,后面我们从实例中逐步分析</p>
+<h2 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Assimp::Importer Importer;<span class="comment">//导入器</span></span><br><span class="line">	<span class="keyword">const</span> aiScene* scene = Importer.<span class="built_in">ReadFile</span>(FilePath, 配置参数);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如下是常用的配置参数, 点<a target="_blank" rel="noopener" href="http://assimp.sourceforge.net/lib_html/postprocess_8h.html">这里</a>查看所有参数</p>
+<ul>
+<li>aiProcess_SplitLargeMeshes : 将比较大的网格分割成更小的子网格，如果你的渲染有最大顶点数限制，只能渲染较小的网格，那么它会非常有用</li>
+<li>aiProcess_OptimizeMeshes: 和上个选项相反，它会将多个小网格拼接为一个大的网格，减少绘制调用从而进行优化。</li>
+<li>aiProcess_FlipUVsv: 沿着y方向翻转纹理坐标，这在渲染quake模型时候是必须的</li>
+<li>aiProcess_SortByPType: 将不同图元放置到不同的模型中去，图片类型可能是点、直线、三角形等</li>
+<li>aiProcess_JoinIdenticalVertices :自动合并相同的顶点 </li>
+<li>aiProcess_GenSmoothNormals :如果原始顶点没有法向数据，Assimp会为顶点产生法向数据</li>
+<li>aiProcess_CalcTangentSpace:自动计算切线和副法线</li>
+<li>aiProcess_Triangulate  :自动将四边形面转换为三角面</li>
+<li>aiProcess_MakeLeftHanded: 使用作手坐标系</li>
+</ul>
+<h2 id="获取模型信息"><a href="#获取模型信息" class="headerlink" title="获取模型信息"></a>获取模型信息</h2><p>模型的基本信息保存在 <code>aiScene.mMeshes[]</code>数组中,每个<code>aiNode</code>内也保存了每个<code>aiNode</code>所对应的模型信息</p>
+<p>我们先声明一个USTRUCT来保存相应数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">USTRUCT</span>(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FMeshData</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">GENERATED_BODY</span>()</span><br><span class="line">		<span class="built_in">FMeshData</span>()</span><br><span class="line">		&#123;&#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector&gt; Vertices;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;int32&gt; Triangles;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector&gt; Normals;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FVector2D&gt; UV0;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FLinearColor&gt; VertexColors;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		TArray&lt;FProcMeshTangent&gt; Tangents;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadWrite, EditAnywhere, Category = <span class="string">&quot;MeshData&quot;</span>)</span><br><span class="line">		FTransform RelativeTransform;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过一个方法获取对应<code>aiNode</code>的模型数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindMeshData</span><span class="params">(<span class="keyword">const</span> aiScene* scene, aiNode* node, FLoadedMeshData&amp; outLoadedMeshData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (scene == <span class="literal">nullptr</span> || node == <span class="literal">nullptr</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">UE_LOG</span>(RIELog, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;FindMeshData Failed : invalid scene or node!&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; node-&gt;mNumMeshes; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">UE_LOG</span>(RIELog, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;FindMeshData : %s&quot;</span>), node-&gt;mName.<span class="built_in">C_Str</span>());</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        此成员保存了node对应mesh的序号</span></span><br><span class="line"><span class="comment">        unsigned int* mMeshes;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">		<span class="keyword">int</span> meshesIdx = *node-&gt;mMeshes;</span><br><span class="line">		aiMesh* mesh = scene-&gt;mMeshes[meshesIdx];</span><br><span class="line">		FMeshData&amp; meshData = outLoadedMeshData.meshData[meshesIdx];</span><br><span class="line"></span><br><span class="line">		<span class="comment">//conv aiMatrix4x4 to FTransform</span></span><br><span class="line">		aiMatrix4x4 trans = node-&gt;mTransformation;</span><br><span class="line">		FMatrix matrix;</span><br><span class="line">		matrix.M[<span class="number">0</span>][<span class="number">0</span>] = trans.a1; matrix.M[<span class="number">0</span>][<span class="number">1</span>] = trans.b1; matrix.M[<span class="number">0</span>][<span class="number">2</span>] = trans.c1; matrix.M[<span class="number">0</span>][<span class="number">3</span>] = trans.d1;</span><br><span class="line">		matrix.M[<span class="number">1</span>][<span class="number">0</span>] = trans.a2; matrix.M[<span class="number">1</span>][<span class="number">1</span>] = trans.b2; matrix.M[<span class="number">1</span>][<span class="number">2</span>] = trans.c2; matrix.M[<span class="number">1</span>][<span class="number">3</span>] = trans.d2;</span><br><span class="line">		matrix.M[<span class="number">2</span>][<span class="number">0</span>] = trans.a3; matrix.M[<span class="number">2</span>][<span class="number">1</span>] = trans.b3; matrix.M[<span class="number">2</span>][<span class="number">2</span>] = trans.c3; matrix.M[<span class="number">2</span>][<span class="number">3</span>] = trans.d3;</span><br><span class="line">		matrix.M[<span class="number">3</span>][<span class="number">0</span>] = trans.a4; matrix.M[<span class="number">3</span>][<span class="number">1</span>] = trans.b4; matrix.M[<span class="number">3</span>][<span class="number">2</span>] = trans.c4; matrix.M[<span class="number">3</span>][<span class="number">3</span>] = trans.d4;</span><br><span class="line">		meshData.RelativeTransform = <span class="built_in">FTransform</span>(matrix);</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">		<span class="comment">//vertex</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">unsigned</span> j = <span class="number">0</span> ; j &lt; mesh-&gt;mNumVertices; ++j)</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			FVector vertex = <span class="built_in">FVector</span>(mesh-&gt;mVertices[j].x, mesh-&gt;mVertices[j].y, mesh-&gt;mVertices[j].z);</span><br><span class="line">			vertex = meshData.RelativeTransform.<span class="built_in">TransformFVector4</span>(vertex);</span><br><span class="line">			meshData.Vertices.<span class="built_in">Push</span>(vertex);</span><br><span class="line"></span><br><span class="line">			<span class="comment">//normal</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;<span class="built_in">HasNormals</span>())</span><br><span class="line">			&#123;</span><br><span class="line">				FVector normal = <span class="built_in">FVector</span>(mesh-&gt;mNormals[j].x, mesh-&gt;mNormals[j].y, mesh-&gt;mNormals[j].z);</span><br><span class="line">				meshData.Normals.<span class="built_in">Push</span>(normal);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				meshData.Normals.<span class="built_in">Push</span>(FVector::ZeroVector);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//UV</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;<span class="built_in">HasTextureCoords</span>(<span class="number">0</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				FVector2D uv = <span class="built_in">FVector2D</span>(mesh-&gt;mTextureCoords[<span class="number">0</span>][j].x, mesh-&gt;mTextureCoords[<span class="number">0</span>][j].y);</span><br><span class="line">				meshData.UV0.<span class="built_in">Push</span>(uv);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//tangent</span></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;<span class="built_in">HasTangentsAndBitangents</span>())</span><br><span class="line">			&#123;</span><br><span class="line">				FProcMeshTangent tangent = <span class="built_in">FProcMeshTangent</span>(mesh-&gt;mTangents[j].x, mesh-&gt;mTangents[j].y, mesh-&gt;mTangents[j].z);</span><br><span class="line">				meshData.Tangents.<span class="built_in">Push</span>(tangent);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (mesh-&gt;<span class="built_in">HasVertexColors</span>(<span class="number">0</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				FLinearColor color = <span class="built_in">FLinearColor</span>(mesh-&gt;mColors[<span class="number">0</span>][j].r, mesh-&gt;mColors[<span class="number">0</span>][j].g,</span><br><span class="line">					mesh-&gt;mColors[<span class="number">0</span>][j].b,mesh-&gt;mColors[<span class="number">0</span>][j].a);</span><br><span class="line">				meshData.VertexColors.<span class="built_in">Push</span>(color);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过一个递归方法来获取所有的节点模型信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindMeshDataRecursive</span><span class="params">(<span class="keyword">const</span> aiScene* scene, aiNode* node, FLoadedMeshData&amp; outLoadedMeshData)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">FindMeshData</span>(scene, node, outLoadedMeshData);</span><br><span class="line">	<span class="keyword">for</span> (uint32 i = <span class="number">0</span>; i &lt; node-&gt;mNumChildren; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">FindMeshDataRecursive</span>(scene, node-&gt;mChildren[i], outLoadedMeshData);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后从递归得到的数据再得到顶点序号</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (uint32 i = <span class="number">0</span>; i &lt; Scene-&gt;mNumMeshes; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//Triangle number</span></span><br><span class="line">			<span class="keyword">for</span> (uint32 l = <span class="number">0</span>; l &lt; Scene-&gt;mMeshes[i]-&gt;mNumFaces; ++l)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">for</span> (uint32 m = <span class="number">0</span>; m &lt; Scene-&gt;mMeshes[i]-&gt;mFaces[l].mNumIndices; ++m)</span><br><span class="line">				&#123;</span><br><span class="line">					out.meshData[i].Triangles.<span class="built_in">Push</span>(Scene-&gt;mMeshes[i]-&gt;mFaces[l].mIndices[m]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		out.bSuccess = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="https://img.supervj.top//img/UE4Editor_AWsxBHcz2H.png" alt="UE4Editor_AWsxBHcz2H"></p>
+<p>我们用<code>ProceduralMesh</code>正好可以创建出模型,如上图所示即可</p>
+<h2 id="获取材质信息"><a href="#获取材质信息" class="headerlink" title="获取材质信息"></a>获取材质信息</h2><p>材质信息保存在<code>aiScene.mMaterials</code>中, 官方文档中说了可以获取是所有材质属性</p>
+<p>下图截取一部分</p>
+<p><img src="https://img.supervj.top//img/chrome_A0rKxl2bTt.png" alt="chrome_A0rKxl2bTt"></p>
+<p>通过如下方式获取材质, 其中类型前面统一加上<code>AI_MATKEY_</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aiMaterial* mat = .....</span><br><span class="line"></span><br><span class="line"><span class="comment">// The generic way</span></span><br><span class="line"><span class="keyword">if</span>(AI_SUCCESS != mat-&gt;<span class="built_in">Get</span>(&lt;material-key&gt;,&lt;where-to-store&gt;)) &#123;</span><br><span class="line">   <span class="comment">// handle epic failure here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>又比如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">aiColor3D <span class="title">color</span> <span class="params">(<span class="number">0.f</span>,<span class="number">0.f</span>,<span class="number">0.f</span>)</span></span>;</span><br><span class="line">mat-&gt;<span class="built_in">Get</span>(AI_MATKEY_COLOR_DIFFUSE,color);</span><br></pre></td></tr></table></figure>
+
+<p>所以我们就可以通过此封装UE库</p>
+<p>但是考虑到各个类型的返回值不同, 我们就干脆一口气封装成K2Node泛型节点来方便使用,具体效果如下</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif" alt="录制_2021_03_22_10_06_11_380"></p>
+<p>对于这里图片的返回值的字符串表示的是路径信心, 但是这个还有个问题, 参考文档中的一段话</p>
+<blockquote>
+<p>There are two cases:</p>
+<ul>
+<li>The texture is NOT compressed. Its color data is directly stored in the aiTexture structure as an array of aiTexture::mWidth * aiTexture::mHeight aiTexel structures. Each aiTexel represents a pixel (or “texel”) of the texture image. The color data is stored in an unsigned RGBA8888 format, which can be easily used for both Direct3D and OpenGL (swizzling the order of the color components might be necessary). RGBA8888 has been chosen because it is well-known, easy to use and natively supported by nearly all graphics APIs.</li>
+<li>This applies if aiTexture::mHeight == 0 is fulfilled. Then, texture is stored in a compressed format such as DDS or PNG. The term “compressed” does not mean that the texture data must actually be compressed, however the texture was found in the model file as if it was stored in a separate file on the harddisk. Appropriate decoders (such as libjpeg, libpng, D3DX, DevIL) are required to load theses textures. aiTexture::mWidth specifies the size of the texture data in bytes, aiTexture::pcData is a pointer to the raw image data and aiTexture::achFormatHint is either zeroed or contains the most common file extension of the embedded texture’s format. This value is only set if assimp is able to determine the file format.</li>
+</ul>
+</blockquote>
+<p>我们一般情况下都是使用的注入<code>PNG</code>或者<code>JPG</code>等压缩格式的图片, 那么在获取图片信息的时候基本都是 上述第二种情况, 从返回的数据和路径信息都是不能直接使用的,需要借助其他工具来解析这些数据,此文就不讨论这个问题了</p>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><p><img src="https://img.supervj.top//img/3dsmax_fHQyk1D1Jg.png" alt="3dsmax_fHQyk1D1Jg"></p>
+<p>如上图, 在max内创建一个简单的box和材质,贴上一个简单的贴图</p>
+<p><img src="https://img.supervj.top//img/image-20210322104048429.png" alt="image-20210322104048429"></p>
+<p><img src="https://img.supervj.top//img/UE4Editor_qdTxG1JLQB.png" alt="UE4Editor_qdTxG1JLQB"></p>
+<blockquote>
+<p> 打印得到opacity值为0.94</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/" title="开源图形库Assimp">http://supervj.top/2021/03/21/开源图形库Assimp/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag"># 插件</a>
+              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%BA%93/" rel="tag"># 图形库</a>
+              <a href="/tags/assimp/" rel="tag"># assimp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/15/Draco/" rel="prev" title="Google开源压缩库Draco">
+                  <i class="fa fa-chevron-left"></i> Google开源压缩库Draco
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/" rel="next" title="K2Node深入探索及蓝图泛型节点">
+                  K2Node深入探索及蓝图泛型节点 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

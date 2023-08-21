@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言上一篇讲述了GE的一些基本概念, 非常概念化没有实战部分, 很容易混淆和忘记, 本片我们结合实际项目再配合GA的使用来模拟几个技能效果   伤害计算我们在前面测试GA的时候已经简单测试了伤害,不过那个伤害就固定的一个值, 下面我们用自定义的类GEEC来计算这个伤害 1USRGEEC_Damage : public UGameplayEffectExecutionCalculation   给上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GameplayAbilitySystem入门与实战(七):GameplayEffect(二)">
+<meta property="og:url" content="http://supervj.top/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言上一篇讲述了GE的一些基本概念, 非常概念化没有实战部分, 很容易混淆和忘记, 本片我们结合实际项目再配合GA的使用来模拟几个技能效果   伤害计算我们在前面测试GA的时候已经简单测试了伤害,不过那个伤害就固定的一个值, 下面我们用自定义的类GEEC来计算这个伤害 1USRGEEC_Damage : public UGameplayEffectExecutionCalculation   给上">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218172355966.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201218175903444.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_17_57_55_376.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201221093148509.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201221093257062.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201221093407727.png">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_21_09_50_34_192.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201222135917433.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201222140009303.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201225172537711.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201225172450545.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201225173327395.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201225173355889.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201226110601324.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201226113630345.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201226113716170.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20201226113752690.png">
+<meta property="article:published_time" content="2020-12-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:28:44.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="GAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/image-20201218172355966.png">
+
+
+<link rel="canonical" href="http://supervj.top/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>GameplayAbilitySystem入门与实战(七):GameplayEffect(二) | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">伤害计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%A4%8D"><span class="nav-number">3.</span> <span class="nav-text">自动回复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7Clamp"><span class="nav-number">4.</span> <span class="nav-text">属性Clamp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E9%9A%8F%E7%AD%89%E7%BA%A7%E5%A2%9E%E5%8A%A0"><span class="nav-number">5.</span> <span class="nav-text">伤害随等级增加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E5%85%B3%E8%81%94"><span class="nav-number">6.</span> <span class="nav-text">伤害计算中的属性关联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E8%BF%9B%E9%98%B6%E5%A4%84%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">伤害进阶处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E8%BF%9B%E9%98%B6%E5%A4%84%E7%90%86-%E9%97%AA%E9%81%BF%E5%92%8C%E6%A0%BC%E6%8C%A1"><span class="nav-number">8.</span> <span class="nav-text">伤害进阶处理:闪避和格挡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A4%E5%AE%B3%E8%BF%9B%E9%98%B6%E5%A4%84%E7%90%86-MMC"><span class="nav-number">9.</span> <span class="nav-text">伤害进阶处理:MMC</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GameplayAbilitySystem入门与实战(七):GameplayEffect(二)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-25T00:00:00+08:00">2020-12-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:28:44" itemprop="dateModified" datetime="2021-08-02T16:28:44+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/12/25/GameplayAbilitySystem分析(七)_GameplayEffect2/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>17k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>16 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇讲述了<code>GE</code>的一些基本概念, 非常概念化没有实战部分, 很容易混淆和忘记, 本片我们结合实际项目再配合<code>GA</code>的使用来模拟几个技能效果</p>
+<a name = "GEEC">
+
+<h2 id="伤害计算"><a href="#伤害计算" class="headerlink" title="伤害计算"></a>伤害计算</h2><p>我们在前面测试<code>GA</code>的时候已经简单测试了伤害,不过那个伤害就固定的一个值, 下面我们用自定义的类<code>GEEC</code>来计算这个伤害</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USRGEEC_Damage : <span class="keyword">public</span> UGameplayEffectExecutionCalculation</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top//img/image-20201218172355966.png" alt="image-20201218172355966"></p>
+<p>给上我们的<code>GEEC</code></p>
+<span id="more"></span>
+
+<p>在<code>GEEC</code>中只需要重写方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后我们需要捕获我们角色的一些数据, 比如我们捕获我们发起者的攻击以及目标的护甲</p>
+<p>为了方便使用, 我们自定义一个结构体</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>  <span class="title">SRDamageStatics</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">DECLARE_ATTRIBUTE_CAPTUREDEF</span>(Attack);</span><br><span class="line">	<span class="built_in">DECLARE_ATTRIBUTE_CAPTUREDEF</span>(Armor);</span><br><span class="line">	<span class="built_in">DECLARE_ATTRIBUTE_CAPTUREDEF</span>(Health);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">SRDamageStatics</span>()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//攻击力在创建GE时捕获, 因为技能可能有弹道, 需要在发射的时候就捕获而不是击中的时候,</span></span><br><span class="line">		<span class="comment">//类似的其他有关发射者的属性都所需要此时捕获</span></span><br><span class="line">		<span class="built_in">DEFINE_ATTRIBUTE_CAPTUREDEF</span>(USRAttributeSetBase, Attack, Source, <span class="literal">true</span>);</span><br><span class="line">		<span class="comment">//目标的防御在应用的时候捕获</span></span><br><span class="line">		<span class="built_in">DEFINE_ATTRIBUTE_CAPTUREDEF</span>(USRAttributeSetBase, Armor, Target, <span class="literal">false</span>);</span><br><span class="line">		<span class="built_in">DEFINE_ATTRIBUTE_CAPTUREDEF</span>(USRAttributeSetBase, Health, Target, <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">const</span> SRDamageStatics&amp; <span class="title">DamageStatics</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">static</span> SRDamageStatics DmgStatics;</span><br><span class="line">	<span class="keyword">return</span> DmgStatics;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后设置捕获</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">USRGEEC_Damage::<span class="built_in">USRGEEC_Damage</span>()</span><br><span class="line">&#123;</span><br><span class="line">	RelevantAttributesToCapture.<span class="built_in">Add</span>(<span class="built_in">DamageStatics</span>().AttackDef);</span><br><span class="line">	RelevantAttributesToCapture.<span class="built_in">Add</span>(<span class="built_in">DamageStatics</span>().ArmorDef);</span><br><span class="line">	RelevantAttributesToCapture.<span class="built_in">Add</span>(<span class="built_in">DamageStatics</span>().HealthDef);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面就是加加减减一下最终反馈到目标的血量(临时方案)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRGEEC_Damage::Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UAbilitySystemComponent* TargetAbilitySystemComponent = ExecutionParams.<span class="built_in">GetTargetAbilitySystemComponent</span>();</span><br><span class="line">	UAbilitySystemComponent* SourceAbilitySystemComponent = ExecutionParams.<span class="built_in">GetSourceAbilitySystemComponent</span>();</span><br><span class="line"></span><br><span class="line">	AActor* SourceActor = SourceAbilitySystemComponent ? SourceAbilitySystemComponent-&gt;<span class="built_in">GetAvatarActor</span>() : <span class="literal">nullptr</span>;</span><br><span class="line">	AActor* TargetActor = TargetAbilitySystemComponent ? TargetAbilitySystemComponent-&gt;<span class="built_in">GetAvatarActor</span>() : <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec = ExecutionParams.<span class="built_in">GetOwningSpec</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获取双方所有tag</span></span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.<span class="built_in">GetAggregatedTags</span>();</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.<span class="built_in">GetAggregatedTags</span>();</span><br><span class="line"></span><br><span class="line">	FAggregatorEvaluateParameters EvaluationParameters;</span><br><span class="line">	EvaluationParameters.SourceTags = SourceTags;</span><br><span class="line">	EvaluationParameters.TargetTags = TargetTags;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> ArmorPower = <span class="number">0.f</span>;</span><br><span class="line">	ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().ArmorDef, EvaluationParameters, ArmorPower);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> AttackValue = <span class="number">0.f</span>;</span><br><span class="line">	ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().AttackDef, EvaluationParameters, AttackValue);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">float</span> DamageDone = <span class="number">-1</span> * (AttackValue - ArmorPower);</span><br><span class="line">	<span class="keyword">if</span> (DamageDone &lt; <span class="number">0.f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.<span class="built_in">AddOutputModifier</span>(<span class="built_in">FGameplayModifierEvaluatedData</span>(<span class="built_in">DamageStatics</span>().HealthProperty, EGameplayModOp::Additive, DamageDone));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201218175903444.png" alt="image-20201218175903444"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_18_17_57_55_376.gif" alt="录制_2020_12_18_17_57_55_376"></p>
+<p>运行正常,每次伤害为8(10-2)</p>
+<h2 id="自动回复"><a href="#自动回复" class="headerlink" title="自动回复"></a>自动回复</h2><p>我们属性里面有设置生命值和魔法值, 那么一般情况下这两种属性都有自动回复的机制,所以我们用<code>GE</code>来实现这个效果</p>
+<p><img src="https://img.supervj.top//img/image-20201221093148509.png" alt="image-20201221093148509"></p>
+<p>配置两个<code>GE</code>到我们的玩家角色的默认启动的<code>GE</code>内</p>
+<p><img src="https://img.supervj.top//img/image-20201221093257062.png" alt="image-20201221093257062"></p>
+<p>设置<code>GE</code>如上图, 设定持续事件为<code>Infinite</code>,计算方式是基于其他属性, 然后设置<code>Period</code>=1, 即每1秒执行一次</p>
+<p><img src="https://img.supervj.top//img/image-20201221093407727.png" alt="image-20201221093407727"></p>
+<p>在下面的移除标签内加上死亡状态, 即死亡了以后会移除自动回复效果</p>
+<p>接下来简单测试一下添加了死亡<code>tag</code>以后的情况</p>
+<p>我们用一个测试<code>GE</code>什么都不做,就添加一个<code>Death</code>标签</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2020_12_21_09_50_34_192.gif" alt="录制_2020_12_21_09_50_34_192"></p>
+<p>搞定!</p>
+<p>但是问题又来了, 这个生命回复到超过<code>MaxHealth</code>的时候就不对了, 我们必须在特定的地方对此做一个限制</p>
+<h2 id="属性Clamp"><a href="#属性Clamp" class="headerlink" title="属性Clamp"></a>属性Clamp</h2><p>在<a href="">属性篇</a>中我们提过一个<code>PostGameplayEffectExecute()</code>函数, 用此函数就是官方建议我们来做属性<code>Clamp</code>处理的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::PostGameplayEffectExecute</span><span class="params">(<span class="keyword">const</span> struct FGameplayEffectModCallbackData &amp;Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">UE_LOG</span>(SRLog, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;PostGameplayEffectExecute  &quot;</span>));</span><br><span class="line">	Super::<span class="built_in">PostGameplayEffectExecute</span>(Data);</span><br><span class="line">	</span><br><span class="line">	FGameplayEffectContextHandle Context = Data.EffectSpec.<span class="built_in">GetContext</span>();</span><br><span class="line">	UAbilitySystemComponent* SourceASC = Context.<span class="built_in">GetOriginalInstigatorAbilitySystemComponent</span>();</span><br><span class="line">	<span class="keyword">const</span> FGameplayTagContainer&amp; SourceTags = *Data.EffectSpec.CapturedSourceTags.<span class="built_in">GetAggregatedTags</span>();</span><br><span class="line">	FGameplayTagContainer SpecAssetTags;</span><br><span class="line">	Data.EffectSpec.<span class="built_in">GetAllAssetTags</span>(SpecAssetTags);</span><br><span class="line"></span><br><span class="line">	AActor* TargetActor = <span class="literal">nullptr</span>;</span><br><span class="line">	AController* TargetController = <span class="literal">nullptr</span>;</span><br><span class="line">	ASRCharacterBase* TargetCharacter = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (Data.Target.AbilityActorInfo.<span class="built_in">IsValid</span>() &amp;&amp; Data.Target.AbilityActorInfo-&gt;AvatarActor.<span class="built_in">IsValid</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		TargetActor = Data.Target.AbilityActorInfo-&gt;AvatarActor.<span class="built_in">Get</span>();</span><br><span class="line">		TargetController = Data.Target.AbilityActorInfo-&gt;PlayerController.<span class="built_in">Get</span>();</span><br><span class="line">		TargetCharacter = Cast&lt;ASRCharacterBase&gt;(TargetActor);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	AActor* SourceActor = <span class="literal">nullptr</span>;</span><br><span class="line">	AController* SourceController = <span class="literal">nullptr</span>;</span><br><span class="line">	ASRCharacterBase* SourceCharacter = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (SourceASC &amp;&amp; SourceASC-&gt;AbilityActorInfo.<span class="built_in">IsValid</span>() &amp;&amp; SourceASC-&gt;AbilityActorInfo-&gt;AvatarActor.<span class="built_in">IsValid</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		SourceActor = SourceASC-&gt;AbilityActorInfo-&gt;AvatarActor.<span class="built_in">Get</span>();</span><br><span class="line">		SourceController = SourceASC-&gt;AbilityActorInfo-&gt;PlayerController.<span class="built_in">Get</span>();</span><br><span class="line">		<span class="keyword">if</span> (SourceController == <span class="literal">nullptr</span> &amp;&amp; SourceActor != <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (APawn* Pawn = Cast&lt;APawn&gt;(SourceActor))</span><br><span class="line">			&#123;</span><br><span class="line">				SourceController = Pawn-&gt;<span class="built_in">GetController</span>();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (SourceController)</span><br><span class="line">		&#123;</span><br><span class="line">			SourceCharacter = Cast&lt;ASRCharacterBase&gt;(SourceController-&gt;<span class="built_in">GetPawn</span>());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			SourceCharacter = Cast&lt;ASRCharacterBase&gt;(SourceActor);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (Context.<span class="built_in">GetEffectCauser</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			SourceActor = Context.<span class="built_in">GetEffectCauser</span>();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (Data.EvaluatedData.Attribute == <span class="built_in">GetHealthAttribute</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">SetHealth</span>(FMath::<span class="built_in">Clamp</span>(<span class="built_in">GetHealth</span>(), <span class="number">0.0f</span>, <span class="built_in">GetMaxHealth</span>()));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (Data.EvaluatedData.Attribute ==  <span class="built_in">GetManaAttribute</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">SetMana</span>(FMath::<span class="built_in">Clamp</span>(<span class="built_in">GetMana</span>(), <span class="number">0.0f</span>, <span class="built_in">GetMaxMana</span>()));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面茫茫多的变量获取是为了后续做更多的内容, 如伤害处理等, 对于生命和魔法值的<code>Clamp</code>简单处理即可</p>
+<blockquote>
+<p>注意</p>
+<p>Source是发起者</p>
+<p>Target是作用目标, 即被修改属性的角色,</p>
+<p>两者可能会相同, 容易混淆概念</p>
+</blockquote>
+<h2 id="伤害随等级增加"><a href="#伤害随等级增加" class="headerlink" title="伤害随等级增加"></a>伤害随等级增加</h2><p>前面我们用一个<code>GEEC</code>通过攻击-防御得到最后的生命值</p>
+<p>我们继续扩展, 在下面的<code>ModifierMagnitude</code>内加入参数, 再给一个<code>CurveTable</code>参数,如下图</p>
+<p><img src="https://img.supervj.top//img/image-20201222135917433.png" alt="image-20201222135917433"></p>
+<p>此举意味着我们计算时的<code>Attack</code>值会额外增加对应等级的攻击力</p>
+<p><code>CSV</code>表格的编辑如下</p>
+<p><strong><img src="https://img.supervj.top//img/image-20201222140009303.png" alt="image-20201222140009303"></strong></p>
+<p>然后可以得到不同等级对应的攻击力加成</p>
+<h2 id="伤害计算中的属性关联"><a href="#伤害计算中的属性关联" class="headerlink" title="伤害计算中的属性关联"></a>伤害计算中的属性关联</h2><p><code>PostGameplayEffectExecute()</code>函数会在引用<code>GE</code>以后调用, 同时也会触发属性改变的事件响应,</p>
+<p>同时这里需要注意, 我们的<code>Set***()</code>函数能触发事件响应.</p>
+<blockquote>
+<p> <strong>但是无法再次触发<code>PostGameplayEffectExecute()</code></strong></p>
+</blockquote>
+<p>意味着,加入我们希望通过修改<code>A</code>属性后来修改<code>B</code>属性可以在<code>PostGameplayEffectExecute()</code>函数内处理</p>
+<p>比如,<code> Attack</code>属性=<code>AttackA+AttackB</code>, 那么可以在<code>PostGameplayEffectExecute()</code>函数内实现</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Data.EvaluatedData.Attribute == <span class="built_in">GetAttackAAttribute</span>() || ...)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">SetAttack</span>(<span class="built_in">GetAttackA</span>()+<span class="built_in">GetAttackB</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似这种形式也可以触发<code>Attack</code>的事件响应, 方便UI的同步显示效果</p>
+<p>在案例里面, 我设置了5个主属性,如<code>力量,敏捷</code>等</p>
+<p>随着主属性的修改, 其他副属性如<code>攻击力,护甲值,暴击率</code>等会随之改变, 这些操作是可以放到<code>PostGameplayEffectExecute()</code>内处理的</p>
+<blockquote>
+<p>可否把上述内容放到<code>PreAttributeChange()</code>内?</p>
+<p><code>PreAttributeChange()</code>只是对属性的预处理, 此函数内不适合去<code>Get</code>其他函数的值, 不能保证此时这个值是否正确</p>
+<p><code>PreAttributeChange()</code>比较适合对确定的某些属性最一些自适应处理, 如前面已经讲过的对当前生命值和最大生命值做处理函数<code>AdjustAttributeForMaxChange()</code></p>
+</blockquote>
+<h2 id="伤害进阶处理"><a href="#伤害进阶处理" class="headerlink" title="伤害进阶处理"></a>伤害进阶处理</h2><blockquote>
+<p>现在有这么一个需求,先不考虑闪避, 格挡等因素, 但需要计算暴击</p>
+<p>玩家技能1:</p>
+<ul>
+<li>造成攻击力若干百分比的物理伤害</li>
+<li>造成攻击力若干百分比的火系伤害</li>
+</ul>
+<p>计算方式需求:</p>
+<ul>
+<li>物理伤害需计算护甲, 物理抗性等</li>
+<li>法系伤害需计算相对应的法术抗性</li>
+</ul>
+</blockquote>
+<p>首先需要在<code>Set</code>类内申明几个用于计算伤害的临时属性, 在<code>GASD</code>和<code>ActionRPG</code>项目中都采用了如此的方案</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//临时攻击数据, 通过技能初始化, 用于结算最终伤害</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadOnly, Category = <span class="string">&quot;AttackTemp&quot;</span>, ReplicatedUsing = OnRep_Attack_Physics)</span><br><span class="line">	FGameplayAttributeData Attack_Physics;</span><br><span class="line"><span class="built_in">ATTRIBUTE_ACCESSORS</span>(USRAttributeSetBase, Attack_Physics)</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadOnly, Category = <span class="string">&quot;AttackTemp&quot;</span>, ReplicatedUsing = OnRep_Attack_Fire)</span><br><span class="line">	FGameplayAttributeData Attack_Fire;</span><br><span class="line"><span class="built_in">ATTRIBUTE_ACCESSORS</span>(USRAttributeSetBase, Attack_Fire)</span><br><span class="line">       </span><br><span class="line">       <span class="comment">//临时受伤数据</span></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadOnly, Category = <span class="string">&quot;DamageTemp&quot;</span>, ReplicatedUsing = OnRep_Damage_Physics)</span><br><span class="line">	FGameplayAttributeData Damage_Physics;</span><br><span class="line"><span class="built_in">ATTRIBUTE_ACCESSORS</span>(USRAttributeSetBase, Damage_Physics)</span><br><span class="line">	<span class="built_in">UPROPERTY</span>(BlueprintReadOnly, Category = <span class="string">&quot;DamageTemp&quot;</span>, ReplicatedUsing = OnRep_Damage_Fire)</span><br><span class="line">	FGameplayAttributeData Damage_Fire;</span><br><span class="line"><span class="built_in">ATTRIBUTE_ACCESSORS</span>(USRAttributeSetBase, Damage_Fire)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>前面我们已经创建了一个<a href="#GEEC"><code>GEEC</code></a>, 然后我们进行扩展</p>
+<p><strong>已略过属性捕捉部分</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRGEEC_Damage::Execute_Implementation</span><span class="params">(<span class="keyword">const</span> FGameplayEffectCustomExecutionParameters&amp; ExecutionParams, OUT FGameplayEffectCustomExecutionOutput&amp; OutExecutionOutput)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">float</span> PhysicsAttack = <span class="number">0.f</span>;</span><br><span class="line">    <span class="keyword">float</span> FireAttack = <span class="number">0.f</span>;</span><br><span class="line">  ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().Attack_PhysicsDef, EvaluationParameters, PhysicsAttack);</span><br><span class="line">ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().Attack_FireDef, EvaluationParameters, FireAttack);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> critPro = <span class="number">0.f</span>;</span><br><span class="line">	<span class="keyword">float</span> critMul = <span class="number">1.f</span>;</span><br><span class="line">ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().CritProDef, EvaluationParameters, critPro);</span><br><span class="line">ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().CritMulDef, EvaluationParameters, critMul);</span><br><span class="line">    </span><br><span class="line">    	<span class="keyword">float</span> ArmorValue = <span class="number">0.f</span>;</span><br><span class="line">ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().ArmorDef, EvaluationParameters, ArmorValue);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> PhysicsResistance = <span class="number">0.f</span>;</span><br><span class="line">	<span class="keyword">float</span> FireResistance = <span class="number">0.f</span>;</span><br><span class="line">  ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().Resistance_PhysicsDef, EvaluationParameters, PhysicsResistance);	ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().Resistance_FireDef, EvaluationParameters, FireResistance);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">float</span> PhysicsDamage = <span class="built_in">CalcPhysicsMitigatedDamage</span>(PhysicsAttack, ArmorValue, DamageReduceValue, PhysicsResistance);</span><br><span class="line">	<span class="keyword">float</span> FireDamage = <span class="built_in">CalcMagicMitigatedDamage</span>(FireAttack, DamageReduceValue, FireResistance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们捕获了所需要的属性, 同时通过两个辅助函数计算物理和法术伤害</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">USRGEEC_Damage::CalcPhysicsMitigatedDamage_Implementation</span><span class="params">(<span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> TargetArmor, <span class="keyword">float</span> critPro, <span class="keyword">float</span> critMul, <span class="keyword">float</span> ReducePercent <span class="comment">/*= 0.0f*/</span>, <span class="keyword">float</span> PhysicsResistance <span class="comment">/*= 0.0f*/</span>)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> outDamage = <span class="number">0.0f</span>;</span><br><span class="line">	<span class="keyword">bool</span> bIsCrit = UKismetMathLibrary::<span class="built_in">RandomBoolWithWeight</span>(critPro);</span><br><span class="line">	<span class="keyword">float</span> armorPerc = <span class="number">1</span> - (TargetArmor / (TargetArmor + <span class="number">500</span>));</span><br><span class="line">	<span class="keyword">float</span> globlePerc = FMath::<span class="built_in">Clamp</span>((<span class="number">1</span> - ReducePercent), <span class="number">0.01f</span>, <span class="number">100.f</span>);</span><br><span class="line">	<span class="keyword">float</span> resistancePerc = <span class="number">1</span> - (PhysicsResistance / (PhysicsResistance + <span class="number">50</span>));</span><br><span class="line">	<span class="keyword">float</span> critValue = FMath::<span class="built_in">Clamp</span>((bIsCrit ? critMul : <span class="number">1.0f</span>),<span class="number">1.0f</span>,<span class="number">999.0f</span>);</span><br><span class="line">	</span><br><span class="line">	outDamage = UnmitigatedDamage * armorPerc * globlePerc * resistancePerc * critValue;</span><br><span class="line">	<span class="keyword">if</span> (bDebug &amp;&amp; outDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">UE_LOG</span>(SRLog, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;USRGEEC_Damage::CalcPhysicsMitigatedDamage, SourceDamage = %f, ArmorReduce = %f, GlobleReduce = %f, ResistanceReduce = %f , CritValue = %f, \n OutDamage = %f&quot;</span>),</span><br><span class="line">			UnmitigatedDamage, <span class="number">1</span> - armorPerc, <span class="number">1</span> - globlePerc, <span class="number">1</span> - resistancePerc, critValue, outDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> outDamage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">USRGEEC_Damage::CalcMagicMitigatedDamage_Implementation</span><span class="params">(<span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> critPro, <span class="keyword">float</span> critMul, <span class="keyword">float</span> ReducePercent <span class="comment">/*= 0.0f*/</span>, <span class="keyword">float</span> Resistance <span class="comment">/*= 0.0f*/</span>)</span><span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> outDamage = <span class="number">0.0f</span>;</span><br><span class="line">	<span class="keyword">bool</span> bIsCrit = UKismetMathLibrary::<span class="built_in">RandomBoolWithWeight</span>(critPro);</span><br><span class="line">	<span class="keyword">float</span> globlePerc = FMath::<span class="built_in">Clamp</span>((<span class="number">1</span> - ReducePercent), <span class="number">0.01f</span>, <span class="number">100.f</span>);</span><br><span class="line">	<span class="keyword">float</span> resistancePerc = <span class="number">1</span> - (Resistance / (Resistance + <span class="number">50</span>));</span><br><span class="line">	<span class="keyword">float</span> critValue = FMath::<span class="built_in">Clamp</span>((bIsCrit ? critMul : <span class="number">1.0f</span>), <span class="number">1.0f</span>, <span class="number">999.0f</span>);</span><br><span class="line">	</span><br><span class="line">	outDamage = UnmitigatedDamage * globlePerc * resistancePerc * critValue;</span><br><span class="line">	<span class="keyword">if</span> (bDebug &amp;&amp; outDamage &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">UE_LOG</span>(SRLog, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;USRGEEC_Damage::CalcMagicMitigatedDamage, SourceDamage = %f, GlobleReduce = %f, ResistanceReduce = %f , CritValue = %f \n OutDamage = %f&quot;</span>), </span><br><span class="line">			UnmitigatedDamage, <span class="number">1</span> - globlePerc, <span class="number">1</span> - resistancePerc, critValue, outDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> outDamage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后添加到修改</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (PhysicsDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.<span class="built_in">AddOutputModifier</span>(<span class="built_in">FGameplayModifierEvaluatedData</span>(<span class="built_in">DamageStatics</span>().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">if</span> (FireDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		OutExecutionOutput.<span class="built_in">AddOutputModifier</span>(<span class="built_in">FGameplayModifierEvaluatedData</span>(<span class="built_in">DamageStatics</span>().Damage_FireProperty, EGameplayModOp::Additive, FireDamage));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>接下来会调用到目标单位的<code>AttributeSet</code>类中, 用一个函数<code>HandlDamage()</code>和宏<code>DAMAGE_HANDLE</code>来处理伤害和扣血</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAttributeSetBase::HandlDamage</span><span class="params">(FGameplayAttribute Attribute, ASRCharacterBase* TargetCharacter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> damage, newHp;</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Physics, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Fire, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Ice, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Poison, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Electricity, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Holy, damage, newHp);</span><br><span class="line">	<span class="built_in">DAMAGE_HANDLE</span>(Attribute, TargetCharacter, Arcane, damage, newHp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DAMAGE_HANDLE(Attribute,C,Name,TempDamage,TempNewHp) \</span></span><br><span class="line"><span class="meta">&#123;\</span></span><br><span class="line"><span class="meta">	<span class="meta-keyword">if</span>(Attribute == GetDamage_##Name##Attribute()) \</span></span><br><span class="line"><span class="meta">	&#123;	\</span></span><br><span class="line"><span class="meta">		TempDamage = GetDamage_##Name(); \</span></span><br><span class="line"><span class="meta">		SetDamage_##Name(0);	\</span></span><br><span class="line"><span class="meta">		<span class="meta-keyword">if</span>(TempDamage&gt;0)	\</span></span><br><span class="line"><span class="meta">		&#123;	\</span></span><br><span class="line"><span class="meta">			ASRCharacterBase* character = Cast<span class="meta-string">&lt;ASRCharacterBase&gt;</span>(C);	\</span></span><br><span class="line"><span class="meta">			<span class="meta-keyword">if</span> (character&amp;&amp;character-&gt;IsAlive())\</span></span><br><span class="line"><span class="meta">			&#123;\</span></span><br><span class="line"><span class="meta">				TempNewHp = GetHealth() - TempDamage;\</span></span><br><span class="line"><span class="meta">				SRLOGEX2(TEXT(<span class="meta-string">&quot;USRAttributeSetBase::HandlDamage %s beDamage = %f&quot;</span>), *TargetCharacter-&gt;GetName(), TempDamage);\</span></span><br><span class="line"><span class="meta">			    SetHealth(TempNewHp);\</span></span><br><span class="line"><span class="meta">			&#125;\</span></span><br><span class="line"><span class="meta">		&#125;	\</span></span><br><span class="line"><span class="meta">	&#125; \</span></span><br><span class="line"><span class="meta">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后是设置测试<code>GE</code>类, 我们同时用一张表格来配置技能对应等级的系数</p>
+<p><img src="https://img.supervj.top//img/image-20201225172537711.png" alt="image-20201225172537711"></p>
+<p><img src="https://img.supervj.top//img/image-20201225172450545.png" alt="image-20201225172450545"></p>
+<blockquote>
+<p>测试样本: 初始10攻击力, 目标护甲10, 物理抗性10, 伤害减免10%</p>
+</blockquote>
+<p>分别用1级技能和10级技能攻击测试物理部分</p>
+<ul>
+<li>1级</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201225173327395.png" alt="image-20201225173327395"></p>
+<ul>
+<li>10级</li>
+</ul>
+<p><img src="https://img.supervj.top//img/image-20201225173355889.png" alt="image-20201225173355889"></p>
+<p>完成</p>
+<h2 id="伤害进阶处理-闪避和格挡"><a href="#伤害进阶处理-闪避和格挡" class="headerlink" title="伤害进阶处理:闪避和格挡"></a>伤害进阶处理:闪避和格挡</h2><blockquote>
+<p>接下来我们再考虑加入闪避和格挡因素,这两者一般游戏针对的都是物理攻击,当然不排除也有闪避法术的设定,我们这里采用的是前者</p>
+<p>还需要考虑一个设定, 格挡是格挡税前伤害还是税后, 即伤害减免是在格挡的前后问题,我们使用在税后(伤害减免后)在进行格挡计算, 这种情况下格挡的收益比较大</p>
+</blockquote>
+<p>因为<code>GEEC</code>不适合做格挡和闪避的效果处理, 比如播放动画之类的, 那么此类消息我们打算传递给<code>ASC</code>去做处理或者转发</p>
+<p>在<code>ASC</code>中申明几个代理和函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams</span>(FOnRecieveEventDodge, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FString&amp;, ExtendInfo);</span><br><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams</span>(FOnReceiveEventBlock, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FHitResult&amp;, HitResult, <span class="keyword">float</span>, UnmitigatedDamage,<span class="keyword">float</span>,BlockValue);</span><br><span class="line"><span class="built_in">DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams</span>(FOnReceiveEventDamage, USRAbilitySystemComponent*, SourceASC, <span class="keyword">const</span> FHitResult&amp;, HitResult, <span class="keyword">float</span>, UnmitigatedDamage,<span class="keyword">float</span>, MitigatedDamage, ESRDamageType,DamageType);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveDodge</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FString&amp; ExtendInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">SRLOGEX2</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;%s 闪避了 %s 的攻击&quot;</span>), *<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>(), *SourceASC-&gt;<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	OnDodge.<span class="built_in">Broadcast</span>(SourceASC, ExtendInfo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveDamage</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FHitResult&amp; HitResult, <span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> MitigatedDamag, ESRDamageType DamageType)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">SRLOGEX5</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;%s 收到 %s 的%s攻击, 税前伤害 = %f, 税后= %f&quot;</span>), *<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>(), *SourceASC-&gt;<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>(), </span><br><span class="line">			*UFlib_SRUtilities::<span class="built_in">DamageTypeToString</span>(DamageType),UnmitigatedDamage, MitigatedDamag);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OnDamage.<span class="built_in">Broadcast</span>(SourceASC, HitResult, UnmitigatedDamage, MitigatedDamag, DamageType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USRAbilitySystemComponent::ReceiveBlock</span><span class="params">(USRAbilitySystemComponent* SourceASC, <span class="keyword">const</span> FHitResult&amp; HitResult, <span class="keyword">float</span> UnmitigatedDamage, <span class="keyword">float</span> BlockValue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (bDebugLog)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">SRLOGEX4</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;%s 格挡了 %s 攻击的 %f 点伤害(格挡前伤害= %f)&quot;</span>), *<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>(), *SourceASC-&gt;<span class="built_in">GetAvatarActor</span>()-&gt;<span class="built_in">GetName</span>(), BlockValue, UnmitigatedDamage);</span><br><span class="line">	&#125;</span><br><span class="line">	OnBlock.<span class="built_in">Broadcast</span>(SourceASC, HitResult, UnmitigatedDamage,BlockValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里用到了一个辅助函数, 我们在一个函数库中做了枚举和字符串的转换(蓝图自带的)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FString <span class="title">UFlib_SRUtilities::DamageTypeToString</span><span class="params">(ESRDamageType type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SREnumToString&lt;ESRDamageType&gt;(<span class="string">&quot;ESRDamageType&quot;</span>, type, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ESRDamageType <span class="title">UFlib_SRUtilities::StringToDamageType</span><span class="params">(<span class="keyword">const</span> FString&amp; name)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SRStringToEnum&lt;ESRDamageType&gt;(<span class="string">&quot;ESRDamageType&quot;</span>, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就是<code>GEEC</code>中额外加一些代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//闪避和格挡只能作用到物理伤害</span></span><br><span class="line">	<span class="keyword">if</span> (PhysicsDamage&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//先计算闪避</span></span><br><span class="line">		<span class="keyword">float</span> dodge = <span class="number">0.0f</span>;</span><br><span class="line">		ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().DodgeProDef, EvaluationParameters, dodge);</span><br><span class="line">		<span class="keyword">if</span> (dodge &gt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">bool</span> bIsMiss = UKismetMathLibrary::<span class="built_in">RandomBoolWithWeight</span>(dodge);</span><br><span class="line">			<span class="keyword">if</span> (bIsMiss)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (TargetAbilitySystemComponent&amp;&amp;SourceAbilitySystemComponent)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//如果闪避了, 那么不需要计算具体伤害</span></span><br><span class="line">					TargetAbilitySystemComponent-&gt;<span class="built_in">ReceiveDodge</span>(SourceAbilitySystemComponent);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//再计算格挡;格挡计算在税后,如果是税前那么需要在计算物理伤害之前进行;</span></span><br><span class="line">		<span class="comment">//有些设定需要正面才能格挡, 那么还需要计算方向</span></span><br><span class="line">		<span class="keyword">float</span> blockPro = <span class="number">0.0f</span>;</span><br><span class="line">		<span class="keyword">float</span> blockValue = <span class="number">0.0f</span>;</span><br><span class="line">		ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().BlockProDef, EvaluationParameters, blockPro);</span><br><span class="line">		ExecutionParams.<span class="built_in">AttemptCalculateCapturedAttributeMagnitude</span>(<span class="built_in">DamageStatics</span>().BlockValueDef, EvaluationParameters, blockValue);</span><br><span class="line">		<span class="keyword">if</span> (blockPro &gt; <span class="number">0</span> &amp;&amp; blockValue&gt;<span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">bool</span> bBlocked = UKismetMathLibrary::<span class="built_in">RandomBoolWithWeight</span>(blockPro);</span><br><span class="line">			<span class="keyword">if</span> (bBlocked)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (blockValue&gt;=PhysicsDamage)</span><br><span class="line">				&#123;</span><br><span class="line">					TargetAbilitySystemComponent-&gt;<span class="built_in">ReceiveBlock</span>(SourceAbilitySystemComponent, hit, PhysicsDamage, blockValue);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">float</span> Unmi = PhysicsDamage;</span><br><span class="line">					PhysicsDamage = PhysicsDamage - blockValue;</span><br><span class="line">					TargetAbilitySystemComponent-&gt;<span class="built_in">ReceiveBlock</span>(SourceAbilitySystemComponent, hit, Unmi,blockValue);</span><br><span class="line">					TargetAbilitySystemComponent-&gt;<span class="built_in">ReceiveDamage</span>(SourceAbilitySystemComponent, hit, PhysicsAttack, PhysicsDamage,ESRDamageType::PHYSICS);</span><br><span class="line">					OutExecutionOutput.<span class="built_in">AddOutputModifier</span>(<span class="built_in">FGameplayModifierEvaluatedData</span>(<span class="built_in">DamageStatics</span>().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			TargetAbilitySystemComponent-&gt;<span class="built_in">ReceiveDamage</span>(SourceAbilitySystemComponent, hit, PhysicsAttack,PhysicsDamage, ESRDamageType::PHYSICS);</span><br><span class="line">			OutExecutionOutput.<span class="built_in">AddOutputModifier</span>(<span class="built_in">FGameplayModifierEvaluatedData</span>(<span class="built_in">DamageStatics</span>().Damage_PhysicsProperty, EGameplayModOp::Additive, PhysicsDamage));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201226110601324.png" alt="image-20201226110601324"></p>
+<p>完成!</p>
+<h2 id="伤害进阶处理-MMC"><a href="#伤害进阶处理-MMC" class="headerlink" title="伤害进阶处理:MMC"></a>伤害进阶处理:MMC</h2><blockquote>
+<p>需求: </p>
+<p>法术技能有额外加成, 比如某个装备上有词缀(火系伤害+50%),那么问题来了,</p>
+<p>我们之前测试的火系技能伤害最后就变成是 <code>FireDamage = 攻击力 * 等级系数 * (1 + 火系加成)</code></p>
+<p>如果还是用<code>AttributeBase</code>基于属性的方式是不行了, 这里我们用一个自定义的<code>MMC</code>类就比较方便了</p>
+</blockquote>
+<p>上一篇已经大概讲了,<code>MMC</code>需要封装几个蓝图函数方便使用, 不然就去<code>cpp</code>吧</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function">AActor* <span class="title">GetInstigator</span><span class="params">(<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function">FGameplayAttribute <span class="title">GetAttributeFromDef</span><span class="params">(<span class="keyword">const</span> FGameplayEffectAttributeCaptureDefinition&amp; _Def)</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">float</span> <span class="title">TryGetCapturedAttributeMagnitude</span><span class="params">(<span class="keyword">const</span> FGameplayEffectAttributeCaptureDefinition&amp; Def, <span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br><span class="line"><span class="built_in">UFUNCTION</span>(BlueprintCallable, BlueprintPure, Category = <span class="string">&quot;MMC&quot;</span>)</span><br><span class="line">	<span class="function"><span class="keyword">float</span> <span class="title">GetLevel</span><span class="params">(<span class="keyword">const</span> FGameplayEffectSpec&amp; Spec)</span><span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img.supervj.top//img/image-20201226113630345.png" alt="image-20201226113630345"></p>
+<p>补充一个属性图, 我们初始化的时候给了50%的火系加成</p>
+<p><img src="https://img.supervj.top//img/image-20201226113716170.png" alt="image-20201226113716170"></p>
+<p>测试</p>
+<p><img src="https://img.supervj.top//img/image-20201226113752690.png" alt="image-20201226113752690"></p>
+<p>重点看税前已经变成1.5的伤害了, 正确</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2020/12/25/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%B8%83)_GameplayEffect2/" title="GameplayAbilitySystem入门与实战(七):GameplayEffect(二)">http://supervj.top/2020/12/25/GameplayAbilitySystem分析(七)_GameplayEffect2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/GAS/" rel="tag"># GAS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/" rel="prev" title="GameplayAbilitySystem入门与实战(八):GameplayCueNotify">
+                  <i class="fa fa-chevron-left"></i> GameplayAbilitySystem入门与实战(八):GameplayCueNotify
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/29/AssetManager/" rel="next" title="AssetManager的使用">
+                  AssetManager的使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>

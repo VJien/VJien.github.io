@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言 Distance Matching用于解决角色启动和停止的时候的滑步问题,  理论上我们可以用RootMotion的方式保证启动和停止的滑步问题, 但是动画序列的同步是个问题, 所以生产环境下一般会用程序化的位移来解决滑步问题 Paragon Feature Examples: Animation Techniques 里有讲到相关技术,  本文就简单的对此技术进行研究">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动画_DistanceMatching">
+<meta property="og:url" content="http://supervj.top/2021/09/08/%E5%8A%A8%E7%94%BBDistanceMatching/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言 Distance Matching用于解决角色启动和停止的时候的滑步问题,  理论上我们可以用RootMotion的方式保证启动和停止的滑步问题, 但是动画序列的同步是个问题, 所以生产环境下一般会用程序化的位移来解决滑步问题 Paragon Feature Examples: Animation Techniques 里有讲到相关技术,  本文就简单的对此技术进行研究">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_09_08_17_10_51_748.gif">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210908164752720.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210908165935431.png">
+<meta property="og:image" content="https://img.supervj.top//img/image-20210908170152836.png">
+<meta property="article:published_time" content="2021-09-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-09-14T06:36:22.000Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="动画">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_09_08_17_10_51_748.gif">
+
+
+<link rel="canonical" href="http://supervj.top/2021/09/08/%E5%8A%A8%E7%94%BBDistanceMatching/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>动画_DistanceMatching | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96%E4%BD%8D%E7%A7%BB%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">提取位移信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E4%BC%B0%E4%BD%8D%E7%A7%BB"><span class="nav-number">3.</span> <span class="nav-text">预估位移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">动画实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/09/08/%E5%8A%A8%E7%94%BBDistanceMatching/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动画_DistanceMatching
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-09-08 00:00:00" itemprop="dateCreated datePublished" datetime="2021-09-08T00:00:00+08:00">2021-09-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-09-14 14:36:22" itemprop="dateModified" datetime="2021-09-14T14:36:22+08:00">2021-09-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/animation/" itemprop="url" rel="index"><span itemprop="name">animation</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/09/08/%E5%8A%A8%E7%94%BBDistanceMatching/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/09/08/动画DistanceMatching/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_09_08_17_10_51_748.gif" alt="录制_2021_09_08_17_10_51_748"></p>
+<p><code>Distance Matching</code>用于解决角色启动和停止的时候的滑步问题,  理论上我们可以用<code>RootMotion</code>的方式保证启动和停止的滑步问题, 但是动画序列的同步是个问题, 所以生产环境下一般会用程序化的位移来解决滑步问题</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1UOY-FMm-xo&t=2592s">Paragon Feature Examples: Animation Techniques </a>里有讲到相关技术,  本文就简单的对此技术进行研究</p>
+<span id="more"></span>
+
+
+
+<h2 id="提取位移信息"><a href="#提取位移信息" class="headerlink" title="提取位移信息"></a>提取位移信息</h2><p>有朋友会问，起步和停步动作需要制作成<code>RootMotion</code>的模式吗? 我回答是需要, 这样我们方便提取里面的位移信息, 虽然我们还是会关闭<code>RootMotion</code>效果</p>
+<p>对于帕拉共的资源, 这个位移信息都已经放在每个起步停步动画里了, 比如</p>
+<p><img src="https://img.supervj.top//img/image-20210908164752720.png" alt="image-20210908164752720"></p>
+<p>当然如果不适用帕拉共, 那么我们自己写一个<code>AnimationModify</code>修改器也可以简单实现</p>
+<p><img src="https://img.supervj.top//img/image-20210908165935431.png" alt="image-20210908165935431"></p>
+<h2 id="预估位移"><a href="#预估位移" class="headerlink" title="预估位移"></a>预估位移</h2><p><strong>UCharacterMovementComponent::ApplyVelocityBrakin</strong>方法里有相关的预估位移的方法, 稍微整理一下封装到函数库</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UAnimExtensionBlueprintLibrary::PredictStopLocation</span><span class="params">(FVector&amp; OutStopLocation, <span class="keyword">const</span> FVector&amp; CurrentLocation, <span class="keyword">const</span> FVector&amp; Velocity,</span></span></span><br><span class="line"><span class="params"><span class="function">	<span class="keyword">const</span> FVector&amp; Acceleration, <span class="keyword">float</span> Friction, <span class="keyword">float</span> BrakingDeceleration, <span class="keyword">const</span> <span class="keyword">float</span> TimeStep, <span class="keyword">const</span> <span class="keyword">int</span> MaxSimulationIterations <span class="comment">/*= 10*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> MIN_TICK_TIME = <span class="number">1e-6</span>;</span><br><span class="line">	<span class="keyword">if</span> (TimeStep &lt; MIN_TICK_TIME)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">bool</span> bZeroAcceleration = Acceleration.<span class="built_in">IsZero</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//加速度方向与速度方向一致</span></span><br><span class="line">	<span class="keyword">if</span> ((Acceleration | Velocity) &gt; <span class="number">0.0f</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	BrakingDeceleration = FMath::<span class="built_in">Max</span>(BrakingDeceleration, <span class="number">0.f</span>);</span><br><span class="line">	Friction = FMath::<span class="built_in">Max</span>(Friction, <span class="number">0.f</span>);</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">bool</span> bZeroFriction = (Friction == <span class="number">0.f</span>);</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">bool</span> bZeroBraking = (BrakingDeceleration == <span class="number">0.f</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (bZeroAcceleration &amp;&amp; bZeroFriction)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	FVector LastVelocity = bZeroAcceleration ? Velocity : Velocity.<span class="built_in">ProjectOnToNormal</span>(Acceleration.<span class="built_in">GetSafeNormal</span>());</span><br><span class="line">	LastVelocity.Z = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	FVector LastLocation = CurrentLocation;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> Iterations = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (Iterations &lt; MaxSimulationIterations)</span><br><span class="line">	&#123;</span><br><span class="line">		Iterations++;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> FVector OldVel = LastVelocity;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 没有加速度</span></span><br><span class="line">		<span class="keyword">if</span> (bZeroAcceleration)</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">float</span> RemainingTime = TimeStep;</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> MaxTimeStep = (<span class="number">1.0f</span> / <span class="number">33.0f</span>);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">const</span> FVector RevAccel = (bZeroBraking ? FVector::ZeroVector : (-BrakingDeceleration * LastVelocity.<span class="built_in">GetSafeNormal</span>()));</span><br><span class="line">			<span class="keyword">while</span> (RemainingTime &gt;= MIN_TICK_TIME)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">// 无摩擦的话就使用线性常量计算</span></span><br><span class="line">				<span class="keyword">const</span> <span class="keyword">float</span> dt = ((RemainingTime &gt; MaxTimeStep &amp;&amp; !bZeroFriction) ? FMath::<span class="built_in">Min</span>(MaxTimeStep, RemainingTime * <span class="number">0.5f</span>) : RemainingTime);</span><br><span class="line">				RemainingTime -= dt;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 应用摩擦力和减速度  Vt＝Vo+at</span></span><br><span class="line">				LastVelocity = LastVelocity + ((-Friction) * LastVelocity + RevAccel) * dt;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 保证不要反向</span></span><br><span class="line">				<span class="keyword">if</span> ((LastVelocity | OldVel) &lt;= <span class="number">0.f</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					LastVelocity = FVector::ZeroVector;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 小于一定速度就限制为0速度</span></span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> VSizeSq = LastVelocity.<span class="built_in">SizeSquared</span>();</span><br><span class="line">			<span class="keyword">if</span> (VSizeSq &lt;= <span class="number">1.f</span> || (!bZeroBraking &amp;&amp; VSizeSq &lt;= FMath::<span class="built_in">Square</span>(<span class="number">10</span>)))</span><br><span class="line">			&#123;</span><br><span class="line">				LastVelocity = FVector::ZeroVector;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="comment">//有加速度</span></span><br><span class="line">		&#123;</span><br><span class="line">			FVector TotalAcceleration = Acceleration;</span><br><span class="line">			TotalAcceleration.Z = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 摩擦影响我们改变方向的能力。这只适用于输入加速度，而不是路径跟踪</span></span><br><span class="line">			<span class="keyword">const</span> FVector AccelDir = TotalAcceleration.<span class="built_in">GetSafeNormal</span>();</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> VelSize = LastVelocity.<span class="built_in">Size</span>();</span><br><span class="line">			TotalAcceleration += -(LastVelocity - AccelDir * VelSize) * Friction;</span><br><span class="line"></span><br><span class="line">			LastVelocity += TotalAcceleration * TimeStep;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		LastLocation += LastVelocity * TimeStep;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//速度小于阈值就限制为0</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> VSizeSq = LastVelocity.<span class="built_in">SizeSquared</span>();</span><br><span class="line">		<span class="keyword">if</span> (VSizeSq &lt;= <span class="number">1.f</span></span><br><span class="line">			|| (LastVelocity | OldVel) &lt;= <span class="number">0.f</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			OutStopLocation = LastLocation;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img.supervj.top//img/image-20210908170152836.png" alt="image-20210908170152836"></p>
+<p>然后还需要一个函数来通过得到的预估距离来反向查找对应的时间点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">UAnimExtensionBlueprintLibrary::GetDistanceCurveTime</span><span class="params">(UAnimSequence* Sequence, <span class="keyword">float</span> Distance, FName DistanceCurveName<span class="comment">/* = &quot;DistanceCurve&quot;*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		FRawCurveTracks CurvesOfAnim = Sequence-&gt;<span class="built_in">GetCurveData</span>();</span><br><span class="line">		TArray&lt;FFloatCurve&gt; Curves = CurvesOfAnim.FloatCurves;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Curves.<span class="built_in">Num</span>(); i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (Curves[i].Name.DisplayName == DistanceCurveName)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">auto</span>&amp; Keys = Curves[i].FloatCurve.Keys;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; Keys.<span class="built_in">Num</span>(); j++)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">if</span> (Keys[j].Value &gt;= Distance)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">float</span> NextTime = Keys[j].Time;</span><br><span class="line">						<span class="keyword">float</span> NextValue = Keys[j].Value;</span><br><span class="line">						<span class="keyword">float</span> PrevValue = <span class="number">0</span>;</span><br><span class="line">						<span class="keyword">float</span> PrevTime = <span class="number">0</span>;</span><br><span class="line">						<span class="keyword">if</span> (j &gt; <span class="number">0</span>)</span><br><span class="line">						&#123;</span><br><span class="line">							PrevValue = Keys[j - <span class="number">1</span>].Value;</span><br><span class="line">							PrevTime = Keys[j - <span class="number">1</span>].Time;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">float</span> Lerp = (Distance - PrevValue) / (NextValue - PrevValue);</span><br><span class="line">						<span class="keyword">return</span> PrevTime + (NextTime - PrevTime) * Lerp;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="动画实例"><a href="#动画实例" class="headerlink" title="动画实例"></a>动画实例</h2><p>我在封装蓝图组件和使用动画实例之间犹豫了一段时间, 但是考虑到起步和停步动画的不确定性(不同角色, 混合等), 还是决定把逻辑计算部分放到动画实例比较好</p>
+<p>在动画实例的<code>Tick</code>中, 我们先在有速度状态下刷新<strong>预估位置</strong><code>DistanceMatchingLocation</code>, 然后通过这个位置来获取并动态的设置起步和停步动画的播放时间</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (IsAccelerating)</span><br><span class="line">&#123;</span><br><span class="line">    Time = UAnimExtensionBlueprintLibrary::<span class="built_in">GetDistanceCurveTime</span>(JogStartAnimSequence, Distance);</span><br><span class="line">    Target = &amp;JogDistanceCurveStartTime;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    Time = UAnimExtensionBlueprintLibrary::<span class="built_in">GetDistanceCurveTime</span>(JogStopAnimSequence, -Distance);</span><br><span class="line">    Target = &amp;JogDistanceCurveStopTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后为了把动画播放完, 需要对时间进行累积</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Time &gt; *Target)</span><br><span class="line">&#123;</span><br><span class="line">    *Target = Time;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    *Target += DeltaTimeX;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><code>DistanceMatching</code>效果需要修改<code>CharacterMovementComponent</code>组件的一些参数, 比如<code>BrakingDecelerationWalking</code>(参考500)需要适当改小一点, 不然减速太快根本也不需要播放停步动作, 强行播放就造成滑步 ; 需要减小<code>BrakingFrictionFactor</code>(参考0.05)或者打开<code>UseSeparateBrakingFriction</code>并设置<code>BrakingFriction</code>参数(参考0.1) </li>
+</ol>
+<ol start="2">
+<li>起步动作还有优化空间, 现在遇到的问题是, 如果速度改变过大, 因为需要保证不滑步, 起步动作看上去就是修改了动画速率的感觉</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/VJien/AnimationExtension">插件地址</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2021/09/08/%E5%8A%A8%E7%94%BBDistanceMatching/" title="动画_DistanceMatching">http://supervj.top/2021/09/08/动画DistanceMatching/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E7%94%BB/" rel="tag"># 动画</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/02/%E5%8A%A8%E7%94%BB%EF%BC%9AOrientationWarping/" rel="prev" title="动画:朝向适配OrientationWarping">
+                  <i class="fa fa-chevron-left"></i> 动画:朝向适配OrientationWarping
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/08/AdvanceLocomotionSystem%E6%80%BB%E7%BB%93/" rel="next" title="AdvanceLocomotionSystem总结">
+                  AdvanceLocomotionSystem总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">760k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>
