@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">104</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,129 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/" class="post-title-link" itemprop="url">K2Node深入探索及蓝图泛型节点</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-24 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-24T00:00:00+08:00">2021-03-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:19:13" itemprop="dateModified" datetime="2021-08-02T16:19:13+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/editor/" itemprop="url" rel="index"><span itemprop="name">editor</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/" class="cy_cmt_count" data-xid="2021/03/24/蓝图泛型节点/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>21k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录一下蓝图泛型节点的实现, 主要分为<code>CustomThunk</code>方式和<code>K2Node</code>的方式</p>
+<p>对比一下两者的优点</p>
+<p>CustomThunk: 代码少, 调试方便</p>
+<p>UK2Node: 动态的节点数量, 更灵活的动态类型</p>
+<p><img src="https://img.supervj.top//img/UE4Editor_OO8h1IPyH8.png" alt="UE4Editor_OO8h1IPyH8"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/24/%E8%93%9D%E5%9B%BE%E6%B3%9B%E5%9E%8B%E8%8A%82%E7%82%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1354,135 +1477,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/" class="post-title-link" itemprop="url">UE4骨骼共享插件AnimationSharingPlugin</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-01-08 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:20:12" itemprop="dateModified" datetime="2021-08-02T16:20:12+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/engine/" itemprop="url" rel="index"><span itemprop="name">engine</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/" class="cy_cmt_count" data-xid="2021/01/08/骨骼共享插件_AnimationSharingPlugin/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>从遥远的2019年搬运而来, 作为记录, 不确定是否有更新</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Engine/Animation/AnimationSharing/index.html">官方文档</a></p>
-<ul>
-<li>引用文档的结构图</li>
-</ul>
-<p><img src="https://img.supervj.top//img/AnimSharingDiagram-1.jpg" alt="Alt text"></p>
-<ul>
-<li> 插件已经启用，如果关闭到插件栏启用</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/08/%E9%AA%A8%E9%AA%BC%E5%85%B1%E4%BA%AB%E6%8F%92%E4%BB%B6_AnimationSharingPlugin/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1530,14 +1524,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">760k</span>
+    <span title="站点总字数">761k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:31</span>
+    <span title="站点阅读时长">11:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

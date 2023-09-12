@@ -14442,4 +14442,63 @@ piecewise_linear_distribution分段线性分布
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>UE5本地化</title>
+    <url>/2023/09/12/%E6%9C%AC%E5%9C%B0%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本地化一般指的是文本的本地化,  UE5的本地化工具保持了UE4的风格, 当然, 文档也一如既往的渣渣, 本文对本地化进行一点的记录</p>
+<span id="more"></span>
+
+
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141059296.png" alt="image-20230912141059296"></p>
+<p>上图为UE5的入口, </p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141355688.png" alt="image-20230912141355688"></p>
+<p>打开以后的界面如下, 我们主要关注红色框框部分</p>
+<h3 id="代码文件"><a href="#代码文件" class="headerlink" title="代码文件"></a>代码文件</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141902700.png" alt="image-20230912141902700"></p>
+<p>GatherFromTextFile针对的是代码中的<code>FText</code>数据, 一般路径是项目的source目录和插件的source中</p>
+<p>一般可以用宏<code>NSLOCTEXT</code>或者<code>LOCTEXT</code>, 比如</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141620470.png" alt="image-20230912141620470"></p>
+<p>包括函数中输入参数也会被收集到</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141819416.png" alt="image-20230912141819416"></p>
+<h3 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912141953102.png" alt="image-20230912141953102"></p>
+<p>这一部分针对的就是所有的蓝图资源文件, 包含了所有蓝图中的FText数据结构, 常见的是UMG中所有的TextBlock等空间, 蓝图中的成员变量, DataTable中的FText字段等等</p>
+<h3 id="收集"><a href="#收集" class="headerlink" title="收集"></a>收集</h3><p>接下来就是收集所有需要本地化的数据, 在收集之前先添加所有需要翻译的语种, </p>
+<p>确认我们的编辑器当前语言,为然后点击<code>Gather Text/ 收集文本</code></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912142459657.png" alt="image-20230912142459657"></p>
+<p>然后执行计算字数, 等待一段时间以后, 就会出现当前语言的字数, 如上图我们的中文字数就有4150个</p>
+<h3 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h3><p>由于开发过程中的不确定性, 以及多员工开发的个人习惯问题, 也许我们开发的时候填写的FText变量值是中英文混杂的,  那么这里我们先要处理当前语种的翻译文件</p>
+<blockquote>
+<p>所以非常建议, 开发之初大家就统一规范, 统一用中文或者英文, 这样后期可以减少很多翻译时间成本</p>
+</blockquote>
+<p>打开中文翻译</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912142657204.png" alt="image-20230912142657204"></p>
+<p>我们会看到有中英文混杂的情况</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912142735052.png" alt="image-20230912142735052"></p>
+<p>首先先把所有非中文的都处理成中文</p>
+<p>翻译过程可以在编辑器内直接点击输入, 也可以导出成<code>*.po</code>文件到外面翻译, 但是吧…似乎不能用excel打开, 用其他文本工具打开的话界面清晰度不如在编辑器内</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912142951327.png" alt="image-20230912142951327"></p>
+<p>这个就仁者见仁了, 如果处理的是po文件, 那么外面翻译完了按单个语种导入回来即可</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912143102159.png" alt="image-20230912143102159"></p>
+<p>翻译完了主语言后, 点击再点击生成字数+翻译文件;</p>
+<p>然后所有其他语种的翻译文件内对应的源都会成为主语言的显示</p>
+<blockquote>
+<p>如果其他语言没有未翻译信息, 那么再点击一次收集文本就有了</p>
+</blockquote>
+<p>接下来就是漫长的多语种翻译过程</p>
+<h3 id="切换语言"><a href="#切换语言" class="headerlink" title="切换语言"></a>切换语言</h3><p>切换语言可以直接调用接口</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">UKismetInternationalizationLibrary::SetCurrentCulture</span><span class="params">(<span class="keyword">const</span> FString&amp; Culture, <span class="keyword">const</span> <span class="keyword">bool</span> SaveToConfig)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>当然为了方便, 可以自己封装一个接口, 用枚举来选择还是更方便一点</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230912151854392.png" alt="image-20230912151854392"></p>
+<blockquote>
+<p>游戏内测试切换语言需要使用standalone模式, 或者打包出来测试,否则结果不一定正确</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>engine</category>
+      </categories>
+      <tags>
+        <tag>本地化</tag>
+      </tags>
+  </entry>
 </search>
