@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">118</span>
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">104</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,274 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/05/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/08/05/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B91/" class="post-title-link" itemprop="url">简单的自定义视图和节点</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00+08:00">2020-08-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:19:45" itemprop="dateModified" datetime="2021-08-02T16:19:45+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/editor/" itemprop="url" rel="index"><span itemprop="name">editor</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/08/05/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B91/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/08/05/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B91/" class="cy_cmt_count" data-xid="2020/08/05/自定义视图和节点1/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文描述了如何简单的创建自定义的视图和节点</p>
+<p>后续补充具体功能开发</p>
+</blockquote>
+<img src="https://img.supervj.top/img/other/image-20200805140828530.png" alt="image-20200805140828530" style="zoom:50%;" />
+
+<h5 id="插件模块"><a href="#插件模块" class="headerlink" title="插件模块"></a>插件模块</h5><p>创建插件<code>TestGraph</code></p>
+<ul>
+<li>包含如下模块</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;Projects&quot;,</span><br><span class="line">&quot;InputCore&quot;,</span><br><span class="line">&quot;UnrealEd&quot;,</span><br><span class="line">&quot;LevelEditor&quot;,</span><br><span class="line">&quot;CoreUObject&quot;,</span><br><span class="line">&quot;Engine&quot;,</span><br><span class="line">&quot;Slate&quot;,</span><br><span class="line">&quot;SlateCore&quot;,</span><br><span class="line">&quot;ToolMenus&quot;,</span><br><span class="line">&quot;GraphEditor&quot;,</span><br><span class="line">&quot;EditorStyle&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在模块类里声明2个变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UEdGraph</span>* <span class="title">GraphObj</span>;</span><span class="comment">//图表实例的类型，定义了该图表的行为（例如保存图表</span></span><br><span class="line">TSharedPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">SGraphEditor</span>&gt;</span> GraphEdSlate;<span class="comment">//图表编辑器的Slate类型</span></span><br></pre></td></tr></table></figure>
+
+<p>构造<code>GraphObj</code>，指定<code>GraphObj</code>内的<code>Schema</code></p>
+<p>创建<code>GraphEdSlate</code>，同时把<code>GraphObj</code>指定给<code>GraphEdSlate</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GraphObj=NewObject&lt;UEdGraph&gt;();</span><br><span class="line">GraphObj-&gt;<span class="built_in">AddToRoot</span>();</span><br><span class="line">GraphObj-&gt;Schema=UTestGraphSchema::<span class="built_in">StaticClass</span>();<span class="comment">//自定义的schema类，刚开始可以先使用默认的UGraphSchema即可显示基础图表</span></span><br><span class="line">GraphEdSlate=<span class="built_in">SNew</span>(SGraphEditor)</span><br><span class="line">    .<span class="built_in">GraphToEdit</span>(GraphObj);</span><br></pre></td></tr></table></figure>
+
+<p>在返回中添加次<code>Slate</code>类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="built_in">SNew</span>(SDockTab)</span><br><span class="line">		.<span class="built_in">TabRole</span>(ETabRole::NomadTab)</span><br><span class="line">		[</span><br><span class="line">			<span class="comment">// Put your tab content here!</span></span><br><span class="line">			<span class="built_in">SNew</span>(SBox)</span><br><span class="line">			.<span class="built_in">HAlign</span>(HAlign_Fill)</span><br><span class="line">			.<span class="built_in">VAlign</span>(VAlign_Fill)</span><br><span class="line">			[</span><br><span class="line">				GraphEdSlate.<span class="built_in">ToSharedRef</span>()<span class="comment">//需要转成ref</span></span><br><span class="line">			]</span><br><span class="line">		];</span><br></pre></td></tr></table></figure>
+
+<h5 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h5><ol>
+<li><code>EdGraphSchema</code>里定义了图表操作的大部分全局行为</li>
+<li>在<code>FBlueprintEditorUtils::CreateNewGraph</code>中将<code>UEdGraph</code>和<code>EdGraphSchema</code>建立映射</li>
+<li><code>FEdGraphSchemaAction</code>类主要执行了一个<code>PerformAction</code>，用于生成<code>UEdGraphNode</code></li>
+</ol>
+<h6 id="FEdGraphSchemaAction"><a href="#FEdGraphSchemaAction" class="headerlink" title="FEdGraphSchemaAction"></a>FEdGraphSchemaAction</h6><ul>
+<li>PerformAction</li>
+</ul>
+<p>生成节点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">UEdGraphNode* <span class="title">FTestGraphSchemaAction::PerformAction</span><span class="params">(class UEdGraph* ParentGraph, UEdGraphPin* FromPin, <span class="keyword">const</span> FVector2D Location, <span class="keyword">bool</span> bSelectNewNode <span class="comment">/* = true */</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UEdGraphNode* resNode=<span class="literal">nullptr</span>;</span><br><span class="line">	<span class="keyword">if</span> (NodeHello)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function"><span class="keyword">const</span> FScopedTransaction <span class="title">Trans</span><span class="params">(LOCTEXT(<span class="string">&quot;FF&quot;</span>,<span class="string">&quot;Hello:NewNode&quot;</span>))</span></span>;</span><br><span class="line">		ParentGraph-&gt;<span class="built_in">Modify</span>();</span><br><span class="line">		<span class="keyword">if</span> (FromPin!=<span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			FromPin-&gt;<span class="built_in">Modify</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		NodeHello-&gt;<span class="built_in">Rename</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;TEST&quot;</span>),ParentGraph);</span><br><span class="line">		ParentGraph-&gt;<span class="built_in">AddNode</span>(NodeHello,<span class="literal">true</span>,bSelectNewNode);</span><br><span class="line"></span><br><span class="line">		NodeHello-&gt;<span class="built_in">CreateNewGuid</span>();<span class="comment">//唯一标识</span></span><br><span class="line">		NodeHello-&gt;<span class="built_in">PostPlacedNewNode</span>();<span class="comment">//初始化</span></span><br><span class="line">		NodeHello-&gt;<span class="built_in">AllocateDefaultPins</span>();<span class="comment">//针脚</span></span><br><span class="line">		NodeHello-&gt;<span class="built_in">AutowireNewNode</span>(FromPin);<span class="comment">//自动创建节点</span></span><br><span class="line"></span><br><span class="line">		NodeHello-&gt;NodePosX=Location.X;</span><br><span class="line">		NodeHello-&gt;NodePosY = Location.Y;</span><br><span class="line"></span><br><span class="line">		NodeHello-&gt;<span class="built_in">SetFlags</span>(RF_Transactional);</span><br><span class="line"></span><br><span class="line">		resNode=NodeHello;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> resNode;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="UEdGraphSchema"><a href="#UEdGraphSchema" class="headerlink" title="UEdGraphSchema"></a>UEdGraphSchema</h6><ul>
+<li>GetGraphContextActions</li>
+</ul>
+<p>右键点击空白页面，用于创建选择节点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UTestGraphSchema::GetGraphContextActions</span><span class="params">(FGraphContextMenuBuilder&amp; ContextMenuBuilder)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">TSharedPtr&lt;FTestGraphSchemaAction&gt; <span class="title">NewNodeAction</span><span class="params">(<span class="keyword">new</span> </span></span></span><br><span class="line"><span class="params"><span class="function">	FTestGraphSchemaAction(LOCTEXT(<span class="string">&quot;11&quot;</span>,<span class="string">&quot;GraphNode&quot;</span>), </span></span></span><br><span class="line"><span class="params"><span class="function">	LOCTEXT(<span class="string">&quot;Desc&quot;</span>,<span class="string">&quot;TestNodeDesc&quot;</span>), <span class="comment">//desc</span></span></span></span><br><span class="line"><span class="params"><span class="function">	LOCTEXT(<span class="string">&quot;NewGraphText&quot;</span>,<span class="string">&quot;Add Hello Node&quot;</span>),<span class="comment">//hover</span></span></span></span><br><span class="line"><span class="params"><span class="function">	<span class="number">0</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">	NewNodeAction-&gt;NodeHello=NewObject&lt;UTestNode_Hello&gt;(ContextMenuBuilder.OwnerOfTemporaries<span class="comment">/*存储节点*/</span>);</span><br><span class="line">	ContextMenuBuilder.<span class="built_in">AddAction</span>(NewNodeAction);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top/img/other/image-20200805110906761.png" alt="image-20200805110906761"></p>
+<p>如上图，显示3个对应的名称</p>
+<ul>
+<li>GetContextMenuActions</li>
+</ul>
+<p>右键点击节点后的效果，产生例如<code>BreakLink</code>之类的效果</p>
+<blockquote>
+<p>此方法在4.24版本(不确定之前哪个版本开始)有更改如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">GetContextMenuActions</span><span class="params">(class UToolMenu* Menu, class UGraphNodeContextMenuContext* Context)</span><span class="keyword">const</span><span class="comment">//新版本</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GetContextMenuActions</span><span class="params">(<span class="keyword">const</span> UEdGraph* CurrentGraph, <span class="keyword">const</span> UEdGraphNode* InGraphNode, <span class="keyword">const</span> UEdGraphPin* InGraphPin, class FMenuBuilder* MenuBuilder, <span class="keyword">bool</span> bIsDebugging)</span> <span class="keyword">const</span></span>; <span class="comment">//旧版本   </span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UTestGraphSchema::GetContextMenuActions</span><span class="params">(class UToolMenu* Menu, class UGraphNodeContextMenuContext* Context)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Context-&gt;Pin)</span><br><span class="line">	&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			FToolMenuSection&amp; Section = Menu-&gt;<span class="built_in">AddSection</span>(<span class="string">&quot;TestGraphSchemaNodeActions&quot;</span>, <span class="built_in">LOCTEXT</span>(<span class="string">&quot;PinActionsMenuHeader&quot;</span>, <span class="string">&quot;Pin Actions ___&quot;</span>));</span><br><span class="line">			<span class="comment">// Only display the &#x27;Break Links&#x27; option if there is a link to break!</span></span><br><span class="line">			<span class="keyword">if</span> (Context-&gt;Pin-&gt;LinkedTo.<span class="built_in">Num</span>() &gt; <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				Section.<span class="built_in">AddMenuEntry</span>(FGraphEditorCommands::<span class="built_in">Get</span>().BreakPinLinks);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// add sub menu for break link to</span></span><br><span class="line">				<span class="keyword">if</span> (Context-&gt;Pin-&gt;LinkedTo.<span class="built_in">Num</span>() &gt; <span class="number">1</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					Section.<span class="built_in">AddSubMenu</span>(</span><br><span class="line">						<span class="string">&quot;BreakLinkTo&quot;</span>,</span><br><span class="line">						<span class="built_in">LOCTEXT</span>(<span class="string">&quot;BreakLinkTo&quot;</span>, <span class="string">&quot;Break Link To...&quot;</span>),</span><br><span class="line">						<span class="built_in">LOCTEXT</span>(<span class="string">&quot;BreakSpecificLinks&quot;</span>, <span class="string">&quot;Break a specific link...&quot;</span>),		</span><br><span class="line">						&#123;&#125;</span><br><span class="line">						);</span><br><span class="line">				&#125;				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	<span class="keyword">if</span> (Context-&gt;Node)</span><br><span class="line">	&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			FToolMenuSection&amp; Section = Menu-&gt;<span class="built_in">AddSection</span>(<span class="string">&quot;TestGraphSchemaNodeActions&quot;</span>, <span class="built_in">LOCTEXT</span>(<span class="string">&quot;ClassActionsMenuHeader&quot;</span>, <span class="string">&quot;Node Actions&quot;</span>));</span><br><span class="line">			Section.<span class="built_in">AddMenuEntry</span>(FGenericCommands::<span class="built_in">Get</span>().Delete);</span><br><span class="line">			Section.<span class="built_in">AddMenuEntry</span>(FGenericCommands::<span class="built_in">Get</span>().Cut);</span><br><span class="line">			Section.<span class="built_in">AddMenuEntry</span>(FGenericCommands::<span class="built_in">Get</span>().Copy);</span><br><span class="line">			Section.<span class="built_in">AddMenuEntry</span>(FGenericCommands::<span class="built_in">Get</span>().Duplicate);</span><br><span class="line"></span><br><span class="line">			Section.<span class="built_in">AddMenuEntry</span>(FGraphEditorCommands::<span class="built_in">Get</span>().BreakNodeLinks);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	Super::<span class="built_in">GetContextMenuActions</span>(Menu, Context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top/img/other/image-20200805111804599.png" alt="image-20200805111804599"></p>
+<h6 id="连接方式"><a href="#连接方式" class="headerlink" title="连接方式"></a>连接方式</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UENUM</span>()</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ECanCreateConnectionResponse</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="comment">/** 多对多 */</span></span><br><span class="line">	CONNECT_RESPONSE_MAKE,</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*不能连接，默认 */</span></span><br><span class="line">	CONNECT_RESPONSE_DISALLOW,</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 多对一 */</span></span><br><span class="line">	CONNECT_RESPONSE_BREAK_OTHERS_A,</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 一对多 */</span></span><br><span class="line">	CONNECT_RESPONSE_BREAK_OTHERS_B,</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 一对一 */</span></span><br><span class="line">	CONNECT_RESPONSE_BREAK_OTHERS_AB,</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** Make the connection via an intermediate cast node, or some other conversion node. */</span></span><br><span class="line">	CONNECT_RESPONSE_MAKE_WITH_CONVERSION_NODE,</span><br><span class="line"></span><br><span class="line">	CONNECT_RESPONSE_MAX,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>重写<code>CanCreateConnection</code>设置节点的连接方式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">const</span> FPinConnectionResponse <span class="title">CanCreateConnection</span><span class="params">(<span class="keyword">const</span> UEdGraphPin* A, <span class="keyword">const</span> UEdGraphPin* B)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">FPinConnectionResponse</span>(CONNECT_RESPONSE_BREAK_OTHERS_A, <span class="built_in">TEXT</span>(<span class="string">&quot;Not 2 by this schema&quot;</span>));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建连接方式</li>
+</ul>
+<p>使用自定义的类<code>FTestConnectionDrawingPolicy</code>来定义连接方式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">class FConnectionDrawingPolicy* <span class="title">UTestGraphSchema::CreateConnectionDrawingPolicy</span><span class="params">(int32 InBackLayerID, int32 InFrontLayerID, <span class="keyword">float</span> InZoomFactor, <span class="keyword">const</span> FSlateRect&amp; InClippingRect, class FSlateWindowElementList&amp; InDrawElements, class UEdGraph* InGraphObj)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">FTestConnectionDrawingPolicy</span>(InBackLayerID,InFrontLayerID,InZoomFactor,InClippingRect,InDrawElements, InGraphObj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="自定义节点"><a href="#自定义节点" class="headerlink" title="自定义节点"></a>自定义节点</h5><h6 id="UEdGraphNode"><a href="#UEdGraphNode" class="headerlink" title="UEdGraphNode"></a>UEdGraphNode</h6><ol>
+<li><code>EdGraphNode</code>是图表节点实例的类型，定义了节点的行为</li>
+<li><code>AutowireNewNode</code>定义了节点的自动连接行为( 参考上述在schema创建的时候调用)</li>
+</ol>
+<p><code>class UTestNode_Hello :public UEdGraphNode</code></p>
+<p>重写2个方法</p>
+<p><code>AllocateDefaultPins</code>：用于创建节点</p>
+<p><code>GetNodeTitle</code>：标题</p>
+<blockquote>
+<p>可以参考系统的节点</p>
+<p>目录大多在 <code>\Engine\Source\Editor\GraphEditor\Public\KismetPins\</code></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UTestNode_Hello::AllocateDefaultPins</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input,<span class="string">&quot;HelloNodeInput_Bool&quot;</span>,<span class="built_in">FName</span>(),<span class="built_in">TEXT</span>(<span class="string">&quot;bool&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Color&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;color&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Enum&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;enum&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Exec&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;exec&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_NameList&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;namelist&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Object&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;obj&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_String&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;str&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Vector4&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;v4&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Integer&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;int&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Input, <span class="string">&quot;HelloNodeInput_Vector2&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;v2&quot;</span>));</span><br><span class="line"></span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Output, <span class="string">&quot;HelloNodeInput_1&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;1&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Output, <span class="string">&quot;HelloNodeInput_2&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;2&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Output, <span class="string">&quot;HelloNodeInput_3&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;3&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Output, <span class="string">&quot;HelloNodeInput_4&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;4&quot;</span>));</span><br><span class="line">	<span class="built_in">CreatePin</span>(EGPD_Output, <span class="string">&quot;HelloNodeInput_5&quot;</span>, <span class="built_in">FName</span>(), <span class="built_in">TEXT</span>(<span class="string">&quot;5&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FText <span class="title">UTestNode_Hello::GetNodeTitle</span><span class="params">(ENodeTitleType::Type TitleType)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> FText::<span class="built_in">FromString</span>(<span class="string">&quot;Hello !&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="SGraphNode"><a href="#SGraphNode" class="headerlink" title="SGraphNode"></a>SGraphNode</h6><p>此类是用于显示具体效果的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Construct</span><span class="params">(<span class="keyword">const</span> FArguments&amp; InArgs, UEdGraphNode* InNode)</span></span>;<span class="comment">//构造跟默认slate不一样</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">UpdateGraphNode</span><span class="params">()</span><span class="keyword">override</span></span>;<span class="comment">//刷新节点</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">CreatePinWidgets</span><span class="params">()</span><span class="keyword">override</span></span>;<span class="comment">//创建pin的ui显示</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AddPin</span><span class="params">( <span class="keyword">const</span> TSharedRef&lt;SGraphPin&gt;&amp; PinToAdd )</span><span class="keyword">override</span></span>;<span class="comment">//添加pin，不重写就使用默认的(一个圆点)</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	TSharedPtr&lt;<span class="class"><span class="keyword">class</span> <span class="title">SBox</span>&gt;</span> PinBox;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>构造</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GraphNode= InNode;<span class="comment">//自带的变量,存储对应的UEdGraphNode</span></span><br><span class="line"><span class="keyword">this</span>-&gt;<span class="built_in">SetCursor</span>(EMouseCursor::GrabHand);<span class="comment">//鼠标样式</span></span><br><span class="line"><span class="keyword">this</span>-&gt;<span class="built_in">UpdateGraphNode</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>刷新节点</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">STestNode::UpdateGraphNode</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//清空所有的Pin和box</span></span><br><span class="line">	InputPins.<span class="built_in">Empty</span>();</span><br><span class="line">	OutputPins.<span class="built_in">Empty</span>();</span><br><span class="line">	RightNodeBox.<span class="built_in">Reset</span>();</span><br><span class="line">	LeftNodeBox.<span class="built_in">Reset</span>();</span><br><span class="line">	<span class="comment">//从style得到icon</span></span><br><span class="line">	<span class="keyword">const</span> FSlateBrush* nodeIcon=FEditorStyle::<span class="built_in">GetBrush</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Graph.StateNode.Icon&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//用此方法创建一个视图</span></span><br><span class="line">	<span class="keyword">this</span>-&gt;<span class="built_in">GetOrAddSlot</span>(ENodeZone::Center)</span><br><span class="line">		.<span class="built_in">HAlign</span>(HAlign_Center)</span><br><span class="line">		.<span class="built_in">VAlign</span>(VAlign_Center)</span><br><span class="line">		[</span><br><span class="line">			<span class="built_in">SAssignNew</span>(PinBox,SBox)</span><br><span class="line">			.<span class="built_in">VAlign</span>(VAlign_Fill)</span><br><span class="line">			.<span class="built_in">HAlign</span>(HAlign_Fill)</span><br><span class="line">			[</span><br><span class="line">				<span class="built_in">SNew</span>(SBorder)</span><br><span class="line">				.<span class="built_in">BorderBackgroundColor_Lambda</span>([&amp;]()</span><br><span class="line">			&#123;</span><br><span class="line">				FSlateColor <span class="built_in">color</span>(<span class="built_in">FLinearColor</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>));</span><br><span class="line">				<span class="keyword">return</span> color;</span><br><span class="line">			&#125;)</span><br><span class="line">        <span class="comment">//注释代码可以手动设置图片</span></span><br><span class="line">		<span class="comment">//.BorderImage_Lambda([&amp;]()</span></span><br><span class="line">		<span class="comment">//	&#123;</span></span><br><span class="line">		<span class="comment">//	const FVector2D iconSize(64.0,64.0);</span></span><br><span class="line">		<span class="comment">//	return FTestGraphStyle::GetImageBrush(TEXT(&quot;ButtonIcon_40x&quot;),iconSize);</span></span><br><span class="line">		<span class="comment">//	&#125;)	</span></span><br><span class="line">			[</span><br><span class="line">                <span class="comment">//添加2个自带的NodeBox，注意顺序需要先左后右</span></span><br><span class="line">				<span class="built_in">SNew</span>(SHorizontalBox)</span><br><span class="line">				+SHorizontalBox::<span class="built_in">Slot</span>()</span><br><span class="line">				.<span class="built_in">HAlign</span>(HAlign_Fill)</span><br><span class="line">				.<span class="built_in">VAlign</span>(VAlign_Fill)</span><br><span class="line">				.<span class="built_in">AutoWidth</span>()</span><br><span class="line">				[</span><br><span class="line">					<span class="built_in">SAssignNew</span>(LeftNodeBox,SVerticalBox)</span><br><span class="line">				]</span><br><span class="line">			+ SHorizontalBox::<span class="built_in">Slot</span>()</span><br><span class="line">				.<span class="built_in">HAlign</span>(HAlign_Fill)</span><br><span class="line">				.<span class="built_in">VAlign</span>(VAlign_Fill)</span><br><span class="line">				.<span class="built_in">AutoWidth</span>()</span><br><span class="line">				[</span><br><span class="line">					<span class="built_in">SAssignNew</span>(RightNodeBox,SVerticalBox)</span><br><span class="line">				]</span><br><span class="line"></span><br><span class="line">			]</span><br><span class="line"></span><br><span class="line">			]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		];</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置顶层box尺寸</span></span><br><span class="line">		PinBox-&gt;<span class="built_in">SetWidthOverride</span>(<span class="number">400</span>);</span><br><span class="line">		PinBox-&gt;<span class="built_in">SetHeightOverride</span>(<span class="number">600</span>);</span><br><span class="line"><span class="comment">//创建PinWidget</span></span><br><span class="line">		<span class="built_in">CreatePinWidgets</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建Pin的图形</li>
+</ul>
+<p>2种方式，可以手动指定Pin，也可以使用系统的Pin</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//手动指定所有Pin</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">STestNode::CreatePinWidgets</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    UTestNode_Hello* helloNode=CastChecked&lt;UTestNode_Hello&gt;(GraphNode);</span><br><span class="line">	<span class="keyword">if</span> (helloNode)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//全部的Pin都指定为STestPin</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> p : helloNode-&gt;Pins)</span><br><span class="line">		&#123;</span><br><span class="line">			TSharedPtr&lt;SGraphPin&gt; pin = <span class="built_in">SNew</span>(STestPin, p);</span><br><span class="line">			pin-&gt;<span class="built_in">SetIsEditable</span>(IsEditable);<span class="comment">//把Node的可编辑性赋予Pin</span></span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">AddPin</span>(pin.<span class="built_in">ToSharedRef</span>());<span class="comment">//添加pin</span></span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用系统的Pin</span></span><br><span class="line"><span class="comment">//用一个宏快速定义</span></span><br><span class="line"><span class="comment">//注意宏里的newPin对应的是第15行创建的指针变量</span></span><br><span class="line"><span class="comment">//顺序对应的是UEdGraphNode中创建的Pin</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RESET_PIN(STestPin,GraphPinObj,...)\</span></span><br><span class="line"><span class="meta">		newPin = SNew(STestPin,GraphPinObj,__VA_ARGS__);\</span></span><br><span class="line"><span class="meta">		newPin-&gt;SetIsEditable(IsEditable);\</span></span><br><span class="line"><span class="meta">		this-&gt;AddPin(newPin.ToSharedRef());</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">STestNode::CreatePinWidgets</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> TArray&lt;TSharedPtr&lt;FName&gt;&gt; nameList;</span><br><span class="line">	nameList.<span class="built_in">Add</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> <span class="built_in">FName</span>(<span class="string">&quot;player&quot;</span>)));</span><br><span class="line">	nameList.<span class="built_in">Add</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> <span class="built_in">FName</span>(<span class="string">&quot;monster&quot;</span>)));</span><br><span class="line">	nameList.<span class="built_in">Add</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> <span class="built_in">FName</span>(<span class="string">&quot;ai&quot;</span>)));</span><br><span class="line"></span><br><span class="line">	TSharedPtr&lt;SGraphPin&gt; newPin=<span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinBool,helloNode-&gt;Pins[<span class="number">0</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinColor, helloNode-&gt;Pins[<span class="number">1</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinEnum, helloNode-&gt;Pins[<span class="number">2</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinExec, helloNode-&gt;Pins[<span class="number">3</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinNameList, helloNode-&gt;Pins[<span class="number">4</span>],nameList);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinObject, helloNode-&gt;Pins[<span class="number">5</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinString, helloNode-&gt;Pins[<span class="number">6</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinVector4, helloNode-&gt;Pins[<span class="number">7</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinInteger, helloNode-&gt;Pins[<span class="number">8</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinVector2D, helloNode-&gt;Pins[<span class="number">9</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(SGraphPinClass, helloNode-&gt;Pins[<span class="number">10</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(STestPin, helloNode-&gt;Pins[<span class="number">11</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(STestPin, helloNode-&gt;Pins[<span class="number">12</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(STestPin, helloNode-&gt;Pins[<span class="number">13</span>]);</span><br><span class="line">	<span class="built_in">RESET_PIN</span>(STestPin, helloNode-&gt;Pins[<span class="number">14</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>AddPin</li>
+</ul>
+<p>用来设置Pin的显示和布局</p>
+<p>如果不重写，就使用系统自带的Pin（非常的小）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">STestNode::AddPin</span><span class="params">(<span class="keyword">const</span> TSharedRef&lt;SGraphPin&gt;&amp; PinToAdd)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//设置owner</span></span><br><span class="line">	PinToAdd-&gt;<span class="built_in">SetOwner</span>(<span class="built_in">SharedThis</span>(<span class="keyword">this</span>));</span><br><span class="line">	<span class="comment">//得到对应的Obj</span></span><br><span class="line">	<span class="keyword">const</span> UEdGraphPin* PinObj = PinToAdd-&gt;<span class="built_in">GetPinObj</span>();</span><br><span class="line">    <span class="comment">//设置可见性</span></span><br><span class="line">	<span class="keyword">if</span> (PinObj&amp;&amp;PinObj-&gt;bAdvancedView)</span><br><span class="line">	&#123;</span><br><span class="line">		PinToAdd-&gt;<span class="built_in">SetVisibility</span>(TAttribute&lt;EVisibility&gt;(PinToAdd, &amp;SGraphPin::IsPinVisibleAsAdvanced));</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> CUSTOM_PIN</span></span><br><span class="line">    <span class="comment">//如果是自定义的Pin就设置缩放，用系统自带的就不需要了</span></span><br><span class="line">	PinToAdd-&gt;<span class="built_in">SetDesiredSizeScale</span>(<span class="built_in">FVector2D</span>(<span class="number">16</span>, <span class="number">16</span>));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//判断是输入和是输出节点</span></span><br><span class="line">	<span class="keyword">if</span> (PinToAdd-&gt;<span class="built_in">GetDirection</span>() == EEdGraphPinDirection::EGPD_Input)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">//添加到左边盒子里</span></span><br><span class="line">		LeftNodeBox-&gt;<span class="built_in">AddSlot</span>()</span><br><span class="line">			.<span class="built_in">HAlign</span>(HAlign_Fill)</span><br><span class="line">			.<span class="built_in">VAlign</span>(VAlign_Fill)</span><br><span class="line">			.<span class="built_in">FillHeight</span>(<span class="number">1.0f</span>)</span><br><span class="line">			.<span class="built_in">Padding</span>(<span class="number">20.0f</span>, <span class="number">0</span>)</span><br><span class="line">			[</span><br><span class="line">				PinToAdd</span><br><span class="line">			];</span><br><span class="line">        <span class="comment">//添加到InputPins数组里</span></span><br><span class="line">		InputPins.<span class="built_in">Add</span>(PinToAdd);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (PinToAdd-&gt;<span class="built_in">GetDirection</span>() == EEdGraphPinDirection::EGPD_Output)</span><br><span class="line">	&#123;</span><br><span class="line">		RightNodeBox-&gt;<span class="built_in">AddSlot</span>()</span><br><span class="line">			.<span class="built_in">HAlign</span>(HAlign_Right)</span><br><span class="line">			.<span class="built_in">VAlign</span>(VAlign_Center)</span><br><span class="line">			.<span class="built_in">FillHeight</span>(<span class="number">1.0f</span>)</span><br><span class="line">			.<span class="built_in">Padding</span>(<span class="number">-30.0f</span>, <span class="number">0.f</span>)</span><br><span class="line">			[</span><br><span class="line">				PinToAdd</span><br><span class="line">			];</span><br><span class="line">		OutputPins.<span class="built_in">Add</span>(PinToAdd);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<h5 id="自定义连线"><a href="#自定义连线" class="headerlink" title="自定义连线"></a>自定义连线</h5><p>继承自<code>FConnectionDrawingPolicy</code></p>
+<ul>
+<li>构造函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="built_in">FTestConnectionDrawingPolicy</span>(int32 InBackLayerID, <span class="comment">//线ID</span></span><br><span class="line">	int32 InFrontLayerID, <span class="comment">//箭头ID</span></span><br><span class="line">	<span class="keyword">float</span> InZoomFactor, <span class="comment">//缩放</span></span><br><span class="line">	<span class="keyword">const</span> FSlateRect&amp; InClippingRect,<span class="comment">//视口裁剪 </span></span><br><span class="line">	FSlateWindowElementList&amp; InDrawElements,<span class="comment">//绘制元素</span></span><br><span class="line">	UEdGraph* InGraphObj);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">protected:</span></span><br><span class="line"><span class="comment">	UEdGraph* EdGraphObj;</span></span><br><span class="line"><span class="comment">	TMap&lt;UEdGraph*, int32&gt;EdNodeWidgetMap;*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//cpp</span></span><br><span class="line">FTestConnectionDrawingPolicy::<span class="built_in">FTestConnectionDrawingPolicy</span>(int32 InBackLayerID, int32 InFrontLayerID, <span class="keyword">float</span> InZoomFactor, <span class="keyword">const</span> FSlateRect&amp; InClippingRect, FSlateWindowElementList&amp; InDrawElements , UEdGraph* InGraphObj)</span><br><span class="line">:<span class="built_in">FConnectionDrawingPolicy</span>(InBackLayerID,InFrontLayerID,InZoomFactor,InClippingRect,InDrawElements),<span class="built_in">EdGraphObj</span>(InGraphObj)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置样式</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FTestConnectionDrawingPolicy::DetermineWiringStyle</span><span class="params">(UEdGraphPin* OutputPin, UEdGraphPin* InputPin, <span class="comment">/*inout*/</span> FConnectionParams&amp; Params)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Params.WireThickness=<span class="number">3</span>;<span class="comment">//宽度</span></span><br><span class="line">	Params.WireColor=FLinearColor::Green;<span class="comment">//颜色</span></span><br><span class="line">	<span class="keyword">if</span> (HoveredPins.<span class="built_in">Num</span>()&gt;<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">ApplyHoverDeemphasis</span>(OutputPin,InputPin, Params.WireThickness = <span class="number">3</span>, Params.WireColor);<span class="comment">//此方法显示拖动效果</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>绘制连接</li>
+</ul>
+<p>如果不重写就使用默认的贝塞尔曲线</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//绘制直线+流动的泡泡</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FTestConnectionDrawingPolicy::DrawConnection</span><span class="params">(int32 LayerId, <span class="keyword">const</span> FVector2D&amp; Start, <span class="keyword">const</span> FVector2D&amp; End, <span class="keyword">const</span> FConnectionParams&amp; Params)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> FVector2D delta=End-Start;</span><br><span class="line">	<span class="keyword">const</span> FVector2D DirDelta=delta.<span class="built_in">GetSafeNormal</span>();</span><br><span class="line">	<span class="comment">//变成直线</span></span><br><span class="line">	FSlateDrawElement::<span class="built_in">MakeDrawSpaceSpline</span>(</span><br><span class="line">	DrawElementsList,</span><br><span class="line">	LayerId,</span><br><span class="line">	Start,DirDelta,</span><br><span class="line">	End,DirDelta,</span><br><span class="line">	Params.WireThickness,</span><br><span class="line">	ESlateDrawEffect::None,</span><br><span class="line">	Params.WireColor</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">//使用气泡</span></span><br><span class="line">    <span class="comment">//底线一堆算法就是为了MakeBox</span></span><br><span class="line">	<span class="keyword">if</span> (bUseBubble)</span><br><span class="line">	&#123;</span><br><span class="line">		FInterpCurve&lt;<span class="keyword">float</span>&gt; SplineCurve;</span><br><span class="line">		<span class="keyword">float</span> splineLength=<span class="built_in">MakeSplineReparamTable</span>(Start,DirDelta,End,DirDelta,SplineCurve);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> BubbleSpacing=<span class="number">32</span>*ZoomFactor;</span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> BubbleSpeed=<span class="number">64</span>*ZoomFactor;</span><br><span class="line">		<span class="keyword">const</span> FVector2D BubbleSize=BubbleImage-&gt;ImageSize*ZoomFactor*<span class="number">0.1</span>*Params.WireThickness;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span> deltaTime=FPlatformTime::<span class="built_in">Seconds</span>()-GStartTime;</span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> BubbleOffset=FMath::<span class="built_in">Fmod</span>(deltaTime*BubbleSpeed,BubbleSpacing);</span><br><span class="line">		<span class="keyword">const</span> int32 num=FMath::<span class="built_in">CeilToInt</span>(splineLength-BubbleSpacing);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (int32 i=<span class="number">0</span>;i&lt;num;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">const</span> <span class="keyword">float</span> dis = <span class="built_in"><span class="keyword">float</span></span>(i)*BubbleSpacing+BubbleOffset;</span><br><span class="line">			<span class="keyword">if</span> (dis&lt;splineLength)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">const</span> <span class="keyword">float</span> alpha=SplineCurve.<span class="built_in">Eval</span>(dis,<span class="number">0</span>);</span><br><span class="line">				FVector2D bubblePos=FMath::<span class="built_in">CubicInterp</span>(Start,DirDelta,End,DirDelta,alpha);</span><br><span class="line">				bubblePos-= BubbleSize*<span class="number">0.5</span>;</span><br><span class="line"></span><br><span class="line">				FSlateDrawElement::<span class="built_in">MakeBox</span>(DrawElementsList,LayerId,</span><br><span class="line">				<span class="built_in">FPaintGeometry</span>(bubblePos,BubbleSize,ZoomFactor),</span><br><span class="line">				BubbleImage,</span><br><span class="line">				ESlateDrawEffect::None,</span><br><span class="line">				Params.WireColor</span><br><span class="line">				);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="工厂类"><a href="#工厂类" class="headerlink" title="工厂类"></a>工厂类</h5><p>可以用工厂类来注册Node,Pin,ConnectionPolicy</p>
+<p>重写如下方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> TSharedPtr&lt;class SGraphNode&gt; <span class="title">CreateNode</span><span class="params">(class UEdGraphNode* Node)</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="literal">NULL</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> TSharedPtr&lt;class SGraphPin&gt; <span class="title">CreatePin</span><span class="params">(class UEdGraphPin* Pin)</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="literal">NULL</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> class FConnectionDrawingPolicy* <span class="title">CreateConnectionPolicy</span><span class="params">(<span class="keyword">const</span> class UEdGraphSchema* Schema, int32 InBackLayerID, int32 InFrontLayerID, <span class="keyword">float</span> ZoomFactor, <span class="keyword">const</span> class FSlateRect&amp; InClippingRect, class FSlateWindowElementList&amp; InDrawElements, class UEdGraph* InGraphObj)</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="literal">nullptr</span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TSharedPtr&lt;class SGraphNode&gt; <span class="title">FTestNodeFactory::CreateNode</span><span class="params">(class UEdGraphNode* Node)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (UTestNode_Hello* nd=Cast&lt;UTestNode_Hello&gt;(Node))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">SNew</span>(STestNode,nd);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">TSharedPtr&lt;class SGraphPin&gt; <span class="title">FTestNodePinFactory::CreatePin</span><span class="params">(class UEdGraphPin* Pin)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (UTestNode_Hello* nd=Cast&lt;UTestNode_Hello&gt;(Pin-&gt;<span class="built_in">GetOuter</span>()))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">SNew</span>(STestPin,Pin);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">class FConnectionDrawingPolicy* <span class="title">FTestConnectionFactory::CreateConnectionPolicy</span><span class="params">(<span class="keyword">const</span> class UEdGraphSchema* Schema, int32 InBackLayerID, int32 InFrontLayerID, <span class="keyword">float</span> ZoomFactor, <span class="keyword">const</span> class FSlateRect&amp; InClippingRect, class FSlateWindowElementList&amp; InDrawElements, class UEdGraph* InGraphObj)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Schema-&gt;<span class="built_in">IsA</span>(UTestGraphSchema::<span class="built_in">StaticClass</span>()))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">FTestConnectionDrawingPolicy</span>(InBackLayerID,InFrontLayerID,ZoomFactor,InClippingRect,InDrawElements, InGraphObj);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在模块加载的时候注册，这样就可以去掉在schema内的内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FEdGraphUtilities::<span class="built_in">RegisterVisualNodeFactory</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> FTestNodeFactory));</span><br><span class="line">FEdGraphUtilities::<span class="built_in">RegisterVisualPinConnectionFactory</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> FTestConnectionFactory));</span><br><span class="line">FEdGraphUtilities::<span class="built_in">RegisterVisualPinFactory</span>(<span class="built_in">MakeShareable</span>(<span class="keyword">new</span> FTestNodePinFactory));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//virtual class FConnectionDrawingPolicy* CreateConnectionDrawingPolicy(int32 InBackLayerID, int32 InFrontLayerID, float InZoomFactor, const FSlateRect&amp; InClippingRect, class FSlateWindowElementList&amp; InDrawElements, class UEdGraph* InGraphObj)const override;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2512,483 +2780,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/23/LearnDX12_Math/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/06/23/LearnDX12_Math/" class="post-title-link" itemprop="url">DX学习笔记（一）：数学基础</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-06-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-23T00:00:00+08:00">2020-06-23</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:40:19" itemprop="dateModified" datetime="2021-08-02T16:40:19+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/06/23/LearnDX12_Math/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/06/23/LearnDX12_Math/" class="cy_cmt_count" data-xid="2020/06/23/LearnDX12_Math/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="向量代数"><a href="#向量代数" class="headerlink" title="向量代数"></a>向量代数</h2><h3 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h3><p>DirectX3D采用的左手坐标系</p>
-<ul>
-<li>左手坐标系：伸出左手，手指方向对准X轴正方向，弯曲手指对象Y轴正方向，大拇指指的就是Z轴正方向</li>
-</ul>
-<h5 id="向量的基本运算"><a href="#向量的基本运算" class="headerlink" title="向量的基本运算"></a>向量的基本运算</h5><ul>
-<li><p>两个向量相等。即u=v。当且仅当u和v的每个分量相等，即u<sub>x</sub>=v<sub>x</sub>,u<sub>y</sub>=v<sub>y</sub>, u<sub>z</sub>=v<sub>z</sub></p>
-</li>
-<li><p>向量的加法即两个向量对应分量都相加</p>
-</li>
-<li><p>向量与标量相乘即每一个分量与标量相乘</p>
-</li>
-<li><p>向量减法与加法类似</p>
-</li>
-</ul>
-<p>向量加法的几何意义u+v，即u的尾部与v的头部重合</p>
-<h5 id="向量的长度和单位向量"><a href="#向量的长度和单位向量" class="headerlink" title="向量的长度和单位向量"></a>向量的长度和单位向量</h5><ul>
-<li>3D向量的模可以用2次毕达哥拉斯定理（勾股定理）计算得到</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213350051.png" alt="image-20200118213350051"></p>
-</blockquote>
-<ul>
-<li>一个向量的长度变为单位长度称为向量的<strong>规范化（normalizing）</strong>,具体实现方法是</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213401165.png" alt="image-20200118213401165"></p>
-</blockquote>
-<h3 id="点积"><a href="#点积" class="headerlink" title="点积"></a>点积</h3><ul>
-<li>点积（dot product）是一种计算结果为标量值的向量乘法</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213420038.png" alt="image-20200118213420038"></p>
-</blockquote>
-<ul>
-<li>如果u·v=0，那么u和v正交（垂直）</li>
-<li>如果u·v&gt;0,那么夹角为锐角，即小于90°</li>
-<li>如果&gt;0,那么夹角为钝角</li>
-</ul>
-<h5 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h5><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213446595.png" alt="image-20200118213446595"></p>
-</blockquote>
-<p>即向量p是v在n向量上的投影</p>
-<p>一般的投影公式如下</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213508242.png" alt="image-20200118213508242"></p>
-</blockquote>
-<h3 id="正交化"><a href="#正交化" class="headerlink" title="正交化"></a>正交化</h3><p>如果向量集里面所有向量都相互正交，那么此向量集是<strong>规范正交</strong></p>
-<h5 id="格拉姆-施密特正交化"><a href="#格拉姆-施密特正交化" class="headerlink" title="格拉姆-施密特正交化"></a><strong>格拉姆-施密特正交化</strong></h5><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213545042.png" alt="image-20200118213545042"></p>
-</blockquote>
-<p>从文字上描述即，将向量v添加到规范正交集中时，需要用<strong>v减去这个规范正交集中的所有其他向量{w1,w2…}方向上的分量投影</strong>，这样确保新加入的v与该集合中的其他放量相互正交</p>
-<ul>
-<li>假设有向量集{v0,v1}，将其规范正交至集{w0,w1}</li>
-</ul>
-<p>则需要进行如下操作</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213557536.png" alt="image-20200118213557536"></p>
-</blockquote>
-<ul>
-<li>如果是三维向量集{v0,v1,v2}，至规范正交集{w0,w1,w2}</li>
-</ul>
-<p>则进行如下操作</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213605437.png" alt="image-20200118213605437"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213614501.png" alt="image-20200118213614501"></p>
-</blockquote>
-<h3 id="叉积"><a href="#叉积" class="headerlink" title="叉积"></a>叉积</h3><p>叉积公式</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213635523.png" alt="image-20200118213635523"></p>
-</blockquote>
-<p>两个向量叉积的意义即得到正交于两个向量的向量，采用的左手坐标系，即手指指向一个向量，通过向内弯曲小于等于180°的角度后到达另外一个向量，则大拇指方向是叉积所得向量的方向</p>
-<h5 id="用叉积类规范正交化"><a href="#用叉积类规范正交化" class="headerlink" title="用叉积类规范正交化"></a>用叉积类规范正交化</h5><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118213701332.png" alt="image-20200118213701332"></p>
-</blockquote>
-<h3 id="点"><a href="#点" class="headerlink" title="点"></a>点</h3><p>点（x,y,z）即从原点至该点的向量</p>
-<h3 id="用DirectXMath库"><a href="#用DirectXMath库" class="headerlink" title="用DirectXMath库"></a>用DirectXMath库</h3><h5 id="DirectXMath变量的使用规范"><a href="#DirectXMath变量的使用规范" class="headerlink" title="DirectXMath变量的使用规范"></a>DirectXMath变量的使用规范</h5><ul>
-<li>局部变量或全局变量用XMVECTOR类型</li>
-<li>对于类中的数据成员，用XMFLOAT2\XMFLOAT3和XMFLOAT4类型</li>
-<li>在运算之前，通过加载函数将XMFLOATn类型转换成XMVECTOR类型</li>
-<li>用XMVECTOR实例来进行运算</li>
-<li>通过存储函数将XMVECTOR类型转换为XMFLOATn类型</li>
-</ul>
-<h5 id="加载方法和存储方法"><a href="#加载方法和存储方法" class="headerlink" title="加载方法和存储方法"></a>加载方法和存储方法</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将数据从XMFLOAT2类型加载到XMVECTOR类型</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadFloat2</span><span class="params">(<span class="keyword">const</span> XMFLOAT2* pSource)</span></span>;</span><br><span class="line"><span class="comment">//将数据从XMFLOAT3类型加载到XMVECTOR类型，XMFLOAT4类似</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadFloat3</span><span class="params">(<span class="keyword">const</span> XMFLOAT3* pSource)</span></span>;</span><br><span class="line"><span class="comment">//将数据从XMVECTOR类型存储到XMFLOAT2类型，XMFLOAT3以及XMFLOAT4方法类似</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreFloat2</span><span class="params">(XMFLOAT2* pDestination,FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="comment">//********************//</span></span><br><span class="line"><span class="comment">//得到XMVECTOR实例中的一个分量或者将一个方脸转换为XMVECTOR类型</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetX</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetY</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetZ</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">float</span> XM_CALLCONV <span class="title">XMVectorGetX</span><span class="params">(FXMVECTOR V)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetX</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> x)</span></span>;</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetY</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> y)</span></span>;</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetZ</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> z)</span></span>;.</span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSetW</span><span class="params">(FXMVECTOR V,<span class="keyword">float</span> w)</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h5><h6 id="传递规则"><a href="#传递规则" class="headerlink" title="传递规则"></a>传递规则</h6><ul>
-<li>前三个 XMVECTOR 参数用类型 <code>FXMVECTOR</code></li>
-<li>第四个 XMVECTOR 参数用 <code>GXMVECTOR</code></li>
-<li>第5、6个 XMVECTOR 参数用 <code>HXMVECTOR</code></li>
-<li>其余的 XMVECTOR 参数用 <code>CXMVECTOR</code></li>
-</ul>
-<blockquote>
-<p>在32位windows系统，编译器将根据**_fastcall**调用约定将前3个XMVECTOR参数传递到寄存器，其余放到栈</p>
-<p>在32位windows系统，编译器将根据**_vectorcall**调用约定将前6个XMVECTOR参数传递到寄存器，其余放到栈上</p>
-<p>其余平台上的定义，可以参见 <code>DirectXMath</code>库文档中的  <code>Library Internals</code>下的 <code>Calling Converntions</code> 部分的<code>[DirectXMath]</code></p>
-</blockquote>
-<h5 id="常向量"><a href="#常向量" class="headerlink" title="常向量"></a>常向量</h5><p>XMVECTOR类型的常量实例用 <strong><code>XMVECTORF32</code></strong> 表示</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> XMVECTORF32 v1 = &#123; <span class="number">0.5f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span> &#125;;</span><br></pre></td></tr></table></figure>
-
-<p>XMVECTORF32是一种16字节对齐的结构体，数学库中有将他转换至XMVECTOR类型的运算符</p>
-<p>另外也可以用<code>XMVECTORU32</code>类型来创建由证书数据构成的XMVECTOR常向量</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> XMVECTORU32 v2 = &#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span> &#125;;</span><br></pre></td></tr></table></figure>
-
-<h5 id="重载运算符"><a href="#重载运算符" class="headerlink" title="重载运算符"></a>重载运算符</h5><p>XMVECTOR类型针对向量的加法、减法和标量乘法都重载了运算符，如下</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118215001131.png" alt="image-20200118215001131"></p>
-</blockquote>
-<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><p>DirectXMath库定义了一组于PI有关的常用数学常量近似值</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118215207615.png" alt="image-20200118215207615"></p>
-</blockquote>
-<p>另外还有角度和弧度之间的转化以及比较大小的函数</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118215348688.png" alt="image-20200118215348688"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200118215354016.png" alt="image-20200118215354016"></p>
-</blockquote>
-<h5 id="Setter函数"><a href="#Setter函数" class="headerlink" title="Setter函数"></a>Setter函数</h5><p>DirectXMath库提供了下列函数，用来设置XMVECTOR类型中的数据</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回零向量</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorZero</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;1，1，1，1&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSplatOne</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;x,y,z,w&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSet</span><span class="params">(<span class="keyword">float</span> x,<span class="keyword">float</span> y,<span class="keyword">float</span> z,<span class="keyword">float</span> w)</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;value),value),value),value)&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorReplicate</span><span class="params">(<span class="keyword">float</span> value)</span></span>;</span><br><span class="line"><span class="comment">//返回&#123;Vx，Vx，Vx，Vx&#125;，同理；用SplateY，SplayteZ可以返回P&#123;Vy...&#125;,或者&#123;Vz..&#125;</span></span><br><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMVectorSplateX</span><span class="params">(FXMVECTOR V)</span></span>;    </span><br></pre></td></tr></table></figure>
-
-<h5 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXMath.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXPackedVector.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 重写了&lt;&lt;运算符，使得cout函数可以输出XMVECTOR</span></span><br><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line">	XMFLOAT4 dest;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;dest, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; dest.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.z &lt;&lt;<span class="string">&quot;,&quot;</span>&lt;&lt;dest.w&lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">XMVerifyCPUSupport</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;directx math not supported&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">const</span> XMVECTORF32 v1 = &#123; <span class="number">0.5f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span>,<span class="number">1.0f</span> &#125;;</span><br><span class="line">	XMVECTOR v2 = <span class="built_in">XMVectorReplicate</span>(<span class="number">0.99f</span>);</span><br><span class="line">	XMVECTOR v3 = &#123; <span class="number">.5</span>f,<span class="number">.5</span>f,<span class="number">.5</span>f,<span class="number">.5</span>f &#125;;</span><br><span class="line">	XMVECTOR v4 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">	XMVECTOR v5 = <span class="built_in">XMVectorSplatOne</span>();</span><br><span class="line">	XMVECTOR v6 = <span class="built_in">XMVectorZero</span>();</span><br><span class="line">	XMVECTOR v7 = <span class="built_in">XMVectorSplatZ</span>(v4);</span><br><span class="line">	cout &lt;&lt; v1 &lt;&lt; v2 &lt;&lt; v3 &lt;&lt; v4 &lt;&lt; v5 &lt;&lt; v6 &lt;&lt; v7;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200118221313633.png" alt="image-20200118221313633"></p>
-</blockquote>
-<h5 id="向量函数"><a href="#向量函数" class="headerlink" title="向量函数"></a>向量函数</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">XMVECTOR v1 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">	XMVECTOR v2 = <span class="built_in">XMVectorSet</span>(<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">5</span>);</span><br><span class="line">	XMVECTOR v3 = <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span> ,<span class="number">0</span>);</span><br><span class="line">	XMVECTOR a = <span class="built_in">XMVector4Length</span>(v1);<span class="comment">//||v1||2,2_范数，即平方和的更号</span></span><br><span class="line">	XMVECTOR b = <span class="built_in">XMVector4LengthSq</span>(v1);<span class="comment">//||v1||1,1_范数，即平方和</span></span><br><span class="line">	XMVECTOR c = v1 - v2;<span class="comment">//减法</span></span><br><span class="line">	XMVECTOR d = <span class="number">10</span> * v1;<span class="comment">//乘法</span></span><br><span class="line">	XMVECTOR e = <span class="built_in">XMVector4Normalize</span>(v1);<span class="comment">//标准化，即v1/|v1|</span></span><br><span class="line">	XMVECTOR f = <span class="built_in">XMVector3Dot</span>(v1,v2);<span class="comment">//v1·v1</span></span><br><span class="line">	XMVECTOR g = <span class="built_in">XMVector3Cross</span>(v1, v2);<span class="comment">//v1*v1</span></span><br><span class="line">	XMVECTOR projw, perpw;</span><br><span class="line">	<span class="built_in">XMVector3ComponentsFromNormal</span>(&amp;projw, &amp;perpw, v1, v3);<span class="comment">//求v1在v3的proj和perp</span></span><br><span class="line">	XMVECTOR angle = <span class="built_in">XMVector4AngleBetweenVectors</span>(v1, v2);<span class="comment">//2个向量的夹角</span></span><br><span class="line"></span><br><span class="line">cout &lt;&lt; a&lt;&lt;b&lt;&lt;c&lt;&lt;d&lt;&lt;e&lt;&lt;f&lt;&lt;g&lt;&lt;projw&lt;&lt;perpw&lt;&lt;angle;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200119135645869.png" alt="image-20200119135645869"></p>
-</blockquote>
-<h5 id="浮点数的误差"><a href="#浮点数的误差" class="headerlink" title="浮点数的误差"></a>浮点数的误差</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMVector Epsilon=&#123;<span class="number">0.1</span>，<span class="number">0.1</span>，<span class="number">0.1</span>，<span class="number">0.1</span>&#125;；</span><br><span class="line"><span class="keyword">bool</span> IsEqual = <span class="built_in">XMVectorNearEqual</span>(v1, v2，Epsilon);<span class="comment">//约等于来解决</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="矩阵代数"><a href="#矩阵代数" class="headerlink" title="矩阵代数"></a>矩阵代数</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>m*n的矩阵M，即由m行，n列构成的矩形阵列</p>
-<ul>
-<li>A<sub>1.*</sub></li>
-<li>A<sub>*.1</sub></li>
-</ul>
-<p><img src="https://img.supervj.top/img/DX/image-20200120070458975.png" alt="image-20200120070458975"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200120070505831.png" alt="image-20200120070505831"></p>
-<h3 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h3><ul>
-<li>矩阵<strong>AxB</strong>乘法的前提条件：A的列数必须于B的行数相同</li>
-</ul>
-<p>乘法公式</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120070807173.png" alt="image-20200120070807173"></p>
-</blockquote>
-<ul>
-<li>即矩阵A的第<strong>i</strong>个行向量于B的第<strong>j</strong>个列向量点积</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120070906956.png" alt="image-20200120070906956"></p>
-</blockquote>
-<ul>
-<li>行列数不相等的矩阵乘法不满足交换律即 <strong>AB≠BA</strong></li>
-</ul>
-<h5 id="向量于矩阵乘法"><a href="#向量于矩阵乘法" class="headerlink" title="向量于矩阵乘法"></a>向量于矩阵乘法</h5><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120071122512.png" alt="image-20200120071122512"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200120071219317.png" alt="image-20200120071219317"></p>
-</blockquote>
-<h3 id="转置矩阵"><a href="#转置矩阵" class="headerlink" title="转置矩阵"></a>转置矩阵</h3><p><strong>转置矩阵（transpose matrix）</strong>是将原矩阵阵列的 行与列进行互换 即mn的矩阵变成nm的矩阵</p>
-<p>**M **的转置矩阵记作 <strong>M<sup>t</sup></strong></p>
-<ul>
-<li>转置矩阵具有下列性质</li>
-</ul>
-<blockquote>
-<p><strong><img src="https://img.supervj.top/img/DX/image-20200120071623379.png" alt="image-20200120071623379"></strong></p>
-</blockquote>
-<h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p><strong>单位矩阵(identity matrix)<strong>是一种主对角线上的元素都是</strong>1</strong>，其他元素都是0的方阵，如</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120071758210.png" alt="image-20200120071758210"></p>
-</blockquote>
-<ul>
-<li>任何单位与单位矩阵相乘，得到的依然是原来的矩阵，而且满足交换律</li>
-</ul>
-<blockquote>
-<p>MI=IM=M</p>
-</blockquote>
-<h3 id="矩阵的行列式"><a href="#矩阵的行列式" class="headerlink" title="矩阵的行列式"></a>矩阵的行列式</h3><p>行列式记作： <strong>det A</strong></p>
-<ul>
-<li>当且仅当det A≠0时，方阵A是可逆的</li>
-</ul>
-<h5 id="余子阵"><a href="#余子阵" class="headerlink" title="余子阵"></a>余子阵</h5><p>n x n的矩阵A，<strong>余子阵（minor matrix）</strong> <img src="https://img.supervj.top/img/DX/image-20200120191929162.png" alt="image-20200120191929162">即从A中去除第 <strong>i</strong> 行和第 <strong>j</strong> 列的**(n-1)*(n-1)**矩阵</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120200716480.png" alt="image-20200120200716480"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200120200727115.png" alt="image-20200120200727115"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200120200736692.png" alt="image-20200120200736692"></p>
-</blockquote>
-<h5 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h5><p><img src="https://img.supervj.top/img/DX/image-20200120200844209.png" alt="image-20200120200844209"></p>
-<ul>
-<li>对于2 x 2 的矩阵来说，行列式公式为：</li>
-</ul>
-<p><img src="https://img.supervj.top/img/DX/image-20200120200914468.png" alt="image-20200120200914468"></p>
-<ul>
-<li>3 x 3的矩阵，行列式公式为：</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120201007378.png" alt="image-20200120201007378"></p>
-</blockquote>
-<ul>
-<li>4 x 4的矩阵，行列式公式为：</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120201040699.png" alt="image-20200120201040699"></p>
-</blockquote>
-<ul>
-<li>案例：</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120201108843.png" alt="image-20200120201108843"></p>
-</blockquote>
-<blockquote>
-<p><strong>一个矩阵的行列式就是一个平行多面体的（定向的）体积，这个多面体的每条边对应着对应矩阵的列。如果学生得知了这个秘密（在纯粹的代数式的教育中，这个秘密被仔细的隐藏了起来），那么行列式的整个理论都将成为多重线性形式理论的一部分。倘若用别的方式来定义行列式，任何敏感的人都将会永远痛恨诸如行列式，Jacobian式，以及隐函数定理这些东西。</strong></p>
-<p>​                          <strong>——俄国数学家阿诺尔德（Vladimir Arnold）《论数学教育》</strong></p>
-</blockquote>
-<h3 id="伴随矩阵"><a href="#伴随矩阵" class="headerlink" title="伴随矩阵"></a>伴随矩阵</h3><p><img src="https://img.supervj.top/img/DX/image-20200120201159666.png" alt="image-20200120201159666"></p>
-<p>如果A中的每个元素分别计算出C<sub>ij</sub>,并将它至于矩阵C<sub>A</sub>中的第 <strong>i</strong> 行，第 <strong>j</strong> 列，那么将获得矩阵A的 <strong>代数余子式矩阵(cofactor matrix of A)</strong></p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120201605278.png" alt="image-20200120201605278"></p>
-</blockquote>
-<p>取矩阵C<sub>A</sub>的转置矩阵，得到<strong>矩阵A的伴随矩阵（adjoint matrix of A）</strong>，记作</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120204905556.png" alt="image-20200120204905556"></p>
-</blockquote>
-<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><ul>
-<li>只有方阵才有逆矩阵</li>
-<li>n x n矩阵M的逆也是一个n x n的矩阵，记作 M<sup>-1</sup></li>
-<li>不是每个方阵都有逆矩阵，存在逆矩阵的方阵称为<strong>可逆矩阵（invertible matrix）</strong>，不存在逆矩阵的叫做<strong>奇异矩阵（singular matrix）</strong></li>
-<li>可逆矩阵的逆矩阵是唯一的</li>
-<li>可逆矩阵有逆矩阵相乘等到单位方阵： MM<sup>-1</sup>=M<sup>-1</sup>M=I，矩阵与其逆矩阵妈祖交换律</li>
-</ul>
-<p>逆矩阵的推导公式</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120205253567.png" alt="image-20200120205253567"></p>
-</blockquote>
-<ul>
-<li>案例，<img src="https://img.supervj.top/img/DX/image-20200120205340831.png" alt="image-20200120205340831"></li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120205418259.png" alt="image-20200120205418259"></p>
-</blockquote>
-<ul>
-<li><img src="https://img.supervj.top/img/DX/image-20200120205505699.png" alt="image-20200120205505699"></li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120205519977.png" alt="image-20200120205519977"></p>
-</blockquote>
-<ul>
-<li><img src="https://img.supervj.top/img/DX/image-20200120211359396.png" alt="image-20200120211359396"></li>
-</ul>
-<h3 id="DirectXMath库处理矩阵阵列"><a href="#DirectXMath库处理矩阵阵列" class="headerlink" title="DirectXMath库处理矩阵阵列"></a>DirectXMath库处理矩阵阵列</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line">	XMFLOAT4 dest;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;dest, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; dest.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; dest.z &lt;&lt;<span class="string">&quot;,&quot;</span>&lt;&lt;dest.w&lt;&lt; <span class="string">&quot;)&quot;</span> ;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ostream&amp; XM_CALLCONV <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMMATRIX v)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetX</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetY</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetZ</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; <span class="built_in">XMVectorGetW</span>(v.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">		os &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">XMVerifyCPUSupport</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;directx math not supported&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">XMMATRIX <span class="title">A</span></span></span><br><span class="line"><span class="function">	<span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">0.0f</span>, <span class="number">2.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">4.0f</span>, <span class="number">0.0f</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="number">1.0f</span>, <span class="number">2.0f</span>, <span class="number">3.0f</span>, <span class="number">1.0f</span></span></span></span><br><span class="line"><span class="params"><span class="function">	)</span></span>;</span><br><span class="line"></span><br><span class="line">		XMMATRIX B = <span class="built_in">XMMatrixIdentity</span>();<span class="comment">//单位矩阵，斜线都是1</span></span><br><span class="line">	XMMATRIX C = A * B;<span class="comment">//矩阵乘法，AI=A；</span></span><br><span class="line">	XMMATRIX D = <span class="built_in">XMMatrixTranspose</span>(A);<span class="comment">//转置矩阵，行列反转</span></span><br><span class="line">	XMVECTOR det = <span class="built_in">XMMatrixDeterminant</span>(A);<span class="comment">//得到（det A,det A,det A,det A）</span></span><br><span class="line">	XMMATRIX E = <span class="built_in">XMMatrixInverse</span>(&amp;det, A);<span class="comment">//返回M逆矩阵</span></span><br><span class="line">	XMMATRIX F = A * E;<span class="comment">//矩阵与逆矩阵乘积等于单位矩阵</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; A &lt;&lt; endl &lt;&lt; B &lt;&lt; endl &lt;&lt; C &lt;&lt; endl &lt;&lt; D &lt;&lt; endl &lt;&lt; E &lt;&lt; endl &lt;&lt; det &lt;&lt; endl &lt;&lt; F;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200120211048937.png" alt="image-20200120211048937"></p>
-</blockquote>
-<h2 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h2><h3 id="线性变换"><a href="#线性变换" class="headerlink" title="线性变换"></a>线性变换</h3><p>线性变换函数满足</p>
-<h6 id="线性变换函数公式"><a href="#线性变换函数公式" class="headerlink" title="线性变换函数公式"></a>线性变换函数公式</h6><blockquote>
-<p> <img src="https://img.supervj.top/img/DX/image-20200121070851768.png" alt="image-20200121070851768"></p>
-</blockquote>
-<h5 id="矩阵表示法"><a href="#矩阵表示法" class="headerlink" title="矩阵表示法"></a>矩阵表示法</h5><p>**u=(x,y,z)**也可以写作</p>
-<h6 id="矩阵表示法公式"><a href="#矩阵表示法公式" class="headerlink" title="矩阵表示法公式"></a>矩阵表示法公式</h6><h6 id=""><a href="#" class="headerlink" title=""></a><img src="https://img.supervj.top/img/DX/image-20200121071106597.png" alt="image-20200121071106597"></h6><h6 id="R3-标准基向量"><a href="#R3-标准基向量" class="headerlink" title="R3,标准基向量"></a>R<sup>3</sup>,标准基向量</h6><p><strong>i=(1,0,0), j=(0,1,0), k=(0,0,1)</strong></p>
-<h6 id="矩阵表示法公式2"><a href="#矩阵表示法公式2" class="headerlink" title="矩阵表示法公式2"></a>矩阵表示法公式2</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071255330.png" alt="image-20200121071255330"></p>
-<p>根据线性组合，上述公式可以改写成</p>
-<h6 id="线性变换的矩阵表示法"><a href="#线性变换的矩阵表示法" class="headerlink" title="线性变换的矩阵表示法"></a>线性变换的矩阵表示法</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071642398.png" alt="image-20200121071642398"></p>
-<p>我们称矩阵 <strong>A</strong>是线性变换的矩阵表示法</p>
-<h5 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h5><h6 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h6><p><img src="https://img.supervj.top/img/DX/image-20200121071743966.png" alt="image-20200121071743966"></p>
-<ul>
-<li>S就是一种线性变换</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121071817696.png" alt="image-20200121071817696"></p>
-</blockquote>
-<h6 id="缩放变换的矩阵表达式"><a href="#缩放变换的矩阵表达式" class="headerlink" title="缩放变换的矩阵表达式"></a>缩放变换的矩阵表达式</h6><blockquote>
-<p> <img src="https://img.supervj.top/img/DX/image-20200121071907341.png" alt="image-20200121071907341"></p>
-</blockquote>
-<ul>
-<li>缩放矩阵的逆矩阵</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200623102531554.png" alt="image-20200623102531554"></p>
-</blockquote>
-<ul>
-<li>案例</li>
-</ul>
-<p><img src="https://img.supervj.top/img/DX/image-20200623102549550.png" alt="image-20200623102549550"></p>
-<h5 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h5><h6 id="旋转矩阵基础公式"><a href="#旋转矩阵基础公式" class="headerlink" title="旋转矩阵基础公式"></a>旋转矩阵基础公式</h6><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121153741133.png" alt="image-20200121153741133"></p>
-<p><img src="https://img.supervj.top/img/DX/image-20200623102608770.png" alt="image-20200623102608770"></p>
-</blockquote>
-<ul>
-<li><p>上述公式里，<em><strong>c=cosθ</strong></em> 而且 <em><strong>s=sinθ</strong></em></p>
-</li>
-<li><p>旋转矩阵有个特性：每个行向量都为单位长度且两两正交，即这些行向量都是<strong>规范正交(orthonormal)</strong></p>
-</li>
-<li><p>若一个矩阵的行向量都是规范正交的，则此矩阵为<strong>正交矩阵（orthogonal matrix）</strong></p>
-</li>
-</ul>
-<h6 id="正交矩阵的逆矩阵"><a href="#正交矩阵的逆矩阵" class="headerlink" title="正交矩阵的逆矩阵"></a>正交矩阵的逆矩阵</h6><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121154123112.png" alt="image-20200121154123112"></p>
-</blockquote>
-<h6 id="通俗公式"><a href="#通俗公式" class="headerlink" title="通俗公式"></a>通俗公式</h6><p>如果选择绕<em><strong>x、y、z</strong></em>轴旋转，即分别取 <em><strong>n =（1，0，0）、n =（0，1，0）、n =（0，0，1）</strong></em>，那么对应的旋转矩阵是</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121154343881.png" alt="image-20200121154343881"></p>
-</blockquote>
-<h6 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h6><blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121154450682.png" alt="image-20200121154450682"></p>
-</blockquote>
-<h3 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h3><h4 id="齐次坐标"><a href="#齐次坐标" class="headerlink" title="齐次坐标"></a>齐次坐标</h4><ul>
-<li><em><strong>（x,y,z,0）</strong></em>表示向量</li>
-<li><em><strong>（x,y,z,1）</strong></em>表示点</li>
-</ul>
-<h5 id="仿射变换定义"><a href="#仿射变换定义" class="headerlink" title="仿射变换定义"></a>仿射变换定义</h5><ul>
-<li>仿射变换：一个线性变换加上一个平移变量 <em><strong>b</strong></em>,即</li>
-</ul>
-<blockquote>
-<p> <em><strong>α(u)=τ(u)+b</strong></em></p>
-</blockquote>
-<ul>
-<li>或者用矩阵表示法,A是一个线性变换的矩阵表示</li>
-</ul>
-<blockquote>
-<p> <img src="https://img.supervj.top/img/DX/image-20200121160932351.png" alt="image-20200121160932351"></p>
-</blockquote>
-<ul>
-<li>如果w=1把坐标扩充为齐次坐标，那么把上述公式简化成</li>
-</ul>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121161200597.png" alt="image-20200121161200597"></p>
-</blockquote>
-<h5 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h5><h6 id="恒等变换"><a href="#恒等变换" class="headerlink" title="恒等变换"></a>恒等变换</h6><p><strong>恒等变换</strong>是一种直接返回其输入参数的线性变换，如 <em><strong>I(u)=u</strong></em></p>
-<p>如果将平移变换定义为仿射变换，贼其中的线性变换就是一种恒等变换，即</p>
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121161843458.png" alt="image-20200121161843458"></p>
-</blockquote>
-<h6 id="平移矩阵"><a href="#平移矩阵" class="headerlink" title="平移矩阵"></a>平移矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161704819.png" alt="image-20200121161704819"></p>
-<h6 id="平移矩阵的逆矩阵"><a href="#平移矩阵的逆矩阵" class="headerlink" title="平移矩阵的逆矩阵"></a>平移矩阵的逆矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161727755.png" alt="image-20200121161727755"></p>
-<h6 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h6><p><img src="https://img.supervj.top/img/DX/image-20200121161922233.png" alt="image-20200121161922233"></p>
-<h5 id="缩放和旋转的放射矩阵"><a href="#缩放和旋转的放射矩阵" class="headerlink" title="缩放和旋转的放射矩阵"></a>缩放和旋转的放射矩阵</h5><ul>
-<li>如果放射变换的 b=0 ,则放射变换就是线性变换</li>
-<li>意味着，可以通过一个 4 x 4 的放射矩阵表达任意线性变换</li>
-</ul>
-<h6 id="4x4的缩放矩阵"><a href="#4x4的缩放矩阵" class="headerlink" title="4x4的缩放矩阵"></a>4x4的缩放矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121163133298.png" alt="image-20200121163133298"></p>
-<h6 id="4x4的旋转矩阵"><a href="#4x4的旋转矩阵" class="headerlink" title="4x4的旋转矩阵"></a>4x4的旋转矩阵</h6><p><img src="https://img.supervj.top/img/DX/image-20200121163151822.png" alt="image-20200121163151822"></p>
-<h5 id="仿射变换矩阵的几何意义"><a href="#仿射变换矩阵的几何意义" class="headerlink" title="仿射变换矩阵的几何意义"></a>仿射变换矩阵的几何意义</h5><p><img src="https://img.supervj.top/img/DX/image-20200121163854031.png" alt="image-20200121163854031"></p>
-<h4 id="变换的复合"><a href="#变换的复合" class="headerlink" title="变换的复合"></a>变换的复合</h4><p>假设<em><strong>S</strong></em>为缩放矩阵，<em><strong>T</strong></em>为平移矩阵，<em><strong>R</strong></em>为旋转矩阵</p>
-<p>因为矩阵乘法（不满足交换律），所以我么可以定义<em><strong>C=SRT</strong></em>，即把3个矩阵变成1个，方便计算</p>
-<h4 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h4><h5 id="坐标变换矩阵-标架变换矩阵公式"><a href="#坐标变换矩阵-标架变换矩阵公式" class="headerlink" title="坐标变换矩阵/标架变换矩阵公式"></a>坐标变换矩阵/标架变换矩阵公式</h5><h5 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://img.supervj.top/img/DX/image-20200121170431813.png" alt="image-20200121170431813"></h5><h5 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h5><ul>
-<li>3个标架<strong>F,G,H</strong></li>
-<li><strong>A</strong>：<strong>F</strong>转换到<strong>G</strong>的变换矩阵</li>
-<li><strong>B</strong>：<strong>G</strong>转换到<strong>H</strong>的变换矩阵</li>
-<li><em><strong>p<sub>F</sub></strong></em>:<strong>F</strong>中的一个向量</li>
-<li>求：此向量在标架H中的坐标<em><strong>P<sub>H</sub></strong></em></li>
-</ul>
-<p>***(p<sub>F</sub>***<strong>A)B</strong>=<em><strong>P<sub>H</sub></strong></em></p>
-<p><em><strong>(p<sub>G</sub></strong></em><strong>)B</strong>=<em><strong>P<sub>H</sub></strong></em></p>
-<ul>
-<li>由于矩阵乘法满足结合律，所以</li>
-</ul>
-<p><em><strong>p<sub>F</sub></strong></em>(<strong>AB</strong>)=<em><strong>P<sub>H</sub></strong></em></p>
-<h5 id="逆矩阵-1"><a href="#逆矩阵-1" class="headerlink" title="逆矩阵"></a>逆矩阵</h5><p><em><strong>p<sub>F</sub>A</strong></em>=<em><strong>P<sub>H</sub></strong></em></p>
-<p><em><strong>P<sub>F</sub></strong></em>=<em><strong>p<sub>H</sub>A<sup>-1</sup></strong></em></p>
-<h4 id="变换矩阵与坐标变换矩阵"><a href="#变换矩阵与坐标变换矩阵" class="headerlink" title="变换矩阵与坐标变换矩阵"></a>变换矩阵与坐标变换矩阵</h4><p>在数学上，可以将<strong>改变几何体的变换</strong>解释为<strong>坐标变换</strong>，反之亦然</p>
-<h4 id="DirectXMath库的变换函数"><a href="#DirectXMath库的变换函数" class="headerlink" title="DirectXMath库的变换函数"></a>DirectXMath库的变换函数</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXMath.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DirectXPackedVector.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;( ostream&amp; os, FXMVECTOR v)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	XMFLOAT4 value;</span><br><span class="line">	<span class="built_in">XMStoreFloat4</span>(&amp;value, v);</span><br><span class="line">	os &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; value.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.z &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; value.w &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, FXMMATRIX M)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetX</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetY</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetZ</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os  &lt;&lt; <span class="built_in">XMVectorGetW</span>(M.r[i]) &lt;&lt; <span class="string">&quot;\t&quot;</span> ;</span><br><span class="line">		os &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	XMMATRIX m1 =</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>,</span><br><span class="line">		<span class="number">2.0f</span>, <span class="number">2.0f</span>, <span class="number">2.0f</span>, <span class="number">2.0f</span>,</span><br><span class="line">		<span class="number">3.0f</span>, <span class="number">3.0f</span>, <span class="number">3.0f</span>, <span class="number">3.0f</span>,</span><br><span class="line">		<span class="number">4.0f</span>, <span class="number">4.0f</span>, <span class="number">4.0f</span>, <span class="number">4.0f</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="comment">//缩放系数</span></span><br><span class="line">	XMMATRIX Scale1 = <span class="built_in">XMMatrixScaling</span>(<span class="number">1.0f</span>, <span class="number">2.0f</span>, <span class="number">3.0f</span>);<span class="comment">//缩放矩阵1</span></span><br><span class="line">	XMVECTOR v1 = <span class="built_in">XMVectorSet</span>(<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>);</span><br><span class="line">	XMMATRIX Scale2 = <span class="built_in">XMMatrixScalingFromVector</span>(v1);<span class="comment">//缩放矩阵2，根据Vector</span></span><br><span class="line"></span><br><span class="line">	XMMATRIX RotX = <span class="built_in">XMMatrixRotationX</span>(<span class="number">90.f</span>);<span class="comment">//X轴旋转矩阵</span></span><br><span class="line">	XMMATRIX RotY = <span class="built_in">XMMatrixRotationY</span>(<span class="number">45.f</span>);</span><br><span class="line">	XMMATRIX RotZ = <span class="built_in">XMMatrixRotationZ</span>(<span class="number">-180.f</span>);</span><br><span class="line">	XMVECTOR Axis= <span class="built_in">XMVectorSet</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	XMMATRIX RotAxis = <span class="built_in">XMMatrixRotationAxis</span>(Axis, <span class="number">45.f</span>);<span class="comment">//根据自定义轴旋转</span></span><br><span class="line">	XMMATRIX TransT = <span class="built_in">XMMatrixTranslation</span>(<span class="number">100.f</span>, <span class="number">10.f</span>, <span class="number">-20.f</span>);<span class="comment">//位移矩阵</span></span><br><span class="line">	XMVECTOR vTransCoord = <span class="built_in">XMVector3TransformCoord</span>(v1, TransT);<span class="comment">//移动向量</span></span><br><span class="line">	XMVECTOR vTransNormal = <span class="built_in">XMVector3TransformNormal</span>(v1, TransT);</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m=&quot;</span> &lt;&lt; endl &lt;&lt; m1  &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*scale1=&quot;</span> &lt;&lt; endl&lt;&lt; m1* Scale1 &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*scale2==&quot;</span> &lt;&lt; endl &lt;&lt; m1*Scale2 &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;RotX==&quot;</span> &lt;&lt; endl &lt;&lt; RotX &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;m*RotX==&quot;</span> &lt;&lt; endl &lt;&lt; m1 * RotX &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;v1:TransCoord==&quot;</span> &lt;&lt; endl &lt;&lt; vTransCoord &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;v1:TransNormal==&quot;</span> &lt;&lt; endl &lt;&lt; vTransNormal &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><img src="https://img.supervj.top/img/DX/image-20200121182846768.png" alt="image-20200121182846768"></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -3036,14 +2827,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">761k</span>
+    <span title="站点总字数">763k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:32</span>
+    <span title="站点阅读时长">11:33</span>
   </span>
 </div>
 <div class="busuanzi-count">

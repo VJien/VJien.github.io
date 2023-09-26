@@ -25,35 +25,25 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="前言UE5的动画重定向已经使用了全新的方式,  在经历了EA版的重重bug后, 在5.1和5.2上基本已经成熟, 官方文档有大致使用方式的说明, 但是对一些细节方面还是缺乏说明, 导致刚开始使用时会走不少弯路; 本文对官方文档流程进行一些补充 5.2文档参考  IK Rig编辑器 IK Rig重定向">
+<meta name="description" content="前言UE本身不支持Pico开发, 需要手动搭建开发环境,本文简单记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE5动画重定向">
-<meta property="og:url" content="http://supervj.top/2023/08/21/UE5%E5%8A%A8%E7%94%BB%E9%87%8D%E5%AE%9A%E5%90%91/index.html">
+<meta property="og:title" content="UE5搭建Pico开发环境">
+<meta property="og:url" content="http://supervj.top/2023/09/26/UE5%E9%80%82%E9%85%8DPico/index.html">
 <meta property="og:site_name" content="月光林地">
-<meta property="og:description" content="前言UE5的动画重定向已经使用了全新的方式,  在经历了EA版的重重bug后, 在5.1和5.2上基本已经成熟, 官方文档有大致使用方式的说明, 但是对一些细节方面还是缺乏说明, 导致刚开始使用时会走不少弯路; 本文对官方文档流程进行一些补充 5.2文档参考  IK Rig编辑器 IK Rig重定向">
+<meta property="og:description" content="前言UE本身不支持Pico开发, 需要手动搭建开发环境,本文简单记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//%E5%BD%95%E5%88%B6_2023_08_21_10_15_49_254.gif">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821102232402.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821102442846.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821102543857.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821103732030.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821103852596.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821104450936.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821105613739.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821110029458.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821110648834.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821110931817.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230821110830772.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//%E5%BD%95%E5%88%B6_2023_08_21_11_34_55_625.gif">
-<meta property="article:published_time" content="2023-08-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-08-21T06:04:07.513Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230926111231394.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230926112853575.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230926113817789.png">
+<meta property="article:published_time" content="2023-09-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-26T03:56:04.173Z">
 <meta property="article:author" content="VJ东">
-<meta property="article:tag" content="动画">
+<meta property="article:tag" content="vr">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/VJien/img/master//%E5%BD%95%E5%88%B6_2023_08_21_10_15_49_254.gif">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/VJien/img/master//image-20230926111231394.png">
 
 
-<link rel="canonical" href="http://supervj.top/2023/08/21/UE5%E5%8A%A8%E7%94%BB%E9%87%8D%E5%AE%9A%E5%90%91/">
+<link rel="canonical" href="http://supervj.top/2023/09/26/UE5%E9%80%82%E9%85%8DPico/">
 
 
 <script class="page-configurations">
@@ -65,7 +55,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>UE5动画重定向 | 月光林地</title>
+<title>UE5搭建Pico开发环境 | 月光林地</title>
   
 
 
@@ -203,7 +193,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">流程</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E9%80%82%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">输入适配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E9%A2%84%E8%A7%88"><span class="nav-number">4.</span> <span class="nav-text">编辑器预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E6%9F%84%E5%8F%8D%E9%A6%88"><span class="nav-number">5.</span> <span class="nav-text">手柄反馈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bug"><span class="nav-number">6.</span> <span class="nav-text">bug</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -283,7 +273,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2023/08/21/UE5%E5%8A%A8%E7%94%BB%E9%87%8D%E5%AE%9A%E5%90%91/">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2023/09/26/UE5%E9%80%82%E9%85%8DPico/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
@@ -296,7 +286,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          UE5动画重定向
+          UE5搭建Pico开发环境
         </h1>
 
         <div class="post-meta-container">
@@ -308,7 +298,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-08-21 00:00:00 / 修改时间：14:04:07" itemprop="dateCreated datePublished" datetime="2023-08-21T00:00:00+08:00">2023-08-21</time>
+      <time title="创建时间：2023-09-26 00:00:00 / 修改时间：11:56:04" itemprop="dateCreated datePublished" datetime="2023-09-26T00:00:00+08:00">2023-09-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -316,7 +306,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/animation/" itemprop="url" rel="index"><span itemprop="name">animation</span></a>
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
         </span>
     </span>
 
@@ -337,8 +327,8 @@
       <span class="post-meta-item-text">Changyan：</span>
     
     
-      <a title="changyan" href="/2023/08/21/UE5%E5%8A%A8%E7%94%BB%E9%87%8D%E5%AE%9A%E5%90%91/#SOHUCS" itemprop="discussionUrl">
-        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2023/08/21/UE5动画重定向/" itemprop="commentCount"></span>
+      <a title="changyan" href="/2023/09/26/UE5%E9%80%82%E9%85%8DPico/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2023/09/26/UE5适配Pico/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -351,7 +341,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>792</span>
+      <span>1.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -369,61 +359,40 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UE5的动画重定向已经使用了全新的方式,  在经历了EA版的重重bug后, 在5.1和5.2上基本已经成熟, 官方文档有大致使用方式的说明, 但是对一些细节方面还是缺乏说明, 导致刚开始使用时会走不少弯路; 本文对官方文档流程进行一些补充</p>
-<p>5.2文档参考 </p>
-<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/zh-CN/ik-rig-in-unreal-engine/">IK Rig编辑器</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.2/zh-CN/ik-rig-animation-retargeting-in-unreal-engine/">IK Rig重定向</a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UE本身不支持Pico开发, 需要手动搭建开发环境,本文简单记录</p>
 <span id="more"></span>
 
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>Pico的SDK是已UE插件的形式安装的, 直接到官网<a target="_blank" rel="noopener" href="https://developer-cn.pico-interactive.com/resources/#sdk">下砸</a></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230926111231394.png" alt="image-20230926111231394"></p>
+<p>文档提示有4个插件, 实际下到3个插件, 没看到<code>PicoSpatialAudio</code></p>
+<p>另外,  开发时肯定需要在编辑器预览, 这个默认也不支持, 需要下载两个东西</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer-cn.pico-interactive.com/resources/#pdc">Pico Developer Center</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer-cn.pico-interactive.com/resources/#sdk"><strong>PICO Unreal Live Preview Plugin (Experiment)</strong></a></li>
+</ul>
+<h2 id="输入适配"><a href="#输入适配" class="headerlink" title="输入适配"></a>输入适配</h2><p>Pico加入了自己的输入映射, 跟oculus几乎一致</p>
+<p>原原本本的抄一遍就可以了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230926112853575.png" alt="image-20230926112853575"></p>
+<p>但是截止UE5.1, PicoSdk 2.3.0 , Pico的手柄坐标系并未像Oculus或者steam那样, 对OpenXR进行了适配, 如果你什么都不处理, 那么手柄朝向在Pitch角度是比较歪的, 需要程序化的判定并矫正一下,(笔者在pitch上减去了45度)</p>
+<h2 id="编辑器预览"><a href="#编辑器预览" class="headerlink" title="编辑器预览"></a>编辑器预览</h2><p>编辑器预览Pico也有单独一篇文档 :<a target="_blank" rel="noopener" href="https://developer-cn.pico-interactive.com/document/unreal/preview-app-scenes/">实时预览应用场景</a></p>
+<p>简单来讲需要以下几点</p>
+<ul>
+<li>Pico开启开发者模式并开启USB调试</li>
+<li>下载了上面提到的PICO Unreal Live Preview Plugin (Experiment)插件并放到项目中</li>
+<li>开启插件</li>
+<li>RHI设置成DX11</li>
+<li>去掉InstancedStereo</li>
+</ul>
+<p>每次预览都需要在眼镜里点击确认才能进入游戏场景, 比较麻烦</p>
+<p>还有就是RHI和InstancedStereo 的要求不太适配项目本身, 因为多数项目还是会使用DX12和开启InstancedStereo来优化性能的, 意味着这两个选项只能是临时的为编辑器预览而修改一下的</p>
+<h2 id="手柄反馈"><a href="#手柄反馈" class="headerlink" title="手柄反馈"></a>手柄反馈</h2><p>UE原生的<code>PlayHapticEffect</code>即手柄震动对Pico无效, Pico需要使用他自己的<code>Set Controller Vibration Event</code></p>
+<p>但是这玩意儿只在安卓生效, 那么pc串流是不是就暂时放弃了?</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230926113817789.png" alt="image-20230926113817789"></p>
+<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>插件有一段代码打包会失败, </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FPICOXRHMDDP::RegisterSettings</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(&quot;Settings&quot;))</span></span><br><span class="line">	<span class="comment">// &#123;</span></span><br><span class="line">	<span class="comment">// 	SettingsModule-&gt;RegisterSettings(&quot;Project&quot;, &quot;Engine&quot;, &quot;PICOXRLivePreview Settings&quot;,</span></span><br><span class="line">	<span class="comment">// 	                                 LOCTEXT(&quot;PICOXRLivePreviewSettingsName&quot;, &quot;PICOXR LivePreview Settings&quot;),</span></span><br><span class="line">	<span class="comment">// 	                                 LOCTEXT(&quot;PICOXRLivePreviewSettingsDescription&quot;, &quot;Configure the PICOXRLivePreview plugin&quot;),</span></span><br><span class="line">	<span class="comment">// 	                                 GetMutableDefault&lt;UPICOXRDPSettings&gt;()</span></span><br><span class="line">	<span class="comment">// 	);</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// 	FPropertyEditorModule&amp; PropertyModule = FModuleManager::GetModuleChecked&lt;FPropertyEditorModule&gt;(&quot;PropertyEditor&quot;);</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li>创建ik rig资源</li>
-<li>创建fullbody ik解算器</li>
-<li>添加goal, 一般为2个hand以及2个ball(也可以是foot)共4个goal; 偶尔情况会对pelvis和head加goal</li>
-<li>添加chain</li>
-</ul>
-<p>这一步是比较耗时的, 为了防治遗漏, 第一步先对着pelvis(基本人形态都是这个骨骼)设置为 解算器的root bone以及retarget root</p>
-<p>后面就是设置各个骨骼链</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//%E5%BD%95%E5%88%B6_2023_08_21_10_15_49_254.gif" alt="录制_2023_08_21_10_15_49_254"></p>
-<p>最后是这样的</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821102232402.png" alt="image-20230821102232402"></p>
-<ul>
-<li>fullbody setting</li>
-</ul>
-<p>编辑好骨骼链还不够, 如果这个时候你尝试拖动ik控制器就会发现很多动作会很诡异, 如下</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821102442846.png" alt="image-20230821102442846"></p>
-<p>因为部分骨骼需要设置一下fullbody的配置属性</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821102543857.png" alt="image-20230821102543857"></p>
-<p>具体不知道怎么设置的, 可以去参考UE自己的小白人的属性设置, </p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821103732030.png" alt="image-20230821103732030"></p>
-<p>往上提脚上的控制器, 发现整条腿的旋转很诡异, 这是因为没有设置legik的旋转角度, 通过设置calf的setting中的自定义角度可以实现</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821103852596.png" alt="image-20230821103852596"></p>
-<p>这个角度如何设置, 网上资料也不多, 实际上可以这样思考</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821104450936.png" alt="image-20230821104450936"></p>
-<p>这个calf骨骼是绕Z轴转的, 按顺时针转90度应该是合适的范围</p>
-<ul>
-<li>创建重定向文件 IK Retargetor, 选择动作源的IK Rig为source</li>
-<li>编辑姿势</li>
-</ul>
-<p>先通过偏移和缩放把人大致对上</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821105613739.png" alt="image-20230821105613739"></p>
-<p>后面就是一点点的调整pose对齐, 没有什么捷径, 只能花时间慢慢调整</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821110029458.png" alt="image-20230821110029458"></p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821110648834.png" alt="image-20230821110648834"></p>
-<p>尽量保证一致性就好了, 而且要尽量一步到位, 因为重定向动画以后, 再调整姿势已经不会对已经生成的资源产生影响了</p>
-<ul>
-<li>确认骨骼链对应关系</li>
-</ul>
-<p>检查2套ik rig的骨骼链对应关系</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821110931817.png" alt="image-20230821110931817"></p>
-<ul>
-<li>设置rootmotion</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230821110830772.png" alt="image-20230821110830772"></p>
-<p>默认不会把rootmotion重定向过去, 需要选中root骨骼如上图设置</p>
-<p>测试一下root骨骼有么有正确重定向</p>
-<p><img src="https://raw.githubusercontent.com/VJien/img/master//%E5%BD%95%E5%88%B6_2023_08_21_11_34_55_625.gif" alt="录制_2023_08_21_11_34_55_625"></p>
+<p>是不是 Pico没有经过太多的验证?  runtime模块在注册setting</p>
+<p>可以直接注释掉, 或者将这段代码移动到<code>PICOXRDPEditor</code>模块里</p>
 
     </div>
 
@@ -459,7 +428,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://supervj.top/2023/08/21/UE5%E5%8A%A8%E7%94%BB%E9%87%8D%E5%AE%9A%E5%90%91/" title="UE5动画重定向">http://supervj.top/2023/08/21/UE5动画重定向/</a>
+      <a href="http://supervj.top/2023/09/26/UE5%E9%80%82%E9%85%8DPico/" title="UE5搭建Pico开发环境">http://supervj.top/2023/09/26/UE5适配Pico/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -485,21 +454,18 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E5%8A%A8%E7%94%BB/" rel="tag"># 动画</a>
+              <a href="/tags/vr/" rel="tag"># vr</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/03/02/PSO/" rel="prev" title="PSO入门和踩坑史">
-                  <i class="fa fa-chevron-left"></i> PSO入门和踩坑史
+                <a href="/2023/09/12/%E6%9C%AC%E5%9C%B0%E5%8C%96/" rel="prev" title="UE5本地化">
+                  <i class="fa fa-chevron-left"></i> UE5本地化
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/09/12/%E6%9C%AC%E5%9C%B0%E5%8C%96/" rel="next" title="UE5本地化">
-                  UE5本地化 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
