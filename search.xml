@@ -14533,11 +14533,25 @@ piecewise_linear_distribution分段线性分布
 <h2 id="手柄反馈"><a href="#手柄反馈" class="headerlink" title="手柄反馈"></a>手柄反馈</h2><p>UE原生的<code>PlayHapticEffect</code>即手柄震动对Pico无效, Pico需要使用他自己的<code>Set Controller Vibration Event</code></p>
 <p>但是这玩意儿只在安卓生效, 那么pc串流是不是就暂时放弃了?</p>
 <p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230926113817789.png" alt="image-20230926113817789"></p>
-<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>插件有一段代码打包会失败, </p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FPICOXRHMDDP::RegisterSettings</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr&lt;ISettingsModule&gt;(&quot;Settings&quot;))</span></span><br><span class="line">	<span class="comment">// &#123;</span></span><br><span class="line">	<span class="comment">// 	SettingsModule-&gt;RegisterSettings(&quot;Project&quot;, &quot;Engine&quot;, &quot;PICOXRLivePreview Settings&quot;,</span></span><br><span class="line">	<span class="comment">// 	                                 LOCTEXT(&quot;PICOXRLivePreviewSettingsName&quot;, &quot;PICOXR LivePreview Settings&quot;),</span></span><br><span class="line">	<span class="comment">// 	                                 LOCTEXT(&quot;PICOXRLivePreviewSettingsDescription&quot;, &quot;Configure the PICOXRLivePreview plugin&quot;),</span></span><br><span class="line">	<span class="comment">// 	                                 GetMutableDefault&lt;UPICOXRDPSettings&gt;()</span></span><br><span class="line">	<span class="comment">// 	);</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// 	FPropertyEditorModule&amp; PropertyModule = FModuleManager::GetModuleChecked&lt;FPropertyEditorModule&gt;(&quot;PropertyEditor&quot;);</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>是不是 Pico没有经过太多的验证?  runtime模块在注册setting</p>
-<p>可以直接注释掉, 或者将这段代码移动到<code>PICOXRDPEditor</code>模块里</p>
+<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p><code>PICOLivePreview</code>插件是用于编辑器实时预览的, 但是如果你不做额外处理, 那么打包也会打进去, 这个会导致打包失败, 解决打包时候的代码以后也会导致运行初就crash</p>
+<p>把插件下的所有模块都改成uncookonly或者editor即可</p>
+<h2 id="串流"><a href="#串流" class="headerlink" title="串流"></a>串流</h2><p>对于打出来的包, pico并不能直接像quest一样, 开个meta link就直接跑</p>
+<p>需要下载一个<a href="https://www.picoxr.com/cn/software/pico-link">pc串流工具</a> </p>
+<p>然后运行这个工具以后在头显也运行串流工具, 连上pc</p>
+<blockquote>
+<p>这里一开始找不到PC设备, 解决办法就是…..反复插拔usb</p>
+</blockquote>
+<p>连上pc以后, 笔者又遇到了一个坑</p>
+<p>一直显示等待steamVR启动,  手动启动steamVR以后也没用, steamVR也显示异常 </p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230927115043111.png" alt="image-20230927115043111"></p>
+<p>包括PDC上显示也是异常, 反复尝试都无果, 最后的解决方法是</p>
+<p><strong>重启电脑</strong></p>
+<p>重启以后在steamVR上就可以正确显示设备了, 如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20230927115147095.png" alt="image-20230927115147095"></p>
+<p>尝试启动Alyx试一下, 第一遍steamVR报错, 第2,3…N边, 最好的情况是PC有画面, 头显内有声音没画面</p>
+<p>然后反复开关steamVR, 启动游戏, 然后………..成功了……..</p>
+<p>然后直接启动打出来的包, 也可以了……</p>
+<p>Pico威武!!!</p>
 ]]></content>
       <categories>
         <category>plugin</category>
