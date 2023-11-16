@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,272 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/24/LearnDX12_RenderPipline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/06/24/LearnDX12_RenderPipline/" class="post-title-link" itemprop="url">DX学习笔记（三）：渲染流水线</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-24T00:00:00+08:00">2020-06-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:40:37" itemprop="dateModified" datetime="2021-08-02T16:40:37+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/06/24/LearnDX12_RenderPipline/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/06/24/LearnDX12_RenderPipline/" class="cy_cmt_count" data-xid="2020/06/24/LearnDX12_RenderPipline/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="渲染流水线"><a href="#渲染流水线" class="headerlink" title="渲染流水线"></a>渲染流水线</h2><p>平行线最终会相交于<code>消失点</code>，又称为<code>灭点</code></p>
+<p><code>物体重叠</code>：即不同命的物体能够遮挡住其后侧物体的局部</p>
+<p>3D实体对象是通过<code>三角形网格</code>来近似表示的</p>
+<h3 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h3><p>分量式乘法:<code>(r,g,b)*(a,b,c)=(ra,gb,bc)</code></p>
+<h5 id="128位颜色"><a href="#128位颜色" class="headerlink" title="128位颜色"></a>128位颜色</h5><p>每个分量用浮点表示，即4D向量 (r,g,b,a)</p>
+<p><em><strong>0&lt;=r,g,b,a&lt;=1</strong></em></p>
+<p><code>DirectXMath</code>库对分量式乘法的支持</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CAKKCIBV <span class="title">XMColorModulate</span> <span class="params">(FXMVECTOR C1,FXMVECTOR C2)</span></span>;<span class="comment">//返回C1*C2</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="32位颜色"><a href="#32位颜色" class="headerlink" title="32位颜色"></a>32位颜色</h5><p>每个分量仅分配1个字节，因此每个占用8字节的颜色分量就分别描述256种不同的颜色强度</p>
+<p>即0代表无强度，256代表最大强度</p>
+<p><code>DirectXMath</code>库<code>(include&lt;DirectXPackedVector.h&gt;)</code>在<code>DirectX::PackedVector</code>命名空间提供了相应函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> DirectX</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">namespace</span> PackedVector</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">XMCOLOR</span></span></span><br><span class="line"><span class="class">        &#123;</span></span><br><span class="line">            <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">            &#123;</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">                &#123;</span></span><br><span class="line">                    <span class="keyword">uint8_t</span> b;  <span class="comment">// Blue:    0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> g;  <span class="comment">// Green:   0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> r;  <span class="comment">// Red:     0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> a;  <span class="comment">// Alpha:   0/255 to 255/255</span></span><br><span class="line">                    </span><br><span class="line">                &#125;;<span class="keyword">uint32_t</span> c;</span><br><span class="line">                <span class="built_in">XMCOLOR</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">    			<span class="built_in">XMCOLOR</span>(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">XMCOLOR</span>(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="function">XM_CONSTEXPR <span class="title">XMCOLOR</span><span class="params">(<span class="keyword">uint32_t</span> Color)</span> : c(Color) &#123;</span>&#125;</span><br><span class="line">                <span class="built_in">XMCOLOR</span>(<span class="keyword">float</span> _r, <span class="keyword">float</span> _g, <span class="keyword">float</span> _b, <span class="keyword">float</span> _a);</span><br><span class="line">                <span class="function"><span class="keyword">explicit</span> <span class="title">XMCOLOR</span><span class="params">(_In_reads_(<span class="number">4</span>) <span class="keyword">const</span> <span class="keyword">float</span> *pArray)</span></span>;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">operator</span> <span class="title">uint32_t</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> c; &#125;</span><br><span class="line"></span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> <span class="keyword">uint32_t</span> Color) &#123; c = Color; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过将<code>[0,255]</code>映射到<code>[0,1]</code>即可完成32位到128位的转换</p>
+<p>转换函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadColor</span><span class="params">( <span class="keyword">const</span> XMCOLOR* pSource)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreColor</span><span class="params">( XMCOLOR* pDestination, FXMVECTOR V )</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="渲染流水线概述"><a href="#渲染流水线概述" class="headerlink" title="渲染流水线概述"></a>渲染流水线概述</h3><p>渲染流水线(rendering pipeline)是以摄像机位观察视角而生成的2D图像的一系列完整步骤</p>
+<p>​     </p>
+<p><img src="https://img.supervj.top/xuanran.png"></p>
+<h3 id="输入装配阶段"><a href="#输入装配阶段" class="headerlink" title="输入装配阶段"></a>输入装配阶段</h3><p>输入装配阶段：从显存中读取集合数据(顶点和索引，vertex and index)</p>
+<p>再装配为几何图元（几何基元），如三角形和线条</p>
+<ul>
+<li>顶点缓冲区：将顶点与渲染流水线绑定的特殊结构体</li>
+</ul>
+<h5 id="图元拓扑-primitive-topology"><a href="#图元拓扑-primitive-topology" class="headerlink" title="图元拓扑(primitive topology)"></a>图元拓扑(primitive topology)</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> STDMETHODCALLTYPE <span class="title">IASetPrimitiveTopology</span><span class="params">( </span></span></span><br><span class="line"><span class="params"><span class="function">            _In_  D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology)</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> </span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">D3D_PRIMITIVE_TOPOLOGY</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_UNDEFINED	= <span class="number">0</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_POINTLIST	= <span class="number">1</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST	= <span class="number">2</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP	= <span class="number">3</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= <span class="number">4</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= <span class="number">5</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= <span class="number">10</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= <span class="number">11</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= <span class="number">12</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= <span class="number">13</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= <span class="number">33</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= <span class="number">34</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= <span class="number">35</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= <span class="number">36</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= <span class="number">37</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= <span class="number">38</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= <span class="number">39</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= <span class="number">40</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= <span class="number">41</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= <span class="number">42</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= <span class="number">43</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= <span class="number">44</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= <span class="number">45</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= <span class="number">46</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= <span class="number">47</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= <span class="number">48</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= <span class="number">49</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= <span class="number">50</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= <span class="number">51</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= <span class="number">52</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= <span class="number">53</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= <span class="number">54</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= <span class="number">55</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= <span class="number">56</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= <span class="number">57</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= <span class="number">58</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= <span class="number">59</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= <span class="number">60</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= <span class="number">61</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= <span class="number">62</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= <span class="number">63</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= <span class="number">64</span>,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST</span><br><span class="line">    &#125; 	D3D_PRIMITIVE_TOPOLOGY;</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过线列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_LINELIST);</span><br><span class="line"><span class="comment">//通过三角形列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"><span class="comment">//通过三角形带来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>点列表 <code>D3D_PRIMITIVE_TOPOLOGY_POINTLIST</code></li>
+<li>线条带 <code>D3D_PRIMITIVE_TOPOLOGY_LINESTRIP</code></li>
+<li>线列表 <code>D3D_PRIMITIVE_TOPOLOGY_LINELIST</code></li>
+<li>三角形带 <code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP</code></li>
+</ul>
+<p><img src="https://img.supervj.top/img/tuyuantuopu_1.jpg"></p>
+<ul>
+<li>剔除(culling)问题：奇数与偶数三角形的绕序(环绕顺序)即装配图元的顶点顺序是不同的</li>
+</ul>
+<p>CPU会对偶数三角形的<code>前两个顶点</code>顺序进行调换已达到有奇数三角形绕序相同</p>
+<blockquote>
+<p>正确的应该是后<strong>两个顶点</strong>顺序调换，而OpenGL中才是前两个顶点调换</p>
+</blockquote>
+<ul>
+<li>三角形列表</li>
+</ul>
+<p><code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST</code></p>
+<p>三角形列表与三角形带的区别是，三角形列表的三角形可以彼此分离，所以每n*3个顶点组成n个三角形</p>
+<ul>
+<li>具有邻接数据的图元拓扑</li>
+</ul>
+<p>对于有邻接数据的三角形列表，每个三角形都有3个与之相邻的<code>邻接三角形</code></p>
+<p>借助<code>顶点缓冲区</code>和<code>索引缓冲区</code>将它们随主三角形一并提交至渲染流水线</p>
+<p>并且要把拓扑类型指定为<code>D3D12_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ</code>让渲染流水线知道如何以顶点缓冲区的顶点来构建主三角形和其邻接三角形；</p>
+<p>邻接图元的顶点只作为集合着色器的输入数据，并不会被绘制</p>
+<p><img src="https://img.supervj.top/img/DX/tuyuantuopu_2.jpg"></p>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vertex quad[<span class="number">6</span>]=&#123;</span><br><span class="line">    v0,v1,v2,<span class="comment">//三角形0</span></span><br><span class="line">    v0,v2,v3 <span class="comment">//三角形1</span></span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>绕序</strong>：为三角形指定顶点顺序</li>
+</ul>
+<p>用<code>顶点列表</code>和<code>索引列表</code>组合起来构成三角形</p>
+<p>如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Vertex v[<span class="number">9</span>]=&#123;v0,v1,v2,v3,v4,v5,v6,v7,v8&#125;;</span><br><span class="line">UINT indexList[<span class="number">24</span>]=&#123;</span><br><span class="line">    <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">4</span>,<span class="number">5</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">5</span>,<span class="number">6</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">6</span>,<span class="number">7</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">7</span>,<span class="number">8</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">8</span>,<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="顶点着色阶段"><a href="#顶点着色阶段" class="headerlink" title="顶点着色阶段"></a>顶点着色阶段</h3><ul>
+<li>世界变换：将局部坐标系内的坐标转换到世界坐标系</li>
+<li>世界矩阵：上述变换的矩阵</li>
+</ul>
+<p>$$<br>W=SRT<br>$$</p>
+<ul>
+<li>观察空间:相机的局部坐标系，亦称视觉空间、摄像机空间等</li>
+<li>取景变换：世界空间至观察空间的变换；此变换的矩阵叫做<code>观察矩阵</code></li>
+</ul>
+<p>观察矩阵函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV <span class="title">XMMatrixLookAtLH</span></span></span><br><span class="line"><span class="function"><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR EyePosition, </span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR FocusPosition, </span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR UpDirection</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">XMVECTOR eyePos=<span class="built_in">XMVectorSet</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">1</span>);</span><br><span class="line">XMVECTOR target=<span class="built_in">XMVectorZero</span>();</span><br><span class="line">XMVECTOR up=<span class="built_in">XMVectorSet</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">XMMATRIX V=<span class="built_in">XMMatrixLookAtLH</span>(eyePos,target,up);<span class="comment">//返回观察矩阵</span></span><br><span class="line">XMVECTOR v2=<span class="built_in">XMVector3TransformCoord</span>(target,V);</span><br><span class="line">cout&lt;&lt;v2;<span class="comment">//输出得到(0,0,173.2),即在观察空间的坐标</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>顶点的投影线：顶点到观察点的连线</li>
+<li>透视投影变换：3D顶点<strong>v</strong>变换至其投影线与3D投影平面的交点<strong>v<sup>、</sup></strong></li>
+</ul>
+<blockquote>
+<p>近平面(近裁剪面)<code>n</code>,远平面<code>f</code>，垂直视场角<code>α</code>，纵横比<code>r</code>，4个参数定义了以原点作为投影的中心，以<code>Z</code>轴进行观察的平截头体</p>
+</blockquote>
+<p>纵横比<br>$$<br>r=w/h<br>$$<br>w:投影窗口的宽度</p>
+<p>h:投影窗口的高度</p>
+<blockquote>
+<p>如果后台缓冲区与投影窗口纵横比不一致，在映射的过程中会产生非均匀缩放（不等比例缩放），导致图像拉伸</p>
+</blockquote>
+<ul>
+<li><p>NDC：规格化设备坐标(Normalized Device Coordinates)</p>
+</li>
+<li><p>透视除法（齐次除法）：顶点与投影矩阵相乘以后，对每个坐标除以<code>w=z</code></p>
+</li>
+<li><p>归一化深度值：通过函数 <code>g(z)</code>把<code>z</code>坐标从<code>[n,f]</code>映射到区间<code>[0,1]</code></p>
+</li>
+</ul>
+<p>$$<br>g(z)=A+ {B \over z}<br>$$</p>
+<ul>
+<li>透视投影矩阵</li>
+</ul>
+<p>$$<br>P=\begin{bmatrix}1\over rtan({\alpha \over 2}) &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 1\over{tan({\alpha\over 2})} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; f\over {f-n} &amp; 1 \<br>0 &amp; &amp; 0 &amp; -nf\over{f-n} &amp; 0<br>\end{bmatrix}<br>$$</p>
+<blockquote>
+<p>在顶点乘以投影矩阵后，集合体会处于所谓的<code>齐次裁剪空间</code>或者<code>投影空间</code></p>
+<p>完成<strong>透视除法</strong>以后，便是**规格化设备坐标(NDC)**了</p>
+</blockquote>
+<ul>
+<li>XMMatrixPerspectiveFovLH</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV <span class="title">XMMatrixPerspectiveFovLH</span></span></span><br><span class="line"><span class="function"><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> FovAngleY, <span class="comment">//用弧度值表示的垂直视场角</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> AspectRatio, <span class="comment">//纵横比：宽度/高度</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> NearZ, <span class="comment">//近平面距离</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> FarZ<span class="comment">//到远平面距离</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMMATRIX M2=<span class="built_in">XMMatrixPerspectiveFovLH</span>(<span class="number">0.25f</span>*XM_PI,<span class="number">1092</span>/<span class="number">1080</span>,<span class="number">1.0</span>,<span class="number">1000</span>);</span><br><span class="line">	cout&lt;&lt;M2;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2.41421 0       0       0<br>0       2.41421 0       0<br>0       0       1.001   1<br>0       0       -1.001  0</p>
+</blockquote>
+<h3 id="曲面细分阶段"><a href="#曲面细分阶段" class="headerlink" title="曲面细分阶段"></a>曲面细分阶段</h3><p>利用镶嵌化处理技术对网格中的三角形进行细分，以此来增加物体表面上的三角形数量。</p>
+<p>再将这些新增的三角形偏移到适当的位置，使网格表现出更加细腻的细节</p>
+<ul>
+<li>曲面细分的优点</li>
+</ul>
+<ol>
+<li>实现LOD</li>
+<li>在内存中只维护<strong>低模</strong>，在有需求时动态增添三角形，从而节省资源</li>
+<li>处理动画和物理时使用低模，渲染时使用处理过的高模</li>
+</ol>
+<h3 id="几何着色器阶段"><a href="#几何着色器阶段" class="headerlink" title="几何着色器阶段"></a>几何着色器阶段</h3><p>几何着色器阶段接受输入是完整的图元</p>
+<p>与顶点着色器相比，几何着色器可以创建或者修改几何体</p>
+<p>比如，将一个点或者一条线扩展为一个四边形</p>
+<h3 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h3><p>对视锥体之外的物体进行裁剪</p>
+<blockquote>
+<p>苏泽兰-霍奇曼裁剪算法</p>
+</blockquote>
+<h3 id="光栅化阶段"><a href="#光栅化阶段" class="headerlink" title="光栅化阶段"></a>光栅化阶段</h3><p>光栅化阶段(RS,栅格化)：投影主屏幕上的3D三角形计算出对应的像素颜色</p>
+<ul>
+<li>视口变换：裁剪完成后，硬件通过透视除法将物体从齐次空间变换为规格化设备坐标（NDC）。此后顶点<code>x、y</code>坐标会以像素单位表示</li>
+<li>背面剔除：将背面朝向的三角形从渲染流水线中除去</li>
+<li>透视矫正插值：为得到2D空间的顶点的插值属性，对3D空间的三角形属性进行线性插值，即利用三角形属性计算出内部像素的属性</li>
+<li>像素着色器阶段(pixel shader)：针对每个像素片段进行处理，根据顶点的差值属性作为输入来计算像素颜色，亦可实现如逐像素光照(per-pixel lighting)、反射以及阴影等复杂效果</li>
+<li>输入合并阶段：上述阶段生成的像素片段送至渲染流水线的输出合并阶段(OM)。丢弃部分像素(如未通过深度测试等)，剩下的写入后台缓冲区，执行混合(blend)操作（透明效果也混合实现的）</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2345,180 +2611,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="post-title-link" itemprop="url">用Niagara的Ribbon绘制样条线</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:00+08:00">2020-05-21</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:39:19" itemprop="dateModified" datetime="2021-08-02T16:39:19+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="cy_cmt_count" data-xid="2020/05/21/用Niagara绘制样条线/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>最近由于项目需要用到鼠标在场景利绘制曲线，方案有很多，比如SplineMesh，ProceduralMesh 等等，回头一想用特效也可以试试</p>
-<p>本案例使用虚幻4.22版本演示</p>
-<p>用Niagara的Ribbon绘制样条线的功能</p>
-</blockquote>
-<p><img src="https://img.supervj.top/img/niagara/niagara_0.gif"></p>
-<h5 id="模块函数-NiagaraModuleScript"><a href="#模块函数-NiagaraModuleScript" class="headerlink" title="模块函数 NiagaraModuleScript"></a>模块函数 NiagaraModuleScript</h5><ul>
-<li>模块函数是Niagara系统的函数库，是niagara系统最主要区别于老例子系统的其中一点</li>
-</ul>
-<p>创建函数库 <code>NM_Test1</code></p>
-<p><img src="https://img.supervj.top/img/niagara/niagara_1.jpg"></p>
-<p>完成如上节点连接</p>
-<p>注意：变量的前缀是对应模块，这个不能随意更改，创建的时候就选好模块会自动添加前缀；如果是系统已有变量，就不需要自己更改名称，如<code>Emitter.age</code>，表示发射器的生命周期</p>
-<ul>
-<li>User.SP：User分类下的Spline变量，本案例用下面参数代替</li>
-<li>Module.Count：函数输入参数，本函数中用于控制发射数量</li>
-<li>SampleSplinePositionByUnitDistanceWS:输入0-1输出曲线从开始到结束的世界空间位置</li>
-<li>ExecutionIndex:当前粒子的序号</li>
-</ul>
-<p>简单描述这个函数的功能就是根据发射粒子在所有发射粒子中的百分比对应到曲线spline的长度百分比</p>
-<h5 id="粒子发射器-Emitter"><a href="#粒子发射器-Emitter" class="headerlink" title="粒子发射器 Emitter"></a>粒子发射器 Emitter</h5><p><img src="https://img.supervj.top/img/niagara/niagara_2.jpg"></p>
-<p>随意创建一个发射器，删除多余节点，配置图所示</p>
-<p>刚开始比较容易混淆的概念是 Emitter的spawn，update与Particle的Spawn，Update的概念</p>
-<ul>
-<li>Emitter针对的就是整个发射器的操作，约等于老系统的Required和部分Spawn的内容，如整个发射器的生命周期，是否循环</li>
-<li>Particle控制每个粒子的属性和功能，如每个粒子的大小颜色等</li>
-<li>不恰当的比喻就是Emitter就是Actor，Particle就是Component</li>
-</ul>
-<p>图中关键节点解释</p>
-<ul>
-<li>创建3个User变量，User变量可以到外部设置</li>
-<li>创建Emitter模块的<code>Emitter.SpawnCount</code>变量，暴力一点可以直接跳过直接用User的</li>
-<li>发射器创建的时候用<code>User.SpawnCount</code>设置<code>Emitter.SpawnCount</code></li>
-<li><code>Emitter.SpawnCount</code>去设置<code>SpawnBurstInstaneous</code>的发射数量</li>
-<li>修改<code>Render</code>模块中的粒子类型为<code>Ribbon</code></li>
-<li>设置Ribbon的宽度</li>
-<li>在Spawn（在Update也可以） 中加上自定义的函数<code>NM_Test1</code>，并把<code>EmitterSpawnCount</code>设置为输入参数</li>
-</ul>
-<h5 id="粒子系统-NiagaraSystem"><a href="#粒子系统-NiagaraSystem" class="headerlink" title="粒子系统 NiagaraSystem"></a>粒子系统 NiagaraSystem</h5><blockquote>
-<p> 汇总所有Emitter的集合，同时可以实例化到场景或者类里的类;同时也可以再次修改Emitter中所有参数</p>
-</blockquote>
-<p><img src="https://img.supervj.top/img/niagara/niagara_3.jpg"></p>
-<p>如图所示，可以使用多个发射器，可以设置User模块的参数，可以拖拽不同发射器的作用时间（类似动画）</p>
-<p>本案例中只需要添加一个发射器</p>
-<h5 id="画线类-DrawItem"><a href="#画线类-DrawItem" class="headerlink" title="画线类 DrawItem"></a>画线类 DrawItem</h5><p><img src="https://img.supervj.top/img/niagara/niagara_4.jpg"></p>
-<ul>
-<li><p>目前版本貌似没有更直观的方法设置Spline变量，强行用设置Actor变量尽然是可以的(lll￢ω￢)</p>
-</li>
-<li><p>提供对外函数<code>AddPoint(FVector)</code>用于添加曲线点</p>
-</li>
-</ul>
-<h5 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h5><blockquote>
-<p>不要忘记开启项目设置里Input模块下的UseMouseForTouch</p>
-</blockquote>
-<p><img src="https://img.supervj.top/img/niagara/niagara_5.jpg"></p>
-<p>蓝图比较简单，简单描述就是在鼠标按下移动后用射线点通过DrawItem添加曲线点</p>
-<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
-<li>用Niagara类绘制曲线模型算是比较简单方便的，Niagara在性能优化上也不错</li>
-<li>曲线在长度到一定程度后会有明显分段情况出现，不够圆滑，目前版本没有公开Ribbon的设置段数的变量</li>
-<li>据说Niagara在4.25才是正式版，目前无法保证bug问题</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2564,14 +2658,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">765k</span>
+    <span title="站点总字数">769k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:35</span>
+    <span title="站点阅读时长">11:39</span>
   </span>
 </div>
 <div class="busuanzi-count">

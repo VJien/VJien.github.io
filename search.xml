@@ -14617,4 +14617,249 @@ piecewise_linear_distribution分段线性分布
         <tag>gameplay</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Lyra技术分析:角色动画</title>
+    <url>/2023/11/14/Lyra_%E5%8A%A8%E7%94%BB/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录一下笔者分析并模仿制作Lyra动画系统的过程和心得, 由于系统非常庞大, 所以会逐步更新记录</p>
+<p>下面所有图片均来自自制工程(自己做一遍才能更好的了解当中的细节)</p>
+<span id="more"></span>
+
+<ul>
+<li>2023.11.16 包含8方向位移, Turn In Place,Jump, Aim</li>
+</ul>
+<h2 id="动画框架"><a href="#动画框架" class="headerlink" title="动画框架"></a>动画框架</h2><p>首先要围绕几个动画类来展开(名称可能有出入)</p>
+<ul>
+<li>ABP_CharacterBase : 基础角色动画蓝图, 模型上指定的就是他</li>
+<li>ALI_AnimLayer: 动画Link接口, 挂载到ABP_CharacterBase 和其他Link动画蓝图类</li>
+<li>ABP_LinkBase: 实现Link逻辑的基类<ul>
+<li>ABP_Link_Pistol : 派生的用于配置手枪的link类</li>
+<li>ABP_Link_Rifle:  同上类推</li>
+</ul>
+</li>
+</ul>
+<p>所以, 基础动画蓝图类里面是搭建好基础的状态机, 但是几乎不配置动画资源</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116160139071.png" alt="image-20231116160139071"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116160146096.png" alt="image-20231116160146096"></p>
+<p>而LInk基类里去处理每一层的逻辑</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116160215057.png" alt="image-20231116160215057"></p>
+<p>但是动画资源都是通过变量配置</p>
+<p>然后每一个派生的Link类就负责配置这些变量</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116160450502.png" alt="image-20231116160450502"></p>
+<blockquote>
+<p>此举比较好的解决了动画蓝图不容易解耦和协作开发的缺点, 同时也非常方便后期的扩展</p>
+</blockquote>
+<p>还需要强调的一个技术点</p>
+<p>Lyra的动画蓝图更新都放在线程安全函数里, 所有依赖的函数都是线程安全函数(不会出现以前在极端情况下的游戏线程的属性与动画线程的竞争), 同时使用了大量的动画节点回调函数和动态参数绑定技术</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116163929946.png" alt="image-20231116163929946"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116163830409.png" alt="image-20231116163830409"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116163750593.png"></p>
+<h2 id="基础移动部分"><a href="#基础移动部分" class="headerlink" title="基础移动部分"></a>基础移动部分</h2><p>首先关注关键的一点, Lyra的8方向位移<strong>不依赖动画混合空间</strong></p>
+<p>然后需要开启目前5.3还处于beta的移动库插件</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116163538283.png" alt="image-20231116163538283"></p>
+<p><strong>重点: 使用的是4个方向的动画序列</strong>, 动画的选择来自方向枚举的判定</p>
+<p>比如start的动画选择在动画序列的On Become阶段</p>
+<blockquote>
+<p>start和stop都是Sequence Evaluator, cycle是Sequence player</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116162006754.png" alt="image-20231116162006754"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116161955623.png" alt="image-20231116161955623"></p>
+<p>Lyra的start和stop动画只会选择一次, cycle动画会持续更换, 注意这个就需要用到惯性混合</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116162134218.png" alt="image-20231116162134218"></p>
+<p>这里就非常容易忘记加上Inertialization节点, 为了防止出现问题无从查找(笔者找了很长时间就是没发现为什么循环动画跳帧), 那么就在一开始就在主动画蓝图的最后面加上这个节点</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116162300701.png" alt="image-20231116162300701"></p>
+<p>归纳一下start/cycle/stop 3个动画的机制</p>
+<ul>
+<li>start<ul>
+<li>setup : 根据方向确认动画, 设置动画时间为0</li>
+<li>update: 驱动Distance Matching</li>
+</ul>
+</li>
+<li>cycle<ul>
+<li>update: 根据方向刷新动画, 根据速度缩放动画速率(Distance Matching)</li>
+</ul>
+</li>
+<li>stop<ul>
+<li>setup: 同start</li>
+<li>stop: 预测停止距离并根据需求进行Distance Matching或者推进动画</li>
+</ul>
+</li>
+</ul>
+<h2 id="脚步适配"><a href="#脚步适配" class="headerlink" title="脚步适配"></a>脚步适配</h2><p>一切的运动适配都是为了解决滑步的问题, 从起步到循环到停步都是如此</p>
+<p>这里建议先看一下UE官方讲解高级动画移动技术的<a href="https://docs.unrealengine.com/5.3/zh-CN/locomotion-in-unreal-engine/">文档</a></p>
+<p>或者笔者旧版本的笔记</p>
+<ul>
+<li><a href="https://supervj.top/2021/08/26/%E5%8A%A8%E7%94%BB%EF%BC%9AStrideWarping/?highlight=warping">动画：脚步适配/Strider Warping</a></li>
+<li><a href="https://supervj.top/2021/09/02/%E5%8A%A8%E7%94%BB%EF%BC%9AOrientationWarping/?highlight=warping">动画:朝向适配OrientationWarping</a></li>
+</ul>
+<p>因为很多地方都有点晦涩难懂, 所以还是建议在有一定了解以后再来看Lyra的这部分内容</p>
+<blockquote>
+<p><strong>这套技术依赖Root Motion, 意味着所有动画都必须是Root Motion动画, 包括所有的循环动画</strong></p>
+</blockquote>
+<p>起步和停步动画必须生成曲线信息, 在插件中已经提供了动画修改器</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116170601868.png" alt="image-20231116170601868"></p>
+<p>产生的曲线是如下图的</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116170642359.png" alt="image-20231116170642359"></p>
+<p>有几点注意</p>
+<ul>
+<li>起步都是从0开始到最终的位移距离</li>
+<li>停步都是从负值到0</li>
+</ul>
+<p>这样做的目的是也是为了方便计算</p>
+<h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>因为使用的是Evaluator, 时间需要我们自己推进, 所以初始化时一定不要忘记将时间设置为0(其他类似的类似)</p>
+<p>我们需要计算出两帧之间的距离偏移, 然后将这个关键参数输入给<code>AdvanceTimeByDistanceMatching</code>函数</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171608419.png" alt="image-20231116171608419"></p>
+<blockquote>
+<p>因为推进的是时间, 所以归根结底改动的是速率, 这一步没有对步伐进行调整</p>
+</blockquote>
+<p>而这个距离计算比较简单, 就是比较当前帧数与上一帧的位移偏差</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171354361.png" alt="image-20231116171354361"></p>
+<p>这里为什么自己计算而不用移动组件里的信息?  因为要考虑两边的时序问题和多线程问题</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171412579.png" alt="image-20231116171412579"></p>
+<p>然后在外面使用现在已经正式版本的两个适配节点, 用于计算身体旋转和步伐大小适配</p>
+<p>前者后面讲, 后者就是用来弥补只有动画速率调整带来的问题, </p>
+<p>所有Lyra的思路就是 在一定缩放动画速率的基础上加上步伐的适配, 两者结合来让脚步更好的表现</p>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171642367.png" alt="image-20231116171642367"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171637252.png" alt="image-20231116171637252"></p>
+<p>循环与起步没太大的区别, 动画切换上面也提到过了</p>
+<h3 id="停步"><a href="#停步" class="headerlink" title="停步"></a>停步</h3><p>停步相对复杂, 因为我们需要计算出我们停止的位置, 在插件库里封装了一个比较好用的函数(实现方式在移动组件内, 以前需要自己抄一遍出来)</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116171915158.png" alt="image-20231116171915158"></p>
+<p>原理: 根据预测的停止距离, 找到合适的动画曲线上的时间点, 将动画直接推进到这个时间点开始播放</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116172241223.png" alt="image-20231116172241223"></p>
+<p>比如剩余距离是45, 那么就在上图的时间点开始播放余下动画</p>
+<blockquote>
+<p>这一步有个前提, 你停止的距离要小于等于动画的最大移动距离, 所以停止动画适合做的比较长一点</p>
+</blockquote>
+<p>补充一下, 默认的第三人称角色的移动几乎是瞬间停止的, 需要调整下图几个参数保证有一定的刹车过程</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116172537227.png" alt="image-20231116172537227"></p>
+<p>效果</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//stop1.gif" alt="stop1"></p>
+<h2 id="旋转适配"><a href="#旋转适配" class="headerlink" title="旋转适配"></a>旋转适配</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116173938294.png" alt="image-20231116173938294"></p>
+<p>旋转适配就是之前提到的节点 Orientation Warping做的事情, 目的是解决前后左右中间的4个角度问题</p>
+<p>因为8方向混合空间一定会存在脚步穿帮现象, </p>
+<p>ALS的方案是为左右移动的动画各准备了2个动画分别对应左脚在前和右脚在前(无法根本上解决脚步穿模问题)</p>
+<p>使命召唤这类大作的方案是在ALS的基础上再准备一个扭胯的过渡动画处理脚步混合问题</p>
+<p>而<code>Orientation Warping</code>做的其实就是控制中轴线的骨骼的旋转来让下半身进行一定的旋转, 讲向前动画匹配到左右45度, 向后动画匹配两个135度</p>
+<p>这个角度计算通过已有接口就可以直接获取到, 取值范围是[-180,180]</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116173852513.png" alt="image-20231116173852513"></p>
+<p>看一下效果</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//8dire.gif" alt="8dire"></p>
+<h2 id="回转运动"><a href="#回转运动" class="headerlink" title="回转运动"></a>回转运动</h2><p>这个是比较特殊的一个机制, 很多案例里并没有这个机制的存在,</p>
+<p>先看一下回转运动即Pivot的动画资源</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//pivot_seq.gif" alt="pivot_seq"></p>
+<p>上图是往右边的pivot运动, 即朝向右边运动然后急刹车往左边运动</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116194200228.png" alt="image-20231116194200228"></p>
+<p>看Distance曲线是从负值到正直的变化曲线</p>
+<p>具体解释一下</p>
+<p>回转运动即往一个方向运动时立马超对立方向给与加速度, 大白话就是按A向左运动的过程中立马切换成按D向右运动的短时间运动</p>
+<p>很多时候我们不处理这个过程也无伤大雅, 毕竟没有谁一直会来回按A/D或者W/S</p>
+<p>对比一下两者的视频</p>
+<ul>
+<li>有pivot</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//pivot.gif" alt="pivot"></p>
+<ul>
+<li>没有pivot</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//pivot_no.gif" alt="pivot_no"></p>
+<p>下图是回转运动的状态机图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116192318701.png" alt="image-20231116192318701"></p>
+<p>不得不提现在UE5的状态机确实非常优雅, Alias节点用的好可以避免很多蜘蛛网的产生</p>
+<p>我们只在start和cycle状态会进入到pivot运动, 所以alias节点这样选择</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116192412289.png" alt="image-20231116192412289"></p>
+<p>至于条件, 那么就是当前速度与加速度相反的时候</p>
+<p>然后是回转运动的状态机</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116192504953.png" alt="image-20231116192504953"></p>
+<p>这里就要解释一下了, 为什么要两个一模一样的状态机来回跳转</p>
+<p>这个有点像有些案例里面的开火状态机,  你在这个pivot状态还没有结束的时候立马再触发一次pivot, 那么原有状态机是不能满足立马重新开始并很好的融合的</p>
+<p>所以比较取巧的方法是用2个一样的pivot状态来回切换</p>
+<p>重复触发的条件有两个</p>
+<ul>
+<li>速度与加速度相反</li>
+<li>当前加速度与上一次加速度相反</li>
+</ul>
+<p>然后看状态机内部的实现, 初始化的时候选择动画序列, 并记录当前的加速度</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116192752428.png" alt="image-20231116192752428"></p>
+<p>刷新的逻辑稍微多一点</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116192824998.png" alt="image-20231116192824998"></p>
+<p>文字描述</p>
+<ul>
+<li>在速度与加速度相反的时候即pivot运动的时候, 用stop的方式做Distance  Matching</li>
+<li>使用的预测终点的方法改成了 <code>Predict Ground Movement Pivot Location</code></li>
+<li>在速度与加速度同方向以后改成常规的类似start的方式处理Distance Matching</li>
+</ul>
+<h2 id="原地转身"><a href="#原地转身" class="headerlink" title="原地转身"></a>原地转身</h2><p>原地转身即Turn In Place</p>
+<p>Lyra也使用了常规手法, 即角色朝着Controller面朝方向转动, 模型用Rotation  Root Bone做反向补偿, 造成角色转动而模型不转的假象</p>
+<p>核心就是计算一个动态的<code>RootYawOffset</code>变量</p>
+<p>先看一下每一帧更新的计算逻辑</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116195419064.png" alt="image-20231116195419064"></p>
+<p>不得不提这个枚举, 一共三个成员</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">UENUM</span>(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ERsAnimTurnInPlaceRootOffsetMode</span>:</span> uint8</span><br><span class="line">&#123;</span><br><span class="line">    Accumulate = <span class="number">0</span>,</span><br><span class="line">    HoldOn,</span><br><span class="line">    BlendOut</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>解释一下3个状态的作用</p>
+<ul>
+<li>Accumulate : 累计状态, 即需要转身的状态, 下半身要进行反补的状态, 根据你鼠标的转向得出插值, 反补给模型</li>
+<li>Hold On: 意图是保持住, 这里没有用到, 应该是在一些情况下固定在一定角度然后再跟随鼠标移动的状态</li>
+<li>Blend Out:  淡出状态, 身体慢慢插值到鼠标面朝方向的状态, 即Turn In Place播放转身动画时的状态</li>
+</ul>
+<p>核心就是<code>RootYawOffset</code>处于Accumulate的时候的计算</p>
+<p>首先只要是Idle状态机没有处于Blend Out的时候, 都要把状态设置成Accumulate 并且刷新<code>RootYawOffset</code>的值</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116200935967.png" alt="image-20231116200935967"></p>
+<p>看实现是围绕着两条曲线进行</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116202126967.png" alt="image-20231116202126967"></p>
+<ul>
+<li>RemainingTurnYaw: 旋转的角度变化</li>
+<li>TurnYawWeight: 转身状态的权重</li>
+</ul>
+<p>曲线生成依赖Lyra项目的<code>TurnYawAnimModifier</code>修改器, 需要的话要把这个修改器导出来到自己项目</p>
+<p>角度除权重得到曲线值, 非零的时候将每一帧的变化值对<code>RootYawOffset</code>进行修改</p>
+<blockquote>
+<p>这里有个问题, 为什么是除法? 而不是乘法</p>
+</blockquote>
+<p>然后就要看状态机</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116200001186.png" alt="image-20231116200001186"></p>
+<p>在面朝方向与角色朝向插值达到一定角度以后开始进入Turn In Place Rotation状态机</p>
+<p>Rotation状态机与下面的Recovery状态机是同一个动画资源, 只不过上面的播放的时间决定下面的起始时间,</p>
+<p>用 Turn In Place Rotation Time变量记录</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116200610293.png" alt="image-20231116200610293"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116200106900.png" alt="image-20231116200106900"></p>
+<p>Turn In Place Rotation状态机主要更新了这个变量</p>
+<p>在重复达到触发转身动画的条件时会重复进入Rotation状态机</p>
+<p>这里只有动画表现, 这个不是很难理解</p>
+<p>看效果<img src="https://raw.githubusercontent.com/VJien/img/master//turn.gif" alt="turn"></p>
+<h2 id="瞄准"><a href="#瞄准" class="headerlink" title="瞄准"></a>瞄准</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116203706745.png" alt="image-20231116203706745"></p>
+<p>瞄准Lyra用了单独的一个叠加层来处理</p>
+<p>计算非常简单</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116203752264.png" alt="image-20231116203752264"></p>
+<p>因为前面已经计算了为了原地转身的<code>RootYawOffset</code>值, 这个反一下刚好是Aim的Yaw应该有的角度</p>
+<h2 id="跳跃"><a href="#跳跃" class="headerlink" title="跳跃"></a>跳跃</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116204604030.png" alt="image-20231116204604030"></p>
+<p>起跳区分了手动起跳和被动掉落</p>
+<p>凭证是Z方向的速度</p>
+<p>唯一需要重点看一下的是Land的状态</p>
+<p>Land的动画也需要Distance Matching来适配动作, 但是方向不同, 他是Z方向的距离</p>
+<p>计算得到的距离地面的距离来决定播放动画的位置</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116204817259.png" alt="image-20231116204817259"></p>
+<p>这个距离比较特殊, 用到的是非线程安全的函数, 原因是需要用到移动组件的数据, 看来也是没办法</p>
+<p>Lyra用的方法如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116204949461.png" alt="image-20231116204949461"></p>
+<p>直接从移动组件拿数据, 不过如果你不想用代码, 蓝图又访问不到这个数据, 那么蓝图也有一个接口可以得到这个距离, 如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116204830867.png" alt="image-20231116204830867"></p>
+<p>到此跳跃自己的状态机都可以了, 但是还需要一个落地的叠加状态</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116205137143.png" alt="image-20231116205137143"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116205145246.png" alt="image-20231116205145246"></p>
+<p>重点就是落地时候的叠加动画</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116205243423.png" alt="image-20231116205243423"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116205417818.png" alt="image-20231116205417818"></p>
+<p>根据落地之前的计时来决定混合的权重, 意味着轻轻的一跳就叠加一点点, 反之更多</p>
+<p>效果</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//jump.gif" alt="jump"></p>
+]]></content>
+      <categories>
+        <category>animation</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+      </tags>
+  </entry>
 </search>

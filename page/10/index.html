@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,282 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" class="post-title-link" itemprop="url">用GitLab搭建本地代码仓库</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-18T00:00:00+08:00">2020-08-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:18:21" itemprop="dateModified" datetime="2021-08-02T16:18:21+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/" class="cy_cmt_count" data-xid="2020/08/18/用GitLab搭建本地仓库/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>git 是一种基于命令的版本控制系统，全命令操作，没有可视化界面</p>
+<p>gitlab 是一个基于git实现的在线代码仓库软件，提供web可视化管理界面，通常用于企业团队内部协作开发</p>
+<p>当然还有github也可以用作代码仓库，较多用于个人</p>
+</blockquote>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><h5 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h5><p>git的使用和安装推荐本人另外一篇博客<a href="%5Bhttps://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/%5D(https://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/)">git使用指北</a></p>
+<h5 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h5><p>推荐下载VMwareWorkstation，可以到<a target="_blank" rel="noopener" href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html">官网下载</a>,然后百度搜索绿色方法</p>
+<p>然后我们安装Linux镜像，本人使用的是Ubuntu20.4版本，这个网上一搜一大堆，随意选择版本，初学者可以选择桌面版本，如这里<a target="_blank" rel="noopener" href="https://cn.ubuntu.com/download">下载</a></p>
+<p>然后一路安装，运行，设置root账户等</p>
+<p>这里推荐虚拟机的使用2核，至少使用超过4GB的内存，本人直接上40GB</p>
+<h3 id="搭建基本环境"><a href="#搭建基本环境" class="headerlink" title="搭建基本环境"></a>搭建基本环境</h3><h5 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h5><p>如果是桌面版，右键进入终端，非桌面版忽略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install ca-certificates curl openssh-server postfix</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="安装GitLab"><a href="#安装GitLab" class="headerlink" title="安装GitLab"></a>安装GitLab</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">curl -LO https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh</span><br></pre></td></tr></table></figure>
+
+<p>到<code>tmp</code>目录安装gitlab，当然你可以自己选择目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash /tmp/script.deb.sh</span><br></pre></td></tr></table></figure>
+
+<p>该脚本将设置您的服务器以使用GitLab维护的存储库。这使您可以使用与其他系统软件包相同的软件包管理工具来管理GitLab。完成后，您可以使用以下<code>apt</code>命令安装实际的GitLab应用程序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<p>此条命令将在系统上安装必要组件</p>
+<blockquote>
+<p>如果在安装gitlab使有如下报错，可以今夏如下操作</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># apt-get install gitlab-ce</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line">E: Unable to locate package gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<p>修改安装脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list.d/gitlab_gitlab-ce.list</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><strong>OLD</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main</span><br><span class="line">deb-src https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p><strong>NEW</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main</span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>再次执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install gitlab-ce</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：<a target="_blank" rel="noopener" href="https://gitlab.com/gitlab-org/gitlab-foss/-/issues/2370">https://gitlab.com/gitlab-org/gitlab-foss/-/issues/2370</a></p>
+<h5 id="修改防火墙"><a href="#修改防火墙" class="headerlink" title="修改防火墙"></a>修改防火墙</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw status</span><br></pre></td></tr></table></figure>
+
+<p>检查防火墙状态，如果没有防火墙需要apt安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow http</span><br><span class="line">sudo ufw allow https</span><br><span class="line">sudo ufw allow OpenSSH</span><br></pre></td></tr></table></figure>
+
+<p>然后通过上述3条命令让防火墙支持<code>http\https\OpenSSH</code></p>
+<p>再次检查以后大概会有如下状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Status: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">80                         ALLOW       Anywhere                  </span><br><span class="line">22                         ALLOW       Anywhere                  </span><br><span class="line">80/tcp                     ALLOW       Anywhere                  </span><br><span class="line">443/tcp                    ALLOW       Anywhere                  </span><br><span class="line">OpenSSH                    ALLOW       Anywhere                  </span><br><span class="line">80 (v6)                    ALLOW       Anywhere (v6)             </span><br><span class="line">22 (v6)                    ALLOW       Anywhere (v6)             </span><br><span class="line">80/tcp (v6)                ALLOW       Anywhere (v6)             </span><br><span class="line">443/tcp (v6)               ALLOW       Anywhere (v6)             </span><br><span class="line">OpenSSH (v6)               ALLOW       Anywhere (v6) </span><br></pre></td></tr></table></figure>
+
+<h5 id="修改GitLab配置文件"><a href="#修改GitLab配置文件" class="headerlink" title="修改GitLab配置文件"></a>修改GitLab配置文件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
+
+<p>该文件比较大，在顶部找到``external_url `，按照如下注释修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url &#x27;https://example.com&#x27; // 此处修改为您的域名或ip地址，不用加端口</span><br></pre></td></tr></table></figure>
+
+<p>然后查找<code>letsencrypt[&#39;contact_emails&#39;]</code>,如果没有先忽略跳过，如果有则进行如下修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">letsencrypt[&#x27;contact_emails&#x27;] = [&#x27;sammy@example.com&#x27;] // 此处修改为您的邮箱地址</span><br></pre></td></tr></table></figure>
+
+<p>然后重新配置GitLab</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure // 每次修改配置文件都需要重新配置</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>本人在这一步遇到一个报错，最后一句是<code>Please upgrade your ACME client to a version that supports ACMEv2 / RFC</code></p>
+<p>解决方法是在 <code>/etc/gitlab/gitlab.rb</code> 中添加 <code>letsencrypt[&#39;enable&#39;] = false</code></p>
+</blockquote>
+<p>重启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+
+<h5 id="GitLab常用命令"><a href="#GitLab常用命令" class="headerlink" title="GitLab常用命令"></a>GitLab常用命令</h5><table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sudo gitlab-ctl reconfigure</td>
+<td>重新加载配置，每次修改<code>/etc/gitlab/gitlab.rb</code>文件之后执行</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl status</td>
+<td>查看 GitLab 状态</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl start</td>
+<td>启动 GitLab</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl stop</td>
+<td>停止 GitLab</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl restart</td>
+<td>重启 GitLab</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl tail</td>
+<td>查看所有日志</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl tail nginx/gitlab_acces.log</td>
+<td>查看 nginx 访问日志</td>
+</tr>
+<tr>
+<td>sudo gitlab-ctl tail postgresql</td>
+<td>查看 postgresql 日志</td>
+</tr>
+<tr>
+<td>systemctl enable gitlab-runsvdir.service</td>
+<td>开机启动</td>
+</tr>
+<tr>
+<td>systemctl disable gitlab-runsvdir.service</td>
+<td>禁止开机自启动</td>
+</tr>
+</tbody></table>
+<h5 id="首次登陆"><a href="#首次登陆" class="headerlink" title="首次登陆"></a>首次登陆</h5><p>在Web浏览器中访问GitLab服务器的域名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://example.com // 您external_url配置的地址</span><br></pre></td></tr></table></figure>
+
+<p>第一次访问需要设置管理员密码，记得保存，之后如果没有gitlab账户就需要创建一个并登陆，然后就可以正常创建项目了</p>
+<h3 id="证书问题"><a href="#证书问题" class="headerlink" title="证书问题"></a>证书问题</h3><p>有时候因为各种原因需要修改仓库端的虚拟机ip，也就意味着gitlab需要修改ip地址</p>
+<p>这些操作很基础，在上面也讲了，但是修改IP以后本人发现原有的证书就无效了，应该是第一次部署的时候默认会生成我们IP对应的证书，我这边的第一次部署的ip地址是<code>192.168.1.111</code>如下图</p>
+<p><img src="https://img.supervj.top/img/advVR/image-20201021104015652.png" alt="image-20201021104015652"></p>
+<p>后面因为网段改为了2，所以整体把虚拟机和gitlab地址都改成了2段，然后运行gitlab就发现如下日志</p>
+<p><img src="https://img.supervj.top/img/advVR/image-20201021104134810.png" alt="image-20201021104134810"></p>
+<p>直接告诉我招不到证书文件，于是翻遍资料最后找到一个粗暴的方法，手动生成证书文件</p>
+<ol>
+<li>创建私钥和证书请求</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -nodes -newkey rsa:<span class="number">2048</span> -keyout <span class="number">192.168</span><span class="number">.2</span><span class="number">.110</span>.key -out <span class="number">192.168</span><span class="number">.2</span><span class="number">.110</span>.csr</span><br></pre></td></tr></table></figure>
+
+<p>上面的ip地址需要替换你对应的地址</p>
+<p>私钥会提示输入密码，记住了跟着提示输入</p>
+<p>输入以后跟着提示输入你的信息，我这边老老实实的输入了正确信息，不确定可否随意输入</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Country Name (2 letter code) [XX]:CN</span><br><span class="line">State or Province Name (full name) []:zhejiang</span><br><span class="line">Locality Name (eg, city) [Default City]:hangzhou</span><br><span class="line">Organization Name (eg, company) [Default Company Ltd]:xiaoshan</span><br><span class="line">Organizational Unit Name (eg, section) []:xiaoshan</span><br><span class="line">Common Name (eg, your name or your server&#x27;s hostname) []:xiaoshan</span><br><span class="line">Email Address []:自己的邮箱地址</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>移除私钥的密码短语</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -v /etc/gitlab/ssl/192.168.2.110.&#123;key,original&#125;</span><br><span class="line">openssl rsa -in /etc/gitlab/ssl/192.168.2.110</span><br><span class="line">-out /etc/gitlab/ssl/192.168.2.110.key</span><br><span class="line">rm -v /etc/gitlab/ssl/192.168.2.110.original</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建证书</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -days 1460 -in /etc/gitlab/ssl/192.168.2.110.csr -signkey /etc/gitlab/ssl/192.168.2.110.key -out /etc/gitlab/ssl/192.168.2.110.crt</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>设置权限</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">chmod</span> <span class="number">600</span> /etc/gitlab/ssl/<span class="number">192.168.2.110</span>.*</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有文章提示可以删除<code>.csr</code>文件，我这里没删除也没遇到问题</p>
+<p>如果需要删除，运行<code>rm -v /etc/gitlab/ssl/192.168.2.110.csr</code></p>
+</blockquote>
+<p>然后重新配置gitlab，重启gitlab就可以了</p>
+<h3 id="仓库操作"><a href="#仓库操作" class="headerlink" title="仓库操作"></a>仓库操作</h3><p>创建仓库流程于github非常类似而且非常简单</p>
+<p><img src="https://img.supervj.top/img/gitlab/image-20200818071803709.png" alt="image-20200818071803709"></p>
+<p>然后我们需要为项目添加成员，如下图输入其他成员的邮箱或者用户名，添加以后其他用户自己登陆后也能看到项目了</p>
+<p><img src="https://img.supervj.top/img/gitlab/image-20200818073638776.png" alt="image-20200818073638776"></p>
+<p>完成仓库操作以后可以添加SSH Key来允许用户提交</p>
+<p><img src="https://img.supervj.top/img/gitlab/image-20200818071718978.png" alt="image-20200818071718978"></p>
+<p>然后我们可以在windows端clone下来，就可以正常git流程操作了</p>
+<p><img src="https://img.supervj.top/img/oss/image-20200818071856868.png" alt="image-20200818071856868"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2489,274 +2765,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/24/LearnDX12_RenderPipline/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/06/24/LearnDX12_RenderPipline/" class="post-title-link" itemprop="url">DX学习笔记（三）：渲染流水线</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-24T00:00:00+08:00">2020-06-24</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:40:37" itemprop="dateModified" datetime="2021-08-02T16:40:37+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/06/24/LearnDX12_RenderPipline/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/06/24/LearnDX12_RenderPipline/" class="cy_cmt_count" data-xid="2020/06/24/LearnDX12_RenderPipline/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>12k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="渲染流水线"><a href="#渲染流水线" class="headerlink" title="渲染流水线"></a>渲染流水线</h2><p>平行线最终会相交于<code>消失点</code>，又称为<code>灭点</code></p>
-<p><code>物体重叠</code>：即不同命的物体能够遮挡住其后侧物体的局部</p>
-<p>3D实体对象是通过<code>三角形网格</code>来近似表示的</p>
-<h3 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h3><p>分量式乘法:<code>(r,g,b)*(a,b,c)=(ra,gb,bc)</code></p>
-<h5 id="128位颜色"><a href="#128位颜色" class="headerlink" title="128位颜色"></a>128位颜色</h5><p>每个分量用浮点表示，即4D向量 (r,g,b,a)</p>
-<p><em><strong>0&lt;=r,g,b,a&lt;=1</strong></em></p>
-<p><code>DirectXMath</code>库对分量式乘法的支持</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CAKKCIBV <span class="title">XMColorModulate</span> <span class="params">(FXMVECTOR C1,FXMVECTOR C2)</span></span>;<span class="comment">//返回C1*C2</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="32位颜色"><a href="#32位颜色" class="headerlink" title="32位颜色"></a>32位颜色</h5><p>每个分量仅分配1个字节，因此每个占用8字节的颜色分量就分别描述256种不同的颜色强度</p>
-<p>即0代表无强度，256代表最大强度</p>
-<p><code>DirectXMath</code>库<code>(include&lt;DirectXPackedVector.h&gt;)</code>在<code>DirectX::PackedVector</code>命名空间提供了相应函数</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> DirectX</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">namespace</span> PackedVector</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">XMCOLOR</span></span></span><br><span class="line"><span class="class">        &#123;</span></span><br><span class="line">            <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">            &#123;</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">                &#123;</span></span><br><span class="line">                    <span class="keyword">uint8_t</span> b;  <span class="comment">// Blue:    0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> g;  <span class="comment">// Green:   0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> r;  <span class="comment">// Red:     0/255 to 255/255</span></span><br><span class="line">            		<span class="keyword">uint8_t</span> a;  <span class="comment">// Alpha:   0/255 to 255/255</span></span><br><span class="line">                    </span><br><span class="line">                &#125;;<span class="keyword">uint32_t</span> c;</span><br><span class="line">                <span class="built_in">XMCOLOR</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">    			<span class="built_in">XMCOLOR</span>(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> XMCOLOR&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">XMCOLOR</span>(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>=(XMCOLOR&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">                <span class="function">XM_CONSTEXPR <span class="title">XMCOLOR</span><span class="params">(<span class="keyword">uint32_t</span> Color)</span> : c(Color) &#123;</span>&#125;</span><br><span class="line">                <span class="built_in">XMCOLOR</span>(<span class="keyword">float</span> _r, <span class="keyword">float</span> _g, <span class="keyword">float</span> _b, <span class="keyword">float</span> _a);</span><br><span class="line">                <span class="function"><span class="keyword">explicit</span> <span class="title">XMCOLOR</span><span class="params">(_In_reads_(<span class="number">4</span>) <span class="keyword">const</span> <span class="keyword">float</span> *pArray)</span></span>;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">operator</span> <span class="title">uint32_t</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> c; &#125;</span><br><span class="line"></span><br><span class="line">                XMCOLOR&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> <span class="keyword">uint32_t</span> Color) &#123; c = Color; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过将<code>[0,255]</code>映射到<code>[0,1]</code>即可完成32位到128位的转换</p>
-<p>转换函数</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">XMVECTOR XM_CALLCONV <span class="title">XMLoadColor</span><span class="params">( <span class="keyword">const</span> XMCOLOR* pSource)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> XM_CALLCONV <span class="title">XMStoreColor</span><span class="params">( XMCOLOR* pDestination, FXMVECTOR V )</span></span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="渲染流水线概述"><a href="#渲染流水线概述" class="headerlink" title="渲染流水线概述"></a>渲染流水线概述</h3><p>渲染流水线(rendering pipeline)是以摄像机位观察视角而生成的2D图像的一系列完整步骤</p>
-<p>​     </p>
-<p><img src="https://img.supervj.top/xuanran.png"></p>
-<h3 id="输入装配阶段"><a href="#输入装配阶段" class="headerlink" title="输入装配阶段"></a>输入装配阶段</h3><p>输入装配阶段：从显存中读取集合数据(顶点和索引，vertex and index)</p>
-<p>再装配为几何图元（几何基元），如三角形和线条</p>
-<ul>
-<li>顶点缓冲区：将顶点与渲染流水线绑定的特殊结构体</li>
-</ul>
-<h5 id="图元拓扑-primitive-topology"><a href="#图元拓扑-primitive-topology" class="headerlink" title="图元拓扑(primitive topology)"></a>图元拓扑(primitive topology)</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> STDMETHODCALLTYPE <span class="title">IASetPrimitiveTopology</span><span class="params">( </span></span></span><br><span class="line"><span class="params"><span class="function">            _In_  D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopology)</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> </span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">D3D_PRIMITIVE_TOPOLOGY</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_UNDEFINED	= <span class="number">0</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_POINTLIST	= <span class="number">1</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST	= <span class="number">2</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP	= <span class="number">3</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= <span class="number">4</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= <span class="number">5</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= <span class="number">10</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= <span class="number">11</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= <span class="number">12</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= <span class="number">13</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= <span class="number">33</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= <span class="number">34</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= <span class="number">35</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= <span class="number">36</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= <span class="number">37</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= <span class="number">38</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= <span class="number">39</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= <span class="number">40</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= <span class="number">41</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= <span class="number">42</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= <span class="number">43</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= <span class="number">44</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= <span class="number">45</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= <span class="number">46</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= <span class="number">47</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= <span class="number">48</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= <span class="number">49</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= <span class="number">50</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= <span class="number">51</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= <span class="number">52</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= <span class="number">53</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= <span class="number">54</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= <span class="number">55</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= <span class="number">56</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= <span class="number">57</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= <span class="number">58</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= <span class="number">59</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= <span class="number">60</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= <span class="number">61</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= <span class="number">62</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= <span class="number">63</span>,</span><br><span class="line">        D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= <span class="number">64</span>,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED	= D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_POINTLIST	= D3D_PRIMITIVE_TOPOLOGY_POINTLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST	= D3D_PRIMITIVE_TOPOLOGY_LINELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST,</span><br><span class="line">        D3D11_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST	= D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST</span><br><span class="line">    &#125; 	D3D_PRIMITIVE_TOPOLOGY;</span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过线列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_LINELIST);</span><br><span class="line"><span class="comment">//通过三角形列表来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"><span class="comment">//通过三角形带来绘制对象</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>点列表 <code>D3D_PRIMITIVE_TOPOLOGY_POINTLIST</code></li>
-<li>线条带 <code>D3D_PRIMITIVE_TOPOLOGY_LINESTRIP</code></li>
-<li>线列表 <code>D3D_PRIMITIVE_TOPOLOGY_LINELIST</code></li>
-<li>三角形带 <code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP</code></li>
-</ul>
-<p><img src="https://img.supervj.top/img/tuyuantuopu_1.jpg"></p>
-<ul>
-<li>剔除(culling)问题：奇数与偶数三角形的绕序(环绕顺序)即装配图元的顶点顺序是不同的</li>
-</ul>
-<p>CPU会对偶数三角形的<code>前两个顶点</code>顺序进行调换已达到有奇数三角形绕序相同</p>
-<blockquote>
-<p>正确的应该是后<strong>两个顶点</strong>顺序调换，而OpenGL中才是前两个顶点调换</p>
-</blockquote>
-<ul>
-<li>三角形列表</li>
-</ul>
-<p><code>D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST</code></p>
-<p>三角形列表与三角形带的区别是，三角形列表的三角形可以彼此分离，所以每n*3个顶点组成n个三角形</p>
-<ul>
-<li>具有邻接数据的图元拓扑</li>
-</ul>
-<p>对于有邻接数据的三角形列表，每个三角形都有3个与之相邻的<code>邻接三角形</code></p>
-<p>借助<code>顶点缓冲区</code>和<code>索引缓冲区</code>将它们随主三角形一并提交至渲染流水线</p>
-<p>并且要把拓扑类型指定为<code>D3D12_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ</code>让渲染流水线知道如何以顶点缓冲区的顶点来构建主三角形和其邻接三角形；</p>
-<p>邻接图元的顶点只作为集合着色器的输入数据，并不会被绘制</p>
-<p><img src="https://img.supervj.top/img/DX/tuyuantuopu_2.jpg"></p>
-<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vertex quad[<span class="number">6</span>]=&#123;</span><br><span class="line">    v0,v1,v2,<span class="comment">//三角形0</span></span><br><span class="line">    v0,v2,v3 <span class="comment">//三角形1</span></span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>绕序</strong>：为三角形指定顶点顺序</li>
-</ul>
-<p>用<code>顶点列表</code>和<code>索引列表</code>组合起来构成三角形</p>
-<p>如</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Vertex v[<span class="number">9</span>]=&#123;v0,v1,v2,v3,v4,v5,v6,v7,v8&#125;;</span><br><span class="line">UINT indexList[<span class="number">24</span>]=&#123;</span><br><span class="line">    <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">3</span>,<span class="number">4</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">4</span>,<span class="number">5</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">5</span>,<span class="number">6</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">6</span>,<span class="number">7</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">7</span>,<span class="number">8</span>,</span><br><span class="line">    <span class="number">0</span>,<span class="number">8</span>,<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="顶点着色阶段"><a href="#顶点着色阶段" class="headerlink" title="顶点着色阶段"></a>顶点着色阶段</h3><ul>
-<li>世界变换：将局部坐标系内的坐标转换到世界坐标系</li>
-<li>世界矩阵：上述变换的矩阵</li>
-</ul>
-<p>$$<br>W=SRT<br>$$</p>
-<ul>
-<li>观察空间:相机的局部坐标系，亦称视觉空间、摄像机空间等</li>
-<li>取景变换：世界空间至观察空间的变换；此变换的矩阵叫做<code>观察矩阵</code></li>
-</ul>
-<p>观察矩阵函数</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV <span class="title">XMMatrixLookAtLH</span></span></span><br><span class="line"><span class="function"><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR EyePosition, </span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR FocusPosition, </span></span></span><br><span class="line"><span class="params"><span class="function">    FXMVECTOR UpDirection</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">XMVECTOR eyePos=<span class="built_in">XMVectorSet</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>,<span class="number">1</span>);</span><br><span class="line">XMVECTOR target=<span class="built_in">XMVectorZero</span>();</span><br><span class="line">XMVECTOR up=<span class="built_in">XMVectorSet</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">XMMATRIX V=<span class="built_in">XMMatrixLookAtLH</span>(eyePos,target,up);<span class="comment">//返回观察矩阵</span></span><br><span class="line">XMVECTOR v2=<span class="built_in">XMVector3TransformCoord</span>(target,V);</span><br><span class="line">cout&lt;&lt;v2;<span class="comment">//输出得到(0,0,173.2),即在观察空间的坐标</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>顶点的投影线：顶点到观察点的连线</li>
-<li>透视投影变换：3D顶点<strong>v</strong>变换至其投影线与3D投影平面的交点<strong>v<sup>、</sup></strong></li>
-</ul>
-<blockquote>
-<p>近平面(近裁剪面)<code>n</code>,远平面<code>f</code>，垂直视场角<code>α</code>，纵横比<code>r</code>，4个参数定义了以原点作为投影的中心，以<code>Z</code>轴进行观察的平截头体</p>
-</blockquote>
-<p>纵横比<br>$$<br>r=w/h<br>$$<br>w:投影窗口的宽度</p>
-<p>h:投影窗口的高度</p>
-<blockquote>
-<p>如果后台缓冲区与投影窗口纵横比不一致，在映射的过程中会产生非均匀缩放（不等比例缩放），导致图像拉伸</p>
-</blockquote>
-<ul>
-<li><p>NDC：规格化设备坐标(Normalized Device Coordinates)</p>
-</li>
-<li><p>透视除法（齐次除法）：顶点与投影矩阵相乘以后，对每个坐标除以<code>w=z</code></p>
-</li>
-<li><p>归一化深度值：通过函数 <code>g(z)</code>把<code>z</code>坐标从<code>[n,f]</code>映射到区间<code>[0,1]</code></p>
-</li>
-</ul>
-<p>$$<br>g(z)=A+ {B \over z}<br>$$</p>
-<ul>
-<li>透视投影矩阵</li>
-</ul>
-<p>$$<br>P=\begin{bmatrix}1\over rtan({\alpha \over 2}) &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 1\over{tan({\alpha\over 2})} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; f\over {f-n} &amp; 1 \<br>0 &amp; &amp; 0 &amp; -nf\over{f-n} &amp; 0<br>\end{bmatrix}<br>$$</p>
-<blockquote>
-<p>在顶点乘以投影矩阵后，集合体会处于所谓的<code>齐次裁剪空间</code>或者<code>投影空间</code></p>
-<p>完成<strong>透视除法</strong>以后，便是**规格化设备坐标(NDC)**了</p>
-</blockquote>
-<ul>
-<li>XMMatrixPerspectiveFovLH</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> XMMATRIX XM_CALLCONV <span class="title">XMMatrixPerspectiveFovLH</span></span></span><br><span class="line"><span class="function"><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> FovAngleY, <span class="comment">//用弧度值表示的垂直视场角</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> AspectRatio, <span class="comment">//纵横比：宽度/高度</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> NearZ, <span class="comment">//近平面距离</span></span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">float</span> FarZ<span class="comment">//到远平面距离</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>示例</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMMATRIX M2=<span class="built_in">XMMatrixPerspectiveFovLH</span>(<span class="number">0.25f</span>*XM_PI,<span class="number">1092</span>/<span class="number">1080</span>,<span class="number">1.0</span>,<span class="number">1000</span>);</span><br><span class="line">	cout&lt;&lt;M2;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>2.41421 0       0       0<br>0       2.41421 0       0<br>0       0       1.001   1<br>0       0       -1.001  0</p>
-</blockquote>
-<h3 id="曲面细分阶段"><a href="#曲面细分阶段" class="headerlink" title="曲面细分阶段"></a>曲面细分阶段</h3><p>利用镶嵌化处理技术对网格中的三角形进行细分，以此来增加物体表面上的三角形数量。</p>
-<p>再将这些新增的三角形偏移到适当的位置，使网格表现出更加细腻的细节</p>
-<ul>
-<li>曲面细分的优点</li>
-</ul>
-<ol>
-<li>实现LOD</li>
-<li>在内存中只维护<strong>低模</strong>，在有需求时动态增添三角形，从而节省资源</li>
-<li>处理动画和物理时使用低模，渲染时使用处理过的高模</li>
-</ol>
-<h3 id="几何着色器阶段"><a href="#几何着色器阶段" class="headerlink" title="几何着色器阶段"></a>几何着色器阶段</h3><p>几何着色器阶段接受输入是完整的图元</p>
-<p>与顶点着色器相比，几何着色器可以创建或者修改几何体</p>
-<p>比如，将一个点或者一条线扩展为一个四边形</p>
-<h3 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h3><p>对视锥体之外的物体进行裁剪</p>
-<blockquote>
-<p>苏泽兰-霍奇曼裁剪算法</p>
-</blockquote>
-<h3 id="光栅化阶段"><a href="#光栅化阶段" class="headerlink" title="光栅化阶段"></a>光栅化阶段</h3><p>光栅化阶段(RS,栅格化)：投影主屏幕上的3D三角形计算出对应的像素颜色</p>
-<ul>
-<li>视口变换：裁剪完成后，硬件通过透视除法将物体从齐次空间变换为规格化设备坐标（NDC）。此后顶点<code>x、y</code>坐标会以像素单位表示</li>
-<li>背面剔除：将背面朝向的三角形从渲染流水线中除去</li>
-<li>透视矫正插值：为得到2D空间的顶点的插值属性，对3D空间的三角形属性进行线性插值，即利用三角形属性计算出内部像素的属性</li>
-<li>像素着色器阶段(pixel shader)：针对每个像素片段进行处理，根据顶点的差值属性作为输入来计算像素颜色，亦可实现如逐像素光照(per-pixel lighting)、反射以及阴影等复杂效果</li>
-<li>输入合并阶段：上述阶段生成的像素片段送至渲染流水线的输出合并阶段(OM)。丢弃部分像素(如未通过深度测试等)，剩下的写入后台缓冲区，执行混合(blend)操作（透明效果也混合实现的）</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2802,14 +2812,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">765k</span>
+    <span title="站点总字数">769k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:35</span>
+    <span title="站点阅读时长">11:39</span>
   </span>
 </div>
 <div class="busuanzi-count">

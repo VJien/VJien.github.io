@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,178 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="post-title-link" itemprop="url">用Niagara的Ribbon绘制样条线</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:00+08:00">2020-05-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:39:19" itemprop="dateModified" datetime="2021-08-02T16:39:19+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/graphics/" itemprop="url" rel="index"><span itemprop="name">graphics</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/21/%E7%94%A8Niagara%E7%BB%98%E5%88%B6%E6%A0%B7%E6%9D%A1%E7%BA%BF/" class="cy_cmt_count" data-xid="2020/05/21/用Niagara绘制样条线/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>最近由于项目需要用到鼠标在场景利绘制曲线，方案有很多，比如SplineMesh，ProceduralMesh 等等，回头一想用特效也可以试试</p>
+<p>本案例使用虚幻4.22版本演示</p>
+<p>用Niagara的Ribbon绘制样条线的功能</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_0.gif"></p>
+<h5 id="模块函数-NiagaraModuleScript"><a href="#模块函数-NiagaraModuleScript" class="headerlink" title="模块函数 NiagaraModuleScript"></a>模块函数 NiagaraModuleScript</h5><ul>
+<li>模块函数是Niagara系统的函数库，是niagara系统最主要区别于老例子系统的其中一点</li>
+</ul>
+<p>创建函数库 <code>NM_Test1</code></p>
+<p><img src="https://img.supervj.top/img/niagara/niagara_1.jpg"></p>
+<p>完成如上节点连接</p>
+<p>注意：变量的前缀是对应模块，这个不能随意更改，创建的时候就选好模块会自动添加前缀；如果是系统已有变量，就不需要自己更改名称，如<code>Emitter.age</code>，表示发射器的生命周期</p>
+<ul>
+<li>User.SP：User分类下的Spline变量，本案例用下面参数代替</li>
+<li>Module.Count：函数输入参数，本函数中用于控制发射数量</li>
+<li>SampleSplinePositionByUnitDistanceWS:输入0-1输出曲线从开始到结束的世界空间位置</li>
+<li>ExecutionIndex:当前粒子的序号</li>
+</ul>
+<p>简单描述这个函数的功能就是根据发射粒子在所有发射粒子中的百分比对应到曲线spline的长度百分比</p>
+<h5 id="粒子发射器-Emitter"><a href="#粒子发射器-Emitter" class="headerlink" title="粒子发射器 Emitter"></a>粒子发射器 Emitter</h5><p><img src="https://img.supervj.top/img/niagara/niagara_2.jpg"></p>
+<p>随意创建一个发射器，删除多余节点，配置图所示</p>
+<p>刚开始比较容易混淆的概念是 Emitter的spawn，update与Particle的Spawn，Update的概念</p>
+<ul>
+<li>Emitter针对的就是整个发射器的操作，约等于老系统的Required和部分Spawn的内容，如整个发射器的生命周期，是否循环</li>
+<li>Particle控制每个粒子的属性和功能，如每个粒子的大小颜色等</li>
+<li>不恰当的比喻就是Emitter就是Actor，Particle就是Component</li>
+</ul>
+<p>图中关键节点解释</p>
+<ul>
+<li>创建3个User变量，User变量可以到外部设置</li>
+<li>创建Emitter模块的<code>Emitter.SpawnCount</code>变量，暴力一点可以直接跳过直接用User的</li>
+<li>发射器创建的时候用<code>User.SpawnCount</code>设置<code>Emitter.SpawnCount</code></li>
+<li><code>Emitter.SpawnCount</code>去设置<code>SpawnBurstInstaneous</code>的发射数量</li>
+<li>修改<code>Render</code>模块中的粒子类型为<code>Ribbon</code></li>
+<li>设置Ribbon的宽度</li>
+<li>在Spawn（在Update也可以） 中加上自定义的函数<code>NM_Test1</code>，并把<code>EmitterSpawnCount</code>设置为输入参数</li>
+</ul>
+<h5 id="粒子系统-NiagaraSystem"><a href="#粒子系统-NiagaraSystem" class="headerlink" title="粒子系统 NiagaraSystem"></a>粒子系统 NiagaraSystem</h5><blockquote>
+<p> 汇总所有Emitter的集合，同时可以实例化到场景或者类里的类;同时也可以再次修改Emitter中所有参数</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_3.jpg"></p>
+<p>如图所示，可以使用多个发射器，可以设置User模块的参数，可以拖拽不同发射器的作用时间（类似动画）</p>
+<p>本案例中只需要添加一个发射器</p>
+<h5 id="画线类-DrawItem"><a href="#画线类-DrawItem" class="headerlink" title="画线类 DrawItem"></a>画线类 DrawItem</h5><p><img src="https://img.supervj.top/img/niagara/niagara_4.jpg"></p>
+<ul>
+<li><p>目前版本貌似没有更直观的方法设置Spline变量，强行用设置Actor变量尽然是可以的(lll￢ω￢)</p>
+</li>
+<li><p>提供对外函数<code>AddPoint(FVector)</code>用于添加曲线点</p>
+</li>
+</ul>
+<h5 id="PlayerController"><a href="#PlayerController" class="headerlink" title="PlayerController"></a>PlayerController</h5><blockquote>
+<p>不要忘记开启项目设置里Input模块下的UseMouseForTouch</p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/niagara/niagara_5.jpg"></p>
+<p>蓝图比较简单，简单描述就是在鼠标按下移动后用射线点通过DrawItem添加曲线点</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
+<li>用Niagara类绘制曲线模型算是比较简单方便的，Niagara在性能优化上也不错</li>
+<li>曲线在长度到一定程度后会有明显分段情况出现，不够圆滑，目前版本没有公开Ribbon的设置段数的变量</li>
+<li>据说Niagara在4.25才是正式版，目前无法保证bug问题</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2200,146 +2372,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="post-title-link" itemprop="url">VsCode配置MaxScript开发环境</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-30T00:00:00+08:00">2020-04-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-17 19:10:02" itemprop="dateModified" datetime="2021-11-17T19:10:02+08:00">2021-11-17</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/dcc/" itemprop="url" rel="index"><span itemprop="name">dcc</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/04/30/vscode%E9%85%8D%E7%BD%AEmax/" class="cy_cmt_count" data-xid="2020/04/30/vscode配置max/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.5k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="开发环境配置流程"><a href="#开发环境配置流程" class="headerlink" title="开发环境配置流程"></a>开发环境配置流程</h3><h5 id="MXSPyCom"><a href="#MXSPyCom" class="headerlink" title="MXSPyCom"></a>MXSPyCom</h5><ol>
-<li>下载GitHub的MXSPyComRelease包,<a target="_blank" rel="noopener" href="https://github.com/techartorg/MXSPyCOM/releases">链接</a></li>
-<li>解压，并将安装包内的<code>MXSPyCOM.exe</code>文件复制到自定义目录</li>
-<li><code>initialize_COM_server.ms</code>脚本放到max对应版本的startup目录中，默认路径是<code>%localappdata%\autodesk\3dsmax\scripts\startup</code></li>
-</ol>
-<h5 id="VsCode"><a href="#VsCode" class="headerlink" title="VsCode"></a>VsCode</h5><ol>
-<li><p>下载LanguageMaxScript插件<img src="https://img.supervj.top/img1.png"></p>
-</li>
-<li><p>设置工作区</p>
-</li>
-<li><p>创建/配置<em><strong>task.json</strong></em>,可以<em><strong>ctrl+e</strong></em>搜索框中输入<code>&gt;task</code>搜索到<code>Configure Default Build Task</code>,在文件内设置如下代码</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;label&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;process&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;C:/MXSPyCOM.exe&quot;</span>,  <span class="comment">//MXSPyCom.exe的路径</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;$&#123;file&#125;&quot;</span>],</span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;reveal&quot;</span>: <span class="string">&quot;always&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;panel&quot;</span>: <span class="string">&quot;new&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
-<li><p>更改快捷键配置,方便调试</p>
-<p><img src="https://img.supervj.top/imgmax2.png"></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;ctrl+e&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.tasks.runTask&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;args&quot;</span>: <span class="string">&quot;Execute in Max&quot;</span>      <span class="comment">//对应任务的名称   </span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpen&quot;</span>  <span class="comment">//原来的ctrl+e功能</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;shift+e&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;workbench.action.quickOpenNavigateNextInFilePicker&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;inFilesPicker &amp;&amp; inQuickOpen&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h5 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h5><ol>
-<li>在工作目录创建后缀为 ms格式的脚本文件</li>
-<li>启动max</li>
-<li>复制如下代码到脚本文件内，按 ctrl+e  调试</li>
-</ol>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rollout rename_rollout <span class="string">&quot;Enter New Base Name&quot;</span></span><br><span class="line">    (</span><br><span class="line">        edittext base_name <span class="string">&quot;&quot;</span></span><br><span class="line">        button rename_them <span class="string">&quot;RENAME&quot;</span></span><br><span class="line">        On rename_them pressed <span class="keyword">do</span> </span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">if</span> base_name.text!=<span class="string">&quot;&quot;</span> <span class="keyword">do</span> (</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> selection <span class="keyword">do</span> i.name=uniqueName base_name.text</span><br><span class="line">            ) </span><br><span class="line">        ) </span><br><span class="line">    )</span><br><span class="line">    CreateDialog rename_rollout <span class="number">250</span> <span class="number">50</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>max生成如下窗口</li>
-</ol>
-<p><img src="https://img.supervj.top/img2.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2385,14 +2419,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">765k</span>
+    <span title="站点总字数">769k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:35</span>
+    <span title="站点阅读时长">11:39</span>
   </span>
 </div>
 <div class="busuanzi-count">
