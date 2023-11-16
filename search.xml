@@ -14560,4 +14560,61 @@ piecewise_linear_distribution分段线性分布
         <tag>vr</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Lyra技术分析:输入方式与GAS技能触发</title>
+    <url>/2023/11/16/Lyra%E6%8A%80%E8%83%BD%E8%BE%93%E5%85%A5/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文研究一下Lyra技能系统的输入方式触发方式</p>
+<span id="more"></span>
+
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="传统的GAS技能触发方式"><a href="#传统的GAS技能触发方式" class="headerlink" title="传统的GAS技能触发方式"></a>传统的GAS技能触发方式</h2><p>GAS中每个技能(GA)通过<code>UAbilitySystemComponent::GiveAbility(const FGameplayAbilitySpec&amp; Spec)</code>添加</p>
+<p>在这个spec里面有一个<code>int32   InputID;</code>成员变量, 这个是用来快捷触发技能用的</p>
+<p>然后看技能组件内的代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UAbilitySystemComponent::BindAbilityActivationToInputComponent</span><span class="params">(UInputComponent* InputComponent, FGameplayAbilityInputBinds BindInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	UEnum* EnumBinds = BindInfo.<span class="built_in">GetBindEnum</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">SetBlockAbilityBindingsArray</span>(BindInfo);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(int32 idx=<span class="number">0</span>; idx &lt; EnumBinds-&gt;<span class="built_in">NumEnums</span>(); ++idx)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">const</span> FString FullStr = EnumBinds-&gt;<span class="built_in">GetNameStringByIndex</span>(idx);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// Pressed event</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">(FName(*FullStr), IE_Pressed)</span></span>;</span><br><span class="line">			AB.ActionDelegate.<span class="built_in">GetDelegateForManualSet</span>().<span class="built_in">BindUObject</span>(<span class="keyword">this</span>, &amp;UAbilitySystemComponent::AbilityLocalInputPressed, idx);</span><br><span class="line">			InputComponent-&gt;<span class="built_in">AddActionBinding</span>(AB);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Released event</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">FInputActionBinding <span class="title">AB</span><span class="params">(FName(*FullStr), IE_Released)</span></span>;</span><br><span class="line">			AB.ActionDelegate.<span class="built_in">GetDelegateForManualSet</span>().<span class="built_in">BindUObject</span>(<span class="keyword">this</span>, &amp;UAbilitySystemComponent::AbilityLocalInputReleased, idx);</span><br><span class="line">			InputComponent-&gt;<span class="built_in">AddActionBinding</span>(AB);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将一个枚举转换为int绑定到每个技能触发按键事件上</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116152815806.png" alt="image-20231116152815806"></p>
+<p>在收到回调事件后会进行判定并触发对应的inputID的技能</p>
+<p>在UE4中, 可以直接将InputAction名称与这个枚举对应起来, 可以达到直接触发</p>
+<h2 id="EnhancedInput与GAS技能触发"><a href="#EnhancedInput与GAS技能触发" class="headerlink" title="EnhancedInput与GAS技能触发"></a>EnhancedInput与GAS技能触发</h2><p>UE5以后, 传统的InputAction已经被废弃,  这套绑定系统需要调整一下才能触发</p>
+<p>实际上我们只需要将EnhancedInput的InputAction与一个枚举对应起来即可</p>
+<p>比如建立一个TMap关系</p>
+<p><code>TMap&lt;EAbilityInputKey, UInputAction*&gt;</code></p>
+<p>然后重载<code>BindAbilityActivationToInputComponent</code>事件, 如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116153314078.png" alt="image-20231116153314078"></p>
+<p>记得, 这个事件是需要手动去触发的, 比如在角色中触发</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116153352887.png" alt="image-20231116153352887"></p>
+<p>当然需要将技能与这个枚举建立起对应关系, 或者是在CDO中赋予成员变量, 或者再建立一个索引关系, 在注册技能的时候添加进去即可</p>
+<p>那么这样以后, 配置好映射, 就可以正常触发对应的技能了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116153514678.png" alt="image-20231116153514678"></p>
+<h2 id="Lyra的技能触发方式"><a href="#Lyra的技能触发方式" class="headerlink" title="Lyra的技能触发方式"></a>Lyra的技能触发方式</h2><p> Lyra的技能触发是围绕Tag的,  即每个技能触发对应一个tag, 这样比枚举更加灵活</p>
+<p>Lyra的角色配置使用的是一个叫PawnData的DataAsset</p>
+<p>里面保存了<code>ULyraInputConfig</code>用于配置输入</p>
+<p>然后这个配置内保存了两组输入配置, 一组用于触发传统的比如移动的输入配置, 另一组用于技能, 我们重点就看技能</p>
+<p><code>TArray&lt;FLyraInputAction&gt; AbilityInputActions;</code></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116153953690.png" alt="image-20231116153953690"></p>
+<p>Lyra使用了自定义的<code>InputCompnent</code>, 添加了几个扩展的模板函数, 比如</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116154102472.png" alt="image-20231116154102472"></p>
+<p>因为源生的BindAction模板函数支持动态参数, Lyra就用此扩展了一个支持tag的输入绑定函数</p>
+<p>在设置PawnData的时候就把输入配置注册好</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116154213522.png" alt="image-20231116154213522"></p>
+<p>在回调函数里直接调用自定义的ASC的对应事件</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116154246898.png" alt="image-20231116154246898"></p>
+<p>在ASC中, 输入事件过去的时候会将对应的技能句柄保存到一个数组中</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116154333779.png" alt="image-20231116154333779"></p>
+<p>然后在Controller驱动的<code>ULyraAbilitySystemComponent::ProcessAbilityInput</code>函数中做统一处理</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231116154721926.png" alt="image-20231116154721926"></p>
+<p>Lyra的GA类有一个成员变量用于定义这个技能的触发方式</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">UENUM</span>(BlueprintType)</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">ELyraAbilityActivationPolicy</span> :</span> uint8</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// Try to activate the ability when the input is triggered.</span></span><br><span class="line">	OnInputTriggered,</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Continually try to activate the ability while the input is active.</span></span><br><span class="line">	WhileInputActive,</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Try to activate the ability when an avatar is assigned.</span></span><br><span class="line">	OnSpawn</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>字面意思即可理解, 举个例子, reload技能是<code>OnInputTriggered</code>在按下的时候只触发一次, 开火技能是按下以后一直触发直到松开按键,  被动技能可以设置为<code>OnSpawn</code>在ASC初始化之后就可以触发</p>
+]]></content>
+      <categories>
+        <category>gameplay</category>
+      </categories>
+      <tags>
+        <tag>gameplay</tag>
+      </tags>
+  </entry>
 </search>

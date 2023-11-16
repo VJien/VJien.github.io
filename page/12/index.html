@@ -201,20 +201,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">105</span>
+        <span class="site-state-item-count">106</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,229 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3CH/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3CH/" class="post-title-link" itemprop="url">《Multiplayer RPG Template》说明文档</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-19 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-19T00:00:00+08:00">2020-05-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:13:42" itemprop="dateModified" datetime="2021-08-02T16:13:42+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/other/" itemprop="url" rel="index"><span itemprop="name">other</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3CH/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/19/%E8%B6%854%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3CH/" class="cy_cmt_count" data-xid="2020/05/19/超4说明文档CH/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p> 这是一份<a target="_blank" rel="noopener" href="https://www.unrealengine.com/marketplace/zh-CN/product/multiplayer-rpg-template">Multiplayer RPG Template</a>的说明文档,内容包含其中主要系统的配置和制作方法</p>
+<p>此案例是基于UE4的<strong>ListerServer</strong>建立的局域网联机游戏demo，参考作品WOW</p>
+<p>基于UE4版本4.25</p>
+<p>demo尚且有未完善的地方，后续会跟进优化和修复</p>
+</blockquote>
+<h3 id="技能系统"><a href="#技能系统" class="headerlink" title="技能系统"></a>技能系统</h3><p><img src="https://img.supervj.top/imgchao4_skill1.jpg"></p>
+<p>如上图所示，此图为技能表的配置信息，下面简述其中重要的参数</p>
+<ul>
+<li>Action: 这个变量代表这个行为的唯一ID，原则上跟表格的RowName相同，很多逻辑中需要通过这个ID查找关于这个技能的所有信息，或者通过这个ID执行这个技能等</li>
+<li>Display(struct)：3个参数用来显示这个技能一般信息，比如名字或者说明还有图标的显示，在UMG上有相关的体现，当然你也可以用来自定义<ul>
+<li><img src="https://img.supervj.top/imgchao4_skill4.jpg"></li>
+<li><img src="https://img.supervj.top/imgchao4_skill5.jpg"></li>
+</ul>
+</li>
+<li>CastData(struct)：这个是一个施法的结构体，主要设置的是施法的方式和条件<ul>
+<li>Type:比如默认的读条施法，持续施法，攻击叠加类的施法等方式</li>
+<li>Time:施法所需要的时长，0意味着瞬发</li>
+<li>Duration:如果是持续施法，那么这个参数意味着引导时间</li>
+<li>KeepAttackStat:施法完以后会继续进行普通攻击</li>
+<li>MotionCast:移动施法，设置为否的话必须站立施法，一旦移动就打断施法</li>
+<li>NotTargetCast:不需要目标的施法，一般用于范围技能比如火雨之类</li>
+</ul>
+</li>
+<li>Mp:消耗魔法值，战士为怒气值</li>
+<li>CD:冷却时间</li>
+<li>MaxRange：最大释放范围，按照虚幻单位计算，0意味着无限制</li>
+<li>LearnGold/Level:学习该技能的前置条件，0意味着无要求</li>
+<li>RangeSelectRange:如果是范围选择的技能，此参数表示作用的半径</li>
+<li>TargetType:目标类型，作用地方还是友方等</li>
+<li>SkillClass:技能实例的类，无需手动创建</li>
+</ul>
+<h5 id="SkillRef"><a href="#SkillRef" class="headerlink" title="SkillRef"></a>SkillRef</h5><blockquote>
+<p>这个是通过表格配置的SkillClass创建的，无需手动创建，你只需要制作这个类的逻辑和效果</p>
+<p>这个类是继承自<code>BP_BaseSkill</code>,里面有一些乱七八糟的蓝图逻辑，不过并不是全部都是必须使用的，这个类很多情况下你可以自由发挥，反正技能释放了以后就通过这个类来控制这个技能实例的运行</p>
+<p>下面就通过<code>IceBullet</code>这个技能类来说明一下</p>
+</blockquote>
+<p><img src="https://img.supervj.top/imgchao4_skill2.jpg"></p>
+<p><code>IceBullet</code>继承于<code>ProjectileBase</code>，如上图所示，这是这个类的基本参数类型</p>
+<ul>
+<li>speed:飞行速度，依赖<code>ProjectileComponent</code></li>
+<li>StopDistance:停止的距离，因为这个类是追踪目标飞行的，所以会总有接近并且到达目标的时候，到达目标并停止以后会产生一段逻辑</li>
+<li>Duration:持续时间，如果没有命中到达时间以后也会摧毁自己</li>
+<li>Sound/FX:相关的特效配置，Start可以用于产生的时候播放，Hit可以用于打中目标以后播放，但都需要手动释放，<ul>
+<li>在<code>ProjectileBase</code>已经实现了<code>BeginPlay</code>以后调用Start的效果</li>
+<li>在打中目标后已经实现播放Hit的效果</li>
+</ul>
+</li>
+<li>BuffData：如果这个技能有buff/debuff可以设置这个类，需要手动调用方法来创建并运行buff类,如下图</li>
+</ul>
+<p><img src="https://img.supervj.top/imgchao4_skill3.jpg"></p>
+<h5 id="BuffRef"><a href="#BuffRef" class="headerlink" title="BuffRef"></a>BuffRef</h5><blockquote>
+<p>这是Buff的实例类，通过SkillRef内部调用<code>CreateBuff</code>方法创建</p>
+<p>通过重写<code>BuffInit</code>和<code>BuffEnd</code>方法来实现自定义的逻辑，如果是拥有持续效果，那么你可以重写<code>BuffDelta</code> 方法来制作持续调用的逻辑</p>
+</blockquote>
+<h3 id="装备系统"><a href="#装备系统" class="headerlink" title="装备系统"></a>装备系统</h3><p><img src="https://img.supervj.top/imgchao4_equp1.jpg"></p>
+<blockquote>
+<p>如上图所示，这个是装备信息的配置表，下面简单介绍其中主要参数的作用</p>
+</blockquote>
+<ul>
+<li>BodyPart：装备对应的位置</li>
+<li>Mesh/Mat:用于显示这个装备实体的模型，装备在人物上或者丢弃到世界中的显示</li>
+<li>Property:如字面意思就是2种属性，其中Adv属性会随着Base的更改而变化</li>
+</ul>
+<h3 id="道具系统"><a href="#道具系统" class="headerlink" title="道具系统"></a>道具系统</h3><p><img src="https://img.supervj.top/imgchao4_prop1.jpg"></p>
+<blockquote>
+<p>道具系统类似于装备系统</p>
+</blockquote>
+<ul>
+<li>EffectType:作用类型，本案例只制作了治疗效果和增加魔法的效果</li>
+<li>Value: 可以设置作用效果的范围值，当然这个不是必须的，具体是下面的道具类内部实现</li>
+<li>CanBeStacked:如果是否那么一个道具占据背包栏的一格，否则么可以堆放到一起</li>
+<li>ActionClass:道具类实现逻辑的类，参考Skill的实例实现，具体逻辑可以写到这个类里面</li>
+</ul>
+<h3 id="掉落系统"><a href="#掉落系统" class="headerlink" title="掉落系统"></a>掉落系统</h3><p><img src="https://img.supervj.top/imgchao4_drop1.jpg"></p>
+<blockquote>
+<p>如上图所示，掉落系统的配置放在<code>DataSystem</code> 这个类里面，为什么没有配置表格呢？O(∩_∩)O</p>
+<p>当然也可以，你可以自己创建一个类似的表格然后替换其中的逻辑，这个很简单</p>
+</blockquote>
+<p>这个配置信息是一个Map键值对，键对应的是角色的类，值即是掉落信息数组</p>
+<ul>
+<li>Action:选择装备/道具等的Action名称</li>
+<li>Type:选择是装备/道具，当然你要是想掉落技能的话理论上也可以，请自由发挥</li>
+<li>Amount:掉落数量</li>
+<li>Probability:概率，这个概率计算是在角色创建的时候就完成的，非击杀的时候</li>
+</ul>
+<h3 id="任务系统"><a href="#任务系统" class="headerlink" title="任务系统"></a>任务系统</h3><p><img src="https://img.supervj.top/imgchao4_task1.jpg"></p>
+<blockquote>
+<p> 如上图所示，这是任务表格的配置信息</p>
+</blockquote>
+<ul>
+<li>Titile：任务的标题，会显示在任务栏内的抬头标题部分</li>
+<li>Target：任务的目标</li>
+<li>DynamicTargetStat:这个会动态的刷新，具体实现的逻辑在下面的TaskClass内</li>
+<li>Descripion:任务描述</li>
+<li>Reward：奖励</li>
+</ul>
+<h5 id="TaskRef"><a href="#TaskRef" class="headerlink" title="TaskRef"></a>TaskRef</h5><p><img src="https://img.supervj.top/imgchao4_task2.jpg"></p>
+<p><img src="https://img.supervj.top/imgchao4_task3.jpg"></p>
+<blockquote>
+<p>如上图所示，每接受一个任务以后就会产生一个任务类来作为该任务的观察者(代理)</p>
+<p>具体这个任务是干什么的你可以通过实现这个类内的逻辑来管理，同时设置任务目标里的动态信息</p>
+</blockquote>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="怪物刷新"><a href="#怪物刷新" class="headerlink" title="怪物刷新"></a>怪物刷新</h5><p><img src="https://img.supervj.top/imgchao4_aigenerat1.jpg"></p>
+<blockquote>
+<p>怪物刷新是在场景里放置一个<code>BP_AIGenerator</code>管理类来完成的</p>
+</blockquote>
+<ul>
+<li>MaxNum:刷新的最大数量</li>
+<li>AIClass:设置刷新角色的类，超过1个的时候就随机从中刷新</li>
+<li>Range:以该管理类的位置为中心的半径内刷新怪物</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2162,14 +2385,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">762k</span>
+    <span title="站点总字数">765k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:33</span>
+    <span title="站点阅读时长">11:35</span>
   </span>
 </div>
 <div class="busuanzi-count">
