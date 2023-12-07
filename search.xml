@@ -14862,4 +14862,130 @@ piecewise_linear_distribution分段线性分布
         <tag>动画</tag>
       </tags>
   </entry>
+  <entry>
+    <title>MMD动画在UE5的使用</title>
+    <url>/2023/12/06/MMD/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先科普一下啥是MMD, MMD全称<code>*MikumikuDance*</code>, 这个<code>Miku</code>就是初音未来, 再引用wiki介绍</p>
+<blockquote>
+<p><strong>MikuMikuDance</strong>（通常缩写为<strong>MMD</strong>）是一款<a href="https://en.wikipedia.org/wiki/Freeware">免费</a>动画程序，可让用户制作动画并创建 3D 动画电影，最初是为<a href="https://en.wikipedia.org/wiki/Vocaloid">Vocaloid</a>角色<a href="https://en.wikipedia.org/wiki/Hatsune_Miku">初音未来</a>制作的</p>
+</blockquote>
+<p>本文不过多介绍MMD, 有兴趣的同学可以自行谷歌, 本文主要针对如果在UE5中使用MMD素材进行分析</p>
+<p>目标:  UE5标准骨架角色/第三方卡通角色使用MMD角色动画和镜头动画</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//3dance.gif" alt="3dance"></p>
+<span id="more"></span>
+
+<h3 id="涉及到的软件"><a href="#涉及到的软件" class="headerlink" title="涉及到的软件"></a>涉及到的软件</h3><ul>
+<li>UE5</li>
+<li>maya</li>
+<li>Blender</li>
+<li>PmxEditor/VmdEditor(非必须)</li>
+</ul>
+<h2 id="关于素材"><a href="#关于素材" class="headerlink" title="关于素材"></a>关于素材</h2><p>网上有很多优秀的MMD素材, 主要有模型,角色动画和相机动画</p>
+<p>比如比较有名的<a href="https://www.aplaybox.com/model/action">模之屋</a>,  里面有大量的玩家自制mmd动画, 多数是可以二次修改或者商用的;</p>
+<p>模之屋的模型基本都是国内知名游戏的模型, 比如米哈游系列, 这一类如果是自己把玩也是可以的, 如果要商用那么得自己准备合适的模型;</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231206091333430.png" alt="image-20231206091333430"></p>
+<p>在二次元模型界有一个比较有名的日本网站: <a href="!%5B%5D(https://raw.githubusercontent.com/VJien/img/master//image-20231206091333430.png)">booth</a></p>
+<p>这里面的模型基本是可以商用的, 很多游戏比如 知名VR游戏<code>VRChat</code>内的虚拟形象很多都用的是booth的角色</p>
+<p>本文就使用booth中的角色进行MMD动画尝试</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231206091608190.png" alt="image-20231206091608190"></p>
+<h2 id="导入MMD模型"><a href="#导入MMD模型" class="headerlink" title="导入MMD模型"></a>导入MMD模型</h2><p>隔壁unity有很多现成的插件直接导入mmd, 而且卡通材质球都可以覆盖完全; ue这方面稍微落后了一点, 在早期需要使用blender或者c4d安装相应的mmd插件然后再导出fbx到ue;</p>
+<p>后面经过一些大佬的开发, 有一个相对完善的插件</p>
+<p>UE4时代叫做 IM4U, UE5后这个插件的原作者似乎停更了,  然后其他大佬为爱发电基于此魔改了一个UE5版本的插件,链接在这里<a href="https://github.com/NaN-Name-bilbil/IVP5U/releases">IVP5U</a></p>
+<p>虽然还是有很多bug, 但是基本能用</p>
+<blockquote>
+<p>mmd的模型资源一般是 pmx格式</p>
+<p>动画资源一般是 vmd格式</p>
+</blockquote>
+<p>安装完插件以后, 直接将pmx文件拖动到content以后, 如果pmx文件没有问题就会弹出如下窗口</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165049053.png" alt="image-20231207165049053"></p>
+<p>点击导入,  会卡顿一会, 然后一般会创建很多材质球和贴图, 如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165140632.png" alt="image-20231207165140632"></p>
+<p>默认是无光模式, 在导入选项中可以选择勾选</p>
+<h2 id="导入MMD角色动画"><a href="#导入MMD角色动画" class="headerlink" title="导入MMD角色动画"></a>导入MMD角色动画</h2><p>角色动画导入也是一键拖拽进来, </p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207172214950.png" alt="image-20231207172214950"></p>
+<p>上面两个选项要填上, 下面两个无所谓</p>
+<p>这里会出现一个大坑</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//ik%20bug.gif" alt="ik bug"></p>
+<p>从网上下载的绝大多数(预计80%+)的动画导入以后都是上图这个鸟样</p>
+<p>U管的QB老师说这种情况是因为动画数据异常导致</p>
+<p>what!??</p>
+<p>要么插件有问题, 要么动画本身没问题, 不可能这么高的比例的mmd动画有问题</p>
+<p>死马当活马医到vmd view尝试预览一下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//vmd%20ed.gif" alt="vmd ed"></p>
+<p>果然是正常的</p>
+<p>想到mmd骨架是ik骨骼的, 莫非数据都在ik上??</p>
+<p>尝试</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//ik.gif" alt="ik"></p>
+<p>果然猜得没错!!!  [手动狗头]</p>
+<p>那就用录制大法, 输出一个有FK数据的动画就可以重定向了</p>
+<h2 id="导入MMD相机动画"><a href="#导入MMD相机动画" class="headerlink" title="导入MMD相机动画"></a>导入MMD相机动画</h2><p>相机动画即<code>Level Sequencer</code>动画, 不能再拖进来了</p>
+<p>我们需要创建一个<code>Level Sequencer</code>资源</p>
+<p>会发现多了一个按钮</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207173220189.png" alt="image-20231207173220189"></p>
+<p>导入以后看点运气, 一般还是需要手动的对一下相机与角色的位置关系</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//dance1.gif" alt="dance1"></p>
+<p>搞定!</p>
+<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>MMD的骨架非常的奇怪,  关注核心骨骼, 会发现脊椎一条线跟UE标准小白人有比较大的差别</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165359792.png" alt="image-20231207165359792"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165441581.png" alt="image-20231207165441581"></p>
+<p>pelvis对应的是腰这个问题不大, 但是MMD骨架的上下半身分别有一个相对的根骨骼, 这个跟小白人不一样</p>
+<p>这样会导致重定向的时候无法很好的匹配骨骼链</p>
+<p>找一个动画发现上下半身2个骨骼都是有动画信息的, 那么暂时先不管, 我们先设置ik</p>
+<p>经过反复验证, 最理想的配置如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165833831.png" alt="image-20231207165833831"></p>
+<p>然后下半身这个骨骼只能被单独空出来, 没有数据</p>
+<p>测试一个带有转身的动画重定向表现, 截取转身过程的一帧, 很惨</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207165957130.png" alt="image-20231207165957130"></p>
+<p>原因也不用猜,意料之中, 因为mmd骨架转身的时候他是同时动了上下半身2个骨骼, 而没有用<code>腰</code> 这个骨骼来转身, 虽然绝大多数情况, 上下半身2个骨骼的旋转数据非常接近</p>
+<p>现在有2个思路, 原则是把全身的旋转想办法拷贝到pelvis/腰上去</p>
+<ol>
+<li>修复重定向后的小白人动画, 将spine旋转数据部分拷贝到pelvis中</li>
+<li>将mmd动画的上下半身骨骼的信息拷贝到腰上去</li>
+</ol>
+<p><strong>方法1</strong></p>
+<p>最简单粗暴的就是写一个动画修改器, 把spine_01的旋转信息拷贝到pelvis中去, </p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207171058350.png" alt="image-20231207171058350"></p>
+<p>这里我只将spine_01的roll增量加到pelvis上去</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//UE5%201.gif" alt="UE5 1"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//UE5%20modify.gif" alt="UE5 modify"></p>
+<p>只能说很勉强, 毕竟这个方式还有是有点粗暴, 而且考虑到另外两个轴以及位移的影响, 这个方案还是需要额外到maya中去处理动画细节, 有点惨</p>
+<p><strong>方法2</strong></p>
+<p>思路</p>
+<ol>
+<li>既然上下半身数据几乎一致, 那么将下半身的数据先拷贝到上半身</li>
+<li>上半身的数据拷贝到一个临时对象</li>
+<li>把上下半身2个骨骼的局部空间数据清零</li>
+<li>临时对象的数据拷贝到腰上</li>
+</ol>
+<p>用最方便的方式测试</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207171410092.png" alt="image-20231207171410092"></p>
+<blockquote>
+<p>上面用一个跟腰平级的虚拟骨骼当做临时对象传递数据</p>
+</blockquote>
+<p>然后继续用录制的方式加装烘焙动画了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207171811972.png" alt="image-20231207171811972"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207171818736.png" alt="image-20231207171818736"></p>
+<p>数据确认无误已经到腰上了</p>
+<p>测试重定向</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//rec.gif" alt="rec"></p>
+<p>搞定!</p>
+<h2 id="修复骨骼太大"><a href="#修复骨骼太大" class="headerlink" title="修复骨骼太大"></a>修复骨骼太大</h2><p>在导入fbx的后, 有些时候会发现骨骼异常的大, 如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207152357446.png" alt="image-20231207152357446"></p>
+<p>这个是由于多种原因导致, 比较常见的是不同软件之间的单位不一致导致(一般就是差距100倍)</p>
+<p>解决方法最简单的是把fbx导入到blender处理</p>
+<p>导入之前, 先把blender的场景选项中的缩放单位设置到0.01</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207152510333.png" alt="image-20231207152510333"></p>
+<p>导入fbx以后, 一般你会发现你的模型的最外层缩放是一个比较大的值, 比如</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207152613518.png" alt="image-20231207152613518"></p>
+<p>按 ctrl+a , 点击下图按钮即可把缩放归一, 有点像maya的冻结变换</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master//image-20231207152700648.png" alt="image-20231207152700648"></p>
+<p>这样再导入到UE以后就正常了</p>
+]]></content>
+      <categories>
+        <category>animation</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+      </tags>
+  </entry>
 </search>

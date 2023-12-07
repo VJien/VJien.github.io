@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,144 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/" class="post-title-link" itemprop="url">使用ApexPhysXLab制作UE4的破损物体(DestructibleMesh)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:00+08:00">2020-05-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:22:13" itemprop="dateModified" datetime="2021-08-02T16:22:13+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/physics/" itemprop="url" rel="index"><span itemprop="name">physics</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/21/%E4%BD%BF%E7%94%A8ApexPhysXLab%E5%88%B6%E4%BD%9CUE4%E7%9A%84%E7%A0%B4%E6%8D%9F%E7%89%A9%E4%BD%93%EF%BC%88%20DestructibleMesh%EF%BC%89/" class="cy_cmt_count" data-xid="2020/05/21/使用ApexPhysXLab制作UE4的破损物体（ DestructibleMesh）/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>276</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>UE4自带的DestructibleMesh系统的破碎方式比较单一，可以用英伟达的ApexPhysXLab工具制作自定义破碎文件，然后导入UE4</p>
+<p>本文介绍通过使用这一工具制作UE4破碎物体的流程</p>
+<p>工具下载地址<a href="**https://developer.nvidia.com/gameworksdownload#?dn=physx-lab-1-3-0**">点击下载</a></p>
+</blockquote>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_1.png"></p>
+<h3 id="PhysXLab流程"><a href="#PhysXLab流程" class="headerlink" title="PhysXLab流程"></a>PhysXLab流程</h3><p>如下图所示，导入3D模型</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_2.png"></p>
+<h5 id="三种破碎方式"><a href="#三种破碎方式" class="headerlink" title="三种破碎方式"></a>三种破碎方式</h5><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_3.png"></p>
+<h6 id="Slice模式"><a href="#Slice模式" class="headerlink" title="Slice模式"></a>Slice模式</h6><p>如下图所示，红色框内为主要设置的参数</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_4.png"></p>
+<p>效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_5.png"></p>
+<h6 id="Cutout模式"><a href="#Cutout模式" class="headerlink" title="Cutout模式"></a>Cutout模式</h6><p>主要用黑白通道图来切割，<strong>注意黑白通道只是平面投射，跟UV无关，所以纹理如果要配合切割需要单独制作配合好的纹理及黑白图</strong></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_6.png"></p>
+<p>效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_7.png"></p>
+<h6 id="Voronoi模式"><a href="#Voronoi模式" class="headerlink" title="Voronoi模式"></a>Voronoi模式</h6><p>类似UE4内的破碎</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_8.png"></p>
+<p> 效果如下</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_9.png"></p>
+<h5 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h5><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_10.png"></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_11.png"></p>
+<h3 id="UE4流程"><a href="#UE4流程" class="headerlink" title="UE4流程"></a>UE4流程</h3><p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_12.png"></p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_13.png"></p>
+<p>用一个模拟子弹来制造破碎效果</p>
+<p><img src="https://img.supervj.top/img/PhyXLab/PhyXLab_14.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2248,130 +2386,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">UE4顶点动画开发流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-30 20:24:51" itemprop="dateCreated datePublished" datetime="2020-04-30T20:24:51+08:00">2020-04-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:24:26" itemprop="dateModified" datetime="2021-08-02T16:24:26+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" class="cy_cmt_count" data-xid="2020/04/30/UE4顶点动画开发流程/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
-<p>本文介绍从max到UE4顶点动画实现流程</p>
-<p>使用的方式是贴图记录顶点位置和法线信息通过材质球使静态模型模拟动画的播放</p>
-</blockquote>
-<p><img src="https://img.supervj.top/imgd1.gif" alt="Alt text"></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/VJien/VextexAnimationTool.git">脚本下载</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/30/UE4%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -2419,14 +2433,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">769k</span>
+    <span title="站点总字数">771k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:39</span>
+    <span title="站点阅读时长">11:41</span>
   </span>
 </div>
 <div class="busuanzi-count">
