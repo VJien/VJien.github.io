@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">123</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">106</span>
+        <span class="site-state-item-count">107</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,127 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/04/21/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/21/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8/" class="post-title-link" itemprop="url">创建自定义编辑器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-21 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-21T00:00:00+08:00">2021-04-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:39:32" itemprop="dateModified" datetime="2021-08-02T16:39:32+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/editor/" itemprop="url" rel="index"><span itemprop="name">editor</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/04/21/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/04/21/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8/" class="cy_cmt_count" data-xid="2021/04/21/创建自定义编辑器/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>30k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>27 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很久以前项目需求Paper2D动画, Paper2D切换动画不是很方便, 最好还是用类似动画蓝图的状态机,但是UE目前的状态机只有动画蓝图和AI行为树, 于是那个时候就想做一个自定义的状态机,但是后来项目搁浅就没动机继续研究了, 现在凑空来搞一搞这个蛮有用的东西(也很利于了解UE编辑器)</p>
+<p><img src="https://img.supervj.top//img/image-20210421113343319.png" alt="image-20210421113343319"></p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_04_21_15_01_58_451.gif" alt="录制_2021_04_21_15_01_58_451"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/21/%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -383,6 +504,128 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/26/MaxScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/26/MaxScript/" class="post-title-link" itemprop="url">MaxScript学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00+08:00">2021-03-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-11-17 19:10:43" itemprop="dateModified" datetime="2021-11-17T19:10:43+08:00">2021-11-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/dcc/" itemprop="url" rel="index"><span itemprop="name">dcc</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/26/MaxScript/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/03/26/MaxScript/" class="cy_cmt_count" data-xid="2021/03/26/MaxScript/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MaxScript学习笔记</p>
+<blockquote>
+<p>搬运至遥远的2019年</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/26/MaxScript/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/26/UE4%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -476,128 +719,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/26/UE4%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/26/MaxScript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/26/MaxScript/" class="post-title-link" itemprop="url">MaxScript学习笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00+08:00">2021-03-26</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-17 19:10:43" itemprop="dateModified" datetime="2021-11-17T19:10:43+08:00">2021-11-17</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/dcc/" itemprop="url" rel="index"><span itemprop="name">dcc</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2021/03/26/MaxScript/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2021/03/26/MaxScript/" class="cy_cmt_count" data-xid="2021/03/26/MaxScript/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>11k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>10 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>MaxScript学习笔记</p>
-<blockquote>
-<p>搬运至遥远的2019年</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/26/MaxScript/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1347,127 +1468,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/11/%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/11/%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">UE4获取硬件信息</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-01-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-11T00:00:00+08:00">2021-01-11</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:29:48" itemprop="dateModified" datetime="2021-08-02T16:29:48+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2021/01/11/%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2021/01/11/%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/" class="cy_cmt_count" data-xid="2021/01/11/获取硬件信息/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录UE4获取硬件信息和地址等常用方法</p>
-<h2 id="Mac地址"><a href="#Mac地址" class="headerlink" title="Mac地址"></a>Mac地址</h2><p><code>GetMacAddressString()</code>方法已经在4.15版本后被彻底废弃, 所以UE目前(4.26)版本无法获取Mac地址</p>
-<p>我们之前<a href="https://supervj.top/2021/01/09/UE4%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93/">UE4获取第三方库</a>文章中有用到使用自己用原生cpp获取到mac地址, 然后导出成动态或者静态库到UE4再封装成插件的形式来获取mac地址, 此方法也是目前比较快捷的一个方法</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1503,7 +1503,7 @@
 
 <div class="copyright">
   &copy; 2020 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1515,14 +1515,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">771k</span>
+    <span title="站点总字数">773k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:41</span>
+    <span title="站点阅读时长">11:43</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">123</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">106</span>
+        <span class="site-state-item-count">107</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,304 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">C++11新特性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-07T00:00:00+08:00">2020-07-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:39:06" itemprop="dateModified" datetime="2021-08-02T16:39:06+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/07/07/C++11%E6%96%B0%E7%89%B9%E6%80%A7/" class="cy_cmt_count" data-xid="2020/07/07/C++11新特性/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h5 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h5><ul>
+<li>自动类型推导</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt; vec;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i = vec.<span class="built_in">begin</span>(), i != vec.<span class="built_in">end</span>(), ++i)</span><br><span class="line">&#123;……&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义模板函数时，推到依赖模板函数的变量类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;_typename _Tx, _typename _Ty&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> v = x * y;</span><br><span class="line">	std::cout&lt;&lt;v&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回值</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">multipy</span><span class="params">(_Tx x, _Ty y)</span>-&gt;<span class="title">decltype</span><span class="params">(x * y)</span></span></span><br><span class="line"><span class="function">	<span class="keyword">return</span> x * y</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">func1</span><span class="params">(<span class="keyword">int</span> a)</span>-&gt;<span class="keyword">bool</span></span></span><br><span class="line"><span class="function"></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其他</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> a=<span class="number">10</span>,b=<span class="number">11.0</span>;<span class="comment">//报错，初始化必须统一类型</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;b =a;</span><br><span class="line"><span class="keyword">auto</span> c=b;<span class="comment">//c为int，去除&amp;</span></span><br><span class="line"><span class="keyword">auto</span> &amp;d=b;<span class="comment">//d为引用</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> e=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">auto</span> f = e;<span class="comment">//去除const</span></span><br><span class="line"><span class="keyword">auto</span> &amp;g = e;<span class="comment">//用&amp;，不去除const</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> brr = arr;      <span class="comment">//brr 类型为int*</span></span><br><span class="line"><span class="keyword">auto</span> &amp;crr = arr; <span class="comment">//crr为数组，即crr=arr[3]</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h5><blockquote>
+<p>从变量或者表达式获取类型</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">int</span>&amp;&amp; <span class="title">fx</span><span class="params">()</span></span>; </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> &#123;</span> <span class="keyword">double</span> x; &#125;</span><br><span class="line"><span class="keyword">const</span> A* a = <span class="keyword">new</span> <span class="built_in">A</span>();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">decltype</span>(var);<span class="comment">//int</span></span><br><span class="line"><span class="keyword">decltype</span>(<span class="built_in">fx</span>());<span class="comment">//const int&amp;&amp;</span></span><br><span class="line"><span class="keyword">decltype</span>(a-&gt;x);<span class="comment">//double</span></span><br><span class="line"><span class="keyword">decltype</span>((a-&gt;x));<span class="comment">//const double&amp;,内部括号导致语句作为表达式而不是成员访问计算。由于a声明为 const指针，因此类型是对const double的引用。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于<code>decltype</code>所用的引用来说，如果变量名加上了一对括号，则得到的类型与不加括号时会有所不同。如果<code>decltype</code>使用的是一个不加括号的变量，则得到的结果就是该变量的类型；如果给变量加上了一层或多层括号，编译器就会把它当成是一个表达式。</p>
+</blockquote>
+<p>C++14可以使用不带尾随返回类型的 <code>decltype(auto)</code> 来声明其返回类型取决于其模板参数类型的模板函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) <span class="title">myFunc</span><span class="params">(T&amp;&amp; t, U&amp;&amp; u)</span> </span></span><br><span class="line"><span class="function">        </span>&#123; <span class="keyword">return</span> forward&lt;T&gt;(t) + forward&lt;U&gt;(u); &#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="using"><a href="#using" class="headerlink" title="using"></a>using</h5><ul>
+<li>命名空间</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义别名，类似<code>typedef</code></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> itType=std::vector&lt;std::string&gt;::iterator;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>using与typedef的差别是 using可以用于模板部分具体化，但是typedef不能</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line">    <span class="keyword">using</span> arr12=std::array&lt;T,<span class="number">12</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当一个派生类私有继承基类时，基类的public和protected数据成员在派生类中是private的形式，如果想让这些继承而来的数据成员作为public或者protected成员，可以用using来重新声明。using声明语句中名字的访问权限由该using声明语句之前的访问说明符决定。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Basic</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">int</span> a;</span><br><span class="line">        <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk</span> :</span> <span class="keyword">private</span> Basic&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::a;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        <span class="keyword">using</span> Basic::b;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关于重写重载函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;cout&lt;&lt;<span class="string">&quot;A1&quot;</span>; &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;cout&lt;&lt;a;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A2</span> :</span><span class="keyword">public</span> A1</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;cout&lt;&lt;<span class="string">&quot;A2&quot;</span>;&#125;;</span><br><span class="line">	<span class="keyword">using</span> A1::test;<span class="comment">//如果不加此行，A2将只保留test()部分，导致主函数内报错</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A2 a2;</span><br><span class="line">	a2.<span class="built_in">test</span>(<span class="number">11</span>);<span class="comment">//如果不用using，此行报错</span></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="nullptr"><a href="#nullptr" class="headerlink" title="nullptr"></a>nullptr</h5><p><code>nullptr</code>比0更安全</p>
+<h5 id="枚举作用域"><a href="#枚举作用域" class="headerlink" title="枚举作用域"></a>枚举作用域</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,<span class="comment">//歧义，编译失败</span></span><br><span class="line">	P2<span class="comment">//歧义，编译失败</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们需要设置枚举的作用域,这样才可以编译的过</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">EnumA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1=<span class="number">0</span>,</span><br><span class="line">	P2=<span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">struct</span> <span class="title">EnumB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	P1,</span><br><span class="line">	P2</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EnumA e1=EnumA::P1;</span><br><span class="line">	EnumB e2=EnumB::P2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h5><p>其实lambda实现的方法是创建一个简略的类。**这个类重载了operator()**，所以表现的像个普通函数。一个lambda函数是这个类的实例。当这个类构造的时候，所有捕获的变量被传送到类中并保存为成员变量。</p>
+<p>表达式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[capture](parameters)-&gt;<span class="keyword">return</span>-type&#123;body&#125;</span><br></pre></td></tr></table></figure>
+
+<p>几个例子</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) &#123; <span class="keyword">return</span> x + y; &#125; <span class="comment">// 隐式返回类型</span></span><br><span class="line">[](<span class="keyword">int</span>&amp; x) &#123; ++x; &#125;   <span class="comment">// 没有return语句 -&gt; lambda 函数的返回类型是&#x27;void&#x27;</span></span><br><span class="line">[]() &#123; ++global_x; &#125;  <span class="comment">// 没有参数,仅访问某个全局变量</span></span><br><span class="line">[]&#123; ++global_x; &#125;     <span class="comment">// 与上一个相同,省略了()</span></span><br><span class="line">[](<span class="keyword">int</span> x, <span class="keyword">int</span> y) -&gt; <span class="keyword">int</span> &#123; <span class="keyword">int</span> z = x + y; <span class="keyword">return</span> z; &#125;<span class="comment">//指示了返回值int</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关于<code>[]</code>的捕获信息</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[]        <span class="comment">//未定义变量.试图在Lambda内使用任何外部变量都是错误的.</span></span><br><span class="line">[x, &amp;y]   <span class="comment">//x 按值捕获, y 按引用捕获.</span></span><br><span class="line">[&amp;]       <span class="comment">//用到的任何外部变量都隐式按引用捕获</span></span><br><span class="line">[=]       <span class="comment">//用到的任何外部变量都隐式按值捕获</span></span><br><span class="line">[&amp;, x]    <span class="comment">//x显式地按值捕获. 其它变量按引用捕获</span></span><br><span class="line">[=, &amp;z]   <span class="comment">//z按引用捕获. 其它变量按值捕获</span></span><br><span class="line">[<span class="keyword">this</span>] <span class="comment">//截取当前类中的this指针。如果已经使用了&amp;或者=就默认添加此选项。</span></span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A1* a1=<span class="keyword">new</span> <span class="built_in">A1</span>();</span><br><span class="line"><span class="keyword">int</span> a2=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)&#123;a1-&gt;num=v;a2++;&#125;;<span class="comment">//错误，a2按值传递，不能修改</span></span><br><span class="line"><span class="keyword">auto</span> lambda1=[&amp;a1,a2](<span class="keyword">int</span> v)<span class="keyword">mutable</span> &#123;a2++;a1-&gt;num=v+a2;;&#125;;<span class="comment">//增加mutable后可以修改，但是对原数据无影响，输出结果a1-&gt;num : 15</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="explicit"><a href="#explicit" class="headerlink" title="explicit"></a>explicit</h5><p>显式转换，禁止单参数构造函数导致的自动转换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">plebe</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="built_in">plebe</span>(<span class="keyword">int</span>);</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">plebe</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plebe a,b;</span><br><span class="line">a=<span class="number">1</span>;<span class="comment">//隐式转换</span></span><br><span class="line">b=<span class="number">0.5</span>;<span class="comment">//错误</span></span><br><span class="line">b=<span class="built_in">plebe</span>(<span class="number">0.5</span>);<span class="comment">//显式转换</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="default-delete"><a href="#default-delete" class="headerlink" title="default,delete"></a>default,delete</h5><ul>
+<li>default</li>
+</ul>
+<p>4类特殊函数可以用default，即默认构造函数、析构函数、拷贝构造函数以及拷贝赋值运算符</p>
+<blockquote>
+<p>特殊情况，如果类内有指针成员，特殊函数都用default，以下情况会导致错误</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">testA</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">testA</span>() =<span class="keyword">default</span>;</span><br><span class="line">	<span class="built_in">testA</span>(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line">	~<span class="built_in">testA</span>()=<span class="keyword">default</span>;</span><br><span class="line">	testA&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> testA&amp; t)=<span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> num=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> *p=&amp;num;</span><br><span class="line">&#125;;	</span><br><span class="line"></span><br><span class="line">testA *a1= <span class="keyword">new</span> <span class="built_in">testA</span>(<span class="number">1</span>);</span><br><span class="line">testA *a2 =a1;</span><br><span class="line"><span class="keyword">delete</span> a1;<span class="comment">//a2的p也被释放了</span></span><br><span class="line">cout&lt;&lt;*a2-&gt;p&lt;&lt;endl;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>delete</li>
+</ul>
+<h5 id="类内成员初始化"><a href="#类内成员初始化" class="headerlink" title="类内成员初始化"></a>类内成员初始化</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">se</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> mem1=<span class="number">10</span>;<span class="comment">//类内初始化</span></span><br><span class="line">    <span class="keyword">double</span> mem2&#123;<span class="number">123.65</span>&#125;;<span class="comment">//同上</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h5><ul>
+<li>  左值、右值</li>
+</ul>
+<p>在C++11中可以取地址的、有名字的就是左值，反之，不能取地址的、没有名字的就是右值（将亡值或纯右值）</p>
+<ul>
+<li>右值、将亡值</li>
+</ul>
+<ol>
+<li><p>C++98中右值是纯右值，纯右值指的是临时变量值、不跟对象关联的字面量值。</p>
+</li>
+<li><p>将亡值则是C++11新增的跟右值引用相关的表达式，这样表达式通常是将要被移动的对象（移为他用），比如返回右值引用T&amp;&amp;的函数返回值、std::move的返回值，或者转换为T&amp;&amp;的类型转换函数的返回值。</p>
+</li>
+</ol>
+<ul>
+<li>左值引用、右值引用</li>
+</ul>
+<ol>
+<li>左值引用就是对一个左值进行引用的类型。右值引用就是对一个右值进行引用的类型，事实上，由于右值通常不具有名字，我们也只能通过引用的方式找到它的存在</li>
+<li>右值引用和左值引用都是属于引用类型。无论是声明一个左值引用还是右值引用，都必须立即进行<strong>初始化</strong></li>
+<li>引用类型本身自己并不拥有所绑定对象的内存，只是该对象的一个别名。左值引用是具名变量值的别名，而右值引用则是不具名（匿名）变量的别名。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//int &amp;a =2;//左值引用绑定右值，fail</span></span><br><span class="line"><span class="keyword">int</span> b=<span class="number">1</span>;<span class="comment">//非常量左值绑定右值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;c=b;<span class="comment">//常量左值引用绑定非常量左值，ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;d=<span class="number">2</span>;<span class="comment">//常量左值引用绑定常量左值,ok</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp; f=<span class="number">10</span>;<span class="comment">//右值引用绑定右值,ok</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;g=f;<span class="comment">//常量左值引用绑定右值引用,ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;h=b;//右值引用绑定非常量左值，fail</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;h=std::<span class="built_in">move</span>(b);<span class="comment">//move把左值转换为右值，ok</span></span><br><span class="line"><span class="comment">//int &amp;&amp;i=h;//变量是左值，h是左值,fail</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.supervj.top/img/DX/image-20200707151813950.png" alt="image-20200707151813950"></p>
+<h5 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h5><p>智能指针是用对象去管理一个资源指针，同时用一个计数器计算引用当前指针对象的个数，当管理指针的对象增加或减少时，计数器也相应加1或减1，当最后一个指针管理对象销毁时，计数器为1，此时在销毁指针管理对象的同时，也对指针管理对象所管理的指针进行delete操作。</p>
+<ul>
+<li>shared_ptr</li>
+</ul>
+<p>std::shared_ptr包装了new操作符动态分配的内存，可以自由拷贝复制，基本上是使用最多的一个智能指针类型。</p>
+<blockquote>
+<p>注意事项</p>
+<p>我们尽量使用shared_ptr构造函数或者make_shared的方式创建shared_ptr，禁止使用裸指针赋值的方式，这样会shared_ptr难于管理指针的生命周期。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用裸指针赋值构造，不推荐，裸指针被释放后，shared_ptr就野了，不能完全控制裸指针的生命周期，失去了智能指针价值</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="built_in"><span class="keyword">int</span></span>(<span class="number">10</span>);</span><br><span class="line">shared_ptr&lt;<span class="keyword">int</span>&gt;sp = p;</span><br><span class="line"><span class="keyword">delete</span> p; <span class="comment">// sp将成为野指针，使用sp将crash</span></span><br><span class="line"><span class="comment">// 将裸指针作为匿名指针传入构造函数，一般做法，让shared_ptr接管裸指针的生命周期，更安全</span></span><br><span class="line">shared_ptr&lt;<span class="keyword">int</span>&gt;<span class="built_in">sp1</span>(<span class="keyword">new</span> <span class="built_in"><span class="keyword">int</span></span>(<span class="number">10</span>));</span><br><span class="line"><span class="comment">// 使用make_shared，推荐做法，更符合工厂模式，可以连代码中的所有new，更高效；方法的参数是用来初始化模板类</span></span><br><span class="line">shared_ptr&lt;<span class="keyword">int</span>&gt;sp2 = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>禁止使用指向shared_ptr的裸指针，也就是智能指针的指针，使用shared_ptr的指针指向一个shared_ptr时，<strong>引用计数并不会加一</strong>，操作shared_ptr的指针很容易就发生野指针异常。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shared_ptr&lt;<span class="keyword">int</span>&gt;sp = make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>);</span><br><span class="line">cout &lt;&lt; sp.<span class="built_in">use_count</span>() &lt;&lt; endl; <span class="comment">//输出1</span></span><br><span class="line">shared_ptr&lt;<span class="keyword">int</span>&gt; *sp1 = &amp;sp;</span><br><span class="line">cout &lt;&lt; (*sp1).<span class="built_in">use_count</span>() &lt;&lt; endl; <span class="comment">//输出依然是1</span></span><br><span class="line">(*sp1).<span class="built_in">reset</span>(); <span class="comment">//sp成为野指针</span></span><br><span class="line">cout &lt;&lt; *sp &lt;&lt; endl; <span class="comment">//crash</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<ul>
+<li>weak_ptr</li>
+</ul>
+<p>与std::shared_ptr最大的差别是在赋值的时候，不会引起智能指针计数增加。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	shared_ptr&lt;B&gt; b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	weak_ptr&lt;A&gt; a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">	shared_ptr&lt;A&gt; spa = make_shared&lt;A&gt;();</span><br><span class="line">	shared_ptr&lt;B&gt; spb = make_shared&lt;B&gt;();</span><br><span class="line">	spa-&gt;b = spb; <span class="comment">//spb强引用计数为2，弱引用计数为1</span></span><br><span class="line">	spb-&gt;a = spa; <span class="comment">//spa强引用计数为1，弱引用计数为2</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> weak_ptr的一些用法</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">weak_ptr&lt;T&gt; w;  <span class="comment">//空weak_ptr可以指向类型为T的对象</span></span><br><span class="line"><span class="function">weak_ptr&lt;T&gt; <span class="title">w</span><span class="params">(shared_ptr sp)</span></span>;   <span class="comment">//与sp指向相同对象的weak_ptr, T必须能转换为sp指向的类型</span></span><br><span class="line">w = p;  <span class="comment">//p可以是shared_ptr或者weak_ptr，赋值后w和p共享对象</span></span><br><span class="line">w.<span class="built_in">reset</span>();  <span class="comment">//weak_ptr置为空</span></span><br><span class="line">w.<span class="built_in">use_count</span>();  <span class="comment">//与w共享对象的shared_ptr的计数</span></span><br><span class="line">w.<span class="built_in">expired</span>();    <span class="comment">//w.use_count()为0则返回true，否则返回false</span></span><br><span class="line">w.<span class="built_in">lock</span>();   <span class="comment">//w.expired()为true，返回空的shared_ptr;否则返回指向w的shared_ptr</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>unique_ptr</li>
+</ul>
+<p>unique_ptr是auto_ptr的继承者，对于同一块内存只能有一个持有者，而unique_ptr和auto_ptr唯一区别就是unique_ptr不允许赋值操作，也就是不能放在等号的右边（函数的参数和返回值例外），这一定程度避免了一些误操作导致指针所有权转移，然而，unique_str依然有提供所有权转移的方法move，调用move后，原unique_ptr就会失效</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;<span class="keyword">int</span>&gt; p1=make_unique&lt;<span class="keyword">int</span>&gt;(<span class="number">11</span>);</span><br><span class="line">cout&lt;&lt;*p1&lt;&lt;endl;<span class="comment">//11</span></span><br><span class="line"><span class="keyword">auto</span> p2=<span class="built_in">move</span>(p1);</span><br><span class="line">cout&lt;&lt;*p1&lt;&lt;endl;<span class="comment">//访问空指针，崩溃</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="模板和STL方面的修改"><a href="#模板和STL方面的修改" class="headerlink" title="模板和STL方面的修改"></a>模板和STL方面的修改</h5><h6 id="基于范围的for循环"><a href="#基于范围的for循环" class="headerlink" title="基于范围的for循环"></a>基于范围的for循环</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> price[<span class="number">5</span>]=&#123;<span class="number">1.1</span>,<span class="number">2.2</span>,<span class="number">3.3</span>,<span class="number">4.4</span>,<span class="number">5.5</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">double</span> x:prices)<span class="comment">//也可以使用auto来申明x，编译器将自动推断</span></span><br><span class="line">    std::cout&lt;&lt;x&lt;&lt;std::endl;</span><br></pre></td></tr></table></figure>
+
+<h6 id="新的STL容器"><a href="#新的STL容器" class="headerlink" title="新的STL容器"></a>新的STL容器</h6><p>C++11新增的容器：forward_list,unordered_map,unordered_multimap,unordered_set,unordered_multiset</p>
+<ul>
+<li>关于unordered_map与map</li>
+</ul>
+<p>两者的接口差不多，基本可以互换。</p>
+<p>一般来说unordered_map的综合性能比map要好，因此，通常我们可以使用unorderd_map代替map。</p>
+<p>以下情况推荐使用map：</p>
+<p>关键字类型的hash函数设计的很差， 或者==运算符的性能极差， 导致hash过程太耗时；<br>对内存使用有严格要求, 不能接受存储hash table的额外内存开销；<br>元素要求按顺序存储， 或者常常需要关联访问一个元素的上一个/下一个元素， 或者需要遍历整个map。</p>
+<h6 id="新的STL方法"><a href="#新的STL方法" class="headerlink" title="新的STL方法"></a>新的STL方法</h6><p>新增了STL方法<code>cbegin()</code>和<code>cend()</code>，这些方法也返回一个迭代器，指向容器的第一个元素和最后一个元素的后面，因此可以用于指定包含全部元素的区间；这些新方法将元素视为const。类似的，crbegin()和crend()是rbegin()和rend()的const版本</p>
+<h6 id="valarray升级"><a href="#valarray升级" class="headerlink" title="valarray升级"></a>valarray升级</h6><p>C++11添加了两个函数begin()和end()，都接受valarray作为参数并且返回迭代器</p>
+<h6 id="摒弃export"><a href="#摒弃export" class="headerlink" title="摒弃export"></a>摒弃export</h6><p>C++98增加了关键字export，C++11摒弃了这个特性但是保留了关键字export</p>
+<h6 id="尖括号"><a href="#尖括号" class="headerlink" title="尖括号"></a>尖括号</h6><p>为了避免与运算符&gt;&gt;混淆，C++要求在申明嵌套模板时使用空格将尖括号分开</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;list&lt;<span class="keyword">int</span>&gt;&gt; vl;<span class="comment">//C++11开始不再强求空格</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1115,156 +1413,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="post-title-link" itemprop="url">Markdown(Typora)数学公式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-06-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-23T00:00:00+08:00">2020-06-23</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:17:45" itemprop="dateModified" datetime="2021-08-02T16:17:45+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="cy_cmt_count" data-xid="2020/06/23/Mardown数学公式/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.4k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>Ctrl+Shift+M激活公式</p>
-</blockquote>
-<h3 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h3><p><code>a^2+\ b_&#123;y_3&#125;</code></p>
-<p>$$<br>a^2+\ b_{y_3}<br>$$</p>
-<h3 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h3><ul>
-<li>中小括号</li>
-</ul>
-<p><code>(a+b)*[c+2]</code><br>$$<br>(a+b)*[c+2]<br>$$</p>
-<ul>
-<li>大括号需要加<code>\</code></li>
-</ul>
-<p><code>\&#123;1,2,3 \&#125;</code><br>$$<br>{1,2,3 }<br>$$</p>
-<ul>
-<li>尖括号</li>
-</ul>
-<p><code>\langle x \rangle</code><br>$$<br>\langle x \rangle<br>$$</p>
-<ul>
-<li>上下取整</li>
-</ul>
-<p><code>\lceil x \rceil+\lfloor y\rfloor</code><br>$$<br>\lceil x \rceil+\lfloor y\rfloor<br>$$</p>
-<ul>
-<li>特殊括号</li>
-</ul>
-<p><code>\begin&#123;pmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;pmatrix&#125;\\ \begin&#123;bmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;bmatrix&#125;\\ \begin&#123;Bmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;Bmatrix&#125;\\ \begin&#123;vmatrix&#125; 1&amp; 2\\ 3&amp; 4 \end&#123;vmatrix&#125;\\ \begin&#123;Vmatrix&#125; 1&amp; 2\\ 3&amp; 4 \end&#123;Vmatrix&#125;\\</code><br>$$<br>\begin{pmatrix} 1\ 2\ 3\ 4 \end{pmatrix}\<br>\begin{bmatrix} 1\ 2\ 3\ 4 \end{bmatrix}\<br>\begin{Bmatrix} 1\ 2\ 3\ 4 \end{Bmatrix}\<br>\begin{vmatrix} 1&amp; 2\ 3&amp; 4 \end{vmatrix}\<br>\begin{Vmatrix} 1 &amp; 2\ 3 &amp; 4 \end{Vmatrix}\<br>$$</p>
-<h3 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h3><p><code>1.\alpha\ A\\ 2.\beta\ B\\ 3.\gamma\ \Gamma\\ 4.\delta\ \Delta\\ 5.\epsilon\ E\\ 6.\zeta\ Z\\ 7.\eta\ H\\ 8.\theta\ \Theta\\ 9.\iota\ I\\ 10.\kappa\ K\\ 11.\lambda\ \Lambda\\ 12.\mu\ M\\ 13.\nu\ N\\ 14.\xi\ \Xi\\ 15.\omicron\ O\\ 16.\pi\ \Pi\\ 17.\rho\ P\\ 18.\sigma\ \Sigma\\ 19.\tau\ T\\ 20.\upsilon\ \Upsilon\\ 21.\phi\ \Phi\\ 22.\chi\ X\\ 23.\psi\ \Psi\\ 24.\omega\ \Omega\\</code><br>$$<br>1.\alpha\ A\<br>2.\beta\ B\<br>3.\gamma\ \Gamma\<br>4.\delta\ \Delta\<br>5.\epsilon\ E\<br>6.\zeta\ Z\<br>7.\eta\ H\<br>8.\theta\ \Theta\<br>9.\iota\ I\<br>10.\kappa\ K\<br>11.\lambda\ \Lambda\<br>12.\mu\ M\<br>13.\nu\ N\<br>14.\xi\ \Xi\<br>15.\omicron\ O\<br>16.\pi\ \Pi\<br>17.\rho\ P\<br>18.\sigma\ \Sigma\<br>19.\tau\ T\<br>20.\upsilon\ \Upsilon\<br>21.\phi\ \Phi\<br>22.\chi\ X\<br>23.\psi\ \Psi\<br>24.\omega\ \Omega\<br>$$</p>
-<h3 id="根式分式"><a href="#根式分式" class="headerlink" title="根式分式"></a>根式分式</h3><p><code>\sqrt[x+y]&#123;\frac ab&#125;+\sqrt&#123;c+2\over 50+x&#125;</code><br>$$<br>\sqrt[x+y]{\frac ab}+\sqrt{c+2\over 50+x}<br>$$</p>
-<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p><code>ABCabc+\ \mathbb&#123; ABCabc&#125;+\ \Bbb&#123; ABCabc黑板粗体&#125;\\ ABCabc+\mathbf&#123;ABCabc黑体&#125;\\ ABCabc+\mathtt&#123;ABCabc打印字体&#125; \\ ABCabc+\mathrm&#123;ABCabc罗马字体&#125; \\ ABCabc+\mathscr&#123;ABCabc手写字体&#125; \\ ABCabc+\mathfrak&#123;ABCabc德国字体Fraktur&#125; </code><br>$$<br>ABCabc+\ \mathbb{ ABCabc}+\ \Bbb{ ABCabc黑板粗体}\<br>ABCabc+\mathbf{ABCabc黑体}\<br>ABCabc+\mathtt{ABCabc打印字体} \<br>ABCabc+\mathrm{ABCabc罗马字体} \<br>ABCabc+\mathscr{ABCabc手写字体} \<br>ABCabc+\mathfrak{ABCabc德国字体Fraktur}<br>$$</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p><code>\begin&#123;array&#125;&#123;c|lcr&#125; n &amp; \text&#123;Left&#125; &amp; \text&#123;Center&#125; &amp; \text&#123;Right&#125; \\ \hline 1 &amp; 0.24 &amp; 1 &amp; 125 \\ 2 &amp; -1 &amp; 189 &amp; -8 \\ 3 &amp; -20 &amp; 2000 &amp; 1+10i \\ \end&#123;array&#125;</code><br>$$<br>\begin{array}{c|lcr} n &amp; \text{Left} &amp; \text{Center} &amp; \text{Right} \ \hline 1 &amp; 0.24 &amp; 1 &amp; 125 \ 2 &amp; -1 &amp; 189 &amp; -8 \ 3 &amp; -20 &amp; 2000 &amp; 1+10i \ \end{array}<br>$$</p>
-<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p><code>\begin&#123;matrix&#125; 1 &amp; x &amp; x^2 \\ 1 &amp; y &amp; y^2 \\ 1 &amp; z &amp; z^2 \end&#123;matrix&#125;</code><br>$$<br>\begin{matrix} 1 &amp; x &amp; x^2 \ 1 &amp; y &amp; y^2 \ 1 &amp; z &amp; z^2 \end{matrix}<br>$$</p>
-<h3 id="向量等顶部符号"><a href="#向量等顶部符号" class="headerlink" title="向量等顶部符号"></a>向量等顶部符号</h3><p><code>\vec&#123;abc&#125; \ ,\overline b\ ,\overrightarrow&#123;cde&#125; \ ,\dot c\ , \dot &#123;adb&#125;\ ,\ddot&#123;acd&#125;\ ,\dddot&#123;adfe&#125;</code><br>$$<br>\vec{abc} \ ,\overline b\ ,\overrightarrow{cde} \ ,\dot c\ , \dot {adb}\ ,\ddot{acd}\ ,\dddot{adfe}<br>$$</p>
-<h3 id="对其"><a href="#对其" class="headerlink" title="对其"></a>对其</h3><p>需要使用&amp;来指示需要对齐的位置</p>
-<p><code>\begin&#123;align&#125; \sqrt&#123;37&#125; &amp; = \sqrt&#123;\frac&#123;73^2-1&#125;&#123;12^2&#125;&#125; \\ &amp; = \sqrt&#123;\frac&#123;73^2&#125;&#123;12^2&#125; \cdot \frac&#123;73^2-1&#125;&#123;73^2&#125;&#125; \\ &amp; = \frac&#123;73&#125;&#123;12&#125; \sqrt&#123;1 - \frac&#123;1&#125;&#123;73^2&#125;&#125; \\ &amp; \approx \frac&#123;73&#125;&#123;12&#125; \left( 1 - \frac&#123;1&#125;&#123;2 \cdot 73^2&#125; \right) \end&#123;align&#125;</code><br>$$<br>\begin{align} \sqrt{37} &amp; = \sqrt{\frac{73^2-1}{12^2}} \ &amp; = \sqrt{\frac{73^2}{12^2} \cdot \frac{73^2-1}{73^2}} \ &amp; = \frac{73}{12} \sqrt{1 - \frac{1}{73^2}} \ &amp; \approx \frac{73}{12} \left( 1 - \frac{1}{2 \cdot 73^2} \right) \end{align}<br>$$</p>
-<h3 id="分类表达式"><a href="#分类表达式" class="headerlink" title="分类表达式"></a>分类表达式</h3><p><code>f(n) = \begin&#123;cases&#125; n/2, &amp; \text&#123;if $n$ is even&#125; \\ 3n+1, &amp; \text&#123;if $n$ is odd&#125; \end&#123;cases&#125;</code><br>$$<br>f(n) = \begin{cases} n/2, &amp; \text{if $n$ is even} \ 3n+1, &amp; \text{if $n$ is odd} \end{cases}<br>$$<br><code>\left. \begin&#123;array&#125;&#123;l&#125; \text&#123;if $n$ is even:&#125; &amp; n/2 \\ \text&#123;if $n$ is odd:&#125; &amp; 3n+1 \end&#123;array&#125; \right\&#125; = f(n)</code><br>$$<br>\left. \begin{array}{l} \text{if $n$ is even:} &amp; n/2 \ \text{if $n$ is odd:} &amp; 3n+1 \end{array} \right} = f(n)<br>$$</p>
-<h3 id="公式标记与引用"><a href="#公式标记与引用" class="headerlink" title="公式标记与引用"></a>公式标记与引用</h3><p><code>a:= x^2-y^3 \tag&#123;公式1&#125;\label&#123;公式1&#125;</code><br>$$<br>a:= x^2-y^3 \tag{公式1}\label{公式1}<br>$$<br><code>a+y^3 \stackrel&#123;\eqref&#123;公式1&#125;&#125;=x^2</code></p>
-<p>$$<br>a+y^3 \stackrel{\eqref{公式1}}=x^2<br>$$</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><code>\to \rightarrow \leftarrow \Rightarrow \Leftarrow \mapsto</code><br>$$<br>\to \rightarrow \leftarrow \Rightarrow \Leftarrow \mapsto<br>$$<br><code>\lt \gt \le \ge \neq</code><br>$$<br>\lt \gt \le \ge \neq<br>$$</p>
-<p><code>\sin x\\ \arctan_y\\ \lim_&#123;1\to\infty&#125;\\</code><br>$$<br>\sin x\<br>\arctan_y\<br>\lim_{1\to\infty}\<br>$$<br><code>\sum_1^n\ ,\int_1^&#123;x+y&#125;\ </code><br>$$<br>\sum_1^n\ ,\int_1^{x+y}<br>$$</p>
-<h3 id="合集图片"><a href="#合集图片" class="headerlink" title="合集图片"></a>合集图片</h3><p><img src="https://img.supervj.top/img/DX/20190703164359871.png" alt="20190703164359871"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/23/LearnDX12_Math/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1716,6 +1864,156 @@
 <blockquote>
 <p><img src="https://img.supervj.top/img/DX/image-20200121182846768.png" alt="image-20200121182846768"></p>
 </blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="post-title-link" itemprop="url">Markdown(Typora)数学公式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-23T00:00:00+08:00">2020-06-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:17:45" itemprop="dateModified" datetime="2021-08-02T16:17:45+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/06/23/Mardown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="cy_cmt_count" data-xid="2020/06/23/Mardown数学公式/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>Ctrl+Shift+M激活公式</p>
+</blockquote>
+<h3 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h3><p><code>a^2+\ b_&#123;y_3&#125;</code></p>
+<p>$$<br>a^2+\ b_{y_3}<br>$$</p>
+<h3 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h3><ul>
+<li>中小括号</li>
+</ul>
+<p><code>(a+b)*[c+2]</code><br>$$<br>(a+b)*[c+2]<br>$$</p>
+<ul>
+<li>大括号需要加<code>\</code></li>
+</ul>
+<p><code>\&#123;1,2,3 \&#125;</code><br>$$<br>{1,2,3 }<br>$$</p>
+<ul>
+<li>尖括号</li>
+</ul>
+<p><code>\langle x \rangle</code><br>$$<br>\langle x \rangle<br>$$</p>
+<ul>
+<li>上下取整</li>
+</ul>
+<p><code>\lceil x \rceil+\lfloor y\rfloor</code><br>$$<br>\lceil x \rceil+\lfloor y\rfloor<br>$$</p>
+<ul>
+<li>特殊括号</li>
+</ul>
+<p><code>\begin&#123;pmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;pmatrix&#125;\\ \begin&#123;bmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;bmatrix&#125;\\ \begin&#123;Bmatrix&#125; 1\ 2\\ 3\ 4 \end&#123;Bmatrix&#125;\\ \begin&#123;vmatrix&#125; 1&amp; 2\\ 3&amp; 4 \end&#123;vmatrix&#125;\\ \begin&#123;Vmatrix&#125; 1&amp; 2\\ 3&amp; 4 \end&#123;Vmatrix&#125;\\</code><br>$$<br>\begin{pmatrix} 1\ 2\ 3\ 4 \end{pmatrix}\<br>\begin{bmatrix} 1\ 2\ 3\ 4 \end{bmatrix}\<br>\begin{Bmatrix} 1\ 2\ 3\ 4 \end{Bmatrix}\<br>\begin{vmatrix} 1&amp; 2\ 3&amp; 4 \end{vmatrix}\<br>\begin{Vmatrix} 1 &amp; 2\ 3 &amp; 4 \end{Vmatrix}\<br>$$</p>
+<h3 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h3><p><code>1.\alpha\ A\\ 2.\beta\ B\\ 3.\gamma\ \Gamma\\ 4.\delta\ \Delta\\ 5.\epsilon\ E\\ 6.\zeta\ Z\\ 7.\eta\ H\\ 8.\theta\ \Theta\\ 9.\iota\ I\\ 10.\kappa\ K\\ 11.\lambda\ \Lambda\\ 12.\mu\ M\\ 13.\nu\ N\\ 14.\xi\ \Xi\\ 15.\omicron\ O\\ 16.\pi\ \Pi\\ 17.\rho\ P\\ 18.\sigma\ \Sigma\\ 19.\tau\ T\\ 20.\upsilon\ \Upsilon\\ 21.\phi\ \Phi\\ 22.\chi\ X\\ 23.\psi\ \Psi\\ 24.\omega\ \Omega\\</code><br>$$<br>1.\alpha\ A\<br>2.\beta\ B\<br>3.\gamma\ \Gamma\<br>4.\delta\ \Delta\<br>5.\epsilon\ E\<br>6.\zeta\ Z\<br>7.\eta\ H\<br>8.\theta\ \Theta\<br>9.\iota\ I\<br>10.\kappa\ K\<br>11.\lambda\ \Lambda\<br>12.\mu\ M\<br>13.\nu\ N\<br>14.\xi\ \Xi\<br>15.\omicron\ O\<br>16.\pi\ \Pi\<br>17.\rho\ P\<br>18.\sigma\ \Sigma\<br>19.\tau\ T\<br>20.\upsilon\ \Upsilon\<br>21.\phi\ \Phi\<br>22.\chi\ X\<br>23.\psi\ \Psi\<br>24.\omega\ \Omega\<br>$$</p>
+<h3 id="根式分式"><a href="#根式分式" class="headerlink" title="根式分式"></a>根式分式</h3><p><code>\sqrt[x+y]&#123;\frac ab&#125;+\sqrt&#123;c+2\over 50+x&#125;</code><br>$$<br>\sqrt[x+y]{\frac ab}+\sqrt{c+2\over 50+x}<br>$$</p>
+<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p><code>ABCabc+\ \mathbb&#123; ABCabc&#125;+\ \Bbb&#123; ABCabc黑板粗体&#125;\\ ABCabc+\mathbf&#123;ABCabc黑体&#125;\\ ABCabc+\mathtt&#123;ABCabc打印字体&#125; \\ ABCabc+\mathrm&#123;ABCabc罗马字体&#125; \\ ABCabc+\mathscr&#123;ABCabc手写字体&#125; \\ ABCabc+\mathfrak&#123;ABCabc德国字体Fraktur&#125; </code><br>$$<br>ABCabc+\ \mathbb{ ABCabc}+\ \Bbb{ ABCabc黑板粗体}\<br>ABCabc+\mathbf{ABCabc黑体}\<br>ABCabc+\mathtt{ABCabc打印字体} \<br>ABCabc+\mathrm{ABCabc罗马字体} \<br>ABCabc+\mathscr{ABCabc手写字体} \<br>ABCabc+\mathfrak{ABCabc德国字体Fraktur}<br>$$</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p><code>\begin&#123;array&#125;&#123;c|lcr&#125; n &amp; \text&#123;Left&#125; &amp; \text&#123;Center&#125; &amp; \text&#123;Right&#125; \\ \hline 1 &amp; 0.24 &amp; 1 &amp; 125 \\ 2 &amp; -1 &amp; 189 &amp; -8 \\ 3 &amp; -20 &amp; 2000 &amp; 1+10i \\ \end&#123;array&#125;</code><br>$$<br>\begin{array}{c|lcr} n &amp; \text{Left} &amp; \text{Center} &amp; \text{Right} \ \hline 1 &amp; 0.24 &amp; 1 &amp; 125 \ 2 &amp; -1 &amp; 189 &amp; -8 \ 3 &amp; -20 &amp; 2000 &amp; 1+10i \ \end{array}<br>$$</p>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p><code>\begin&#123;matrix&#125; 1 &amp; x &amp; x^2 \\ 1 &amp; y &amp; y^2 \\ 1 &amp; z &amp; z^2 \end&#123;matrix&#125;</code><br>$$<br>\begin{matrix} 1 &amp; x &amp; x^2 \ 1 &amp; y &amp; y^2 \ 1 &amp; z &amp; z^2 \end{matrix}<br>$$</p>
+<h3 id="向量等顶部符号"><a href="#向量等顶部符号" class="headerlink" title="向量等顶部符号"></a>向量等顶部符号</h3><p><code>\vec&#123;abc&#125; \ ,\overline b\ ,\overrightarrow&#123;cde&#125; \ ,\dot c\ , \dot &#123;adb&#125;\ ,\ddot&#123;acd&#125;\ ,\dddot&#123;adfe&#125;</code><br>$$<br>\vec{abc} \ ,\overline b\ ,\overrightarrow{cde} \ ,\dot c\ , \dot {adb}\ ,\ddot{acd}\ ,\dddot{adfe}<br>$$</p>
+<h3 id="对其"><a href="#对其" class="headerlink" title="对其"></a>对其</h3><p>需要使用&amp;来指示需要对齐的位置</p>
+<p><code>\begin&#123;align&#125; \sqrt&#123;37&#125; &amp; = \sqrt&#123;\frac&#123;73^2-1&#125;&#123;12^2&#125;&#125; \\ &amp; = \sqrt&#123;\frac&#123;73^2&#125;&#123;12^2&#125; \cdot \frac&#123;73^2-1&#125;&#123;73^2&#125;&#125; \\ &amp; = \frac&#123;73&#125;&#123;12&#125; \sqrt&#123;1 - \frac&#123;1&#125;&#123;73^2&#125;&#125; \\ &amp; \approx \frac&#123;73&#125;&#123;12&#125; \left( 1 - \frac&#123;1&#125;&#123;2 \cdot 73^2&#125; \right) \end&#123;align&#125;</code><br>$$<br>\begin{align} \sqrt{37} &amp; = \sqrt{\frac{73^2-1}{12^2}} \ &amp; = \sqrt{\frac{73^2}{12^2} \cdot \frac{73^2-1}{73^2}} \ &amp; = \frac{73}{12} \sqrt{1 - \frac{1}{73^2}} \ &amp; \approx \frac{73}{12} \left( 1 - \frac{1}{2 \cdot 73^2} \right) \end{align}<br>$$</p>
+<h3 id="分类表达式"><a href="#分类表达式" class="headerlink" title="分类表达式"></a>分类表达式</h3><p><code>f(n) = \begin&#123;cases&#125; n/2, &amp; \text&#123;if $n$ is even&#125; \\ 3n+1, &amp; \text&#123;if $n$ is odd&#125; \end&#123;cases&#125;</code><br>$$<br>f(n) = \begin{cases} n/2, &amp; \text{if $n$ is even} \ 3n+1, &amp; \text{if $n$ is odd} \end{cases}<br>$$<br><code>\left. \begin&#123;array&#125;&#123;l&#125; \text&#123;if $n$ is even:&#125; &amp; n/2 \\ \text&#123;if $n$ is odd:&#125; &amp; 3n+1 \end&#123;array&#125; \right\&#125; = f(n)</code><br>$$<br>\left. \begin{array}{l} \text{if $n$ is even:} &amp; n/2 \ \text{if $n$ is odd:} &amp; 3n+1 \end{array} \right} = f(n)<br>$$</p>
+<h3 id="公式标记与引用"><a href="#公式标记与引用" class="headerlink" title="公式标记与引用"></a>公式标记与引用</h3><p><code>a:= x^2-y^3 \tag&#123;公式1&#125;\label&#123;公式1&#125;</code><br>$$<br>a:= x^2-y^3 \tag{公式1}\label{公式1}<br>$$<br><code>a+y^3 \stackrel&#123;\eqref&#123;公式1&#125;&#125;=x^2</code></p>
+<p>$$<br>a+y^3 \stackrel{\eqref{公式1}}=x^2<br>$$</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><code>\to \rightarrow \leftarrow \Rightarrow \Leftarrow \mapsto</code><br>$$<br>\to \rightarrow \leftarrow \Rightarrow \Leftarrow \mapsto<br>$$<br><code>\lt \gt \le \ge \neq</code><br>$$<br>\lt \gt \le \ge \neq<br>$$</p>
+<p><code>\sin x\\ \arctan_y\\ \lim_&#123;1\to\infty&#125;\\</code><br>$$<br>\sin x\<br>\arctan_y\<br>\lim_{1\to\infty}\<br>$$<br><code>\sum_1^n\ ,\int_1^&#123;x+y&#125;\ </code><br>$$<br>\sum_1^n\ ,\int_1^{x+y}<br>$$</p>
+<h3 id="合集图片"><a href="#合集图片" class="headerlink" title="合集图片"></a>合集图片</h3><p><img src="https://img.supervj.top/img/DX/20190703164359871.png" alt="20190703164359871"></p>
 
       
     </div>
@@ -2935,129 +3233,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/" class="post-title-link" itemprop="url">AI_MoveTo分析和扩展</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-05-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-27T00:00:00+08:00">2020-05-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:35:31" itemprop="dateModified" datetime="2021-08-02T16:35:31+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/editor/" itemprop="url" rel="index"><span itemprop="name">editor</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/" class="cy_cmt_count" data-xid="2020/05/27/AI_MoveTo研究/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>20k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>18 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="UK2Node-AIMoveTo"><a href="#UK2Node-AIMoveTo" class="headerlink" title="UK2Node_AIMoveTo"></a>UK2Node_AIMoveTo</h2><p><img src="https://img.supervj.top/img/AIMoveTo/move_4.jpg"></p>
-<blockquote>
-<p>这是我们最熟悉的编辑器模式下的AI_MoveTo节点，也就是那个自带OnSuccess和OnFailed的异步节点，在蓝图中大多数时候使用起来都得心应手非常方便，但是它有个最大的缺点，异步节点意味着他有自己的生命周期，不能放到函数中使用，同样的，在代码中也没有此类节点，那么接下来我们尝试解决这一问题</p>
-</blockquote>
-<p>翻看此节点的代码，没几行代码,主要看如下</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/27/AI_MoveTo%E7%A0%94%E7%A9%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -3093,7 +3268,7 @@
 
 <div class="copyright">
   &copy; 2020 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -3105,14 +3280,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">771k</span>
+    <span title="站点总字数">773k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:41</span>
+    <span title="站点阅读时长">11:43</span>
   </span>
 </div>
 <div class="busuanzi-count">

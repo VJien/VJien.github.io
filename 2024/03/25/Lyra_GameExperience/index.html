@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://img.supervj.top/imgHEAD_Icon.png">
+  <link rel="mask-icon" href="https://img.supervj.top/imgHEAD_Icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng:300,300italic,400,400italic,700,700italic|Noto+Sans+Simplified+Chinese:300,300italic,400,400italic,700,700italic|Noto+Serif+SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"supervj.top","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言如何基于Lyra的项目快速配置一个角色，该流程的起点是GameExperience对象，本文对此进行简单的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lyra技术分析：GameExperience">
+<meta property="og:url" content="http://supervj.top/2024/03/25/Lyra_GameExperience/index.html">
+<meta property="og:site_name" content="月光林地">
+<meta property="og:description" content="前言如何基于Lyra的项目快速配置一个角色，该流程的起点是GameExperience对象，本文对此进行简单的分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173307302.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325171904535.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325170903194.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325172239075.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325172306933.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173033439.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173258458.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173656070.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173918558.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174657365.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174010110.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174335749.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174453559.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325175202941.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182359136.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182435434.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182507579.png">
+<meta property="article:published_time" content="2024-03-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-25T10:29:10.541Z">
+<meta property="article:author" content="VJ东">
+<meta property="article:tag" content="lyra">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173307302.png">
+
+
+<link rel="canonical" href="http://supervj.top/2024/03/25/Lyra_GameExperience/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Lyra技术分析：GameExperience | 月光林地</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">月光林地</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E7%AE%80%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">流程简析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BAGameExperience"><span class="nav-number">3.1.</span> <span class="nav-text">1.创建GameExperience</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">3.1.1.</span> <span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ULyraExperienceManagerComponent"><span class="nav-number">3.1.2.</span> <span class="nav-text">ULyraExperienceManagerComponent</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AEPawnData"><span class="nav-number">3.2.</span> <span class="nav-text">2. 配置PawnData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B7%BB%E5%8A%A0Actions"><span class="nav-number">3.3.</span> <span class="nav-text">3. 添加Actions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%88%9B%E5%BB%BA%E7%8E%A9%E5%AE%B6%E8%A7%92%E8%89%B2%E5%B9%B6%E6%B7%BB%E5%8A%A0%E7%BB%84%E4%BB%B6B-MannequinPawnCosmetics"><span class="nav-number">3.4.</span> <span class="nav-text">4. 创建玩家角色并添加组件B_MannequinPawnCosmetics</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.4.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LyraControllerComponentChracterParts"><span class="nav-number">3.4.2.</span> <span class="nav-text">LyraControllerComponentChracterParts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LyraPawnComponent-CharacterParts"><span class="nav-number">3.4.3.</span> <span class="nav-text">LyraPawnComponent_CharacterParts</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8D%A2%E7%9A%AE"><span class="nav-number">5.</span> <span class="nav-text">如何换皮</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VJ东"
+      src="https://img.supervj.top/imgHEAD_Icon.png">
+  <p class="site-author-name" itemprop="name">VJ东</p>
+  <div class="site-description" itemprop="description"> 如果我们不曾相遇 </div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">107</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="/389278697@qq.com" title="E-Mail → 389278697@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/VJien" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2024/03/25/Lyra_GameExperience/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Lyra技术分析：GameExperience
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-03-25 00:00:00 / 修改时间：18:29:10" itemprop="dateCreated datePublished" datetime="2024-03-25T00:00:00+08:00">2024-03-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/gameplay/" itemprop="url" rel="index"><span itemprop="name">gameplay</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2024/03/25/Lyra_GameExperience/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2024/03/25/Lyra_GameExperience/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如何基于Lyra的项目快速配置一个角色，该流程的起点是GameExperience对象，本文对此进行简单的分析</p>
+<span id="more"></span>
+
+
+
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>ULyraExperienceDefinition ：主要的配置资源，继承自<code>PrimaryDataAsset</code>，简称DA</li>
+<li>ULyraPawnData: DA, 角色的配置,包含角色class类型以及技能和输入设置等</li>
+<li>GameFeature: UE4.27新加的，一种基于插件的模块化的可以热插拔的功能</li>
+<li>ULyraAbilitySet：DA, Gas技能配置, 另外也包含初始化的GE效果和额外属性集（关于Gas的篇幅太大，这里不展开）</li>
+<li>ULyraInputConfig：DA, 输入配置，基于EnhancedInput框架结合gas的配置，核心思路是用用Tag来触发技能Ga<br><a href="https://supervj.top/2023/11/16/Lyra%E6%8A%80%E8%83%BD%E8%BE%93%E5%85%A5/">Lyra技术分析:输入方式与GAS技能触发</a>这里有详细说明</li>
+<li>ULyraControllerComponent_CharacterParts: 挂载在controller上的组件, 本文中作为添加角色子actor的发起者</li>
+<li>ULyraPawnComponent_CharacterParts: 挂载在玩家角色上的组件,用于接受前者的事件并修改角色模型</li>
+<li>ULyraExperienceManagerComponent： 挂载在GameState的组件，用于保存和管理<code>ULyraExperienceDefinition</code>数据</li>
+</ul>
+<h2 id="流程简析"><a href="#流程简析" class="headerlink" title="流程简析"></a>流程简析</h2><h3 id="1-创建GameExperience"><a href="#1-创建GameExperience" class="headerlink" title="1.创建GameExperience"></a><code>1.创建GameExperience</code></h3><p>第一步需要创建<code>GameExperience</code>对象， 配置GaemFeatureToEnable为当前插件名称，目的是让该模块自动加载</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173307302.png" alt="image-20240325173307302"></p>
+<p>Lyra用<code>GameExperience</code> 来配置角色基础信息, 这个变量放在<code>WorldSetting</code>中, 如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325171904535.png" alt="image-20240325171904535"></p>
+<h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h4><p>需要在项目设置中自定义一个自己的<code>WorldSetting</code></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325170903194.png" alt="image-20240325170903194"></p>
+<p>然后在GameMode对象启动并执行Init的时候, 从<code>WorldSetting</code>中找到这个配置并保存到GameState中的<code>ULyraExperienceManagerComponent</code>组件中</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325172239075.png" alt="image-20240325172239075"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325172306933.png" alt="image-20240325172306933"></p>
+<h4 id="ULyraExperienceManagerComponent"><a href="#ULyraExperienceManagerComponent" class="headerlink" title="ULyraExperienceManagerComponent"></a><code>ULyraExperienceManagerComponent</code></h4><p>这个组件用来维护<code>ULyraExperienceDefinition</code>数据, 很多对象的初始化都依赖这个数据的初始化完成， 在<code>ULyraExperienceManagerComponent</code>中有<code>CallOrRegister_OnExperienceLoaded()</code>这个方法用于其他对象的注册或监听</p>
+<p>比如</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173033439.png" alt="image-20240325173033439"></p>
+<h3 id="2-配置PawnData"><a href="#2-配置PawnData" class="headerlink" title="2. 配置PawnData"></a>2. 配置PawnData</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173258458.png" alt="image-20240325173258458"></p>
+<p>PawnData配置了角色的类型,以及所有技能,属性(通过AbilitySet)以及输入方式(通过InputConfig)</p>
+<p>这个不算很难, 不一一展开</p>
+<p>相机模式也在这里配置, 使用默认的TP即可, 关于相机模式未来有机会分析一下</p>
+<h3 id="3-添加Actions"><a href="#3-添加Actions" class="headerlink" title="3. 添加Actions"></a>3. 添加Actions</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173656070.png" alt="image-20240325173656070"></p>
+<p>这个Actions目的是在这个GameFeature加载后在所有指定的Actor上执行某个操作比如挂载某个组件, 当然在GameFeature卸载以后也会相应的卸载这个组件</p>
+<p>这一步我们给所有Controller添加继承自LyraControllerComponentChracterParts的组件, 并在组件开始时执行下图操作</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325173918558.png" alt="image-20240325173918558"></p>
+<h3 id="4-创建玩家角色并添加组件B-MannequinPawnCosmetics"><a href="#4-创建玩家角色并添加组件B-MannequinPawnCosmetics" class="headerlink" title="4. 创建玩家角色并添加组件B_MannequinPawnCosmetics"></a>4. 创建玩家角色并添加组件<code>B_MannequinPawnCosmetics</code></h3><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174657365.png" alt="image-20240325174657365"></p>
+<p>B_MannequinPawnCosmetics组件继承自LyraPawnComponent_CharacterParts</p>
+<p>配置了2组MeshRules数据以及默认的模型和物理资产，这些是与<code>LyraControllerComponentChracterParts</code>需要配合使用</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="LyraControllerComponentChracterParts"><a href="#LyraControllerComponentChracterParts" class="headerlink" title="LyraControllerComponentChracterParts"></a>LyraControllerComponentChracterParts</h4><p>这个组件挂载到Cotroller上, 如前面在游戏开始的时候我们添加一个B_Manny类型的Part,这一个操作的目的是啥呢?</p>
+<p><strong><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174010110.png" alt="image-20240325174010110"></strong></p>
+<p>这个controller版本的组件只是作为发起者, 将这个part数据（核心就是这个class对象）添加到pawn版本的组件中去</p>
+<h4 id="LyraPawnComponent-CharacterParts"><a href="#LyraPawnComponent-CharacterParts" class="headerlink" title="LyraPawnComponent_CharacterParts"></a>LyraPawnComponent_CharacterParts</h4><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174335749.png" alt="image-20240325174335749"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325174453559.png" alt="image-20240325174453559"></p>
+<p>核心的代码就在上面两图</p>
+<ul>
+<li>SpawnActorForEntry</li>
+</ul>
+<p>创建一个ChildActor并attach到角色mesh上</p>
+<ul>
+<li>BroadcastChanged</li>
+</ul>
+<p>从<code>LyraControllerComponentChracterParts</code>添加进来的parts中的tag去查找组件中符合的对象，然后更新角色模型和物理资产</p>
+<p>Lyra 的2个part角色有一个容易忽略的细节， 2个对象配置了2个tag，如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325175202941.png" alt="image-20240325175202941"></p>
+<p>这个就是上面所说的查找所需的tag</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>默认的角色类，即PawnData中配置的类是负责逻辑的，真正用于显示角色模型的是这个part对象</p>
+</li>
+<li><p>所有使用PawnData的对象都需要去监听<code>ULyraExperienceManagerComponent</code>的回调事件保证时序</p>
+</li>
+</ul>
+<h2 id="如何换皮"><a href="#如何换皮" class="headerlink" title="如何换皮"></a>如何换皮</h2><p>既然是通过part来确定我们渲染的角色的，那么就可以使用一个新的 part对象来换皮</p>
+<p>创建继承自TaggedActor的对象TesetMan，设置UE4小白人为模型，添加角色组件中男性空骨骼模型一样的tag</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182359136.png" alt="image-20240325182359136"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182435434.png" alt="image-20240325182435434"></p>
+<p>指定这个Mesh组件的ABP为一个特殊的ABP</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20240325182507579.png" alt="image-20240325182507579"></p>
+<p>在运行时进行重定向运算</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="https://img.supervj.top/img/reward/微信图片_20200601120451.jpg" alt="VJ东 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="https://img.supervj.top/img/reward/alipayReward.jpg" alt="VJ东 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>VJ东
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://supervj.top/2024/03/25/Lyra_GameExperience/" title="Lyra技术分析：GameExperience">http://supervj.top/2024/03/25/Lyra_GameExperience/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/lyra/" rel="tag"># lyra</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/06/MMD/" rel="prev" title="MMD动画在UE5的使用">
+                  <i class="fa fa-chevron-left"></i> MMD动画在UE5的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VJ东</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">773k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:43</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+  <script>
+    NProgress.configure({
+      showSpinner: true
+    });
+    NProgress.start();
+    document.addEventListener('readystatechange', () => {
+      if (document.readyState === 'interactive') {
+        NProgress.inc(0.8);
+      }
+      if (document.readyState === 'complete') {
+        NProgress.done();
+      }
+    });
+    document.addEventListener('pjax:send', () => {
+      NProgress.start();
+    });
+    document.addEventListener('pjax:success', () => {
+      NProgress.done();
+    });
+  </script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  
+
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvbKaUjB',
+        conf : 'prod_b311afbb23dc58b51a33a859b480920e'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+</body>
+</html>
