@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,219 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/" class="post-title-link" itemprop="url">UE4发布steam游戏流程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-09T00:00:00+08:00">2020-05-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:15:13" itemprop="dateModified" datetime="2021-08-02T16:15:13+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/other/" itemprop="url" rel="index"><span itemprop="name">other</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/09/UE4%E4%BD%BF%E7%94%A8Steam%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B8%83Steam%E5%8C%85/" class="cy_cmt_count" data-xid="2020/05/09/UE4使用Steam子系统发布Steam包/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>2019年4月18日在steam发布了个人一款独立动作游戏《EndlessHell》，本文将借此记录发布steam游戏的流程</p>
+<p><a target="_blank" rel="noopener" href="https://store.steampowered.com/app/1055000/EndlessHell/">游戏链接</a></p>
+<p>UE4版本4.21</p>
+<p><a target="_blank" rel="noopener" href="https://partner.steamgames.com/doc/gettingstarted">SteamWork入门指南</a></p>
+<p>文中内容前半部分为提交当时编辑，搬运至博客后更新后续部分</p>
+</blockquote>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="SteamDLL"><a href="#SteamDLL" class="headerlink" title="SteamDLL"></a>SteamDLL</h3><p>复制steam程序中的dll文件至本地引擎文件内<code>*\UE_4.21\Engine\Binaries\ThirdParty\Steamworks\Steamv139</code></p>
+<p>如下图所示</p>
+<p><img src="https://img.supervj.top/imgsteamapi2.png"></p>
+<p><img src="https://img.supervj.top/imgsteamapi3.png"></p>
+<p>最终效果如下</p>
+<p><img src="https://img.supervj.top/imgapi1.png"></p>
+<h3 id="Engine-ini"><a href="#Engine-ini" class="headerlink" title="Engine.ini"></a>Engine.ini</h3><p>添加如下代码</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[/Script/Engine.GameEngine]</span></span><br><span class="line">+<span class="attr">NetDriverDefinitions</span>=(DefName=<span class="string">&quot;GameNetDriver&quot;</span>,DriverClassName=<span class="string">&quot;OnlineSubsystemSteam.SteamNetDriver&quot;</span>,DriverClassNameFallback=<span class="string">&quot;OnlineSubsystemUtils.IpNetDriver&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">[OnlineSubsystem]</span></span><br><span class="line"><span class="attr">DefaultPlatformService</span>=Steam</span><br><span class="line"></span><br><span class="line"><span class="section">[OnlineSubsystemSteam]</span></span><br><span class="line"><span class="attr">bEnabled</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">SteamDevAppId</span>=<span class="number">480</span>//测试ID，正式包用自己的ApplicationID</span><br><span class="line"><span class="attr">Achievement_0_Id</span>=ACH_WIN_ONE_GAME //添加成就，正式包用自己的成就</span><br><span class="line"><span class="section">[/Script/OnlineSubsystemSteam.SteamNetDriver]</span></span><br><span class="line"><span class="attr">NetConnectionClassName</span>=<span class="string">&quot;OnlineSubsystemSteam.SteamNetConnection&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="UE4配置"><a href="#UE4配置" class="headerlink" title="UE4配置"></a>UE4配置</h3><p>开启子系统，如下图 </p>
+<p><img src="https://img.supervj.top/imgsteam1.PNG"></p>
+<p>至此进入游戏后按<code>shift+tab</code>可以唤出steam窗口,记住需要使用==独立窗口模式运行==</p>
+<p><img src="https://img.supervj.top/imgsteam2.png"></p>
+<ul>
+<li>如需使用steamapi，在target.cs中开启如下选项</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bUsesSteam = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>同时在<code>build.cs</code>中如下模块</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PublicDependencyModuleNames.AddRange(<span class="keyword">new</span> <span class="built_in">string</span>[] &#123;</span><br><span class="line">            <span class="string">&quot;OnlineSubsystem&quot;</span>,</span><br><span class="line">            <span class="string">&quot;OnlineSubsystemUtils&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Steamworks&quot;</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"> DynamicallyLoadedModuleNames.Add(<span class="string">&quot;OnlineSubsystemSteam&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="SteamWork"><a href="#SteamWork" class="headerlink" title="SteamWork"></a>SteamWork</h2><ul>
+<li>首先需要注册一个stemawork账号</li>
+<li>发布steam游戏需要申请一个ID，本作ID是<em><strong>1055000</strong></em>（此数字+1为depot的ID），以下用的此数字均为游戏ID，另外需要一次性付费<strong>100美刀</strong>（当时价格），当销售额度达到1000美刀后返还</li>
+<li>另外需要提供个人银行账户，每月月初当上个月份税后金额达到100刀以上会打款到账户</li>
+<li>在进入下面之前需要先下载steamSDK，如steamwork首页右下角位置,如图</li>
+</ul>
+<img src="https://img.supervj.top/imgsteamSdk.jpg" style="zoom:50%;" />
+
+<h3 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h3><h4 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h4><h5 id="通用"><a href="#通用" class="headerlink" title="通用"></a>通用</h5><p>设置正确的游戏名字和平台</p>
+<h5 id="steam输入"><a href="#steam输入" class="headerlink" title="steam输入"></a>steam输入</h5><p>提供的输入方式，如手柄，xbox等</p>
+<h4 id="SteamPipe"><a href="#SteamPipe" class="headerlink" title="SteamPipe"></a>SteamPipe</h4><h6 id="提交版本"><a href="#提交版本" class="headerlink" title="提交版本"></a>提交版本</h6><p>这个是版本生成器，用于提交版本和选择当前在商店下载的游戏版本</p>
+<p>提交版本可以使用SDK包中的工具提交，在开始提交之前需要设置如下内容</p>
+<ol>
+<li>修改<code> sdk\tools\ContentBuilder\scripts\app_build_*.vdf</code>文件为<code>app_build_1055000.vdf</code>，同时修改内容为</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;appbuild&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;appid&quot;</span>	<span class="attr">&quot;1055000&quot;</span></span><br><span class="line">	<span class="attr">&quot;desc&quot;</span> <span class="attr">&quot;Your build description here&quot;</span> <span class="comment">// description for this build</span></span><br><span class="line">	<span class="attr">&quot;buildoutput&quot;</span> <span class="attr">&quot;..\output\&quot; // build output folder for .log, .csm &amp; .csd files, relative to location of this file</span></span><br><span class="line"><span class="attr">	&quot;</span>contentroot<span class="attr">&quot; &quot;</span>..\content\<span class="attr">&quot; // root content folder, relative to location of this file</span></span><br><span class="line"><span class="attr">	&quot;</span>setlive<span class="attr">&quot;	&quot;</span><span class="attr">&quot; // branch to set live after successful build, non if empty</span></span><br><span class="line"><span class="attr">	&quot;</span>preview<span class="attr">&quot; &quot;</span>0<span class="attr">&quot; // to enable preview builds</span></span><br><span class="line"><span class="attr">	&quot;</span>local<span class="attr">&quot;	&quot;</span><span class="attr">&quot;	// set to flie path of local content server </span></span><br><span class="line"><span class="attr">	</span></span><br><span class="line"><span class="attr">	&quot;</span>depots<span class="attr">&quot;</span></span><br><span class="line"><span class="attr">	&#123;</span></span><br><span class="line"><span class="attr">		&quot;</span>1055001<span class="attr">&quot; &quot;</span>depot_build_1055001.vdf<span class="attr">&quot;</span></span><br><span class="line"><span class="attr">	&#125;</span></span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>必须修改的是appid和depots的内容， 对应的ID修改成自己的</p>
+</blockquote>
+<ol start="2">
+<li>depot_build_1055001.vdf文件同样修改内容为</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;DepotBuildConfig&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// Set your assigned depot ID here</span></span><br><span class="line">	<span class="attr">&quot;DepotID&quot;</span> <span class="attr">&quot;1055001&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set a root for all content.</span></span><br><span class="line">	<span class="comment">// All relative paths specified below (LocalPath in FileMapping entries, and FileExclusion paths)</span></span><br><span class="line">	<span class="comment">// will be resolved relative to this root.</span></span><br><span class="line">	<span class="comment">// If you don&#x27;t define ContentRoot, then it will be assumed to be</span></span><br><span class="line">	<span class="comment">// the location of this script file, which probably isn&#x27;t what you want</span></span><br><span class="line">	<span class="attr">&quot;ContentRoot&quot;</span>	<span class="attr">&quot;E:\Download\steamworks_sdk_144\sdk\tools\ContentBuilder\content&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// include all files recursivley</span></span><br><span class="line">  <span class="attr">&quot;FileMapping&quot;</span></span><br><span class="line">  &#123;</span><br><span class="line">  	<span class="comment">// This can be a full path, or a path relative to ContentRoot</span></span><br><span class="line">    <span class="attr">&quot;LocalPath&quot;</span> <span class="attr">&quot;*&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// This is a path relative to the install folder of your game</span></span><br><span class="line">    <span class="attr">&quot;DepotPath&quot;</span> <span class="attr">&quot;.&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// If LocalPath contains wildcards, setting this means that all</span></span><br><span class="line">    <span class="comment">// matching files within subdirectories of LocalPath will also</span></span><br><span class="line">    <span class="comment">// be included.</span></span><br><span class="line">    <span class="attr">&quot;recursive&quot;</span> <span class="attr">&quot;1&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// but exclude all symbol files  </span></span><br><span class="line">	<span class="comment">// This can be a full path, or a path relative to ContentRoot</span></span><br><span class="line">  <span class="string">&quot;FileExclusion&quot;</span> <span class="string">&quot;*.pdb&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>主要修改depotsid和content的路径</p>
+</blockquote>
+<ol start="3">
+<li><p>运行<code> \sdk\tools\ContentBuilder\builder\steamcmd.exe</code>准备提交内容</p>
+</li>
+<li><p>```\sdk\tools\ContentBuilder\content``内是<strong>游戏包的内容</strong>，请确保exe启动名字与==[安装&gt;通用安装&gt;启动选项&gt;可执行文件]==名字一样</p>
+</li>
+<li><p>更新&gt;登录&gt;运行如下脚本提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run_app_build E:\Download\steamworks_sdk_144\sdk\tools\ContentBuilder\scripts\app_build_1055000.vdf</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>路径为app_build文件的路径</p>
+</blockquote>
+</li>
+<li><p>提交后看到如下图的新的分支，修改default为当前展示和下载的分支</p>
+</li>
+</ol>
+<p><img src="https://img.supervj.top/imgdepot.jpg"></p>
+<h6 id="depot设置"><a href="#depot设置" class="headerlink" title="depot设置"></a>depot设置</h6><p>此页面比较简单，需要正确设置程序支持的<strong>语言</strong>和<strong>平台</strong></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><h5 id="通用安装"><a href="#通用安装" class="headerlink" title="通用安装"></a>通用安装</h5><h6 id="安装文件夹"><a href="#安装文件夹" class="headerlink" title="安装文件夹"></a>安装文件夹</h6><p>下载安装以后的文件夹名字</p>
+<h6 id="启动选项"><a href="#启动选项" class="headerlink" title="启动选项"></a>启动选项</h6><ul>
+<li>可执行文件：启动程序，一般就是引擎打包以后那个exe文件</li>
+<li>其他正确设置就可以</li>
+</ul>
+<h6 id="可再发行文件"><a href="#可再发行文件" class="headerlink" title="可再发行文件"></a>可再发行文件</h6><p>Steam 可以自动安装您的许多常见可再发行文件</p>
+<h6 id="客户端图像"><a href="#客户端图像" class="headerlink" title="客户端图像"></a>客户端图像</h6><p>根据要求规格上传各种icon文件</p>
+<h4 id="统计与成就"><a href="#统计与成就" class="headerlink" title="统计与成就"></a>统计与成就</h4><h6 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h6><p>设置统计的类型和名称</p>
+<h6 id="成就"><a href="#成就" class="headerlink" title="成就"></a>成就</h6><p>设置名称、描述和icon</p>
+<p><img src="https://img.supervj.top/imgchengjiu.jpg"></p>
+<h6 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h6><p>成就名称和描述的本地化，可以下载文档再提交更新</p>
+<p><img src="https://img.supervj.top/imgbendihua.jpg"></p>
+<h4 id="管理序列号"><a href="#管理序列号" class="headerlink" title="管理序列号"></a>管理序列号</h4><p>申请序列号，注意其中不同的序列号的用途</p>
+<p><img src="https://img.supervj.top/imgcdkey.jpg"></p>
+<p>在首页有下载选项</p>
+<p><img src="https://img.supervj.top/imgkey.jpg"></p>
+<h4 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h4><p>所有修改完后都需要进入发布选项进行发布到商店，系统会提示差异</p>
+<h4 id="成就API"><a href="#成就API" class="headerlink" title="成就API"></a>成就API</h4><ul>
+<li>很容易被忘记的一点，ini文件利必须设置与网站成就对应的字符串，如下图</li>
+</ul>
+<p><img src="https://img.supervj.top/imgsteam%E6%88%90%E5%B0%B11.jpg"></p>
+<ul>
+<li>蓝图api</li>
+</ul>
+<p><img src="https://img.supervj.top/imgsteam%E6%88%90%E5%B0%B13.jpg"></p>
+<p>读写成就之前必须先缓存成功</p>
+<p>目前版本对于成就进度条的读取和设置只有0或者1，所以只要写入的参数大于0成就即完成，不知后续更新能不能完善</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -728,7 +941,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">773k</span>
+    <span title="站点总字数">774k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
