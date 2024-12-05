@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,322 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/" class="post-title-link" itemprop="url">Git使用指北</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-12T00:00:00+08:00">2020-05-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:18:44" itemprop="dateModified" datetime="2021-08-02T16:18:44+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/" class="cy_cmt_count" data-xid="2020/05/12/Git使用指北/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文主要介绍Git软件和Github在Windows平台的简单使用方式</p>
+</blockquote>
+<h3 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h3><p>安装包可以在<a href="%5Bhttps://git-scm.com%5D(https://git-scm.com/)">官网</a>下载，选择对应版本无脑下一步安装</p>
+<h3 id="初次设置"><a href="#初次设置" class="headerlink" title="初次设置"></a>初次设置</h3><p>安装完成后，邮件菜单即可调用Git命令，点击进入后需要初始化账户名和邮箱</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="生成SSH-Key"><a href="#生成SSH-Key" class="headerlink" title="生成SSH Key"></a>生成SSH Key</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>一路Enter键后会需要设置自己的账户和密码，注意正确输入</li>
+<li>然后在<code>C:\Users\你的用户名\.ssh</code>路径下可以找到如下3个文件</li>
+</ul>
+<p><img src="https://img.supervj.top/imggit_1.jpg"></p>
+<ul>
+<li>后缀为<code>pub</code>的文件，这个是公钥，在后续会用的到，也可以放心的告诉别人</li>
+<li>后缀为<code>rsa</code>的是私钥，不要泄露出去</li>
+</ul>
+<h5 id="关于SSHKey"><a href="#关于SSHKey" class="headerlink" title="关于SSHKey"></a>关于SSHKey</h5><blockquote>
+<p>GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。</p>
+<p>当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。</p>
+</blockquote>
+<h3 id="注册GitHub账户"><a href="#注册GitHub账户" class="headerlink" title="注册GitHub账户"></a>注册GitHub账户</h3><ol>
+<li>到<a href="%5Bhttps://github.com%5D(https://github.com/)">github官网</a>自行注册并登录</li>
+<li>右键点击右上角头像边的箭头，选择<code>setting</code>进入</li>
+</ol>
+<p><img src="https://img.supervj.top/imggit_2.jpg"></p>
+<ol start="3">
+<li>找到左侧的<code>SSH and GPG keys</code>，点击<code>NewSSHKey</code></li>
+</ol>
+<p><img src="https://img.supervj.top/imggit_3.jpg"></p>
+<ol start="4">
+<li> 找到之前生成的<strong>公钥</strong>文件，用记事本打开复制里面全部内容，然后粘贴到如下图<code>key</code> 内，点击<code>AddSSHKey</code>完成,</li>
+</ol>
+<p><img src="https://img.supervj.top/imggit_4.jpg"></p>
+<h3 id="使用Git"><a href="#使用Git" class="headerlink" title="使用Git"></a>使用Git</h3><h5 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h5><ul>
+<li>在桌面直接右键进入git</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd E:/     <span class="comment">--进入E盘</span></span><br><span class="line">mkdir GitTest <span class="comment">--创建文件夹GitTest</span></span><br><span class="line">cd ./GitTest  <span class="comment">--进入GitTest文件夹</span></span><br><span class="line">git init <span class="comment">--初始化</span></span><br></pre></td></tr></table></figure>
+
+<p>如上述代码所示，完成在E盘新建文件夹然后初始化的过程，其中前三步非每次必须，可以直接手动创建文件夹，然后通过<code>git init</code>初始化</p>
+<h5 id="提交本地文件"><a href="#提交本地文件" class="headerlink" title="提交本地文件"></a>提交本地文件</h5><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim test.txt <span class="comment">--新建文件</span></span><br></pre></td></tr></table></figure>
+
+<p>按键盘<code>Insert</code>键进入编辑模式，输入<code>hello</code>,然后按顺序<code>ESC</code>,<code>:</code>,<code>wq</code>退出</p>
+<p>上述步骤完成了创建文件，写入退出的过程，到此生成了文件和内容如下图 </p>
+<p><img src="https://img.supervj.top/imggit_5.jpg"></p>
+<p><img src="https://img.supervj.top/imggit_6.jpg"></p>
+<blockquote>
+<p>对，一顿操作猛如虎，回头一想就是Linux那一套☠</p>
+</blockquote>
+<ul>
+<li>上述步骤完全可以自行创建和编辑内容，然后我们开始提交</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add test.txt <span class="comment">//提交text.txt文件到待提交列表</span></span><br><span class="line">git commit -m <span class="string">&quot;第一次提交&quot;</span>  <span class="comment">//正式提交到仓库</span></span><br></pre></td></tr></table></figure>
+
+<p>至此我们已经提交到了本地仓库，可以通过命令<code>git log</code> 查询日志找到记录</p>
+<h5 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h5><p>到这一步我们得先创建一个远程仓库，来到我们github，通过<code>Your respositories</code>&gt;<code>New</code>创建新的仓库，这里我们创建了名为<code>Test</code> 的仓库</p>
+<ul>
+<li>找到如下图所示，复制地址信息(推荐使用SSH，使用HTTPS经常需要输入账户)</li>
+</ul>
+<p><img src="https://img.supervj.top/imggit_8.jpg"></p>
+<p>然后运行git命令</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin <span class="string">&quot;你的地址&quot;</span> <span class="comment">//添加远程仓库地址</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="提交-拉取远程仓库"><a href="#提交-拉取远程仓库" class="headerlink" title="提交/拉取远程仓库"></a>提交/拉取远程仓库</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add push origin -u master <span class="comment">//master为当前分支，默认一般就是master,可以自行修改，下同</span></span><br></pre></td></tr></table></figure>
+
+<p>到这里就提交到了远程仓库,如下图所示</p>
+<p><img src="https://img.supervj.top/imggit_9.jpg"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master </span><br></pre></td></tr></table></figure>
+
+<p>从远程仓库拉取master分支的内容</p>
+<h5 id="取消关联远程仓库"><a href="#取消关联远程仓库" class="headerlink" title="取消关联远程仓库"></a>取消关联远程仓库</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+
+<h5 id="新建分支"><a href="#新建分支" class="headerlink" title="新建分支"></a>新建分支</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// -b是base的意思，就是以当前分支为基础创建一个新分支 </span></span><br><span class="line">git branch $&#123;new_branch_name&#125; -b</span><br><span class="line"><span class="comment">// 切换分支</span></span><br><span class="line">git checkout $&#123;new_branch_name&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以使用git checkout命令加上-b参数表示创建并切换</span></span><br><span class="line">git checkout -b $&#123;new_branch_name&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//相当于以下两条命令:</span></span><br><span class="line">git branch $&#123;new_branch_name&#125;</span><br><span class="line">git checkout $&#123;new_branch_name&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="Checkout的用法"><a href="#Checkout的用法" class="headerlink" title="Checkout的用法"></a>Checkout的用法</h6><p><code>checkout</code>有三种用途：切换分支、移除修改、从历史版本中签出，后面会写到</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从远程的origin/level为基础创建本地分支</span></span><br><span class="line">git checkout -b level origin/level</span><br><span class="line"><span class="comment">//上面的命令等同于下面两条</span></span><br><span class="line">git checkout -b origin/level</span><br><span class="line">git branch -m level</span><br></pre></td></tr></table></figure>
+
+<h5 id="推送本地当前分支到远程分支"><a href="#推送本地当前分支到远程分支" class="headerlink" title="推送本地当前分支到远程分支"></a>推送本地当前分支到远程分支</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 若远程不存在$&#123;new_branch_name&#125;分支则会自动创建</span></span><br><span class="line">git push $&#123;remote_repo_name&#125; $&#123;new_branch_name&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先需要切换回需要合并到的分支，比如将dev分支合并到master分支</span></span><br><span class="line">git branch master</span><br><span class="line"><span class="comment">// 将dev分支合并到当前分支</span></span><br><span class="line">git merge dev</span><br><span class="line"><span class="comment">// 合并完毕后就可以删除dev分支</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="取消合并"><a href="#取消合并" class="headerlink" title="取消合并"></a>取消合并</h5><p>如果本地与远程分支(或本地分支)有冲突可以取消合并，使本地分支回到合并之前的状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --<span class="built_in">abort</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a><strong>解决冲突</strong></h5><blockquote>
+<p>在使用git协作开发的时候，冲突是经常会遇到的问题，也是对于新手来说非常棘手的问题</p>
+</blockquote>
+<ul>
+<li>首先我们要在本地处理好自己的文件</li>
+</ul>
+<h6 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- test.txt  <span class="comment">//撤销对test.txt文件的修改</span></span><br><span class="line">git checkout -- .  <span class="comment">//撤销本次所有文件的修改</span></span><br><span class="line">git reset -- test.txt  <span class="comment">//如果已经add了test文件，需要先使用本条命令退出add状态</span></span><br><span class="line">git reset -- .     <span class="comment">//撤销所有文件的add状态</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="解决拉取冲突"><a href="#解决拉取冲突" class="headerlink" title="解决拉取冲突"></a>解决拉取冲突</h6><p> 如果在拉取以后发生冲突了，在拉取日志里就有报错，通过<code>git status</code>命令也可以看到有红色部分，通过下列命令解决</p>
+<p>如果我们要保留远程分支的<code>test.txt</code>可以执行以下命令：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保留远程版本的test.txt</span></span><br><span class="line">$ git checkout --theirs test.txt</span><br></pre></td></tr></table></figure>
+
+<p>而保留本地分支的文件命令为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout --ours test.txt</span><br></pre></td></tr></table></figure>
+
+<p>然后再此执行如下命令，<strong>注意这会再一次生成提交记录</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git add test.txt</span><br><span class="line"><span class="comment">//假如上面执行的是 --theirs</span></span><br><span class="line">$ git commit -m <span class="string">&quot;合并冲突，保留远程版本&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此时本地就与远程合并了，并且合并时保持了远程的文件版本。</p>
+<h6 id="回退版本"><a href="#回退版本" class="headerlink" title="回退版本"></a>回退版本</h6><p>如果想要取消本地的某次提交<code>$&#123;123456&#125;</code>的更改可以使用回退到历史版本，然后使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard <span class="number">123455</span></span><br><span class="line"><span class="comment">//将123456提交的文件签出到123455的提交中去</span></span><br><span class="line"><span class="comment">//相当于直接在123455的基础上做了123456中的文件修改</span></span><br><span class="line">$ git checkout <span class="number">123456</span> .</span><br><span class="line"><span class="comment">//然后在reset/checkout不想提交的文件即可</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除本地分支</span></span><br><span class="line"><span class="comment">// 注意：删除分支之前要合并分支，不然会报错(或者使用-D强制删除)</span></span><br><span class="line"><span class="comment">// error: The branch &#x27;dev&#x27; is not fully merged.</span></span><br><span class="line"><span class="comment">// If you are sure you want to delete it, run &#x27;git branch -D dev&#x27;.</span></span><br><span class="line">git branch -D dev</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除远程分支</span></span><br><span class="line">git push $&#123;repo_name&#125; --<span class="keyword">delete</span> $&#123;remote_branch_name&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a><strong>版本回退</strong></h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=oneline  <span class="comment">//查看所有提交记录</span></span><br><span class="line">git reset --hard <span class="string">&quot;版本号&quot;</span>  <span class="comment">//回退到某个版本，版本号为查询记录里黄色部分    </span></span><br><span class="line">git reset <span class="string">&quot;版本号&quot;</span> <span class="string">&quot;filename&quot;</span>    <span class="comment">//某个文件回退到某个版本</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// clone仓库所有分支</span></span><br><span class="line">git clone <span class="string">&quot;仓库地址&quot;</span></span><br><span class="line"><span class="comment">// 只clone一个分支可以使用-b指定分支名字</span></span><br><span class="line">git clone -b <span class="string">&quot;分支名称&quot;</span> <span class="string">&quot;仓库地址&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="切换到远程分支"><a href="#切换到远程分支" class="headerlink" title="切换到远程分支"></a>切换到远程分支</h5><p>远程仓库 <code>git clone</code> 下来后，执行 <code>git branch</code>，只能看到</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* master</span><br></pre></td></tr></table></figure>
+
+<p>并不会看到其他分支，即便远程仓库上有其他分支。</p>
+<p>可以使用<code>git branch -va</code>首先列出本地/远程分支列表：</p>
+<p><img src="https://img.supervj.top/imggit_10.jpg"></p>
+<p>通过<code>git checkout remotes/origin/master</code>切换到远程分支</p>
+<p>再进行如下操作 </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev</span><br></pre></td></tr></table></figure>
+
+<p>最后得到如下结果 </p>
+<p><img src="https://img.supervj.top/imggit_12.jpg"></p>
+<p>然后在本地修改dev分支的内容就可以提交到远程dev分支(此案例远程没有dev分支)</p>
+<h5 id="忽略不想提交的文件"><a href="#忽略不想提交的文件" class="headerlink" title="忽略不想提交的文件"></a>忽略不想提交的文件</h5><p>有时我们不想要把所有的东西都提交到仓库中(比如一些编译生成的二进制文件)，可以使用.gitignore来排除不需要提交的文件。<br>在Windows下我们不能够直接创建这个文件，因为是.开头没有文件名，所以需要在GitBash下使用命令创建：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore <span class="comment">//创建文件</span></span><br></pre></td></tr></table></figure>
+
+<p>然后用记事本打开编辑里面的内容并保存</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排除当前目录下的public文件夹</span></span><br><span class="line"><span class="keyword">public</span>/</span><br><span class="line"><span class="comment">//排除所有的.exe文件</span></span><br><span class="line">*.exe</span><br><span class="line"><span class="comment">//排除所有的txt文件</span></span><br><span class="line">*.txt</span><br><span class="line">Intermediate <span class="comment">//排除Intermediate文件的提交</span></span><br><span class="line">Saved </span><br><span class="line">Content/Test/  </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 其中在上述最后3条对于UE4的开发比较常用</p>
+</blockquote>
+<p>关于忽略文件的更多内容，可以查看此<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/896043488029600/900004590234208">文档</a></p>
+<h5 id="比较不同版本的差异"><a href="#比较不同版本的差异" class="headerlink" title="比较不同版本的差异"></a>比较不同版本的差异</h5><p>我们继续在<code>test.txt</code>文件加入一行<code>world</code>，然后运行</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure>
+
+<p>得到如下</p>
+<p><img src="https://img.supervj.top/imggit.jpg"></p>
+<p>其他命令</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看尚未暂存的某个文件更新了哪些</span></span><br><span class="line">$ git diff filename</span><br><span class="line"><span class="comment">//查看已经暂存起来的文件和上次提交的版本之间的差异</span></span><br><span class="line">$ git diff –cached</span><br><span class="line"><span class="comment">//查看已经暂存起来的某个文件和上次提交的版本之间的差异</span></span><br><span class="line">$ git diff –cached filename</span><br><span class="line"><span class="comment">//查看某两个版本之间的差异</span></span><br><span class="line">git diff ffd98b291e0caa6c33575c1ef465eae661ce40c9 b8e7b00c02b95b320f14b625663fdecf2d63e74c</span><br><span class="line"><span class="comment">//查看某两个版本的某个文件之间的差异</span></span><br><span class="line">git diff ffd98b291e0caa6c33575c1ef465eae661ce40c9:filename b8e7b00c02b95b320f14b625663fdecf2d63e74c:filename</span><br></pre></td></tr></table></figure>
+
+<p>两个分支的差异</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">git diff topic <span class="title">master</span> <span class="params">(<span class="number">1</span>)</span></span></span><br><span class="line"><span class="function">git diff topic..<span class="title">master</span>  <span class="params">(<span class="number">2</span>)</span></span></span><br><span class="line"><span class="function">git diff topic...<span class="title">master</span> <span class="params">(<span class="number">3</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>用法1，直接跟两个使用空格分隔的分支名会直接将两个分支上最新的提交做diff，相当于diff了两个commit。<br>用法2，用两个点号分隔的分支名，作用同用法1(装酷利器)<br>用法3，用三个点号分隔的分支名会输出自topic与master分别开发以来，master分支上的change。<br><strong>需要注意</strong>的是这里的..和…不能与git rev-list中的..和…混淆。</p>
+<h5 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h5><p>如果使用<code>git</code>终端时出现以下错误：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">error: bad signature</span><br><span class="line">fatal: index file corrupt</span><br></pre></td></tr></table></figure>
+
+<p>这是由于索引损坏造成的，可以通过下面的方式来处理：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -f .git/index</span><br><span class="line">git reset</span><br></pre></td></tr></table></figure>
+
+<h5 id="关闭Git的SSL验证"><a href="#关闭Git的SSL验证" class="headerlink" title="关闭Git的SSL验证"></a>关闭Git的SSL验证</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="私钥权限过于开放报错"><a href="#私钥权限过于开放报错" class="headerlink" title="私钥权限过于开放报错"></a>私钥权限过于开放报错</h5><p>使用git出现如下报错</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">Permissions <span class="number">0644</span> <span class="keyword">for</span> <span class="string">&#x27;/root/.ssh/id_rsa&#x27;</span> are too open.</span><br><span class="line">It is required that your <span class="keyword">private</span> key files are NOT accessible by others.</span><br><span class="line">This <span class="keyword">private</span> key will be ignored.</span><br><span class="line">Load key <span class="string">&quot;/root/.ssh/id_rsa&quot;</span>: <span class="function">bad permissions</span></span><br><span class="line"><span class="function">Permission <span class="title">denied</span> <span class="params">(publickey)</span>.</span></span><br><span class="line"><span class="function">fatal: Could not read from remote repository.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">Please make sure you have the correct access rights</span></span><br><span class="line"><span class="function">and the repository exists.</span></span><br></pre></td></tr></table></figure>
+
+<p>这是提示你的Git私钥读写权限过于开放会有安全问题</p>
+<p>解决方法：对文件<code>.ssh/id_rsa</code>点右键属性-<code>安全/高级</code>，禁用继承，将文件所有者更改为你自己的账户，然后添加你自己的账户和<code>SYSTEM</code>完整的控制权，保存即可。</p>
+<h5 id="Git更新远程分支列表"><a href="#Git更新远程分支列表" class="headerlink" title="Git更新远程分支列表"></a>Git更新远程分支列表</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote update origin --prune</span><br></pre></td></tr></table></figure>
+
+<h5 id="submodule"><a href="#submodule" class="headerlink" title="submodule"></a>submodule</h5><p>如果再一个git仓库中又用到其他git仓库的，就可以使用<code>git module</code>来处理这个包含关系。</p>
+<p>如果直接在git仓库A中把另一个仓库B clone下载作为A的子目录，在<code>git add</code>时会有下列类似的提示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hint: Yo<span class="string">u&#x27;ve added another git repository inside your current repository.</span></span><br><span class="line"><span class="string">hint: Clones of the outer repository will not contain the contents of</span></span><br><span class="line"><span class="string">hint: the embedded repository and will not know how to obtain it.</span></span><br><span class="line"><span class="string">hint: If you meant to add a submodule, use:</span></span><br><span class="line"><span class="string">hint:</span></span><br><span class="line"><span class="string">hint:   git submodule add &lt;url&gt; Plugins/VaRest</span></span><br><span class="line"><span class="string">hint:</span></span><br><span class="line"><span class="string">hint: If you added this path by mistake, you can remove it from the</span></span><br><span class="line"><span class="string">hint: index with:</span></span><br><span class="line"><span class="string">hint:</span></span><br><span class="line"><span class="string">hint:   git rm --cached Plugins/VaRest</span></span><br><span class="line"><span class="string">hint:</span></span><br><span class="line"><span class="string">hint: See &quot;git help submodule&quot; for more information.</span></span><br></pre></td></tr></table></figure>
+
+<p>目的就是告诉你你包含了另一个git的仓库。</p>
+<p>正确的处理办法是，先把之前clone的B删除，然后使用<code>git submodule</code>来clone B:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule add git@github.com:VJien/img.git</span><br><span class="line">Cloning into <span class="string">&#x27;E:/GitTest/img&#x27;</span>...</span><br><span class="line">remote: Enumerating objects: <span class="number">123</span>, done.</span><br><span class="line">remote: Counting objects: <span class="number">100</span>% (<span class="number">123</span>/<span class="number">123</span>), done.</span><br><span class="line">remote: Compressing objects: <span class="number">100</span>% (<span class="number">118</span>/<span class="number">118</span>), done.</span><br><span class="line">remote: Total <span class="number">123</span> (delta <span class="number">39</span>), reused <span class="number">0</span> (delta <span class="number">0</span>), pack-reused <span class="number">0</span></span><br><span class="line">Receiving objects: <span class="number">100</span>% (<span class="number">123</span>/<span class="number">123</span>), <span class="number">4.05</span> MiB | <span class="number">466.00</span> KiB/s, done.</span><br><span class="line">Resolving deltas: <span class="number">100</span>% (<span class="number">39</span>/<span class="number">39</span>), done.</span><br><span class="line">warning: LF will be replaced by CRLF in .gitmodules.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会把B clone下来，然后进到B的目录里面，将版本记录改为你想要的commit，然后再add/commit即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">Changes <span class="keyword">not</span> staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">        modified:   Plugins/<span class="built_in">VaRest</span> (<span class="keyword">new</span> commits)</span><br></pre></td></tr></table></figure>
+
+<p>然后再push到远程仓库即可，在远程仓库中，A项目中的B目录就不是直接上传的文件，而是连接到真正的B的源仓库。</p>
+<h6 id="初始更新子模块"><a href="#初始更新子模块" class="headerlink" title="初始更新子模块"></a>初始更新子模块</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule update --init --recursive</span><br></pre></td></tr></table></figure>
+
+<h6 id="后续更新子模块"><a href="#后续更新子模块" class="headerlink" title="后续更新子模块"></a>后续更新子模块</h6><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git submodule foreach git fetch</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">git submoudule update --remote</span><br></pre></td></tr></table></figure>
+
+<h6 id="删除子模块"><a href="#删除子模块" class="headerlink" title="删除子模块"></a>删除子模块</h6><p>删除一个以添加的子模块需要有以下几个步骤：</p>
+<ol>
+<li>删除子模块的目录</li>
+<li>删除<code>.gitmodules</code>中的关于该子模块的信息</li>
+<li>删除<code>.git/config</code>中关于该子模块的信息</li>
+<li>删除<code>.git/modules</code>下该子模块的目录</li>
+</ol>
+<p>执行完上面几步操作之后就可以了，但是如果有报错问题可以删掉缓存：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached 子模块名称</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="创建本地空仓库"><a href="#创建本地空仓库" class="headerlink" title="创建本地空仓库"></a>创建本地空仓库</h5><p>个命令是创建一个空仓库，可以在其他的项目中将该仓库添加为远程仓库。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --bare init</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>部分内容参考至本人好友查理同学的☛<a target="_blank" rel="noopener" href="https://imzlp.me/posts/53696/">博客</a>☚</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -941,14 +1257,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">774k</span>
+    <span title="站点总字数">775k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:43</span>
+    <span title="站点阅读时长">11:44</span>
   </span>
 </div>
 <div class="busuanzi-count">
