@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,150 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/" class="post-title-link" itemprop="url">Picgo+GitHub搭建免费图床</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-13 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-13T00:00:00+08:00">2020-05-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:18:01" itemprop="dateModified" datetime="2021-08-02T16:18:01+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/05/13/Picgo+GitHub%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/" class="cy_cmt_count" data-xid="2020/05/13/Picgo+GitHub搭建免费图床/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>600</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文介绍如何用Picgo+GitHub搭建免费的图床</p>
+<p>可用于个人Markdown文档的图片外链</p>
+<p>Github图床优点：免费，安全；缺点：网络不稳定，偶尔上传失败</p>
+</blockquote>
+<h3 id="关于Picgo"><a href="#关于Picgo" class="headerlink" title="关于Picgo"></a>关于Picgo</h3><p>这是一款图片上传的工具，目前支持<code>七牛图床</code>，<code>腾讯云</code>，<code>阿里oss</code>，<code>GitHub</code>等图床，未来将支持更多图床。</p>
+<p>所以解决问题的思路就是，将本地的文件，或者剪切板上面的截图发送图床，然后生成在线图片的链接，这样就可以随时随地使用图片外链了</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li><p>git和github使用请参考本人另一篇文章<a href="%5Bhttps://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/%5D(https://supervj.top/2020/05/12/%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8Git/)">《Git使用指北》</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases">下载picgo软件</a></p>
+</li>
+</ul>
+<h3 id="GitHub流程"><a href="#GitHub流程" class="headerlink" title="GitHub流程"></a>GitHub流程</h3><ol>
+<li><p>新建一个<code>Repository</code>，建议命名成<code>img</code>之类的方便记忆</p>
+</li>
+<li><p>生成一个Token用于操作GitHub repository，流程如下</p>
+<blockquote>
+<p>Settings-&gt;Developer settings-&gt;Personnal access tokens-&gt;Generate new token</p>
+</blockquote>
+<p> 注：创建成功后，会生成一串token，这串token之后不会再显示，所以第一次看到的时候，就要好好保存</p>
+</li>
+</ol>
+<h3 id="配置Picgo"><a href="#配置Picgo" class="headerlink" title="配置Picgo"></a>配置Picgo</h3><p><img src="https://img.supervj.top/imgpicgo_github_3.jpg"></p>
+<ul>
+<li>仓库名：即你<code>github</code>仓库的名称</li>
+<li>设定分支：对应仓库的分支，默认是<code>master</code></li>
+<li>设定Token：之前保存的<code>Token</code></li>
+<li>指定存储路径：保存到仓库的路径</li>
+<li>设定自定义域名：见如下</li>
+</ul>
+<h5 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h5><p>默认不指定域名，这样生成的是<code>github</code>地址，部分情况会被墙掉，对于图片访问不是特别友善</p>
+<p>有自己域名的同学强烈建议使用自定义域名</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1257,14 +1401,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">775k</span>
+    <span title="站点总字数">777k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:44</span>
+    <span title="站点阅读时长">11:46</span>
   </span>
 </div>
 <div class="busuanzi-count">

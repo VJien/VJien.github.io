@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,131 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="post-title-link" itemprop="url">UE4运行时修改按键的解决方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-12T00:00:00+08:00">2020-12-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:28:07" itemprop="dateModified" datetime="2021-08-02T16:28:07+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/" class="cy_cmt_count" data-xid="2020/12/12/自定义按键/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于很多情况下, 我们都希望我们可以在游戏运行状态下自定义UE4的按键映射, 目前的UE已经支持多数平台的按键在蓝图中实时的更改按键设置, 直接保存到 <code>EngineInput.ini</code>文件</p>
+<p>写了一个案例插件,提供了几个解决方案的Demo和几个方便蓝图使用的库函数</p>
+<a name= "插件">
+
+<p><a target="_blank" rel="noopener" href="https://github.com/VJien/RuntimeInputMapping">RuntimeInputMapping</a></p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>我们项目设置里的<code>Input</code>栏的内容其实是封装在一个<code>UObject</code>类<code>UInputSettings</code>中, 他其实就是一个配置类,  有一个静态方法可以直接获取该类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> UInputSettings* <span class="title">GetInputSettings</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/12/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1435,206 +1560,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/" class="post-title-link" itemprop="url">TortoiseGit简单使用说明</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-09-22 00:00:00" itemprop="dateCreated datePublished" datetime="2020-09-22T00:00:00+08:00">2020-09-22</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:18:30" itemprop="dateModified" datetime="2021-08-02T16:18:30+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/09/22/%E5%B0%8F%E4%B9%8C%E9%BE%9FGit/" class="cy_cmt_count" data-xid="2020/09/22/小乌龟Git/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>此文讲解如何使用Git版本的小乌龟插件</p>
-</blockquote>
-<p>由于git默认的黑窗口对于部分开发人员特别是美术人员比较不太友好，所以很多人会选择使用可视化的<code>TortoiseGit</code>(小乌龟)插件来协作开发</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先必须先安装git，</p>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/">Git链接</a></p>
-<p>无脑下一步安装完毕，如需了解git如何使用，可以参考本人另外一篇文章</p>
-<p><a href="https://supervj.top/2020/05/12/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/">Git使用指北</a></p>
-<p>然后下载小乌龟插件，可以随意搜索下载，或者使用如下地址下载</p>
-<p><a target="_blank" rel="noopener" href="https://tortoisegit.org/download/">TortoiseGit</a></p>
-<p>无脑下一步安装，成功以后右键菜单会添加小乌龟按钮</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921102026347.png" alt="image-20200921102026347"></p>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>先来一张最简化的流程图，上下两部分分别用文字或者命令来解释流程</p>
-<p><img src="https://img.supervj.top/img/advVR/%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%20(1).jpg" alt="协作开发流程 (1)"></p>
-<p>如果有使用过<code>SVN</code>的同学，在这里要说明<code>git</code>与<code>SVN</code>在使用上会多一步操作，也就是<code>git</code>分布式特点的体现，</p>
-<p><code>git</code>会有本地仓库一个概念，<code>SVN</code>的<code>Commit</code>意味着已经把本地修改推送到了远程服务器端，但是<code>git</code>的<code>commit</code>只是提交到本地仓库，在本地仓库存储着几乎与远程服务器同步的信息，包括所有文件信息、提交日志、分支信息等，也就意味着<code>git</code>可以在没有网络的时候也同样可以维护着一个仓库内容，在需要的时候在同步到远程服务器，这一点对于人数比较多的团队协作开发是优于<code>svn</code>的</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>在正常使用小乌龟之前，需要先配置一下环境</p>
-<p>如果使用<code>GitHub</code>仓库，需要到<code>GitHub</code>去注册一个账号，比较简单此步忽略</p>
-<p>如果是本地仓库的协作开发的，用已经搭建好的本地仓库ip去注册(例如192.168.1.111)，然后需要管理员授权以后就可以参与开发</p>
-<p><a href="https://supervj.top/2020/08/18/%E7%94%A8GitLab%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93/">关于如何搭建本地Git仓库</a></p>
-<p>然后在开发之前，需要生成本地密钥，作为开发权限的一种判定</p>
-<p>打开小乌龟安装目录，打开<code>PuTTYgen</code></p>
-<p>界面如下</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921110129186.png" alt="image-20200921110129186"></p>
-<p>用<code>Generate</code>来生成密钥，或者如果你已经用git生成过密钥，就可以使用<code>Load</code>选项来加载之前生成的私钥，记得勾选<code>AllFile</code>选项</p>
-<p>然后进入如下界面</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921110352117.png" alt="image-20200921110352117"></p>
-<p>用    <code>SavePublicKey</code>和<code>SavePrivateKey</code>按钮来保存一份本地的密钥文件，我这里把私钥保存为了<code>toPrivate.ppk</code>文件</p>
-<p>接下来进入下一步</p>
-<p>打开软件<code>Pageant</code>，双击以后如果没有出现窗口记得在右下角找到一个图标，打开以后如下窗口</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921110554461.png" alt="image-20200921110554461"></p>
-<p>点击<code>AddKey</code>添加刚才保存的密钥(<code>toPrivate.ppk</code>)</p>
-<blockquote>
-<p>如果到这里之前的步骤提示你需要输入账户/密码的，这是git初始化的时候需要初始化账户，请参考我的git文档完成这一步</p>
-</blockquote>
-<blockquote>
-<p> 目前掌握的信息每次电脑启动时都需要手动添加key，此坑先留着，以后研究</p>
-</blockquote>
-<p>至此，小乌龟的环境已经配置完毕</p>
-<h3 id="拉取测试"><a href="#拉取测试" class="headerlink" title="拉取测试"></a>拉取测试</h3><p>我在<code>github</code>上有一个测试仓库，我们直接用此仓库来进行测试</p>
-<p>地址为<code>git@github.com:VJien/Test.git</code></p>
-<p>右键<code>GitClone</code>,输入URL，保持其他默认，点击<code>OK</code></p>
-<p>拉取成功</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921111331388.png" alt="image-20200921111331388"></p>
-<h3 id="修改-提交"><a href="#修改-提交" class="headerlink" title="修改/提交"></a>修改/提交</h3><p>我们来对<code>test.txt</code>文件做个修改，然后在新建要给文件 <code>1.txt</code></p>
-<p><code>test</code>文件里面我们加入一些字符串，保存以后该文件变为红色感叹号</p>
-<p>在该目录下右键小乌龟选择<code>Dif</code>,我们在同时用GitBase窗口来对比一下</p>
-<p>看到如下提示，表示该文件被修改了</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921112548067.png" alt="image-20200921112548067"></p>
-<p>可以右键单击一个文件来选择回退(Revert)或者提交(Commit)，似乎不需要<code>Add</code>操作，对于新创建的文件<code>1.txt</code>会不一样，一般需要先<code>Add</code>    再<code>Commit</code>，对于用惯了黑窗口的我来说，这里还是有区别的</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113125132.png" alt="image-20200921113125132"></p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113134620.png" alt="image-20200921113134620"></p>
-<p>这里我们直接点击大窗口下面的<code>Commit</code>提交测试一番</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113351447.png" alt="image-20200921113351447"></p>
-<p>在<code>Message</code>里输入本次提交的名称，记得输入容易查找的名称，万一以后翻看日志如果发现都是 一对0102之类的会很崩溃</p>
-<p>点击<code>Commit</code>显示成功</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113532839.png" alt="image-20200921113532839"></p>
-<p>在该窗口上有<code>Push</code>按钮，不过一般我们需要先<code>Pull</code>合并远程仓库的内容(除非是单人开发)</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113633715.png" alt="image-20200921113633715"></p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113647229.png" alt="image-20200921113647229"></p>
-<p>无论是<code>Pull</code>还是<code>Push</code>都需要选择正确的分支，即上图的<code>RemoteBranch</code>,因为不同的分支是用于不同功能或者人员使用的，同时也需要比对本地的分支信息</p>
-<p>拉取成功以后可以在窗口按钮里找到拉取信息差异对比等，这个自行测试</p>
-<p>然后是提交，一般选好分支，其他保持默认选项</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921113927421.png" alt="image-20200921113927421"></p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921114022126.png" alt="image-20200921114022126"></p>
-<h3 id="常用功能"><a href="#常用功能" class="headerlink" title="常用功能"></a>常用功能</h3><p>先来一个所有功能的图</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921114112053.png" alt="image-20200921114112053"></p>
-<h5 id="add"><a href="#add" class="headerlink" title="add"></a><code>add</code></h5><p>标记需要提交的文件，在<code>GitBase</code>内是所有修改和新创建的都需要add的，在小乌龟里需要对新创建的进行add操作</p>
-<h5 id="Switch-Checkout-CreateBranch"><a href="#Switch-Checkout-CreateBranch" class="headerlink" title="Switch/Checkout/CreateBranch"></a>Switch/Checkout/CreateBranch</h5><p><img src="https://img.supervj.top/img/advVR/image-20200921115129773.png" alt="image-20200921114312815"></p>
-<p>创建新的分支和切换分支，类似<code>GitBase</code>的<code>git checkout -b 分支</code>/<code>git checkout 分支</code>操作</p>
-<ul>
-<li>Revert</li>
-</ul>
-<p>回退操作，<code>test</code>文件修改以后即红色感叹号的形况下，点击<code>Revert</code>后见下图</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921115129773.png" alt="image-20200921114553268"></p>
-<p>选中点击OK以后就将此文件回退到之前版本</p>
-<h5 id="Resolve"><a href="#Resolve" class="headerlink" title="Resolve"></a>Resolve</h5><p>解决冲突，这个是新手非常头大的一个问题，也是经常会出现的问题</p>
-<p>我在其他文件拉取了这个工程，然后对<code>test</code>文件做了修改，然后回到此文件下同时对<code>test</code>文件修改，这一操作就模拟了协作开发时的冲突问题</p>
-<p>然后拉取以后就发生冲突了</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921115129773.png" alt="image-20200921115129773"></p>
-<p>然后点击<code>resolve</code>选项进行处理</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921135405643.png" alt="image-20200921135405643"></p>
-<p>第一个选项可以看冲突信息，当然不是所有文件都可以看到；同时也可以在下图所示的地方选择使用哪个版本的内容</p>
-<p><img src="https://img.supervj.top/img/advVR/image-20200921135028147.png" alt="image-20200921135028147"></p>
-<p>第3，4选项分别选择使用远程还是本地</p>
-<p>解决完成后就再commit-&gt;pull-&gt;push操作，中间如果有警告出现可以忽略直接进行下一步</p>
-<h5 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h5><p>在合并分支之前，首先要确保本地有需要合并的分支信息，比如<code>master</code>分支需要合并<code>test</code>分支，但是<code>test</code>分支是在远程电脑上创建的，本地还没有这个分支，那就先需要进行<code>fetch</code>操作</p>
-<p>然后就可以找到所有分支了</p>
-<p>使用<code>merge</code>操作就可以把<code>test</code>分支合并到本地</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1682,14 +1607,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">775k</span>
+    <span title="站点总字数">777k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:44</span>
+    <span title="站点阅读时长">11:46</span>
   </span>
 </div>
 <div class="busuanzi-count">

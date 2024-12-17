@@ -15225,4 +15225,160 @@ piecewise_linear_distribution分段线性分布
         <tag>动画</tag>
       </tags>
   </entry>
+  <entry>
+    <title>UE5顶点动画方案</title>
+    <url>/2024/12/17/UE5%E9%A1%B6%E7%82%B9%E5%8A%A8%E7%94%BB%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UE5为了黑客帝国的样片增加了内置顶点动画插件，另外第三方也有相对比较成熟的顶点动画工具</p>
+<p>本文分析并记录一下</p>
+<span id="more"></span>
+
+<h2 id="Anim-To-Texture"><a href="#Anim-To-Texture" class="headerlink" title="Anim To Texture"></a>Anim To Texture</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage.png" alt="img"></p>
+<p>UE从5.0开始跟随者Mass更新了这个插件，不过一直到5.4也一直处于实验性功能</p>
+<p>并且没有文档</p>
+<p>开启插件以后，并没有什么特殊的提示和菜单</p>
+<hr>
+<h3 id="DataAsset"><a href="#DataAsset" class="headerlink" title="DataAsset"></a>DataAsset</h3><p>创建类型为AnimToTextureDataAsset的DA资产</p>
+<p>界面如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217114454271.png" alt="image-20241217114454271"></p>
+<p>需要重点关注的几个地方</p>
+<ul>
+<li>SkeletalMesh：原始骨骼模型</li>
+<li>StaticMesh：用于播放顶点动画的静态模型，可由骨骼模型一键生成</li>
+<li>Mode:两种计算方式<ul>
+<li>Vertex：从顶点采样</li>
+<li>Bone：通过骨骼和蒙皮采样</li>
+</ul>
+</li>
+<li>Texture：对应上面2个模式的数据贴图</li>
+<li>AnimSequences：动画片段，可以设置多个一起烘焙到同一张贴图上，通过材质参数改动画</li>
+</ul>
+<p>其他参数一般可以不修改或者视情况调整</p>
+<h3 id="材质"><a href="#材质" class="headerlink" title="材质"></a>材质</h3><p>两种模式创建的材质不一样，这里以顶点方式举例</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217114511937.png" alt="image-20241217114511937"></p>
+<p>函数库都是提供好的，也不展开讨论</p>
+<h3 id="设置材质数据"><a href="#设置材质数据" class="headerlink" title="设置材质数据"></a>设置材质数据</h3><p>这一步不需要通过手动设置，那会非常麻烦，通过一些现有的编辑器方法将DA的数据烘焙到贴图中，然后在设置一下材质参数即可</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217114527223.png" alt="image-20241217114527223"></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217114537741.png" alt="image-20241217114537741"></p>
+<p>上面的材质即该角色用到的所有材质实例</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/img%E5%BD%95%E5%88%B6_2024_12_13_11_11_11_738.gif" alt="录制_2024_12_13_11_11_11_738"></p>
+<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><p>必须自己再写一套工具自动识别模型和材质，自动创建贴图，否则流程过于冗长</p>
+<p>另外没有办法混合/过渡动画</p>
+<p>所以只适合简单的顶点动画机制</p>
+<h2 id="VertexAnimationManager"><a href="#VertexAnimationManager" class="headerlink" title="VertexAnimationManager"></a>VertexAnimationManager</h2><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217114650433.png" alt="image-20241217114650433"></p>
+<p>一个评分挺高的第三方插件</p>
+<p><a href="https://drive.google.com/file/d/15kLk25k9TEwvUiW-d6kW4Ei4lmDlOQQE/view">文档</a></p>
+<p><strong>文档比较旧，很多设置已经不一样了，仅供参考</strong></p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/img%E5%BD%95%E5%88%B6_2024_12_17_11_39_37_140.gif" alt="录制_2024_12_17_11_39_37_140"></p>
+<p>这个插件按照介绍，解决了官方版本的很多短处，如下</p>
+<ul>
+<li>更简单的配置方式</li>
+<li>支持动画过渡</li>
+<li>更好的动画切换方式</li>
+<li>支持获取Socket位置</li>
+<li>支持动画通知（一种平替）</li>
+<li>支持同步组</li>
+<li>支持RootMotion</li>
+<li>支持Ragdoll</li>
+<li>支持ABP</li>
+</ul>
+<p>具体每个功能效果怎么样，下面分析</p>
+<h3 id="配置方式"><a href="#配置方式" class="headerlink" title="配置方式"></a>配置方式</h3><p>创建一个DA，类型是UVertexAnimationProfile</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133304726.png" alt="image-20241217133304726"></p>
+<p>一般只需要修改上图种的内容</p>
+<ul>
+<li>Mode: 同官方，分骨骼和顶点，一般建议骨骼；以下以骨骼模式距离</li>
+<li>InfluencesMaxBones: 最大影响的骨骼数，一般建议4个</li>
+<li>InfluencesStorage: 建议选择Texture用贴图来存储顶点信息，否则会用模型的定点色来存储，会影响模型本身的顶点色的使用</li>
+<li>Animation: 可以选择多条动画</li>
+</ul>
+<h3 id="材质-1"><a href="#材质-1" class="headerlink" title="材质"></a>材质</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133325820.png" alt="image-20241217133325820"></p>
+<p>材质非常简单，使用一个函数库，如图连上即可</p>
+<h3 id="Bake"><a href="#Bake" class="headerlink" title="Bake"></a>Bake</h3><p>然后打开骨骼模型资源，在AssetUserData里添加插件的一个，对象如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133343985.png" alt="image-20241217133343985"></p>
+<p>然后点击骨骼模型编辑页面左上角插件提供的一个按钮</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133355619.png" alt="image-20241217133355619"></p>
+<p>点以后会自动的生产贴图和静态模型，并且会设置到DA中</p>
+<p>完整的DA应该是如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133405135.png" alt="image-20241217133405135"></p>
+<h3 id="创建BP"><a href="#创建BP" class="headerlink" title="创建BP"></a>创建BP</h3><p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(11).png" alt="img"></p>
+<p>添加上图两个组件，一个静态模型，一个播放动画</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133441586.png" alt="image-20241217133441586"></p>
+<p>静态模型如上图设置好</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(13).png" alt="img"></p>
+<p>runtime组件如上图，一般功能都可以勾上</p>
+<p>然后就可以通过播放动画的API播放特定的动画了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(14).png" alt="img"></p>
+<h3 id="动画通知"><a href="#动画通知" class="headerlink" title="动画通知"></a>动画通知</h3><p>动画通知算是比较重要的功能了，看他如何实现的</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(15).png" alt="img"></p>
+<p>看一下他如何实现</p>
+<p>核心的代码在 <strong>UVARuntimeComponent::RegisterNotifications</strong>中</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133525141.png" alt="image-20241217133525141"></p>
+<p>遍历搜集到的所有通知，对几种类型的通知分别处理</p>
+<p>核心围绕TimerManager，本质上就是倒计时到点了就发出通知事件</p>
+<ul>
+<li>ANS<ul>
+<li>Begin/End 2个计时器，到点了触发</li>
+<li>注册world的tick回调，一直触发，end以后销毁</li>
+</ul>
+</li>
+<li>AN：到点了触发</li>
+<li>自定义通知<ul>
+<li>判断是否有Handle对象</li>
+<li>查询同名函数并执行</li>
+<li>最多支持一个参数</li>
+</ul>
+</li>
+</ul>
+<h4 id="蓝图-cpp通知"><a href="#蓝图-cpp通知" class="headerlink" title="蓝图/cpp通知"></a>蓝图/cpp通知</h4><p>蓝图或者cpp写的动画通知都需要继承对应的接口</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(17).png" alt="img"></p>
+<p>然后实现里面的接口就以触发通知，比如</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(18).png" alt="img"></p>
+<p>但是蓝图的ANS通知有一个bug</p>
+<p>看实现的地方</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(19).png" alt="img"></p>
+<p>蓝图的ANS类即使继承了接口也会cast失败，这个是UE自身的问题，所以无法正常触发动画通知</p>
+<p>可以通过修改代码实现，但是不建议，直接用cpp吧</p>
+<h4 id="自定义通知"><a href="#自定义通知" class="headerlink" title="自定义通知"></a>自定义通知</h4><p>这个要分2类，一般就是我们右键直接创建出来的通知</p>
+<p>对应关系如下</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(20).png" alt="img"></p>
+<p>这里不得不提到还有一种自定义通知的方法</p>
+<p>就是创建一个蓝图AN，但是不继承自上述说到的接口</p>
+<p>那么也是通过函数名去查询，但是名称有点奇怪，反正不建议就是了，如下图</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(21).png" alt="img"></p>
+<h3 id="动画蓝图"><a href="#动画蓝图" class="headerlink" title="动画蓝图"></a>动画蓝图</h3><p>ABP也能用是没想到的，这样就非常方便了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgImage(22).png" alt="img"></p>
+<p>ABP里专门写了一个播放动画的节点</p>
+<img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133722459.png" alt="image-20241217133722459" style="zoom:80%;" />
+
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133740881.png" alt="image-20241217133740881"></p>
+<p>看代码发现核心逻辑是拷贝pose</p>
+<p>那么既然有ABP，后面肯定有个在跑的SkeletalMeshComponent</p>
+<p>所以理解一下就是， 后面其实是有一个看不见的骨骼模型在跑，然后将ABP的pose拷贝到静态模型上</p>
+<p>所以意义在哪里？</p>
+<p>用顶点动画其中一点原因难道不就是为了节约ABP和骨骼模型的那些性能开销吗？</p>
+<p>实际使用下来发现也有一些问题和bug</p>
+<ul>
+<li>在编辑器模拟运行是可以的，运行时状态机无法根据条件正确跳转</li>
+<li>节点无法自动过渡</li>
+<li>无法使用蒙太奇</li>
+</ul>
+<h3 id="Ragdoll"><a href="#Ragdoll" class="headerlink" title="Ragdoll"></a>Ragdoll</h3><p>这个也是同ABP，必修后面有个SkeletalMeshComponent，原理也类似</p>
+<p>那这个功能也就鸡肋了</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133800368.png" alt="image-20241217133800368"></p>
+<h3 id="同步组"><a href="#同步组" class="headerlink" title="同步组"></a>同步组</h3><p>本以为同步组也是跟上面两者一样偷梁换柱，结果这个反而是正儿八经的做了的</p>
+<p><img src="https://raw.githubusercontent.com/VJien/img/master/imgimage-20241217133814111.png" alt="image-20241217133814111"></p>
+<p>考虑到本身这个动画只有一种情况会用到同步组，就是2个动画过渡的时候，那么也能理解这个同步组的实现并不需要骨骼动画那么麻烦了</p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
+<li>24年12月作者只更新到支持5.4，还未支持5.5</li>
+<li>使用过程中会出现动画丢失或者严重变形，需要重新Bake或者重新设置2个组件，应该是个bug</li>
+<li>编辑或者运行过程中偶尔会crash，也是bug</li>
+</ul>
+]]></content>
+      <categories>
+        <category>animation</category>
+      </categories>
+      <tags>
+        <tag>动画</tag>
+      </tags>
+  </entry>
 </search>
