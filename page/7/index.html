@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">107</span>
+        <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,6 +255,131 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/" class="post-title-link" itemprop="url">开源图形库Assimp</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-21 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-21T00:00:00+08:00">2021-03-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:41:00" itemprop="dateModified" datetime="2021-08-02T16:41:00+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/" class="cy_cmt_count" data-xid="2021/03/21/开源图形库Assimp/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>引用一段介绍</p>
+<blockquote>
+<p>Assimp,开源图形库(Open Asset Import Library)是一种便携式的可支持读取多种模型资源的开源库，它可以用统一的方式输入各种格式的3D模型，而其最新版本能实现输出3D模型的文件，因此该资源库也作为通用的3D模型转换器。assimp旨在提供用于游戏引擎实时渲染系统的一种完整的资源转换管道，但它不局限于这个目的，但在过去已被广泛应用。Assimp是用C++编写的，可以基于C语言应用程序编程接口或者绑定其它其它语言，如C#、.net、Python。为了进一步处理资源，Assimp加载了输入的模型格式为一个简单的数据结构，这个功能是由后处理工具加强的，包括一些常用的操作比如计算正常和切向量。</p>
+<p>assimp是一种库，它主要用来加载和处理各种数据格式的几何场景。它主要针对的是那些支持节点层次、静态表层网格、材料、具有质感的动画和潜在纹理数据。assimp库不是为了提高速度而设计的，它最重要的用处就是，将每一个不同来源的资源导入并且在每一次的加载中以一种特殊的格式将它方便、快捷的存储起来。assimp也能够运用各种后处理步骤导入相应的数据，如转换为索引网格，计算法线和切线/双切线或转换从右手到左手坐标系统。assimp目前支持以下文件格式（请注意，一些装载机缺乏格式的一些特点，因为有些文件格式包含assimp不支持的数据，所以会需要很多的转换工作，而因此缺乏适当的格式规范并没有实现）</p>
+</blockquote>
+<p>本文主要对库本身的主要内容进行一波分析, 然后顺手封装成UE的蓝图插件</p>
+<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_03_22_10_06_11_380.gif" alt="录制_2021_03_22_10_06_11_380"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/21/%E5%BC%80%E6%BA%90%E5%9B%BE%E5%BD%A2%E5%BA%93Assimp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1358,126 +1483,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">UE4对windows文件的操作</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:36:24" itemprop="dateModified" datetime="2021-08-02T16:36:24+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/" class="cy_cmt_count" data-xid="2021/01/07/UE4操作windows文件/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>此文简单记录UE4对windows文件的处理</p>
-<p><img src="https://img.supervj.top//img/%E5%BD%95%E5%88%B6_2021_01_08_13_50_01_590.gif" alt="录制_2021_01_08_13_50_01_590"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/07/UE4%E6%93%8D%E4%BD%9Cwindows%E6%96%87%E4%BB%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1513,7 +1518,7 @@
 
 <div class="copyright">
   &copy; 2020 – 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1525,14 +1530,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">777k</span>
+    <span title="站点总字数">783k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:46</span>
+    <span title="站点阅读时长">11:51</span>
   </span>
 </div>
 <div class="busuanzi-count">
