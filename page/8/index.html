@@ -638,151 +638,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/" class="post-title-link" itemprop="url">GameplayAbilitySystem入门与实战(八):GameplayCueNotify</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-24T00:00:00+08:00">2020-12-24</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:37:10" itemprop="dateModified" datetime="2021-08-02T16:37:10+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/" class="cy_cmt_count" data-xid="2020/12/24/GameplayAbilitySystem分析(八)_GameplayCue/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>GameplayCueNotify(GCN)</code>用于非逻辑层的效果，如音效,特效,相机震动等</p>
-<p><code>CGN</code>有两个基类,如下图</p>
-<table>
-<thead>
-<tr>
-<th><code>GameplayCue</code> Class</th>
-<th>Event</th>
-<th><code>GE</code>类型</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>GameplayCueNotify_Static</code></td>
-<td><code>Execute</code></td>
-<td><code>Instant</code> or <code>Periodic</code></td>
-<td>一般处理一次性触发的效果如打击效果</td>
-</tr>
-<tr>
-<td><code>GameplayCueNotify_Actor</code></td>
-<td><code>Add</code> or <code>Remove</code></td>
-<td><code>Duration</code> or <code>Infinite</code></td>
-<td>此类<code>GC</code>是实例化的，它们可以随着时间进行操作，直到它们被“删除”。当支持的“Duration”或“Infinite”<code>GE</code>被移除或手动调用remove时，这些对于循环声音和粒子效果是很好的。它们还提供了一些选项来管理允许同时“添加”的数量，以便多个应用程序使用相同效果时只启动一次声音或粒子。</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>使用<code>GameplayCueNotify_Actor</code>时注意<code>Auto Destroy on Remove</code>选项,否则后续调用<code>add</code>可能不能正常工作</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -910,6 +765,151 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AD)_GameplayEffect1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/" class="post-title-link" itemprop="url">GameplayAbilitySystem入门与实战(八):GameplayCueNotify</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-24T00:00:00+08:00">2020-12-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:37:10" itemprop="dateModified" datetime="2021-08-02T16:37:10+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/" class="cy_cmt_count" data-xid="2020/12/24/GameplayAbilitySystem分析(八)_GameplayCue/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>GameplayCueNotify(GCN)</code>用于非逻辑层的效果，如音效,特效,相机震动等</p>
+<p><code>CGN</code>有两个基类,如下图</p>
+<table>
+<thead>
+<tr>
+<th><code>GameplayCue</code> Class</th>
+<th>Event</th>
+<th><code>GE</code>类型</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GameplayCueNotify_Static</code></td>
+<td><code>Execute</code></td>
+<td><code>Instant</code> or <code>Periodic</code></td>
+<td>一般处理一次性触发的效果如打击效果</td>
+</tr>
+<tr>
+<td><code>GameplayCueNotify_Actor</code></td>
+<td><code>Add</code> or <code>Remove</code></td>
+<td><code>Duration</code> or <code>Infinite</code></td>
+<td>此类<code>GC</code>是实例化的，它们可以随着时间进行操作，直到它们被“删除”。当支持的“Duration”或“Infinite”<code>GE</code>被移除或手动调用remove时，这些对于循环声音和粒子效果是很好的。它们还提供了一些选项来管理允许同时“添加”的数量，以便多个应用程序使用相同效果时只启动一次声音或粒子。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>使用<code>GameplayCueNotify_Actor</code>时注意<code>Auto Destroy on Remove</code>选项,否则后续调用<code>add</code>可能不能正常工作</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/24/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E5%85%AB)_GameplayCue/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
