@@ -201,7 +201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -255,6 +255,137 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://supervj.top/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
+      <meta itemprop="name" content="VJ东">
+      <meta itemprop="description" content=" 如果我们不曾相遇 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="月光林地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/" class="post-title-link" itemprop="url">地形及关卡流简单记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-08 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:43:53" itemprop="dateModified" datetime="2021-08-02T16:43:53+08:00">2021-08-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/engine/" itemprop="url" rel="index"><span itemprop="name">engine</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://supervj.top/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/" class="cy_cmt_count" data-xid="2021/01/08/地形及关卡流/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>从遥远的2019年搬运而来, 仅作为记录,后续视情况补充</p>
+</blockquote>
+<p>[官方文档][<a target="_blank" rel="noopener" href="https://docs.unrealengine.com/zh-CN/Engine/Landscape/index.html]">https://docs.unrealengine.com/zh-CN/Engine/Landscape/index.html]</a></p>
+<h2 id="地形的内存"><a href="#地形的内存" class="headerlink" title="地形的内存"></a>地形的内存</h2><ul>
+<li><p>对于顶点数据，Landscape为每个顶点使用4个字节。静态网格体（Static Mesh）以12字节矢量的形式存储位置，每个切线X和Z矢量封装为4个字节，并为每个顶点的共24或28个字节存储16位或32位浮点UV。</p>
+</li>
+<li><p>这意味着，对于相同的顶点密度，<strong>静态网格体（Static Mesh）将使用6或7倍于Landscape的内存</strong>。Landscape还将它们的数据存储为纹理，并且可以为遥远的区域流送未使用的LOD关卡，并在您接近它们时从后台的磁盘加载它们。Landscape使用一个常规的高度场，因此其碰撞数据也能够比静态网格体（Static Mesh）的碰撞数据更高效地存储。</p>
+</li>
+</ul>
+<h3 id="地形存储方式"><a href="#地形存储方式" class="headerlink" title="地形存储方式"></a>地形存储方式</h3><ul>
+<li>Landscape系统在GPU内存中以纹理的形式存储地形的渲染数据，允许在顶点着色器中查找数据。数据被打包成32位纹理，<strong>高度以R和G信道的形式占据16位</strong>，<strong>X和Y偏移量以8位数值分别存储在B和A信道中</strong>。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/08/%E5%9C%B0%E5%BD%A2%E5%8F%8A%E5%85%B3%E5%8D%A1%E6%B5%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1430,127 +1561,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://supervj.top/2020/12/20/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://img.supervj.top/imgHEAD_Icon.png">
-      <meta itemprop="name" content="VJ东">
-      <meta itemprop="description" content=" 如果我们不曾相遇 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="月光林地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/20/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/" class="post-title-link" itemprop="url">GameplayAbilitySystem入门与实战(二):属性</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-20T00:00:00+08:00">2020-12-20</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-02 16:27:45" itemprop="dateModified" datetime="2021-08-02T16:27:45+08:00">2021-08-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/plugin/" itemprop="url" rel="index"><span itemprop="name">plugin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2020/12/20/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://supervj.top/2020/12/20/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/" class="cy_cmt_count" data-xid="2020/12/20/GameplayAbilitySystem分析(二)_属性/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一篇已经完成了初始化,角色可以在服务端和客户端正确触发技能,那么这一篇我们开始研究如何声明我们<code>GAS</code>框架内的属性</p>
-<p><u>暗黑3属性图镇楼</u></p>
-<img src="https://img.supervj.top//img/image-20201217111712682.png" alt="image-20201217111712682" style="zoom:50%;" />
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/20/GameplayAbilitySystem%E5%88%86%E6%9E%90(%E4%BA%8C)_%E5%B1%9E%E6%80%A7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1598,14 +1608,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">783k</span>
+    <span title="站点总字数">787k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:52</span>
+    <span title="站点阅读时长">11:56</span>
   </span>
 </div>
 <div class="busuanzi-count">
